@@ -1,0 +1,172 @@
+# AI 駆動開発ガイドライン
+## ドキュメント概要
+### 目的
+人間開発者と複数 AI エージェントが同じ情報源を共有し、コード・設計・運用を迷わず協働できる「レポジトリの地図」を定義する
+
+### 期待効果
+- 新規参画者のオンボーディングを短縮し手戻りコストを削減
+- RAG 活用により LLM の回答精度を底上げ
+- CI で差分・互換性を自動チェックし「ドキュメント腐敗」を防止
+
+### 活用シーン
+- 新規プロダクト立ち上げ
+- - 既存レポジトリのリファクタ／OSS 公開整備
+- - 監査・セキュリティレビュー時（証跡 & ADR 一元提示）
+
+## 1. 構成ツリー
+
+```text
+.
+├ README.md
+├ CHANGELOG.md
+├ .devcontainer.json        # ← 任意
+├ .github/
+│   └ workflows/
+├ src/
+├ tests/
+├ docs/
+│   ├ overview.md
+│   ├ requirements/
+│   │   ├ spec/            # 大粒 要件
+│   │   └ backlog/         # PBI・GitHub Issue 連携
+│   ├ design/
+│   │   ├ architecture/
+│   │   ├ db/
+│   │   └ ui/
+│   ├ api/
+│   ├ standards/
+│   ├ test/
+│   ├ ops/
+│   └ adr/
+└ ai/
+    ├ system_prompt.md
+    ├ glossary.yml
+    ├ config/
+    ├ prompts/
+    ├ tasks/
+    ├ context/
+    ├ examples/            # ← 任意
+    ├ feedback/            # ← 任意
+    └ history/             # ← 任意
+```
+
+## 2. ファイル／ディレクトリ早見表
+| 階層 | 必須/任意 | 目的 | 主な中身 | メンテ頻度 |
+|------|-----------|------|----------|-----------|
+| `/README.md` | ✅ 必須 | TL;DR / Quick Start | 5 分で動く手順 | 各リリース |
+| `/CHANGELOG.md` | ✅ 必須 | バージョン履歴 (Keep‑a‑Changelog) | Added / Changed / Fixed | リリース毎 |
+| `Makefile` | ✅ 必須 | 共通コマンド集 | setup, test, embed 等 | 機能追加時 |
+| `.github/workflows/` | ✅ 必須 | CI / CD & Security Hardening | Lint／Test／Deploy | 更新毎 |
+| `.devcontainer.json` | ✅ 必須 | 再現可能な開発環境 | image／extensions | 環境変化時 |
+| `docs/` | ✅ 必須 | 人・AI 共通知識ベース | 3 参照 | 随時 |
+| `ai/` | ✅ 必須 | AI メタレイヤ | 4 参照 | 随時 |
+| `ai/context/` | ▶︎ プロジェクト規模依存 | 長尺背景 (RAG 用) | 方針大変更時 |
+| `ai/examples/` | ▶︎ 推奨 | 成功パターン集 | ベスト実装 | PR 採用時 |
+| `ai/feedback/` | ▶︎ 自動生成環境向け | AI 出力レビュー結果 | 評価コメント | 各 PR |
+| `ai/history/` | ▶︎ 省略可 | セッションログ・要約保存 | チャット履歴JSON, 日次 digest | 自動生成 |
+| `data-contract/` | ▶︎ ドメイン依存 | データ契約 & スキーマ互換保証 | AsyncAPI, Avro schema | スキーマ変更時 |
+| `benchmarks/` | ▶︎ 任意 | 性能・コスト比較、評価レポート | LLM推論コスト表, 実行時間測定 | 定期計測時 |
+
+## 3. `docs/` — 人 & AI 共通知識ベース
+
+### 3.1 `overview.md`
+ビジネス背景・ゴール・制約。ゴール変化時に更新。
+
+### 3.2 `requirements/` — 二層管理
+
+| サブパス | 用途 | 運用 |
+|----------|------|------|
+| `spec/` | ビジネス要求・非機能要件 (`REQ‑001.md` など) | 変更確定 ➡ ADR とリンク |
+| `backlog/` | PBI / 実装タスク粒度 (GitHub Issue ⇔ MD/YAML) | Issue テンプレで自動生成→閉鎖 |
+
+> **FAQ**  
+> **大粒要件も実装タスクも混在?**  
+> 大枠仕様は `spec/`, 実装指示は `backlog/` に分割し静的設計書と動的バックログを両立。
+
+### 3.3 その他サブディレクトリ
+
+| パス | 役割 | 補足 |
+|------|------|------|
+| `design/architecture/` | C4 図 (Mermaid) | `.mmd`→SVG を Actions で自動生成 |
+| `api/` | `openapi.yaml` (SemVer) | 破壊的変更で MAJOR++ |
+| `adr/` | MADR テンプレ (`nadr-2.1.2.md`) | 1 決定＝1 ファイル |
+
+**`adr/` の運用ルール**:
+- **ID 付与**: `ADR-0001`, `ADR-0002` の形式で連番を振る
+- **メンテ**: 破壊的変更 or 技術選定時に必ず新規 ADR を追加
+
+## 4. `ai/` — AI メタレイヤ
+
+| ディレクトリ | 目的 | メンテ方法 |
+|--------------|------|-----------|
+| `system_prompt.md` | 共通前提・禁止事項 | 週次レビュー |
+| `glossary.yml` | ドメイン用語⇔クラス名 | 新語追加 |
+| `prompts/` | 再利用テンプレ | テスト→昇格 |
+| `tasks/` | 自律タスク定義 | 新フロー追加時 |
+| `context/` | 長尺背景 (RAG 用) | 方針大変更時 |
+| `examples/` | 成功パターン | ベスト採択時 |
+| `feedback/` | AI 出力レビュー | Bot 保存 |
+| `history/` | sessions / summaries / insights | Nightly 整理 |
+
+**`history/` の構成と運用**:
+
+| サブディレクトリ | 目的 | 例 |
+|-----------------|------|----|
+| `sessions/` | 生チャットログ(JSON) | `2025-05-06T06:00:session.json` |
+| `summaries/` | 上記の要約Markdown | `2025-05-06T06:00:summary.md` |
+| `insights/` | 定期バッチで抽出した改善点 | `2025-W19-insights.md` |
+
+**メンテ方法**:
+- セッション終了後に自動で `sessions/` 保存
+- 日次 CRON で `summaries/` 生成
+- 週次で `insights/` を生成し、`ai/feedback/` へ転記
+
+## 5. CI / 開発環境ポイント
+
+- **Workflows**: `lint-and-test.yml`, `security-scan.yml`, `build-docker.yml`  
+- **Schema diff**: Confluent Registry 互換チェック  
+- **DevContainer**: VS Code 拡張、postCreate を集中管理
+
+## 6. 選択的に追加するディレクトリ
+
+| パス | タイミング | ユースケース |
+|------|-----------|-------------|
+| `docs/test/` | テスト拡大 | テストピラミッド管理 |
+| `docs/ops/` | SRE 専任 | SLO / Runbook |
+| `benchmarks/` | LLM 計測 | OpenAI Evals 等 |
+| `data-contract/` | イベント駆動 | AsyncAPI / Avro |
+
+### `data-contract/` の詳細
+**用途**:  
+データプロデューサーとコンシューマー間の「契約」をコードとして残す。API契約同様に破壊的変更を防ぐ。
+- **配置物**: `customer.avro`, `orders.proto`, `contract.md` など
+- **メンテ方法**:
+  1. スキーマ変更時に PR を作成し、CI で後方互換テストを実行
+  2. リリースノートに `BREAKING CHANGE` タグを必ず記載
+
+### `benchmarks/` の詳細
+**用途**:  
+LLM 推論コスト、性能、メモリ等を定点観測し、モデル/プロンプト変更の意思決定材料にする。
+- **配置物**: `benchmark_2025-05.csv`, `plots/latency.png`, `README.md`
+- **メンテ方法**:
+  1. `make benchmark` で計測 → CSV 追記
+  2. Python スクリプトでグラフ更新、PR に貼付
+
+## 7. カスタマイズ参考
+
+- **Bulletproof React** — React 大規模構成例  
+- **Naming Cheatsheet** — 分かりやすい命名指針  
+
+## 8. 更新フローまとめ
+
+1. Issue / ADR で方針決定  
+2. PR: 実装 & ドキュメント更新  
+3. CI: Lint / Test / schema diff / Secret Scan  
+4. レビュー & マージ: `ai/feedback/` に要約保存  
+5. CHANGELOG 更新 → Tag → リリース  
+
+## 9. 今後の改善アイデア
+
+- `benchmarks/` でレイテンシ・コスト定点観測  
+- Mermaid→SVG 自動化で図とソース乖離ゼロ  
+- `ai/prompts/` に `version:` フィールドで履歴追跡
