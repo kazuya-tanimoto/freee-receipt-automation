@@ -1,0 +1,34 @@
+name: Guidelines Size Check
+
+on:
+  pull_request:
+    paths:
+      - 'docs/guidelines/SUMMARY.md'
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/guidelines/SUMMARY.md'
+
+jobs:
+  check-size:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Check SUMMARY.md size
+        run: |
+          WORD_COUNT=$(wc -w docs/guidelines/SUMMARY.md | awk '{print $1}')
+          echo "SUMMARY.md word count: $WORD_COUNT"
+          
+          # Approximate token count (words * 1.3)
+          TOKEN_COUNT=$(echo "$WORD_COUNT * 1.3" | bc)
+          echo "Estimated token count: $TOKEN_COUNT"
+          
+          if (( $(echo "$TOKEN_COUNT > 2000" | bc -l) )); then
+            echo "Error: SUMMARY.md exceeds 2000 tokens (estimated: $TOKEN_COUNT)"
+            exit 1
+          else
+            echo "SUMMARY.md is within the 2000 token limit (estimated: $TOKEN_COUNT)"
+          fi
