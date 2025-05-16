@@ -1,0 +1,19 @@
+{
+  "default": true,
+  "MD013": false,
+  "MD024": false,
+  "MD033": false,
+  "MD041": false,
+  "MD013": {
+    "line_length": 120
+  },
+  "MD024": {
+    "siblings_only": true
+  },
+  "MD033": {
+    "allowed_elements": ["kbd"]
+  },
+  "MD041": {
+    "level": 1
+  }
+} 
