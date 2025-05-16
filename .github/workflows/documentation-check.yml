@@ -1,0 +1,113 @@
+name: Documentation Check
+
+on:
+  push:
+    paths:
+      - 'guidelines/**'
+      - 'ai/**'
+      - 'README.md'
+      - 'README_JA.md'
+  pull_request:
+    paths:
+      - 'guidelines/**'
+      - 'ai/**'
+      - 'README.md'
+      - 'README_JA.md'
+
+jobs:
+  check-documentation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install markdown-link-check markdownlint-cli
+          npm install -g markdownlint-cli2
+
+      - name: Check markdown links
+        id: check-links
+        run: |
+          find . -name "*.md" -not -path "*/\.*" -exec markdown-link-check {} \; || {
+            echo "::error::Broken links found in documentation"
+            exit 1
+          }
+
+      - name: Check file size limits
+        id: check-size
+        run: |
+          find guidelines/ ai/ -name "*.md" -type f -exec sh -c '
+            WORD_COUNT=$(wc -w < "$1")
+            TOKEN_COUNT=$(echo "scale=1;$WORD_COUNT*1.3" | bc)
+            if (( $(echo "$TOKEN_COUNT > 2000" | bc -l) )); then
+              echo "::error::$1 exceeds 2000 tokens (current: $TOKEN_COUNT tokens)"
+              exit 1
+            fi
+          ' sh {} \;
+
+      - name: Check README synchronization
+        id: check-sync
+        run: |
+          diff <(grep -v "^#" README.md | sort) <(grep -v "^#" README_JA.md | sort) || {
+            echo "::error::README.md and README_JA.md are not synchronized"
+            exit 1
+          }
+
+      - name: Check multilingual synchronization
+        id: check-multilingual
+        run: |
+          for file in $(find guidelines/ -name "*-ja.md"); do
+            base_file=${file%-ja.md}.md
+            if [ -f "$base_file" ]; then
+              # 目次と変更履歴を除いて比較
+              diff <(grep -v "^#" "$base_file" | grep -v "## 目次" | grep -v "## 変更履歴" | sort) \
+                   <(grep -v "^#" "$file" | grep -v "## 目次" | grep -v "## 変更履歴" | sort) || {
+                echo "::error::$file and $base_file are not synchronized"
+                exit 1
+              }
+            fi
+          done
+
+      - name: Check document structure
+        id: check-structure
+        run: |
+          for file in $(find guidelines/ ai/ -name "*.md"); do
+            if ! grep -q "## 概要" "$file"; then
+              echo "::error::$file is missing '概要' section"
+              exit 1
+            fi
+            if ! grep -q "## 参考リンク" "$file"; then
+              echo "::error::$file is missing '参考リンク' section"
+              exit 1
+            fi
+          done
+
+      - name: Check for vulnerabilities
+        id: check-vulnerabilities
+        run: |
+          npm audit --audit-level=high || {
+            echo "::error::High severity vulnerabilities found"
+            exit 1
+          }
+
+      - name: Notify on failure
+        if: failure() && steps.check-vulnerabilities.outcome == 'failure'
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: documentation
+          SLACK_COLOR: danger
+          SLACK_TITLE: Critical Documentation Check Failed
+          SLACK_MESSAGE: "Critical documentation check failed. Please check the GitHub Actions run for details." 

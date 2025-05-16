@@ -1,0 +1,89 @@
+name: Documentation Review
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'ai/**'
+      - 'README.md'
+      - 'README_JA.md'
+
+jobs:
+  review-documentation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install markdown-link-check textstat
+
+      - name: Check document structure
+        run: |
+          for file in $(find docs/ ai/ -name "*.md"); do
+            echo "Checking structure of $file"
+            if ! grep -q "## 概要" "$file"; then
+              echo "Error: $file is missing '概要' section"
+              exit 1
+            fi
+            if ! grep -q "## 参考リンク" "$file"; then
+              echo "Error: $file is missing '参考リンク' section"
+              exit 1
+            fi
+          done
+
+      - name: Check readability
+        run: |
+          for file in $(find docs/ ai/ -name "*.md"); do
+            echo "Checking readability of $file"
+            score=$(textstat --text "$(cat $file)" | grep "Flesch Reading Ease" | awk '{print $4}')
+            if [ $(echo "$score < 60" | bc) -eq 1 ]; then
+              echo "Warning: $file has low readability score ($score)"
+            fi
+          done
+
+      - name: Create review comment
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            const changedFiles = context.payload.pull_request.changed_files;
+            const reviewComment = [];
+            
+            for (const file of changedFiles) {
+              if (file.endsWith('.md')) {
+                const content = fs.readFileSync(file, 'utf8');
+                const lines = content.split('\n');
+                
+                // チェック項目
+                const checks = {
+                  hasOverview: lines.some(line => line.includes('## 概要')),
+                  hasReferences: lines.some(line => line.includes('## 参考リンク')),
+                  hasTableOfContents: lines.some(line => line.includes('## 目次')),
+                  lineCount: lines.length
+                };
+                
+                reviewComment.push(`### ${path.basename(file)}`);
+                reviewComment.push('- 概要セクション: ' + (checks.hasOverview ? '✅' : '❌'));
+                reviewComment.push('- 参考リンク: ' + (checks.hasReferences ? '✅' : '❌'));
+                reviewComment.push('- 目次: ' + (checks.hasTableOfContents ? '✅' : '❌'));
+                reviewComment.push('- 行数: ' + checks.lineCount + '行');
+              }
+            }
+            
+            if (reviewComment.length > 0) {
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: '## ドキュメントレビュー結果\n\n' + reviewComment.join('\n')
+              });
+            } 
