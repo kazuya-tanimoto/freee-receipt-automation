@@ -1,0 +1,27 @@
+name: Markdown Link Check
+
+on:
+  pull_request:
+    paths:
+      - '**/*.md'
+      - '.mlc_config.json'
+
+permissions:
+  contents: read
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+
+      - run: npx markdown-link-check "**/*.md" -c .mlc_config.json 
