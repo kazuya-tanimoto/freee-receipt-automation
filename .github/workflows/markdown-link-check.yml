@@ -13,15 +13,14 @@ jobs:
   link-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.1.1
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4.0.2
         with:
           node-version: '20'
 
-      - uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+      - name: Install markdown-link-check
+        run: npm install -g markdown-link-check
 
-      - run: npx markdown-link-check "**/*.md" -c .mlc_config.json 
+      - name: Check Markdown Links
+        run: markdown-link-check $(find . -name "*.md") -c .mlc_config.json 
