@@ -1,90 +1,74 @@
-# プロジェクト構造最適化ワークスペース
+# README.mdとの齟齬修正ワークスペース（更新版）
 
-## 📁 ディレクトリ概要
-このディレクトリは、freee経費管理自動化プロジェクトを理想的なAI駆動開発ガイドラインに沿って段階的に最適化するための作業記録とツールを格納しています。
+## 📁 目的
+ルートのREADME.mdの理想構造と現在の構造の齟齬を修正し、重複ファイルを統合する作業用ディレクトリです。
+
+## 🎯 修正方針
+- 既存MDファイルのコンテンツは一切捨てない（重複統合により保持）
+- 重複ファイルは内容比較して最良版に統合
+- 理想構造にないディレクトリ・ファイルを削除
+- README.md理想構造への100%準拠を実現
 
 ## 📂 ディレクトリ構造
 ```
 .restructure/
 ├── README.md                 # このファイル
-├── overview.md              # 最適化概要・問題分析
-├── strategy.md              # 対応方針・進行戦略
-├── progress.md              # 進捗管理・完了記録
-├── tasks/                   # 各タスクの詳細手順
-│   ├── task-001-preparation.md
-│   ├── task-002-coding-standards-analysis.md
-│   ├── task-003-coding-standards-integration.md
-│   ├── ... (合計19のタスク)
-│   └── task-019-final-verification.md
-├── backups/                 # 作業前バックアップ
-├── templates/               # 作業用テンプレート
-└── logs/                    # 実行ログ・検証結果
-
+├── overview.md               # 修正概要・ファイル対応表
+├── progress.md               # 進捗管理
+├── ideal-structure.md        # 理想構造の完全版
+├── tasks/                    # 4つの作業手順
+│   ├── task-001-backup.md
+│   ├── task-002-content-analysis.md
+│   ├── task-003-integration.md
+│   └── task-004-cleanup.md
+├── scripts/                  # 自動化スクリプト
+│   └── validate-links.sh     # リンクチェック
+└── logs/                     # 作業ログ
 ```
 
-## 🎯 最適化の目的
-1. **重複解消**: coding-standards.mdの3箇所重複解消
-2. **構造統一**: README-ja.mdの理想構造への準拠
-3. **AI最適化**: AI駆動開発環境の確立
-4. **保守性向上**: 一元化された開発ガイドライン
+## 🚀 作業開始手順
 
-## 🚀 使用方法
-
-### 1. 作業開始前
+### 1. 現在の進捗確認
 ```bash
-# 現在の進捗確認
 cat .restructure/progress.md
-
-# 次に実行すべきタスク確認
-grep "⏳ 未開始" .restructure/progress.md | head -1
 ```
 
-### 2. タスク実行
+### 2. 次タスク確認（現在はTASK-001）
 ```bash
-# タスク詳細確認
-cat .restructure/tasks/task-XXX-name.md
-
-# 作業開始記録
-# progress.mdの該当タスクを "⏳ 未開始" → "🔄 実行中" に変更
-
-# 作業実行（各タスクファイルの手順に従う）
-
-# 作業完了記録  
-# progress.mdの該当タスクを "🔄 実行中" → "✅ 完了" に変更
+cat .restructure/tasks/task-001-backup.md
 ```
 
-### 3. フェーズ完了時
+### 3. 理想構造確認
 ```bash
-# フェーズ内コミットのスカッシュ
-git rebase -i HEAD~N
+cat .restructure/ideal-structure.md
+```
 
-# 統合テスト実行
-make help && make docs
-
-# Push準備完了確認
+### 4. リンクチェック（作業後）
+```bash
+bash .restructure/scripts/validate-links.sh
 ```
 
 ## ⚠️ 重要な注意事項
 
-### 安全性確保
 - **必ずバックアップ作成**してから作業開始
 - **小さなコミット**で進捗を記録
-- **検証ステップ**を必ず実行
+- **内容統合時**は必ず両方のファイルを比較
+- **リンク修正**を忘れずに実行
+- **セキュリティ・ドキュメント標準**はdocs/standards/に統合
+- **document-template**は理想構造にないため削除
 
-### 並行開発との共存
-- `.restructure/`ディレクトリは作業用専用
-- 他開発者は通常通りmainブランチで作業可能
-- 作業完了まで絶対にmainブランチにマージしない
+## 📋 修正後の成果物
 
-### 失敗時の対応
-- 各フェーズ開始時のバックアップから復旧可能
-- コミット単位でのロールバック対応
-- 詳細なログ記録により原因特定
+- **重複ファイル**: 9パターン→0パターン
+- **MDファイル数**: 43個→約21個
+- **理想構造準拠**: 100%
+- **情報欠落**: なし（統合により保持）
 
-## 🔄 更新履歴
-| 日付 | 更新内容 | 担当者 |
-|------|----------|--------|
-| [自動生成] | 初期設定完了 | Claude 3.7 |
+## 🔄 完了後
+
+1. **完了報告書確認**: `.restructure/completion-report.md`
+2. **Git履歴確認**: 適切にコミットされているか
+3. **ディレクトリ削除**: `.restructure/`全体を削除
 
 ---
-**注意**: このディレクトリは構造最適化完了後に削除予定です。
+*README.md理想構造への完全準拠を実現します*

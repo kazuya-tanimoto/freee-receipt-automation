@@ -1,167 +1,107 @@
-# プロジェクト構造最適化 - 改善概要
+# README.md構造修正 - 概要
 
-## 🎯 最適化の背景と目的
+## 📊 現状分析
 
-### 現状の課題
-freee経費管理自動化プロジェクトは基本的な構造が整っているものの、以下の課題により開発効率・保守性・AI連携性に課題があります：
-
-#### 1. 重複ファイルによる混乱
-- **coding-standards.md**が3箇所に重複存在
-  - `guidelines/coding-standards*.md`
-  - `docs/standards/coding-standards*.md` ← 最も包括的  
-  - `docs/guidelines/coding-standards*.md` ← 外部参照設定
-- 運用・セキュリティガイドラインの分散配置
-- 開発者がどのファイルを参照すべきか判断困難
-
-#### 2. 理想構造との乖離
-- README-ja.mdで定義された理想的なAI駆動開発構造との乖離
-- 必須ファイルの不足（Makefile, .devcontainer.json等）
-- AI関連ファイルの分散配置
-
-#### 3. 開発環境の非統一
-- 再現可能な開発環境定義の不足
-- 共通コマンド体系の未整備
-- AI支援最適化のためのメタ情報不足
-
-### 最適化の目標
-
-#### 短期目標（構造整備）
-1. **重複解消**: coding-standards等の重複ファイル統合
-2. **必須項目**: Makefile, .devcontainer.json, docs/overview.md作成
-3. **構造統一**: 理想ディレクトリ構造への準拠
-
-#### 中期目標（機能拡張）
-1. **AI最適化**: system_prompt.md, glossary.yml によるAI支援強化
-2. **要件管理**: バックログ体系の構築
-3. **設計整備**: DB・UI設計テンプレートの充実
-
-#### 長期目標（品質向上）
-1. **保守性**: 一元管理による更新・保守効率化
-2. **拡張性**: 新機能・新技術導入時の標準化
-3. **協働性**: AIエージェントとの円滑な協働環境
-
-## 📊 詳細ギャップ分析
-
-### 重複ファイル分析
-
-| ファイル | 場所 | 特徴 | 統合方針 |
-|---------|------|------|----------|
-| **coding-standards** | | | |
-| guidelines/coding-standards*.md | 基本的な内容 | 基本規約のみ | 削除 |
-| docs/standards/coding-standards*.md | **最包括的** | 行数制限、AI対応等 | **統合ベース** |
-| docs/guidelines/coding-standards*.md | 外部参照設定 | サブモジュール管理 | 統合して削除 |
-| **operational-guidelines** | | | |
-| guidelines/operational-guidelines*.md | 基本的な内容 | | docs/ops/へ移動 |
-| docs/ops/operational-guidelines*.md | 理想配置 | | 統合先 |
-
-### 必須ファイル不足状況
-
-| ファイル | 理想的な役割 | 現状 | 作成内容 |
-|---------|-------------|------|----------|
-| **Makefile** | 共通コマンド集 | ❌ 不存在 | setup, test, lint, docs等 |
-| **.devcontainer.json** | 再現可能開発環境 | ❌ 不存在 | VS Code + Node.js環境 |
-| **docs/overview.md** | プロジェクト概要 | ❌ 不存在 | ビジネス背景・目標・制約 |
-| **ai/system_prompt.md** | AI共通前提 | ❌ 不存在 | プロジェクト文脈・制約 |
-| **ai/glossary.yml** | ドメイン用語辞書 | ❌ 不存在 | 専門用語・略語統一 |
-
-### AI構造分散状況
-
-| 現在の配置 | 理想配置 | 問題 | 解決策 |
-|-----------|----------|------|-------|
-| docs/ai/context-optimization*.md | ai/context/ | 分散管理 | ai/へ統合 |
-| (なし) | ai/system_prompt.md | ベース情報不足 | 新規作成 |
-| (なし) | ai/glossary.yml | 用語不統一 | 専門用語辞書作成 |
-
-## 🗺️ 理想構造との比較
-
-### 現在の構造
+### 理想構造（README.mdより）
 ```
-freee-receipt-automation/
-├── docs/
-│   ├── guidelines/       # ← 重複
-│   ├── standards/        # ← 最適
-│   ├── ai/              # ← 分散
-│   └── ...
-├── guidelines/          # ← 重複源
-├── ai/                  # ← 部分的
-└── ...
+docs/
+├── overview.md
+├── requirements/spec/
+├── design/architecture/
+├── api/
+├── standards/
+├── test/
+├── ops/
+└── adr/
+ai/
+├── system_prompt.md
+├── glossary.yml
+├── config/
+├── prompts/
+├── tasks/
+├── context/
+├── examples/
+├── feedback/
+└── history/
 ```
 
-### 理想構造（README-ja.md準拠）
-```
-freee-receipt-automation/
-├── README.md
-├── CHANGELOG.md
-├── Makefile             # ← 必須・新規
-├── .devcontainer.json   # ← 必須・新規
-├── docs/
-│   ├── overview.md      # ← 必須・新規
-│   ├── standards/       # ← 統合先
-│   ├── requirements/
-│   ├── design/
-│   ├── ops/
-│   └── adr/
-└── ai/                  # ← AI特化集約
-    ├── system_prompt.md # ← 必須・新規
-    ├── glossary.yml     # ← 必須・新規
-    ├── context/
-    ├── prompts/
-    └── ...
-```
+### 現状の問題点
+1. **理想構造にないディレクトリが存在**
+   - `guidelines/` ディレクトリ
+   - `docs/guidelines/` ディレクトリ
+   - `docs/ai/` ディレクトリ
+   - `docs/templates/` ディレクトリ（理想構造にない）
 
-## 🎯 最適化により得られる効果
+2. **重複ファイル（9パターン）**
+   - context-optimization × 3箇所
+   - coding-standards × 3箇所  
+   - operational-guidelines/rules × 3箇所
+   - security-guidelines × 2箇所
+   - document-template × 2箇所
+   - README（guidelines説明） × 1箇所
+   - SUMMARY（guidelines要約） × 1箇所
+   - documentation-guidelines × 1箇所（移動のみ）
 
-### 即座の効果
-- **重複解消**: 開発者の混乱解消、更新漏れ防止
-- **統一環境**: Devcontainerによる環境差異解消
-- **コマンド統一**: Makefileによる作業効率化
+## 🔀 統合ファイル対応表
 
-### 中期的効果
-- **AI支援強化**: 最適化されたプロンプト・用語辞書によるAI精度向上
-- **新規参画**: 明確な概要・一元化ガイドラインによるオンボーディング短縮
-- **要件管理**: 構造化バックログによる開発プロセス改善
+| 統合パターン | 統合先 | 統合元 | 備考 |
+|-------------|--------|-------|------|
+| **context-optimization** | `ai/context/` | `docs/ai/`, `docs/guidelines/` | AI関連を集約 |
+| **coding-standards** | `docs/standards/` | `guidelines/`, `docs/guidelines/` | 最包括的版をベース |
+| **operational-guidelines** | `docs/ops/` | `guidelines/`, `docs/guidelines/` | 運用関連を統合 |
+| **security-guidelines** | `docs/standards/` | `guidelines/` | セキュリティ標準を統合 |
+| **document-template** | **削除** | `guidelines/templates/`, `docs/templates/` | 理想構造にないため削除 |
+| **documentation-guidelines** | `docs/standards/` | `guidelines/` | ドキュメンテーション規約移動 |
 
-### 長期的効果  
-- **保守性向上**: 一元管理による更新コスト削減
-- **品質向上**: 統一基準による一貫した品質確保
-- **技術進化対応**: AIツール進歩への対応力向上
+## 📋 削除対象ファイル
 
-## 🚧 想定されるリスクと対策
+| ファイル | 削除理由 |
+|---------|---------|
+| `docs/guidelines/README*.md` | 古い構造の説明文書 |
+| `docs/guidelines/SUMMARY*.md` | 古い構造の要約文書 |
+| `guidelines/templates/document-template*.md` | 理想構造にないため削除 |
+| `docs/templates/document-template*.md` | 理想構造にないため削除 |
+| `guidelines/` ディレクトリ全体 | 統合・削除後不要 |
+| `docs/guidelines/` ディレクトリ全体 | 統合後不要 |
+| `docs/templates/` ディレクトリ全体 | 理想構造にないため削除 |
 
-### 作業中のリスク
+## 🎯 統合後のファイル構成（README.md理想構造準拠）
 
-| リスク | 発生確率 | 影響度 | 対策 |
-|-------|----------|-------|------|
-| **ファイル競合** | 中 | 高 | 段階的作業、頻繁なバックアップ |
-| **リンク切れ** | 高 | 中 | 自動リンクチェック、段階的更新 |
-| **CI/CD障害** | 低 | 高 | ワークフロー事前確認、テスト環境 |
-| **並行開発影響** | 低 | 中 | 独立ブランチ、事前通知・調整 |
+### docs/standards/（4ファイル→6ファイル）
+- `coding-standards*.md` （統合済み）
+- `security-guidelines*.md` （統合済み）
+- `documentation-guidelines*.md` （新規追加）
+- `sbom/`
 
-### 長期運用リスク
+### docs/ops/（2ファイル→2ファイル）
+- `operational-guidelines*.md` （統合済み）
 
-| リスク | 対策 |
-|-------|------|
-| **構造腐敗** | 定期レビュー（月次）、ADRでの変更記録 |
-| **AI環境変化** | system_prompt.md定期更新、新ツール評価 |
-| **チーム習熟** | ドキュメント充実、オンボーディング手順 |
+### docs/requirements/spec/（現状維持）
+- `requirements-summary*.md`
+- `system-specification*.md`
 
-## 📋 作業完了後の運用方針
+### docs/design/architecture/（現状維持）
+- `architecture*.md`
 
-### 日常的運用
-- **新規ガイドライン**: docs/standards/に配置
-- **AI設定更新**: ai/ディレクトリで集中管理
-- **要件変更**: docs/requirements/で構造化管理
+### ai/context/（2ファイル→2ファイル）
+- `context-optimization*.md` （統合済み）
 
-### 定期的保守
-- **月次レビュー**: 構造の妥当性確認
-- **四半期評価**: 最適化効果測定
-- **年次見直し**: 技術動向に合わせた構造調整
+## 📈 作業効果
 
-### 品質保証
-- **PR時**: リンクチェック自動実行
-- **リリース前**: 全体整合性検証
-- **AI更新**: 週次でsystem_prompt.md・glossary.yml確認
+### Before（統合前）
+- 43個のMDファイル
+- 9パターンの重複
+- 4個の不要ディレクトリ（guidelines/, docs/guidelines/, docs/ai/, docs/templates/）
+
+### After（統合後）
+- 約21個のMDファイル
+- 重複完全解消
+- README.md理想構造に**完全準拠**
+
+### 保持情報
+- **失われる情報**: テンプレートファイルのみ（理想構造にないため）
+- **統合される情報**: 重複ファイルは全て最良版として保持
+- **新しい構造**: README.md理想構造に100%準拠
 
 ---
-
-**注記**: この最適化は段階的かつ可逆的に実施し、プロジェクトの安定性を最優先に配慮します。
+*README.md理想構造への完全準拠を実現し、コンテンツは適切に統合・保持されます*
