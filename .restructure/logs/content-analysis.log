@@ -1,0 +1,1078 @@
+=== 外部資産確認 ===
+画像ファイル: なし
+./docs/guidelines/README-ja.md
+./docs/guidelines/README.md
+./docs/standards/sbom/README-ja.md
+./docs/standards/sbom/README.md
+./README-ja.md
+./README.md
+./.github/workflows/README-ja.md
+./.github/workflows/README.md
+
+=== context-optimization 比較 ===
+--- ai/context/context-optimization.md	2025-05-20 01:15:34
++++ docs/ai/context-optimization.md	2025-05-20 01:15:34
+@@ -1,55 +1,61 @@
+-# AI Context Optimization
++# AI Context Optimization Guidelines
+ 
+ ## Overview
+-This document defines optimization guidelines for AI agents to efficiently understand project context and provide appropriate support.
++This document explains methods for optimizing context to facilitate effective interaction with AI assistants.
+ 
+-## Context Provision
++## Context Provision Methods
+ 
+-### 1. Project Structure
+-- Directory structure explanation
+-- Role of key files
+-- Dependency explanation
++### 1. Project Structure Sharing
++- Project root directory structure
++- Location and role of key files
++- Dependency management methods
++- Git submodule reference methods and update rules
+ 
+-### 2. Codebase
++### 2. Codebase Understanding
+ - Description of main components
+-- Use of design patterns
+-- Technology stack overview
++- Architecture overview
++- Important business logic explanation
++- Coding standards reference methods
++  - Naming conventions
++  - File organization
++  - Comment guidelines
++  - Testing requirements
+ 
+-### 3. Business Logic
+-- Domain knowledge provision
+-- Business rules explanation
+-- Clarification of constraints
++### 3. Development Environment Information
++- Language and framework versions
++- Development tool configurations
++- Environment variables and configuration file locations
++- Dependency package management methods
+ 
+-## Optimization Best Practices
++## Best Practices for Effective Interaction
+ 
+-### 1. Prompt Design
+-- Provide clear instructions
+-- Appropriate amount of context
+-- Specify expected output format
++### 1. Question Specification
++- Specific problem or requirement explanation
++- Clear definition of expected results
++- Constraint presentation
++- Explicit reference to relevant coding standards
+ 
+-### 2. Error Handling
+-- Clarify error cases
+-- Fallback strategies
+-- Error message format
++### 2. Context Updates
++- Appropriate information provision when changes occur
++- Reference to related files and code
++- Error message and log sharing
++- Submodule update status
+ 
+-### 3. Performance Optimization
+-- Optimize context size
+-- Improve response time
+-- Efficient resource usage
++### 3. Feedback Provision
++- Evaluation of proposed solutions
++- Presentation of additional requirements or constraints
++- Pointing out improvements
++- Verification of coding standards compliance
+ 
+-## Security Considerations
++## Important Notes
++- Confidential information handling
++- Code quality standards
++- Security requirements
++- Proper submodule referencing
+ 
+-### 1. Confidential Information
+-- Handling of confidential information
+-- Access control
+-- Data protection
+-
+-### 2. Input Validation
+-- Validate input data
+-- Prevent invalid input
+-- Security checks
+-
+ ## Reference Links
+-- [Project Root README](../../README.md)
+-- [Coding Standards](../../docs/standards/coding-standards.md)
+-- [Operational Guidelines](../../docs/ops/operational-guidelines.md) 
+\ No newline at end of file
++- [Project Root README](../README.md)
++- [Coding Standards](../standards/coding-standards.md)
++- [Operational Guidelines](../ops/operational-guidelines.md)
++- [Bulletproof React Guidelines](../guidelines/bulletproof-react)
++- [Naming Cheatsheet](../guidelines/naming-cheatsheet) 
+\ No newline at end of file
+ファイルが同一または存在しない
+--- ai/context/context-optimization.md	2025-05-20 01:15:34
++++ docs/guidelines/context-optimization.md	2025-05-20 01:15:34
+@@ -1,55 +1,46 @@
+-# AI Context Optimization
++# AI Context Optimization Guidelines
+ 
+-## Overview
+-This document defines optimization guidelines for AI agents to efficiently understand project context and provide appropriate support.
++## Purpose
++Provides a single source of information for both humans and AI, efficiently managing RAG context.
+ 
+-## Context Provision
++## Token Limits
++- Summary for initial context is limited to 2k tokens
++- For longer texts, split into `ai/context/` and use dynamic search by agents
+ 
+-### 1. Project Structure
+-- Directory structure explanation
+-- Role of key files
+-- Dependency explanation
++## Context Management
++1. **Summary (SUMMARY.md)**
++   - Location: `docs/guidelines/SUMMARY.md`
++   - Usage: Used as initial context for AI
++   - Limit: Strictly under 2k tokens
+ 
+-### 2. Codebase
+-- Description of main components
+-- Use of design patterns
+-- Technology stack overview
++2. **Full Documents**
++   - Location: Managed as Git Submodules
++   - Update: Weekly automatic updates (`scripts/update-guidelines.sh`)
++   - Search: Dynamically referenced as needed
+ 
+-### 3. Business Logic
+-- Domain knowledge provision
+-- Business rules explanation
+-- Clarification of constraints
++## Operational Rules
++1. **Update Flow**
++   - Manual editing of summary is prohibited
++   - Content updates via automatic extraction or scripts
++   - Major changes require ADR
+ 
+-## Optimization Best Practices
++2. **CI Checks**
++   - `guidelines-size-check.yml` detects exceeding 4k tokens
++   - PR fails if limit is exceeded
+ 
+-### 1. Prompt Design
+-- Provide clear instructions
+-- Appropriate amount of context
+-- Specify expected output format
++3. **Regular Updates**
++   - Weekly execution of `update-guidelines.sh` (Monday 4 AM)
++   - Automatic PR and CHANGELOG updates
+ 
+-### 2. Error Handling
+-- Clarify error cases
+-- Fallback strategies
+-- Error message format
++## Optimization Points
++1. **Context Splitting**
++   - Split long texts into `ai/context/`
++   - Agents search as needed
+ 
+-### 3. Performance Optimization
+-- Optimize context size
+-- Improve response time
+-- Efficient resource usage
++2. **Reference Efficiency**
++   - Include frequently referenced information in summary
++   - Manage detailed information in Submodules
+ 
+-## Security Considerations
+-
+-### 1. Confidential Information
+-- Handling of confidential information
+-- Access control
+-- Data protection
+-
+-### 2. Input Validation
+-- Validate input data
+-- Prevent invalid input
+-- Security checks
+-
+-## Reference Links
+-- [Project Root README](../../README.md)
+-- [Coding Standards](../../docs/standards/coding-standards.md)
+-- [Operational Guidelines](../../docs/ops/operational-guidelines.md) 
+\ No newline at end of file
++3. **Maintainability**
++   - Maintain latest state with automatic updates
++   - Ensure quality with CI 
+\ No newline at end of file
+ファイルが同一または存在しない
+-rw-r--r--@ 1 kazuya  staff  1544 May 20 01:15 ai/context/context-optimization-ja.md
+-rw-r--r--@ 1 kazuya  staff  1279 May 20 01:15 ai/context/context-optimization.md
+-rw-r--r--@ 1 kazuya  staff  2085 May 20 01:15 docs/ai/context-optimization-ja.md
+-rw-r--r--@ 1 kazuya  staff  1877 May 20 01:15 docs/ai/context-optimization.md
+-rw-r--r--@ 1 kazuya  staff  1573 May 20 01:15 docs/guidelines/context-optimization-ja.md
+-rw-r--r--@ 1 kazuya  staff  1421 May 20 01:15 docs/guidelines/context-optimization.md
+
+=== coding-standards 比較 ===
+--- docs/standards/coding-standards.md	2025-05-20 01:15:34
++++ guidelines/coding-standards.md	2025-05-20 01:15:34
+@@ -1,82 +1,84 @@
+ # Coding Standards
+ 
+ ## Overview
+-This document defines the standards for maintaining code quality in the project.
++This document defines coding standards and best practices for the project.
+ 
+-## Code Style
++## Table of Contents
++1. [Code Style](#1-code-style)
++2. [Naming Conventions](#2-naming-conventions)
++3. [Documentation](#3-documentation)
++4. [Testing](#4-testing)
+ 
+-### 1. Naming Conventions
+-- Variable names: camelCase (e.g., `userName`)
+-- Function names: camelCase (e.g., `getUserData`)
+-- Class names: PascalCase (e.g., `UserService`)
+-- Constants: UPPER_SNAKE_CASE (e.g., `MAX_RETRY_COUNT`)
++## 1. Code Style
+ 
+-### 2. File Structure
+-- Line count limits per file:
+-  - Basic limit: 150 lines
+-  - Absolute limit: 250 lines
+-  - If exceeding 150 lines, the following actions must be taken:
+-    - Split functionality (divide into multiple files)
+-    - Extract common processes
+-    - Separate utility functions
+-  - If exceeding 250 lines, code redesign is required
+-- Exceptions where exceeding 250 lines is allowed:
+-  - Test files (when there are many test cases)
+-  - Data structure or type definition files
+-  - Auto-generated code (only if the following conditions are met):
+-    - Generated code must be split if possible
+-    - Each part of generated code must be within 150 lines
+-    - Each part must have a single responsibility
+-    - Generated code must be properly documented
++### 1.1 General Rules
++- Use 2 spaces for indentation
++- Maximum line length: 100 characters
++- Use semicolons at the end of statements
++- Use single quotes for strings
++- Use trailing commas in multiline objects and arrays
+ 
+-### 3. AI Agent Code Generation
+-- Code generated by AI agents must be kept within 150 lines
+-- If exceeding 150 lines, split according to the following criteria:
+-  - Split by functionality
+-  - Each part must be within 150 lines
+-  - Each part must have a single responsibility
+-  - Purpose and behavior of each part must be clearly explained
+-- Quality checks for generated code:
+-  - Conduct code review
+-  - Ensure test coverage
+-  - Verify performance and security
+-  - Confirm compliance with line count limits
++### 1.2 JavaScript/TypeScript
++- Use ES6+ features
++- Prefer const over let
++- Avoid var
++- Use arrow functions for callbacks
++- Use template literals for string interpolation
+ 
+-### 3. Comment Standards
+-- Function descriptions: JSDoc format
+-- Complex logic: Inline comments
+-- TODO comments: Include deadline and assignee
++### 1.3 React Components
++- Use functional components with hooks
++- Keep components small and focused
++- Use proper prop types
++- Implement error boundaries
++- Follow the container/presenter pattern
+ 
+-## Code Quality
++## 2. Naming Conventions
+ 
+-### 1. Testing
+-- Unit test coverage: 80% or higher
+-- Test file naming: `*.test.ts`
+-- Mock usage: Properly mock external dependencies
++### 2.1 Files and Directories
++- Use kebab-case for file names
++- Use PascalCase for component files
++- Use camelCase for utility files
++- Group related files in directories
+ 
+-### 2. Error Handling
+-- Exception handling: Specify concrete exception types
+-- Error messages: User-friendly
+-- Logging: Use appropriate log levels
++### 2.2 Variables and Functions
++- Use camelCase for variables and functions
++- Use PascalCase for components and classes
++- Use UPPER_SNAKE_CASE for constants
++- Use descriptive names that indicate purpose
+ 
+-### 3. Performance
+-- Asynchronous processing: Proper use of Promise/async-await
+-- Memory management: Release unnecessary references
+-- Database queries: Utilize indexes
++## 3. Documentation
+ 
+-## Security
++### 3.1 Code Comments
++- Use JSDoc for function documentation
++- Comment complex logic
++- Keep comments up to date
++- Use TODO comments for future improvements
+ 
+-### 1. Input Validation
+-- User input: Appropriate validation
+-- SQL injection prevention: Parameterized queries
+-- XSS prevention: Escape processing
++### 3.2 README Files
++- Include setup instructions
++- Document dependencies
++- Provide usage examples
++- List known issues
+ 
+-### 2. Authentication & Authorization
+-- Passwords: Hashing
+-- Session management: Appropriate timeouts
+-- Access control: Principle of least privilege
++## 4. Testing
+ 
++### 4.1 Unit Tests
++- Write tests for all new features
++- Maintain test coverage above 80%
++- Use meaningful test descriptions
++- Follow the AAA pattern (Arrange, Act, Assert)
++
++### 4.2 Integration Tests
++- Test component interactions
++- Verify API integrations
++- Test error handling
++- Mock external dependencies
++
+ ## Reference Links
+-- [Project Root README](../README.md)
+-- [AI Context Optimization](../ai/context-optimization.md)
+-- [Operational Guidelines](../ops/operational-guidelines.md) 
+\ No newline at end of file
++- [Security Guidelines](./security-guidelines.md)
++- [Operational Guidelines](./operational-guidelines.md)
++
++## Change History
++| Date | Version | Changes | Author |
++|------|---------|---------|--------|
++| 2024-03-21 | 1.0.0 | Initial version | AI Assistant | 
+\ No newline at end of file
+ファイルが同一または存在しない
+--- docs/standards/coding-standards.md	2025-05-20 01:15:34
++++ docs/guidelines/coding-standards.md	2025-05-20 01:15:34
+@@ -1,82 +1,41 @@
+-# Coding Standards
++# Coding Standards Reference Settings
+ 
+ ## Overview
+-This document defines the standards for maintaining code quality in the project.
++Incorporates rules from Bulletproof React and Naming Cheatsheet in a reusable format for Next.js 15 projects.
+ 
+-## Code Style
++## Reference Settings
++### 1. Bulletproof React
++- Repository: https://github.com/alan2207/bulletproof-react
++- Branch: `master`
++- Scope: `docs/` directory only
++- Update: Weekly automatic updates
+ 
+-### 1. Naming Conventions
+-- Variable names: camelCase (e.g., `userName`)
+-- Function names: camelCase (e.g., `getUserData`)
+-- Class names: PascalCase (e.g., `UserService`)
+-- Constants: UPPER_SNAKE_CASE (e.g., `MAX_RETRY_COUNT`)
++### 2. Naming Cheatsheet
++- Repository: https://github.com/kettanaito/naming-cheatsheet
++- Branch: `main`
++- Scope: Entire root directory
++- Update: Weekly automatic updates
+ 
+-### 2. File Structure
+-- Line count limits per file:
+-  - Basic limit: 150 lines
+-  - Absolute limit: 250 lines
+-  - If exceeding 150 lines, the following actions must be taken:
+-    - Split functionality (divide into multiple files)
+-    - Extract common processes
+-    - Separate utility functions
+-  - If exceeding 250 lines, code redesign is required
+-- Exceptions where exceeding 250 lines is allowed:
+-  - Test files (when there are many test cases)
+-  - Data structure or type definition files
+-  - Auto-generated code (only if the following conditions are met):
+-    - Generated code must be split if possible
+-    - Each part of generated code must be within 150 lines
+-    - Each part must have a single responsibility
+-    - Generated code must be properly documented
++## Setup Instructions
++```bash
++# Add submodules
++git submodule add -b master https://github.com/alan2207/bulletproof-react docs/guidelines/bulletproof-react
++git submodule add -b main https://github.com/kettanaito/naming-cheatsheet docs/guidelines/naming-cheatsheet
+ 
+-### 3. AI Agent Code Generation
+-- Code generated by AI agents must be kept within 150 lines
+-- If exceeding 150 lines, split according to the following criteria:
+-  - Split by functionality
+-  - Each part must be within 150 lines
+-  - Each part must have a single responsibility
+-  - Purpose and behavior of each part must be clearly explained
+-- Quality checks for generated code:
+-  - Conduct code review
+-  - Ensure test coverage
+-  - Verify performance and security
+-  - Confirm compliance with line count limits
++# Configure sparse-checkout
++git -C docs/guidelines/bulletproof-react sparse-checkout set docs
++git -C docs/guidelines/naming-cheatsheet sparse-checkout set .
++```
+ 
+-### 3. Comment Standards
+-- Function descriptions: JSDoc format
+-- Complex logic: Inline comments
+-- TODO comments: Include deadline and assignee
++## Update Flow
++1. Run `scripts/update-guidelines.sh` weekly
++2. Review changes
++3. Create PR
++4. Verify CI pass
++5. Merge
+ 
+-## Code Quality
+-
+-### 1. Testing
+-- Unit test coverage: 80% or higher
+-- Test file naming: `*.test.ts`
+-- Mock usage: Properly mock external dependencies
+-
+-### 2. Error Handling
+-- Exception handling: Specify concrete exception types
+-- Error messages: User-friendly
+-- Logging: Use appropriate log levels
+-
+-### 3. Performance
+-- Asynchronous processing: Proper use of Promise/async-await
+-- Memory management: Release unnecessary references
+-- Database queries: Utilize indexes
+-
+-## Security
+-
+-### 1. Input Validation
+-- User input: Appropriate validation
+-- SQL injection prevention: Parameterized queries
+-- XSS prevention: Escape processing
+-
+-### 2. Authentication & Authorization
+-- Passwords: Hashing
+-- Session management: Appropriate timeouts
+-- Access control: Principle of least privilege
+-
+-## Reference Links
+-- [Project Root README](../README.md)
+-- [AI Context Optimization](../ai/context-optimization.md)
+-- [Operational Guidelines](../ops/operational-guidelines.md) 
+\ No newline at end of file
++## Important Notes
++- Manual submodule updates are prohibited
++- Updates must be executed via script
++- Major changes require ADR
++- Comply with license requirements (MIT License) 
+\ No newline at end of file
+ファイルが同一または存在しない
+--- 行数比較 ---
+      81 docs/standards/coding-standards-ja.md
+      81 docs/standards/coding-standards.md
+     162 total
+      83 guidelines/coding-standards-ja.md
+      83 guidelines/coding-standards.md
+     166 total
+      40 docs/guidelines/coding-standards-ja.md
+      40 docs/guidelines/coding-standards.md
+      80 total
+
+=== operational 比較 ===
+--- docs/ops/operational-guidelines.md	2025-05-20 01:15:34
++++ guidelines/operational-guidelines.md	2025-05-20 01:15:34
+@@ -1,73 +1,114 @@
+ # Operational Guidelines
+ 
+ ## Overview
+-This document defines important guidelines for project operations.
++This document defines operational procedures and best practices for the project.
+ 
+-## Deployment
++## Table of Contents
++1. [Development Workflow](#1-development-workflow)
++2. [Release Management](#2-release-management)
++3. [Monitoring and Maintenance](#3-monitoring-and-maintenance)
++4. [Incident Response](#4-incident-response)
+ 
+-### 1. Environment Configuration
+-- Development Environment
+-- Staging Environment
+-- Production Environment
++## 1. Development Workflow
+ 
+-### 2. Deployment Process
+-- Code Review
+-- Test Execution
+-- Deployment Approval
+-- Rollback Procedures
++### 1.1 Branch Strategy
++- Main branch: `main`
++- Development branch: `develop`
++- Feature branches: `feature/*`
++- Hotfix branches: `hotfix/*`
++- Release branches: `release/*`
+ 
+-### 3. Version Control
+-- Semantic Versioning
+-- Release Note Creation
+-- Tagging Rules
++### 1.2 Pull Request Process
++1. Create feature branch from `develop`
++2. Implement changes
++3. Write tests
++4. Update documentation
++5. Create pull request
++6. Code review
++7. Merge to `develop`
+ 
+-## Monitoring
++### 1.3 Code Review Guidelines
++- Review within 24 hours
++- Minimum 1 reviewer approval
++- All tests must pass
++- Documentation must be updated
++- No merge conflicts
+ 
+-### 1. Log Management
+-- Log Level Settings
+-- Log Rotation
+-- Alert Configuration
++## 2. Release Management
+ 
+-### 2. Performance Monitoring
+-- Response Time
+-- Error Rate
+-- Resource Usage
++### 2.1 Release Process
++1. Create release branch
++2. Version bump
++3. Update changelog
++4. Run tests
++5. Create release PR
++6. Deploy to staging
++7. Verify functionality
++8. Deploy to production
+ 
+-### 3. Security Monitoring
+-- Unauthorized Access Detection
+-- Vulnerability Scanning
+-- Security Alerts
++### 2.2 Version Control
++- Follow semantic versioning
++- Major: Breaking changes
++- Minor: New features
++- Patch: Bug fixes
+ 
+-## Incident Response
++### 2.3 Deployment
++- Automated deployment via CI/CD
++- Staging deployment first
++- Production deployment after verification
++- Rollback plan in place
+ 
+-### 1. Issue Handling
+-- Issue Detection
+-- Impact Assessment
+-- Recovery Procedures
++## 3. Monitoring and Maintenance
+ 
+-### 2. Communication
+-- Stakeholder Reporting
+-- Status Update Frequency
+-- Post-Incident Report Creation
++### 3.1 System Monitoring
++- Application performance
++- Error rates
++- Resource usage
++- Security alerts
++- Dependency updates
+ 
+-### 3. Preventive Measures
+-- Regular Reviews
+-- Improvement Proposals
+-- Documentation Updates
++### 3.2 Regular Maintenance
++- Weekly dependency updates
++- Monthly security patches
++- Quarterly performance review
++- Annual architecture review
+ 
+-## Backup and Recovery
++### 3.3 Backup Strategy
++- Daily automated backups
++- Weekly backup verification
++- Monthly restore testing
++- Quarterly disaster recovery drill
+ 
+-### 1. Backup Strategy
+-- Backup Frequency
+-- Retention Period
+-- Backup Verification
++## 4. Incident Response
+ 
+-### 2. Recovery Procedures
+-- Data Recovery
+-- System Recovery
+-- Testing Procedures
++### 4.1 Incident Classification
++| Level | Description | Response Time |
++|-------|-------------|---------------|
++| P0 | Critical - System Down | Immediate |
++| P1 | High - Major Impact | 1 hour |
++| P2 | Medium - Minor Impact | 4 hours |
++| P3 | Low - Minimal Impact | 24 hours |
+ 
++### 4.2 Response Procedure
++1. Incident detection
++2. Initial assessment
++3. Team notification
++4. Investigation
++5. Resolution
++6. Documentation
++7. Post-mortem
++
++### 4.3 Communication
++- Internal team notification
++- Status page updates
++- Customer communication
++- Post-incident report
++
+ ## Reference Links
+-- [Project Root README](../README.md)
+-- [AI Context Optimization](../ai/context-optimization.md)
+-- [Coding Standards](../standards/coding-standards.md) 
+\ No newline at end of file
++- [Security Guidelines](./security-guidelines.md)
++- [Coding Standards](./coding-standards.md)
++
++## Change History
++| Date | Version | Changes | Author |
++|------|---------|---------|--------|
++| 2024-03-21 | 1.0.0 | Initial version | AI Assistant | 
+\ No newline at end of file
+ファイルが同一または存在しない
+--- docs/ops/operational-guidelines.md	2025-05-20 01:15:34
++++ docs/guidelines/operational-rules.md	2025-05-20 01:15:34
+@@ -1,73 +1,58 @@
+-# Operational Guidelines
++# Operational Rules Guidelines
+ 
+-## Overview
+-This document defines important guidelines for project operations.
++## Update Flow
++### 1. Updates via PR
++- All updates must be done via PR
++- Direct commits are prohibited
++- Review is mandatory
+ 
+-## Deployment
++### 2. ADR Addition
++- Required for technology selection changes
++- Format: `docs/adr/ADR-xxxx.md`
++- Content:
++  - Background
++  - Decision
++  - Impact
++  - Alternatives
+ 
+-### 1. Environment Configuration
+-- Development Environment
+-- Staging Environment
+-- Production Environment
++### 3. CHANGELOG Management
++- Follows Keep-a-Changelog format
++- Required sections:
++  - Added
++  - Changed
++  - Fixed
++- Complies with Semantic Versioning
+ 
+-### 2. Deployment Process
+-- Code Review
+-- Test Execution
+-- Deployment Approval
+-- Rollback Procedures
++## Quality Management
++### 1. CI/CD
++- CI pass required for all PRs
++- Check items:
++  - Guideline size
++  - Build
++  - Security
+ 
+-### 3. Version Control
+-- Semantic Versioning
+-- Release Note Creation
+-- Tagging Rules
++### 2. Documentation
++- Manual editing of summary is prohibited
++- Prioritize automatic updates
++- Major changes require ADR
+ 
+-## Monitoring
++### 3. Security
++- Weekly scanning
++- Immediate response to vulnerabilities
++- Strict secret management
+ 
+-### 1. Log Management
+-- Log Level Settings
+-- Log Rotation
+-- Alert Configuration
++## Maintenance
++### 1. Regular Updates
++- Weekly submodule updates
++- Monthly dependency updates
++- Quarterly security reviews
+ 
+-### 2. Performance Monitoring
+-- Response Time
+-- Error Rate
+-- Resource Usage
++### 2. Monitoring
++- Performance metrics
++- Error rates
++- Resource utilization
+ 
+-### 3. Security Monitoring
+-- Unauthorized Access Detection
+-- Vulnerability Scanning
+-- Security Alerts
+-
+-## Incident Response
+-
+-### 1. Issue Handling
+-- Issue Detection
+-- Impact Assessment
+-- Recovery Procedures
+-
+-### 2. Communication
+-- Stakeholder Reporting
+-- Status Update Frequency
+-- Post-Incident Report Creation
+-
+-### 3. Preventive Measures
+-- Regular Reviews
+-- Improvement Proposals
+-- Documentation Updates
+-
+-## Backup and Recovery
+-
+-### 1. Backup Strategy
+-- Backup Frequency
+-- Retention Period
+-- Backup Verification
+-
+-### 2. Recovery Procedures
+-- Data Recovery
+-- System Recovery
+-- Testing Procedures
+-
+-## Reference Links
+-- [Project Root README](../README.md)
+-- [AI Context Optimization](../ai/context-optimization.md)
+-- [Coding Standards](../standards/coding-standards.md) 
+\ No newline at end of file
++### 3. Backup
++- Daily backups
++- Restore testing
++- Disaster recovery procedures 
+\ No newline at end of file
+ファイルが同一または存在しない
+
+=== security-guidelines 比較 ===
+--- docs/standards/security-guidelines.md	2025-05-20 01:15:34
++++ guidelines/security-guidelines.md	2025-05-20 01:15:34
+@@ -1,17 +1,15 @@
+ # Security Guidelines
+ 
+ ## Overview
+-This document defines the security requirements and guidelines for the project.
++This document defines security requirements and guidelines for the project.
+ 
+ ## Table of Contents
+-1. [Handling of Confidential Information](#1-handling-of-confidential-information)
++1. [Handling Confidential Information](#1-handling-confidential-information)
+ 2. [Access Control](#2-access-control)
+ 3. [Data Protection](#3-data-protection)
+ 4. [Security Audit](#4-security-audit)
+-5. [Vulnerability Disclosure](#5-vulnerability-disclosure)
+-6. [Dependency Management](#6-dependency-management)
+ 
+-## 1. Handling of Confidential Information
++## 1. Handling Confidential Information
+ 
+ ### 1.1 Definition of Confidential Information
+ - API Keys
+@@ -19,96 +17,122 @@
+ - Personal Information
+ - Access Tokens
+ - Environment Variables
++- Certificate Files (*.pem, *.key)
++- Configuration Files (.env*)
+ 
+ ### 1.2 Storage of Confidential Information
+-- Manage as environment variables
+-- Use encrypted configuration files
+-- Exclude from version control
+-- Use secrets management service (e.g., GitHub Secrets)
++- Management as environment variables
++- Use of encrypted configuration files
++- Exclusion from version control
++- Utilization of GitHub Secrets
++- Encryption using AWS KMS/GCP KMS
+ 
+-### 1.3 Sharing of Confidential Information
+-- Use secure channels
+-- Use temporary access tokens
+-- Regular rotation
+-- Implement access logging
++### 1.3 Sharing Confidential Information
++- Use of secure channels
++- Use of temporary access tokens
++- Regular rotation (within 90 days)
++- Minimization of access rights
+ 
++### 1.4 GitHub Secrets Management
++- Regular rotation (90 days)
++- Environment separation (dev/stg/prod)
++- Access log monitoring
++- Backup encryption
++
+ ## 2. Access Control
+ 
+ ### 2.1 Authentication
+-- Use multi-factor authentication
++- Use of multi-factor authentication
+ - Strong password policy
+ - Session management
+-- Implement rate limiting
++- Regular password changes
+ 
+ ### 2.2 Authorization
+ - Principle of least privilege
+ - Role-based access control
+-- Regular permission review
+-- Implement IP-based restrictions where appropriate
++- Regular permission reviews
++- Role-specific permission settings
+ 
++#### 2.2.1 GitHub Permission Levels
++| Role | Permission | Description | Access Scope |
++|------|------------|-------------|--------------|
++| Read-only | Read | Document viewing only | Public repositories |
++| Contributor | Write | Code and document editing | Specified repositories |
++| Maintainer | Admin | Repository management and merge rights | Project-wide |
++| Owner | Owner | Full administrative rights | Organization-wide |
++
++#### 2.2.2 Offboarding Procedure
++1. Revocation of Access Rights
++   - Removal from GitHub organization
++   - Removal of repository access rights
++   - Removal from teams
++   - Disconnection of external service integrations
++
++2. Account Deactivation
++   - Disabling of 2FA
++   - Invalidation of access tokens
++   - Removal of SSH keys
++   - Removal of application access
++
++3. Data Protection
++   - Rotation of confidential information
++   - Review of shared resource access rights
++   - Backup verification
++   - Audit log recording
++
++4. Handover
++   - Transfer of responsibilities
++   - Documentation updates
++   - Access information updates
++   - Contact information updates
++
+ ## 3. Data Protection
+ 
+ ### 3.1 Data Encryption
+-- Encryption in transit (TLS 1.3)
+-- Encryption at rest
+-- Key management
+-- Regular key rotation
++- In-transit encryption (TLS 1.3)
++- At-rest encryption (AES-256)
++- Key management (using KMS)
++- Regular review of encryption algorithms
+ 
+ ### 3.2 Data Backup
+-- Regular backups
++- Regular backups (daily)
+ - Encrypted backups
+ - Backup verification
+-- Off-site backup storage
++- Restore testing
+ 
++### 3.3 Log Protection
++- Log encryption
++- Access log retention (90 days)
++- Audit log retention (1 year)
++- Regular log auditing
++
+ ## 4. Security Audit
+ 
+ ### 4.1 Audit Logs
+ - Access log recording
+ - Change history tracking
+ - Log retention period
+-- Centralized log management
++- Regular log analysis
+ 
+ ### 4.2 Security Testing
+-- Regular vulnerability scanning
+-- Penetration testing
++- Regular vulnerability scanning (monthly)
++- Penetration testing (quarterly)
+ - Code security review
+-- Automated security testing in CI/CD
++- Security update application
++- Dependency vulnerability checking (weekly)
+ 
+-## 5. Vulnerability Disclosure
++#### 4.2.1 Vulnerability Scanning
++- Dependabot activation
++- Regular npm audit execution
++- Security alert configuration
++- Automatic update settings
+ 
+-### 5.1 Reporting Process
+-- Use security@${ORG_DOMAIN} for vulnerability reports
+-- Acknowledge receipt within 48 hours
+-- Provide regular updates on progress
+-- Maintain confidentiality of reports
+-
+-### 5.2 Response Timeline
+-- Critical vulnerabilities: 24 hours
+-- High severity: 72 hours
+-- Medium severity: 1 week
+-- Low severity: 2 weeks
+-
+-## 6. Dependency Management
+-
+-### 6.1 SBOM Generation
+-- Generate Software Bill of Materials (SBOM) using `cyclonedx`
+-- Store SBOM in `/docs/standards/sbom/`
+-- Update SBOM on dependency changes
+-- Include license information
+-
+-### 6.2 Dependency Scanning
+-- Weekly automated dependency scanning
+-- Use GitHub Dependabot
+-- Regular manual review of dependencies
+-- Document known vulnerabilities
+-
+ ## Reference Links
+-- [Coding Standards](../standards/coding-standards.md)
+-- [Operational Guidelines](../ops/operational-guidelines.md)
+-- [SBOM Documentation](../standards/sbom/README.md)
++- [Coding Standards](./coding-standards.md)
++- [Operational Guidelines](./operational-guidelines.md)
+ 
+ ## Change History
+ | Date | Version | Changes | Author |
+ |------|---------|---------|--------|
+-| 2024-03-21 | 1.1.0 | Added vulnerability disclosure and SBOM sections | AI Assistant |
+-| 2024-03-21 | 1.0.0 | Initial version | AI Assistant | 
+\ No newline at end of file
++| 2024-03-21 | 1.0.0 | Initial version | AI Assistant |
++| 2024-03-21 | 1.1.0 | Detailed security requirements | AI Assistant | 
+\ No newline at end of file
+ファイルが同一または存在しない
+
+=== document-template 確認（削除対象） ===
+--- document-templateへの参照チェック ---
+./.restructure/tasks/task-003-integration.md:### 5. document-template削除
+./.restructure/tasks/task-003-integration.md:echo "=== document-template削除 ===" >> .restructure/logs/integration.log
+./.restructure/tasks/task-003-integration.md:rm guidelines/templates/document-template*.md
+./.restructure/tasks/task-003-integration.md:rm docs/templates/document-template*.md
+./.restructure/tasks/task-003-integration.md:echo "document-template削除完了" >> .restructure/logs/integration.log
+./.restructure/tasks/task-003-integration.md:find . -name "*.md" -not -path "./.restructure/*" -exec grep -l "docs/templates/document-template" {} \; >> .restructure/logs/integration.log || echo "参照なし"
+./.restructure/tasks/task-003-integration.md:- [ ] **document-template削除完了**（理想構造にないため）
+./.restructure/tasks/task-003-integration.md:- **document-templateへの参照がある場合は手動対応**
+./.restructure/tasks/task-002-content-analysis.md:### 6. document-template (2箇所 - 削除対象)
+./.restructure/tasks/task-002-content-analysis.md:echo "=== document-template 確認（削除対象） ===" >> .restructure/logs/content-analysis.log
+./.restructure/tasks/task-002-content-analysis.md:echo "--- document-templateへの参照チェック ---" >> .restructure/logs/content-analysis.log
+./.restructure/tasks/task-002-content-analysis.md:grep -r "document-template" --include="*.md" . >> .restructure/logs/content-analysis.log 2>/dev/null || echo "参照なし"
+./.restructure/tasks/task-002-content-analysis.md:diff --color -u docs/templates/document-template.md guidelines/templates/document-template.md >> .restructure/logs/content-analysis.log
+./.restructure/tasks/task-002-content-analysis.md:ls -la docs/templates/document-template*.md >> .restructure/logs/content-analysis.log
+./.restructure/tasks/task-002-content-analysis.md:ls -la guidelines/templates/document-template*.md >> .restructure/logs/content-analysis.log
+./.restructure/tasks/task-002-content-analysis.md:echo "document-template: 完全削除（理想構造にないため）" >> .restructure/logs/content-analysis.log
+./.restructure/tasks/task-002-content-analysis.md:echo "高リスク: document-template削除によるリンク切れ" >> .restructure/logs/content-analysis.log
+./.restructure/tasks/task-004-cleanup.md:[ ! -f "docs/templates/document-template.md" ] && echo "✅ document-template削除済み" >> .restructure/logs/final-check.log
+./.restructure/tasks/task-004-cleanup.md:- document-template ファイル（理想構造外）
+./.restructure/tasks/task-004-cleanup.md:- **document-template**: 理想構造にないため削除
+./.restructure/overview.md:   - document-template × 2箇所
+./.restructure/overview.md:| **document-template** | **削除** | `guidelines/templates/`, `docs/templates/` | 理想構造にないため削除 |
+./.restructure/overview.md:| `guidelines/templates/document-template*.md` | 理想構造にないため削除 |
+./.restructure/overview.md:| `docs/templates/document-template*.md` | 理想構造にないため削除 |
+./.restructure/progress.md:**🚨 重要**: document-templateは理想構造にないため削除します
+./.restructure/progress.md:- [ ] document-template×2 内容確認完了（削除予定）
+./.restructure/progress.md:- [ ] **document-template削除完了**（理想構造にないため）
+./.restructure/progress.md:- [ ] 重複統合によりコンテンツ保持（document-template除く）
+./.restructure/README.md:- **document-template**は理想構造にないため削除
+./.restructure/backups/guidelines-backup/documentation-guidelines-ja.md:│   └── document-template.md
+./.restructure/backups/guidelines-backup/documentation-guidelines.md:│   └── document-template.md
+./guidelines/documentation-guidelines-ja.md:│   └── document-template.md
+./guidelines/documentation-guidelines.md:│   └── document-template.md
+
+=== 統合方針決定 ===
+context-optimization: ai/context/ を採用（最新かつ統一的）
+coding-standards: docs/standards/ を採用（最包括的、81行）
+operational: docs/ops/ を採用（最詳細、114行）
+security-guidelines: docs/standards/ を採用（最新版、改定あり）
+document-template: 完全削除（理想構造にないため）
+documentation-guidelines: docs/standards/ に移動（標準統合）
+
+=== リンク切れリスク評価 ===
+高リスク: document-template削除によるリンク切れ（documentation-guidelines内に参照あり）
+中リスク: guidelines/ → docs/standards/ 参照変更
+低リスク: docs/guidelines/ 削除（古い構造説明のため）
+
+=== 統合方針最終決定（修正版） ===
+context-optimization: docs/ai/ を採用（最包括的、submodule設定説明あり）
+coding-standards: docs/standards/ を採用（最包括的、81行）
+operational-guidelines: docs/ops/ を採用（運用手順として最詳細）
+operational-rules: docs/guidelines/ を保持（ガイドライン管理用）
+security-guidelines: docs/standards/ を採用（最新版v1.1.0）
+document-template: 完全削除 + リンク修正（documentation-guidelines内）
+documentation-guidelines: docs/standards/ に移動
