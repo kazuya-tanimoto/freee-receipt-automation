@@ -72,7 +72,7 @@ jobs:
       - name: Check multilingual synchronization
         id: check-multilingual
         run: |
-          for file in $(find guidelines/ -name "*-ja.md"); do
+          for file in $(find docs -name "*-ja.md"); do
             base_file=${file%-ja.md}.md
             if [ -f "$base_file" ]; then
               # 目次と変更履歴を除いて比較
@@ -87,7 +87,10 @@ jobs:
       - name: Check document structure
         id: check-structure
         run: |
-          for file in $(find guidelines/ ai/ -name "*.md"); do
+          for file in $(find docs/guidelines docs/standards docs/ops -name "*.md"); do
+            if [[ "$file" =~ /(README|CHANGELOG|SUMMARY)\.(md|ja\.md)$ ]]; then
+              continue  # Skip special files
+            fi
             if ! grep -q "## 概要" "$file"; then
               echo "::error::$file is missing '概要' section"
               exit 1

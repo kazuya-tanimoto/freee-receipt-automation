@@ -68,6 +68,6 @@ This document defines important guidelines for project operations.
 - Testing Procedures
 
 ## Reference Links
-- [Project Root README](../README.md)
-- [AI Context Optimization](../ai/context-optimization.md)
+- [Project Root README](../../README.md)
+- [AI Context Optimization](../../ai/context/context-optimization.md)
 - [Coding Standards](../standards/coding-standards.md) 

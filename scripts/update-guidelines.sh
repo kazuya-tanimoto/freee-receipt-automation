@@ -10,7 +10,7 @@ git submodule update --remote --merge
 
 echo "Formatting SUMMARY.md..."
 if command -v npx &> /dev/null; then
-  npx mdformat docs/guidelines/SUMMARY.md
+  npx mdformat docs/standards/SUMMARY.md
 else
   echo "Warning: npx not found. Please install Node.js to use mdformat."
 fi

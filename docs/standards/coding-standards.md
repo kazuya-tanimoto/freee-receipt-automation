@@ -77,6 +77,6 @@ This document defines the standards for maintaining code quality in the project.
 - Access control: Principle of least privilege
 
 ## Reference Links
-- [Project Root README](../README.md)
-- [AI Context Optimization](../ai/context-optimization.md)
+- [Project Root README](../../README.md)
+- [AI Context Optimization](../../ai/context/context-optimization.md)
 - [Operational Guidelines](../ops/operational-guidelines.md) 

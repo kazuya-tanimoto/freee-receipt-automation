@@ -68,6 +68,6 @@
 - テスト手順
 
 ## 参考リンク
-- [プロジェクトのルートREADME](../README.md)
-- [AIコンテキスト最適化](../ai/context-optimization.md)
-- [コーディング規約](../standards/coding-standards.md) 
+- [プロジェクトのルートREADME](../../README-ja.md)
+- [AIコンテキスト最適化](../../ai/context/context-optimization-ja.md)
+- [コーディング規約](../standards/coding-standards-ja.md) 

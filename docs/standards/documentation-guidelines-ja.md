@@ -1,5 +1,7 @@
 # ドキュメントガイドライン
 
+<!-- merged-from: guidelines/documentation-guidelines-ja.md -->
+
 ## 概要
 このドキュメントは、プロジェクトにおけるドキュメント作成の基準とガイドラインを定義します。
 
@@ -10,8 +12,8 @@
 4. [品質基準](#4-品質基準)
 
 ## 1. ドキュメント構造
-- 各ドキュメントは`guidelines/`ディレクトリに配置
-- テンプレートに準拠した構造を維持
+- ドキュメントはタイプに応じて適切なディレクトリに配置
+- このガイドライン文書に準拠した構造を維持
 - 目次、概要、参考リンクを必須項目として含む
 
 ## 2. 命名規則
@@ -26,13 +28,15 @@
 
 ### 2.2 ディレクトリ構造
 ```
-guidelines/
-├── templates/
-│   └── document-template.md
-├── security-guidelines.md
-├── security-guidelines-ja.md
-├── coding-standards.md
-├── coding-standards-ja.md
+docs/
+├── standards/
+│   ├── security-guidelines.md
+│   ├── security-guidelines-ja.md
+│   ├── coding-standards.md
+│   ├── coding-standards-ja.md
+│   └── documentation-guidelines.md
+├── ops/
+│   └── operational-guidelines.md
 └── ...
 ```
 

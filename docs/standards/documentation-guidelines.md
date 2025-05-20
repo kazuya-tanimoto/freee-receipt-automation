@@ -1,5 +1,7 @@
 # Documentation Guidelines
 
+<!-- merged-from: guidelines/documentation-guidelines.md -->
+
 ## Overview
 This document defines the standards and guidelines for documentation in the project.
 
@@ -10,8 +12,8 @@ This document defines the standards and guidelines for documentation in the proj
 4. [Quality Standards](#4-quality-standards)
 
 ## 1. Document Structure
-- All documents should be placed in the `guidelines/` directory
-- Maintain structure according to the template
+- Documents should be placed in appropriate directories according to their type
+- Maintain structure according to this guidelines document
 - Include table of contents, overview, and reference links as mandatory items
 
 ## 2. Naming Conventions
@@ -26,13 +28,15 @@ Example:
 
 ### 2.2 Directory Structure
 ```
-guidelines/
-├── templates/
-│   └── document-template.md
-├── security-guidelines.md
-├── security-guidelines-ja.md
-├── coding-standards.md
-├── coding-standards-ja.md
+docs/
+├── standards/
+│   ├── security-guidelines.md
+│   ├── security-guidelines-ja.md
+│   ├── coding-standards.md
+│   ├── coding-standards-ja.md
+│   └── documentation-guidelines.md
+├── ops/
+│   └── operational-guidelines.md
 └── ...
 ```
 

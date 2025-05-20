@@ -77,6 +77,6 @@
 - アクセス制御: 最小権限の原則
 
 ## 参考リンク
-- [プロジェクトルートREADME](../README-ja.md)
-- [AIコンテキスト最適化](../ai/context-optimization-ja.md)
+- [プロジェクトルートREADME](../../README-ja.md)
+- [AIコンテキスト最適化](../../ai/context/context-optimization-ja.md)
 - [運用ガイドライン](../ops/operational-guidelines-ja.md) 

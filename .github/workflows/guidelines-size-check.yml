@@ -3,12 +3,12 @@ name: Guidelines Size Check
 on:
   pull_request:
     paths:
-      - 'docs/guidelines/SUMMARY.md'
+      - 'docs/standards/SUMMARY.md'
   push:
     branches:
       - main
     paths:
-      - 'docs/guidelines/SUMMARY.md'
+      - 'docs/standards/SUMMARY.md'
 
 jobs:
   check-size:
@@ -19,7 +19,7 @@ jobs:
 
       - name: Check SUMMARY.md size
         run: |
-          WORD_COUNT=$(wc -w docs/guidelines/SUMMARY.md | awk '{print $1}')
+          WORD_COUNT=$(wc -w docs/standards/SUMMARY.md | awk '{print $1}')
           echo "SUMMARY.md word count: $WORD_COUNT"
           
           # Approximate token count (words * 1.3)
