@@ -79,4 +79,5 @@ This document defines the standards for maintaining code quality in the project.
 ## Reference Links
 - [Project Root README](../../README.md)
 - [AI Context Optimization](../../ai/context/context-optimization.md)
-- [Operational Guidelines](../ops/operational-guidelines.md) 
+- [Operational Guidelines](../ops/operational-guidelines.md)
+- [Review Guidelines](./review-guidelines.md) 

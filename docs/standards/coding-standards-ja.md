@@ -79,4 +79,5 @@
 ## 参考リンク
 - [プロジェクトルートREADME](../../README-ja.md)
 - [AIコンテキスト最適化](../../ai/context/context-optimization-ja.md)
-- [運用ガイドライン](../ops/operational-guidelines-ja.md) 
+- [運用ガイドライン](../ops/operational-guidelines-ja.md)
+- [レビューガイドライン](./review-guidelines-ja.md) 

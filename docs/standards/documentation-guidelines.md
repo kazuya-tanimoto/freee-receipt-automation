@@ -76,6 +76,7 @@ docs/
 ## Reference Links
 - [Coding Standards](./coding-standards.md)
 - [Security Guidelines](./security-guidelines.md)
+- [Review Guidelines](./review-guidelines.md)
 
 ## Change History
 | Date | Version | Changes | Author |

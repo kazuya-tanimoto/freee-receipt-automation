@@ -67,10 +67,11 @@ ai/
 
 ## 🎯 統合後のファイル構成（README.md理想構造準拠）
 
-### docs/standards/（4ファイル→6ファイル）
+### docs/standards/（4ファイル→8ファイル）
 - `coding-standards*.md` （統合済み）
 - `security-guidelines*.md` （統合済み）
 - `documentation-guidelines*.md` （新規追加）
+- `review-guidelines*.md` （新規作成）
 - `sbom/`
 
 ### docs/ops/（2ファイル→2ファイル）
@@ -96,6 +97,7 @@ ai/
 ### After（統合後）
 - 約21個のMDファイル
 - 重複完全解消
+- レビューガイドラインを新たに追加
 - README.md理想構造に**完全準拠**
 
 ### 保持情報

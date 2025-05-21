@@ -70,4 +70,5 @@ This document defines important guidelines for project operations.
 ## Reference Links
 - [Project Root README](../../README.md)
 - [AI Context Optimization](../../ai/context/context-optimization.md)
-- [Coding Standards](../standards/coding-standards.md) 
+- [Coding Standards](../standards/coding-standards.md)
+- [Review Guidelines](../standards/review-guidelines.md) 

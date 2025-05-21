@@ -76,6 +76,7 @@ docs/
 ## 参考リンク
 - [コーディング規約](./coding-standards.md)
 - [セキュリティガイドライン](./security-guidelines.md)
+- [レビューガイドライン](./review-guidelines-ja.md)
 
 ## 変更履歴
 | 日付 | バージョン | 変更内容 | 担当者 |

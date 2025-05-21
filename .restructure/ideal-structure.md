@@ -25,6 +25,7 @@ freee-receipt-automation/
 │   │   ├── coding-standards.md
 │   │   ├── security-guidelines.md      # セキュリティ標準を統合
 │   │   ├── documentation-guidelines.md # ドキュメント標準を統合
+│   │   ├── review-guidelines.md        # レビューガイドライン（新規）
 │   │   └── sbom/
 │   ├── test/                # ← 新規作成予定
 │   ├── ops/                 # ✅ 統合先
@@ -45,13 +46,16 @@ freee-receipt-automation/
 
 ## 📝 統合方針の詳細
 
-### セキュリティ・ドキュメント標準について
+### セキュリティ・ドキュメント・レビュー標準について
 - **security-guidelines**: `docs/standards/` に統合
   - 理由: コーディング、セキュリティ、ドキュメント標準を一括管理
   - 将来的に専用ディレクトリ分離も可能
 - **documentation-guidelines**: `docs/standards/` に統合
   - 理由: 開発標準の一部として位置づけ
   - README理想構造では「ドキュメント標準はstandards統合」を明文化
+- **review-guidelines**: `docs/standards/` に新規作成
+  - 理由: レビュープロセスも開発標準の一環
+  - コード・ドキュメント・PRレビューを統一的に管理
 
 ### 削除対象
 - **templates**: 理想構造にないため完全削除
@@ -62,6 +66,7 @@ freee-receipt-automation/
 ## ✅ 今回作業対象（既存ファイルのみ）
 - 新規ファイル作成は対象外
 - 既存ファイルの統合・削除のみ実施
+- レビューガイドライン作成も追加実施
 - 理想構造への準拠度：既存分については100%
 
 ---

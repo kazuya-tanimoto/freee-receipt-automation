@@ -70,4 +70,5 @@
 ## 参考リンク
 - [プロジェクトのルートREADME](../../README-ja.md)
 - [AIコンテキスト最適化](../../ai/context/context-optimization-ja.md)
-- [コーディング規約](../standards/coding-standards-ja.md) 
+- [コーディング規約](../standards/coding-standards-ja.md)
+- [レビューガイドライン](../standards/review-guidelines-ja.md) 
