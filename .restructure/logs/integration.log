@@ -1,0 +1,76 @@
+=== Task-003 統合作業開始 ===
+実行日時: Fri May 23 10:16:19 JST 2025
+価値ある情報の保全完了: SUMMARY-ja.md → ai/context/summary-ja.md
+=== サブモジュールの移動 ===
+bulletproof-react を docs/standards/ に移動しました
+naming-cheatsheet を docs/standards/ に移動しました
+=== operational-rules統合 ===
+-rw-r--r--@ 1 kazuya  staff  1236 May 21 09:36 docs/guidelines/operational-rules-ja.md
+-rw-r--r--@ 1 kazuya  staff  1105 May 21 09:36 docs/guidelines/operational-rules.md
+operational-rules を docs/ops/ に移動しました
+=== docs/guidelines/ 削除 ===
+docs/guidelines/ ディレクトリを削除しました
+guidelines/ ディレクトリは存在しません
+=== リンク修正 ===
+--- docs/guidelines/ への参照を検索 ---
+--- CHANGELOG.md の修正 ---
+CHANGELOG ファイルのリンクを修正しました
+--- guidelines/ への参照を検索 ---
+=== 統合後状態確認 ===
+--- MDファイル数 ---
+--- MDファイル一覧 ---
+./.aider.chat.history.md
+./.github/pull_request_template-ja.md
+./.github/pull_request_template.md
+./.github/workflows/README-ja.md
+./.github/workflows/README.md
+./.junie/guidelines-ja.md
+./CHANGELOG-ja.md
+./CHANGELOG.md
+./README-ja.md
+./README.md
+./ai/context/context-optimization-ja.md
+./ai/context/context-optimization.md
+./ai/context/summary-ja.md
+./docs/design/architecture/architecture-ja.md
+./docs/design/architecture/architecture.md
+./docs/ops/operational-guidelines-ja.md
+./docs/ops/operational-guidelines.md
+./docs/ops/operational-rules-ja.md
+./docs/ops/operational-rules.md
+./docs/requirements/spec/requirements-summary-ja.md
+./docs/requirements/spec/requirements-summary.md
+./docs/requirements/spec/system-specification-ja.md
+./docs/requirements/spec/system-specification.md
+./docs/standards/coding-standards-ja.md
+./docs/standards/coding-standards.md
+./docs/standards/documentation-guidelines-ja.md
+./docs/standards/documentation-guidelines.md
+./docs/standards/review-guidelines-ja.md
+./docs/standards/review-guidelines.md
+./docs/standards/sbom/README-ja.md
+./docs/standards/sbom/README.md
+./docs/standards/security-guidelines-ja.md
+./docs/standards/security-guidelines.md
+=== 削除確認 ===
+--- docs/guidelines/ の存在確認 ---
+OK: docs/guidelines/ は正常に削除されました
+=== Git状態 ===
+ M CHANGELOG-ja.md
+ M CHANGELOG.md
+ D docs/guidelines/README-ja.md
+ D docs/guidelines/README.md
+ D docs/guidelines/SUMMARY-ja.md
+ D docs/guidelines/SUMMARY.md
+ D docs/guidelines/bulletproof-react
+ D docs/guidelines/naming-cheatsheet
+ D docs/guidelines/operational-rules-ja.md
+ D docs/guidelines/operational-rules.md
+?? .restructure/logs/integration.log
+?? ai/context/summary-ja.md
+?? docs/ops/operational-rules-ja.md
+?? docs/ops/operational-rules.md
+=== すべての変更をステージングしました ===
+=== Task-003 完了 ===
+コミットハッシュ: 5e0b758f5d109a96588baaeabe576e10c895a08e
+変更ファイル数:  11 files changed, 74 insertions(+), 262 deletions(-)

@@ -9,7 +9,7 @@
 
 ### 変更
 
-- `docs/guidelines/SUMMARY.md`の更新:
+- `ai/context/summary-ja.md`の更新:
   - トークン制限の宣言を追加（MAX_TOKENS: 2000）
   - 見出しの階層を調整して可読性を向上
   - Server Actionsを使用したNext.js統合の例を追加

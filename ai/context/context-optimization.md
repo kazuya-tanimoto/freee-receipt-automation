@@ -37,6 +37,20 @@ This document defines optimization guidelines for AI agents to efficiently under
 - Improve response time
 - Efficient resource usage
 
+## Summary File Management
+
+### 1. SUMMARY-ja.md Operation Rules
+- **DO NOT edit SUMMARY-ja.md directly** - It is auto-generated
+- **Token limit (2000 tokens) is critical** - Must be strictly observed
+- **Consider system prompt integration** - Ensure compatibility
+- Share guideline changes with the team before implementation
+
+### 2. Token Optimization
+- Monitor token count regularly
+- Prioritize essential information
+- Use concise descriptions
+- Remove redundant content
+
 ## Security Considerations
 
 ### 1. Confidential Information

@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Updated `docs/guidelines/SUMMARY.md`:
+- Updated `ai/context/summary-ja.md`:
   - Added token limit declaration (MAX_TOKENS: 2000)
   - Adjusted heading hierarchy to make it more readable
   - Added Next.js integration example with Server Actions

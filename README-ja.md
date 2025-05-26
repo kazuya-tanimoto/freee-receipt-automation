@@ -148,13 +148,51 @@
 - 日次 CRON で `summaries/` 生成
 - 週次で `insights/` を生成し、`ai/feedback/` へ転記
 
-## 5. CI / 開発環境ポイント
+## 5. 開発ガイドライン構成
+
+プロジェクトの開発ガイドラインは以下の4つの主要部分で構成されています：
+
+### 5.1 AIコンテキスト最適化 (`ai/context/`)
+- **context-optimization.md**: AIアシスタントとの効率的な連携
+- **summary-ja.md**: AI向け要約（2000トークン制限）
+- トークン制限とコンテキスト管理
+- RAGの最適化
+
+### 5.2 コーディング規約 (`docs/standards/`)
+- **coding-standards.md**: コーディング規約
+- **bulletproof-react/**: Reactベストプラクティス（サブモジュール）
+- **naming-cheatsheet/**: 命名規則ガイド（サブモジュール）
+- ファイル行数制限（基本150行、最大250行）
+
+### 5.3 運用ルール (`docs/ops/`)
+- **operational-guidelines.md**: 運用ガイドライン
+- **operational-rules.md**: 更新フロー、品質管理、メンテナンス
+- デプロイメントプロセス
+- インシデント対応
+
+### 5.4 ドキュメント標準 (`docs/standards/`)
+- **documentation-guidelines.md**: ドキュメント作成ガイドライン
+- **review-guidelines.md**: レビューガイドライン
+- **security-guidelines.md**: セキュリティガイドライン
+
+### ガイドライン変更時の貢献プロセス
+1. 課題（Issue）の作成
+2. チームとの議論
+3. プルリクエストの作成
+4. レビューと承認
+
+**重要な注意事項**:
+- SUMMARY-ja.mdを直接編集しないでください（自動生成）
+- トークン制限（2000トークン）は厳守
+- システムプロンプトとの統合を考慮
+
+## 6. CI / 開発環境ポイント
 
 - **Workflows**: `lint-and-test.yml`, `security-scan.yml`, `build-docker.yml`  
 - **Schema diff**: Confluent Registry 互換チェック  
 - **DevContainer**: VS Code 拡張、postCreate を集中管理
 
-## 6. 選択的に追加するディレクトリ
+## 7. 選択的に追加するディレクトリ
 
 | パス | タイミング | ユースケース |
 |------|-----------|-------------|
@@ -179,12 +217,12 @@ LLM 推論コスト、性能、メモリ等を定点観測し、モデル/プロ
   1. `make benchmark` で計測 → CSV 追記
   2. Python スクリプトでグラフ更新、PR に貼付
 
-## 7. カスタマイズ参考
+## 8. カスタマイズ参考
 
 - **Bulletproof React** — React 大規模構成例  
 - **Naming Cheatsheet** — 分かりやすい命名指針  
 
-## 8. 更新フローまとめ
+## 9. 更新フローまとめ
 
 1. Issue / ADR で方針決定  
 2. PR: 実装 & ドキュメント更新  
@@ -192,7 +230,7 @@ LLM 推論コスト、性能、メモリ等を定点観測し、モデル/プロ
 4. レビュー & マージ: `ai/feedback/` に要約保存  
 5. CHANGELOG 更新 → Tag → リリース  
 
-## 9. 今後の改善アイデア
+## 10. 今後の改善アイデア
 
 - `benchmarks/` でレイテンシ・コスト定点観測  
 - Mermaid→SVG 自動化で図とソース乖離ゼロ  
