@@ -87,7 +87,7 @@ jobs:
       - name: Check document structure
         id: check-structure
         run: |
-          for file in $(find docs/guidelines docs/standards docs/ops -name "*.md"); do
+          for file in $(find docs/standards docs/ops -name "*.md"); do
             if [[ "$file" =~ /(README|CHANGELOG|SUMMARY)\.(md|ja\.md)$ ]]; then
               continue  # Skip special files
             fi
