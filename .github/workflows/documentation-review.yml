@@ -22,9 +22,15 @@ jobs:
               pull_number: context.issue.number
             });
 
+            const { data: files } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+
             const summaryMode = process.env.SUMMARY_MODE || 'concise';
             const changedFiles = pr.changed_files;
-            const mdFiles = pr.files.filter(f => f.filename.endsWith('.md'));
+            const mdFiles = files.filter(f => f.filename.endsWith('.md'));
 
             let reviewComment = `## Documentation Review Summary\n\n`;
             reviewComment += `Changed files: ${changedFiles}\n`;
@@ -59,3 +65,4 @@ jobs:
               issue_number: context.issue.number,
               body: reviewComment
             }); 
+EOF < /dev/null

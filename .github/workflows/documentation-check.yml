@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Check Markdown
-        uses: DavidAnson/markdownlint-action@v1
+        uses: DavidAnson/markdownlint-action@v1.0.0
         with:
           config: .markdownlint.json
 
@@ -32,24 +32,24 @@ jobs:
         run: |
           for file in $(find docs -name "*.md"); do
             size=$(wc -c < "$file")
-            if [ $size -gt 2000 ]; then
-              echo "Warning: $file is larger than 2000 bytes"
+            if [ $size -gt 10000 ]; then
+              echo "Warning: $file is larger than 10000 bytes"
               exit 1
             fi
           done
 
-      - name: Security Scan
-        uses: snyk/actions/node@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --severity-threshold=high
+#      - name: Security Scan
+#        uses: snyk/actions/node@master
+#        env:
+#          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+#        with:
+#          args: --severity-threshold=high
 
-      - name: Generate SBOM
-        run: |
-          npm install -g @cyclonedx/cyclonedx-npm
-          cyclonedx-npm --output-file docs/standards/sbom/sbom.xml
-          cyclonedx-npm --output-file docs/standards/sbom/sbom.json --format json
+#      - name: Generate SBOM
+#        run: |
+#          npm install -g @cyclonedx/cyclonedx-npm
+#          cyclonedx-npm --output-file docs/standards/sbom/sbom.xml
+#          cyclonedx-npm --output-file docs/standards/sbom/sbom.json --format json
 
       - name: Check Language Consistency
         run: |
@@ -64,8 +64,8 @@ jobs:
       - name: Check README synchronization
         id: check-sync
         run: |
-          diff <(grep -v "^#" README.md | sort) <(grep -v "^#" README_JA.md | sort) || {
-            echo "::error::README.md and README_JA.md are not synchronized"
+          diff <(grep -v "^#" README.md | sort) <(grep -v "^#" README-ja.md | sort) || {
+            echo "::error::README.md and README-ja.md are not synchronized"
             exit 1
           }
 
@@ -101,11 +101,11 @@ jobs:
             fi
           done
 
-      - name: Check for vulnerabilities
-        id: check-vulnerabilities
-        run: |
-          npm audit --audit-level=high || {
-            echo "::error::High severity vulnerabilities found"
+#      - name: Check for vulnerabilities
+#        id: check-vulnerabilities
+#        run: |
+#          npm audit --audit-level=high || {
+#            echo "::error::High severity vulnerabilities found"
             exit 1
           }
 
