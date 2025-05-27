@@ -64,5 +64,4 @@ jobs:
               repo: context.repo.repo,
               issue_number: context.issue.number,
               body: reviewComment
-            }); 
-EOF < /dev/null
+            });
