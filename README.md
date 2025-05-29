@@ -35,8 +35,10 @@ To define a "repository map" where human developers and multiple AI agents can s
 │   │   └ ui/
 │   ├ api/
 │   ├ standards/
+│   │   └ coding-standards.md  # コーディング規約
 │   ├ test/
 │   ├ ops/
+│   │   └ operational-guidelines.md  # 運用ガイドライン
 │   └ adr/
 └ ai/
     ├ system_prompt.md
@@ -45,6 +47,7 @@ To define a "repository map" where human developers and multiple AI agents can s
     ├ prompts/
     ├ tasks/
     ├ context/
+    │   └ context-optimization.md  # AIコンテキスト最適化
     ├ examples/            # ← Optional
     ├ feedback/            # ← Optional
     └ history/             # ← Optional
@@ -60,7 +63,7 @@ To define a "repository map" where human developers and multiple AI agents can s
 | `.devcontainer.json` | ✅ Required | Reproducible development environment | image／extensions | When environment changes |
 | `docs/` | ✅ Required | Human & AI shared knowledge base | See section 3 | As needed |
 | `ai/` | ✅ Required | AI meta-layer | See section 4 | As needed |
-| `ai/context/` | ▶︎ Depends on project scale | Long-form background (for RAG) | When major policy changes |
+| `ai/context/` | ✅ Required | AI context optimization | When major policy changes |
 | `ai/examples/` | ▶︎ Recommended | Collection of successful patterns | Best implementations | When PR is adopted |
 | `ai/feedback/` | ▶︎ For auto-generation environments | AI output review results | Evaluation comments | Each PR |
 | `ai/history/` | ▶︎ Optional | Session log & summary storage | Chat history JSON, daily digest | Auto-generated |
@@ -83,7 +86,31 @@ Business background, goals, and constraints. Update when goals change.
 > **Are coarse-grained requirements and implementation tasks mixed?**  
 > Framework specifications are in `spec/`, implementation instructions are in `backlog/`, enabling both static design documents and dynamic backlogs.
 
-### 3.3 Other Subdirectories
+### 3.3 `standards/` — コーディング規約
+
+| Subpath | Usage | Operation |
+|----------|------|------|
+| `coding-standards.md` | コーディング規約 | コード品質の維持と一貫性の確保 |
+
+**主な内容**:
+- ファイル行数制限（基本150行、最大250行）
+- 命名規則
+- コードスタイル
+- AIエージェントによるコード生成のガイドライン
+
+### 3.4 `ops/` — 運用ガイドライン
+
+| Subpath | Usage | Operation |
+|----------|------|------|
+| `operational-guidelines.md` | 運用ガイドライン | プロジェクトの運用に関する重要なガイドライン |
+
+**主な内容**:
+- デプロイメントプロセス
+- モニタリング方針
+- インシデント対応
+- バックアップとリカバリ
+
+### 3.5 Other Subdirectories
 
 | Path | Role | Notes |
 |------|------|------|

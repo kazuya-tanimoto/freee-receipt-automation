@@ -1,0 +1,120 @@
+name: Documentation Check
+
+on:
+  push:
+    paths:
+      - '**.md'
+      - 'docs/**'
+  pull_request:
+    paths:
+      - '**.md'
+      - 'docs/**'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check Markdown
+        uses: DavidAnson/markdownlint-action@v1
+        with:
+          config: .markdownlint.json
+
+      - name: Check Links
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          use-verbose-mode: 'yes'
+          folder-path: 'docs'
+
+      - name: Check File Size
+        run: |
+          for file in $(find docs -name "*.md"); do
+            size=$(wc -c < "$file")
+            if [ $size -gt 2000 ]; then
+              echo "Warning: $file is larger than 2000 bytes"
+              exit 1
+            fi
+          done
+
+      - name: Security Scan
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+
+      - name: Generate SBOM
+        run: |
+          npm install -g @cyclonedx/cyclonedx-npm
+          cyclonedx-npm --output-file docs/standards/sbom/sbom.xml
+          cyclonedx-npm --output-file docs/standards/sbom/sbom.json --format json
+
+      - name: Check Language Consistency
+        run: |
+          for file in $(find docs -name "*-ja.md"); do
+            en_file=${file%-ja.md}.md
+            if [ ! -f "$en_file" ]; then
+              echo "Error: English version missing for $file"
+              exit 1
+            fi
+          done
+
+      - name: Check README synchronization
+        id: check-sync
+        run: |
+          diff <(grep -v "^#" README.md | sort) <(grep -v "^#" README_JA.md | sort) || {
+            echo "::error::README.md and README_JA.md are not synchronized"
+            exit 1
+          }
+
+      - name: Check multilingual synchronization
+        id: check-multilingual
+        run: |
+          for file in $(find docs -name "*-ja.md"); do
+            base_file=${file%-ja.md}.md
+            if [ -f "$base_file" ]; then
+              # 目次と変更履歴を除いて比較
+              diff <(grep -v "^#" "$base_file" | grep -v "## 目次" | grep -v "## 変更履歴" | sort) \
+                   <(grep -v "^#" "$file" | grep -v "## 目次" | grep -v "## 変更履歴" | sort) || {
+                echo "::error::$file and $base_file are not synchronized"
+                exit 1
+              }
+            fi
+          done
+
+      - name: Check document structure
+        id: check-structure
+        run: |
+          for file in $(find docs/standards docs/ops -name "*.md"); do
+            if [[ "$file" =~ /(README|CHANGELOG|SUMMARY)\.(md|ja\.md)$ ]]; then
+              continue  # Skip special files
+            fi
+            if ! grep -q "## 概要" "$file"; then
+              echo "::error::$file is missing '概要' section"
+              exit 1
+            fi
+            if ! grep -q "## 参考リンク" "$file"; then
+              echo "::error::$file is missing '参考リンク' section"
+              exit 1
+            fi
+          done
+
+      - name: Check for vulnerabilities
+        id: check-vulnerabilities
+        run: |
+          npm audit --audit-level=high || {
+            echo "::error::High severity vulnerabilities found"
+            exit 1
+          }
+
+      - name: Notify on failure
+        if: failure() && steps.check-vulnerabilities.outcome == 'failure'
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: documentation
+          SLACK_COLOR: danger
+          SLACK_TITLE: Critical Documentation Check Failed
+          SLACK_MESSAGE: "Critical documentation check failed. Please check the GitHub Actions run for details." 

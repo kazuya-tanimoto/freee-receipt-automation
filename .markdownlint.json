@@ -1,0 +1,15 @@
+{
+  "default": true,
+  "MD013": {
+    "line_length": 120  // 1行あたりの最大文字数（日本語を含む）
+  },
+  "MD024": {
+    "siblings_only": true  // 同じ階層内での重複見出しのみをチェック
+  },
+  "MD033": {
+    "allowed_elements": ["kbd"]  // 許可するHTML要素
+  },
+  "MD041": {
+    "level": 1  // 最初の見出しのレベル
+  }
+} 

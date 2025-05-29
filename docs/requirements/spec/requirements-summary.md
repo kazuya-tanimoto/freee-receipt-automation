@@ -1,61 +1,60 @@
-# フリーランス経費管理自動化の要望整理
+# Freelance Expense Management Automation Requirements
 
-## 相談内容の背景
+## Background
 
-フリーランスのITエンジニアとして、経費と売上の管理にfreeeを利用しているが、現在は以下の作業を手動で行っており、自動化したいと考えています。
+As a freelance IT engineer using freee for expense and revenue management, I currently perform the following tasks manually and would like to automate them.
 
-## 現状の作業フロー
+## Current Workflow
 
-1. **経費の登録**
-   * freeeで経費を登録
-   * 楽天・Amazon等から領収書PDFを取得
-   * メール（AppleサブスクなどのPDF領収書）を保存
-   * 全てのPDFをiCloudDriveの年月別フォルダに保存
+1. **Expense Registration**
+   * Register expenses in freee
+   * Obtain receipt PDFs from Rakuten, Amazon, etc.
+   * Save emails (PDF receipts like Apple subscriptions)
+   * Save all PDFs in iCloudDrive folders by year/month
 
-2. **経費と領収書の紐付け**
-   * PDFファイルとfreeeの明細を購入日・金額で紐付け
-   * freee上の登録待ち取引に対して紐付けを行い、取引として登録
+2. **Expense and Receipt Association**
+   * Match PDF files with freee transactions by purchase date and amount
+   * Associate with pending transactions in freee and register them
 
-## 自動化の対象
+## Automation Targets
 
-- 所定ディレクトリに格納された領収書の処理
-* メールから届く領収書（Appleサブスクなど）の抽出
-* PDFと取引情報のマッチング
-* freeeへの取引登録・紐付け
-- 領収書のディレクトリ作成(月ごと)とPDFの格納
+- Processing receipts stored in designated directories
+* Extracting receipts from emails (Apple subscriptions, etc.)
+* Matching PDFs with transaction information
+* Registering and associating transactions in freee
+- Creating receipt directories (monthly) and storing PDFs
 
+## Requirements
+### Daily Manual Operations
+* For Rakuten and Amazon receipts with API limitations, users will download from their member pages and save to specified folders
+- For gas and other receipts, users will scan using a scanning app and save to designated folders
+    * Use scanning app instead of simple photo capture to improve OCR accuracy
 
-## 要件
-### ユーザーの日々の手動操作
-* APIが制限されている楽天・Amazonの領収書はユーザーがマイページからダウンロードし、指定フォルダに保存する方式に決定
-- ガソリン等のレシートはユーザーがスキャンアプリでスキャンし、所定フォルダに保存する
-    * 単純な写真撮影ではなく、OCR精度を高めるためにスキャンアプリを使用する
+### Automation Requirements
+- Full automation except for the above manual operations
+- Use Gmail API to obtain receipts for Apple subscriptions, etc.
+* Run in background (cron, etc.) and process periodically
+    - Weekly frequency is acceptable
+- Send processing results to user's specific email address
+* Store final receipt PDFs in cloud storage for access from multiple PCs
+    * Currently stored in iCloudDrive, but can switch to Google Drive
+    - Maintain current iCloudDrive folder structure (see below)
+* Automatically add comments to transactions in freee for identification
+- Keep PDF filenames as short as possible (product name is sufficient)
+    - Add numbers like "_2.pdf" for duplicates
 
-### 自動化要件
-- 上記の手動操作以外は基本的に全自動化
-- AppleサブスクなどはGmailAPIを使って領収書を取得
-* バックグラウンドで動作(cronなど)し、定期的に処理を行うこと
-    - 週次程度でOK
-- 処理結果はユーザーの特定のメールアドレスに通知する
-* 複数PCで領収書を閲覧できるようにしたいため、最終的な領収書PDFはクラウドストレージに保管
-    * PDFは現在はiCloudDriveに保管しているが、GoogleDriveに切り替えることも可能
-    - 領収書のフォルダ構成は現在のiCloudDriveを踏襲(後述)
-* 自動登録された取引が分かるよう、freee上にコメントを自動登録する
-- PDFのファイル名は極力短く。商品名程度でOK
-    - 重複する場合は"_2.pdf"といったように番号つけるなどでOK
+### User Verification
+- Build a processing result confirmation screen for necessary checks
+    * Simple UI to confirm processing status
 
-### ユーザーのチェック
-- 処理結果確認用の画面を構築し、必要に応じ確認する
-    * シンプルなUIで処理状況が確認できること
+### Additional Requirements
+* Focus on cost-effectiveness for freelancers
+* Adopt Supabase as backend infrastructure
+    - Minimize costs in configuration
 
-### その他要件
-* フリーランスのため、費用対効果を重視
-* バックエンド基盤としてSupabaseを採用する方向
-    - 極力費用がかからない構成
-
-## 参考：領収書フォルダ構成(現在)
+## Reference: Current Receipt Folder Structure
 ```bash
-~/iCloudDrive/Private/final_tax_return_確定申告/2025年分 on ☁️  (ap-northeast-1)
+~/iCloudDrive/Private/final_tax_return_確定申告/2025年分
   19:46 ❯❯ la
 Permissions Size User   Date Changed Date Created Name
 .rw-r--r--@  404 kazuya 12 Apr 10:10 25 Jan 11:41 00-Memo.txt
@@ -65,26 +64,26 @@ drwxr-xr-x@    - kazuya 11 Mar 21:30  5 Jan 16:45 03.納付証明
 drwxr-xr-x@    - kazuya 10 Mar 17:03 25 Jan 11:15 04.給与・源泉徴収
 .rw-r--r--@    0 kazuya 23 Apr 16:40 12 Apr 10:11 ★202502まで整備完了
 
-~/iCloudDrive/Private/final_tax_return_確定申告/2025年分 on ☁️  (ap-northeast-1)
+~/iCloudDrive/Private/final_tax_return_確定申告/2025年分
   19:46 ❯❯ tree 01.領収書/
 01.領収書/
 ├── 01
-│   ├── 楽天モバイル_202412分.pdf
-│   ├──   ：
-│   └── webカメラ.pdf
+│   ├── 楽天モバイル_202412分.pdf
+│   ├──   ：
+│   └── webカメラ.pdf
 ├── 02
-│   ├── 楽天モバイル_202501分.pdf
-│   ├── 楽天光_202501分.pdf
-│   ├──   ：
-│   └── ITフリーランス協会費.pdf
+│   ├── 楽天モバイル_202501分.pdf
+│   ├── 楽天光_202501分.pdf
+│   ├──   ：
+│   └── ITフリーランス協会費.pdf
 ├── 03
-│   ├── 楽天モバイル_202502分.pdf
-│   ├──   ：
-│   └── KindleUnlimited.pdf
+│   ├── 楽天モバイル_202502分.pdf
+│   ├──   ：
+│   └── KindleUnlimited.pdf
 ├── 04
-│   ├── ビジネス書：ロングゲーム 今、自分にとっていちばん意味のあることをするために.pdf
-│   ├──   ：
-│   └── ITフリーランス協会費.pdf
+│   ├── ビジネス書：ロングゲーム 今、自分にとっていちばん意味のあることをするために.pdf
+│   ├──   ：
+│   └── ITフリーランス協会費.pdf
 ├── 05
 ├── 06
 ├── 07
@@ -96,7 +95,4 @@ drwxr-xr-x@    - kazuya 10 Mar 17:03 25 Jan 11:15 04.給与・源泉徴収
 └── 99.固定資産分
 
 14 directories, 45 files
-
-~/iCloudDrive/Private/final_tax_return_確定申告/2025年分 on ☁️  (ap-northeast-1)
-  19:46 ❯❯
-```
+``` 
