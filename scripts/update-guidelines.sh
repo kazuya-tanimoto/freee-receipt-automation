@@ -1,18 +1,18 @@
 #!/bin/bash
 
-# Script to update guidelines submodules and format the SUMMARY.md file
+# Script to update guidelines submodules
 # This script is part of the AI-driven development guidelines setup
 
 set -e
 
-echo "Updating guidelines submodules..."
-git submodule update --remote --merge
-
-echo "Formatting SUMMARY.md..."
-if command -v npx &> /dev/null; then
-  npx mdformat docs/standards/SUMMARY.md
+# Check if submodules exist
+if [ -f .gitmodules ]; then
+  echo "Updating guidelines submodules..."
+  # Initialize submodules if not initialized
+  git submodule init
+  git submodule update --remote --merge
 else
-  echo "Warning: npx not found. Please install Node.js to use mdformat."
+  echo "No submodules found. Skipping submodule update."
 fi
 
 echo "Guidelines update completed successfully!"
