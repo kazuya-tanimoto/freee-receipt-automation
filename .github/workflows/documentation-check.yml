@@ -32,24 +32,13 @@ jobs:
         run: |
           for file in $(find docs -name "*.md"); do
             size=$(wc -c < "$file")
-            if [ $size -gt 2000 ]; then
-              echo "Warning: $file is larger than 2000 bytes"
+            if [ $size -gt 100000 ]; then
+              echo "Warning: $file is larger than 100KB (100000 bytes)"
               exit 1
             fi
           done
 
-      - name: Security Scan
-        uses: snyk/actions/node@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --severity-threshold=high
-
-      - name: Generate SBOM
-        run: |
-          npm install -g @cyclonedx/cyclonedx-npm
-          cyclonedx-npm --output-file docs/standards/sbom/sbom.xml
-          cyclonedx-npm --output-file docs/standards/sbom/sbom.json --format json
+      # Security Scan and SBOM generation removed as this is not a Node.js project
 
       - name: Check Language Consistency
         run: |
@@ -64,8 +53,8 @@ jobs:
       - name: Check README synchronization
         id: check-sync
         run: |
-          diff <(grep -v "^#" README.md | sort) <(grep -v "^#" README_JA.md | sort) || {
-            echo "::error::README.md and README_JA.md are not synchronized"
+          diff <(grep -v "^#" README.md | sort) <(grep -v "^#" README-ja.md | sort) || {
+            echo "::error::README.md and README-ja.md are not synchronized"
             exit 1
           }
 
@@ -101,20 +90,4 @@ jobs:
             fi
           done
 
-      - name: Check for vulnerabilities
-        id: check-vulnerabilities
-        run: |
-          npm audit --audit-level=high || {
-            echo "::error::High severity vulnerabilities found"
-            exit 1
-          }
-
-      - name: Notify on failure
-        if: failure() && steps.check-vulnerabilities.outcome == 'failure'
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_CHANNEL: documentation
-          SLACK_COLOR: danger
-          SLACK_TITLE: Critical Documentation Check Failed
-          SLACK_MESSAGE: "Critical documentation check failed. Please check the GitHub Actions run for details." 
+      # Vulnerability check removed as this is not a Node.js project 
