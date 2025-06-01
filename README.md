@@ -148,13 +148,51 @@ Business background, goals, and constraints. Update when goals change.
 - Generate `summaries/` daily via CRON
 - Generate `insights/` weekly and transcribe to `ai/feedback/`
 
-## 5. CI / Development Environment Points
+## 5. Development Guidelines Structure
+
+The project's development guidelines consist of four main parts:
+
+### 5.1 AI Context Optimization (`ai/context/`)
+- **context-optimization.md**: Efficient collaboration with AI assistants
+- **summary-ja.md**: AI-oriented summary (2000 token limit)
+- Token limits and context management
+- RAG optimization
+
+### 5.2 Coding Standards (`docs/standards/`)
+- **coding-standards.md**: Coding standards
+- **bulletproof-react/**: React best practices (submodule)
+- **naming-cheatsheet/**: Naming conventions guide (submodule)
+- File line limit (150 lines basic, 250 lines max)
+
+### 5.3 Operational Rules (`docs/ops/`)
+- **operational-guidelines.md**: Operational guidelines
+- **operational-rules.md**: Update flow, quality management, maintenance
+- Deployment process
+- Incident response
+
+### 5.4 Documentation Standards (`docs/standards/`)
+- **documentation-guidelines.md**: Documentation creation guidelines
+- **review-guidelines.md**: Review guidelines
+- **security-guidelines.md**: Security guidelines
+
+### Contribution Process for Guideline Changes
+1. Create an issue
+2. Discuss with the team
+3. Create a pull request
+4. Review and approval
+
+**Important Notes**:
+- Do not edit SUMMARY-ja.md directly (auto-generated)
+- Strictly adhere to token limits (2000 tokens)
+- Consider integration with system prompts
+
+## 6. CI / Development Environment Points
 
 - **Workflows**: `lint-and-test.yml`, `security-scan.yml`, `build-docker.yml`  
 - **Schema diff**: Confluent Registry compatibility check  
 - **DevContainer**: Centralized management of VS Code extensions, postCreate
 
-## 6. Selectively Added Directories
+## 7. Selectively Added Directories
 
 | Path | Timing | Use Case |
 |------|-----------|-------------|
@@ -179,12 +217,12 @@ Monitor LLM inference costs, performance, memory, etc. to provide decision-makin
   1. Measure with `make benchmark` → Append to CSV
   2. Update graphs with Python script, attach to PR
 
-## 7. Customization References
+## 8. Customization References
 
 - **Bulletproof React** — Large-scale React configuration examples  
 - **Naming Cheatsheet** — Clear naming guidelines  
 
-## 8. Update Flow Summary
+## 9. Update Flow Summary
 
 1. Issue / ADR for policy decisions  
 2. PR: Implementation & documentation updates  
@@ -192,8 +230,11 @@ Monitor LLM inference costs, performance, memory, etc. to provide decision-makin
 4. Review & merge: Save summary to `ai/feedback/`  
 5. Update CHANGELOG → Tag → Release  
 
-## 9. Future Improvement Ideas
+## 10. Future Improvement Ideas
 
 - Monitor latency and cost with `benchmarks/`  
 - Automate Mermaid→SVG to eliminate diagram and source divergence  
 - Track history with `version:` field in `ai/prompts/`
+
+---
+*Last updated: 2025-06-01*

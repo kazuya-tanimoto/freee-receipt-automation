@@ -110,5 +110,6 @@ This document defines the security requirements and guidelines for the project.
 ## Change History
 | Date | Version | Changes | Author |
 |------|---------|---------|--------|
+| 2025-06-01 | 1.1.1 | GitHub Actions test update | Test Bot |
 | 2024-03-21 | 1.1.0 | Added vulnerability disclosure and SBOM sections | AI Assistant |
 | 2024-03-21 | 1.0.0 | Initial version | AI Assistant | 
