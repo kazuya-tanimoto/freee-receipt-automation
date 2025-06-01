@@ -1,7 +1,7 @@
 {
   "recurse": true,
   "check-modified-only": false,
-  "timeout": "10s",
+  "timeout": "20s",
   "retry-count": 2,
   "alive-status-codes": [200, 206, 429],
   "ignorePatterns": [

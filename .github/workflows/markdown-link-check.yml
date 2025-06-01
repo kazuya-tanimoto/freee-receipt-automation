@@ -28,7 +28,20 @@ jobs:
 
       - name: Check Markdown Links
         run: |
-          find . -name "*.md" -not -path "./node_modules/*" -not -path "./.git/*" | while read file; do
+          failed=false
+          
+          while IFS= read -r file; do
             echo "Checking links in: $file"
-            markdown-link-check "$file" -c .mlc_config.json || exit 1
-          done 
+            
+            if ! markdown-link-check "$file" -c .mlc_config.json; then
+              echo "::warning::Failed to check links in $file"
+              failed=true
+            fi
+          done < <(find . -name "*.md" -not -path "./node_modules/*" -not -path "./.git/*")
+          
+          if [ "$failed" = "true" ]; then
+            echo "::error::Some files have link issues"
+            exit 1
+          fi
+          
+          echo "All markdown link checks passed" 

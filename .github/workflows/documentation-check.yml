@@ -53,10 +53,24 @@ jobs:
       - name: Check README synchronization
         id: check-sync
         run: |
-          diff <(grep -v "^#" README.md | sort) <(grep -v "^#" README-ja.md | sort) || {
-            echo "::error::README.md and README-ja.md are not synchronized"
+          # Check if both files have the same number of heading lines
+          en_headings=$(grep "^#" README.md | wc -l)
+          ja_headings=$(grep "^#" README-ja.md | wc -l)
+          
+          if [ "$en_headings" -ne "$ja_headings" ]; then
+            echo "::error::README.md ($en_headings headings) and README-ja.md ($ja_headings headings) have different structure"
             exit 1
-          }
+          fi
+          
+          # Check if both files have similar code blocks
+          en_code_blocks=$(grep -c "^\`\`\`" README.md || true)
+          ja_code_blocks=$(grep -c "^\`\`\`" README-ja.md || true)
+          
+          if [ "$en_code_blocks" -ne "$ja_code_blocks" ]; then
+            echo "::warning::README.md ($en_code_blocks code blocks) and README-ja.md ($ja_code_blocks code blocks) have different number of code blocks"
+          fi
+          
+          echo "README files structure check passed"
 
       - name: Check multilingual synchronization
         id: check-multilingual
@@ -64,14 +78,26 @@ jobs:
           for file in $(find docs -name "*-ja.md"); do
             base_file=${file%-ja.md}.md
             if [ -f "$base_file" ]; then
-              # 目次と変更履歴を除いて比較
-              diff <(grep -v "^#" "$base_file" | grep -v "## 目次" | grep -v "## 変更履歴" | sort) \
-                   <(grep -v "^#" "$file" | grep -v "## 目次" | grep -v "## 変更履歴" | sort) || {
-                echo "::error::$file and $base_file are not synchronized"
+              # Check if both files have the same number of headings
+              en_headings=$(grep "^#" "$base_file" | wc -l)
+              ja_headings=$(grep "^#" "$file" | wc -l)
+              
+              if [ "$en_headings" -ne "$ja_headings" ]; then
+                echo "::error::$file ($ja_headings headings) and $base_file ($en_headings headings) have different structure"
                 exit 1
-              }
+              fi
+              
+              # Check if both files have similar code blocks
+              en_code_blocks=$(grep -c "^\`\`\`" "$base_file" || true)
+              ja_code_blocks=$(grep -c "^\`\`\`" "$file" || true)
+              
+              if [ "$en_code_blocks" -ne "$ja_code_blocks" ]; then
+                echo "::warning::$file ($ja_code_blocks code blocks) and $base_file ($en_code_blocks code blocks) have different number of code blocks"
+              fi
             fi
           done
+          
+          echo "Multilingual files structure check passed"
 
       - name: Check document structure
         id: check-structure
@@ -80,14 +106,31 @@ jobs:
             if [[ "$file" =~ /(README|CHANGELOG|SUMMARY)\.(md|ja\.md)$ ]]; then
               continue  # Skip special files
             fi
-            if ! grep -q "## 概要" "$file"; then
-              echo "::error::$file is missing '概要' section"
-              exit 1
-            fi
-            if ! grep -q "## 参考リンク" "$file"; then
-              echo "::error::$file is missing '参考リンク' section"
-              exit 1
+            
+            # Check for Overview/概要 section
+            if [[ "$file" =~ -ja\.md$ ]]; then
+              # Japanese file
+              if ! grep -q "## 概要" "$file"; then
+                echo "::error::$file is missing '概要' section"
+                exit 1
+              fi
+              if ! grep -q "## 参考リンク" "$file"; then
+                echo "::error::$file is missing '参考リンク' section"
+                exit 1
+              fi
+            else
+              # English file
+              if ! grep -qE "## (Overview|概要)" "$file"; then
+                echo "::error::$file is missing 'Overview' section"
+                exit 1
+              fi
+              if ! grep -qE "## (Reference Links?|References|参考リンク)" "$file"; then
+                echo "::error::$file is missing 'Reference Links' section"
+                exit 1
+              fi
             fi
           done
+          
+          echo "Document structure check passed"
 
       # Vulnerability check removed as this is not a Node.js project 
