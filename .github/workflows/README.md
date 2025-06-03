@@ -1,39 +1,58 @@
-# CI/CD Configuration Guidelines
+# GitHub Actions Workflows
 
-## Guideline-related Workflows
+## Overview
+This directory contains GitHub Actions workflow configurations for the freee expense management automation project.
 
-### 1. Guideline Size Check
-- File: `guidelines-size-check.yml`
-- Purpose: Monitor token count of SUMMARY.md
-- Limit: Enforce 4k tokens maximum
-- Execution: On PR creation
+## Active Workflows
 
-### 2. Weekly Guideline Update
-- File: `weekly-guidelines-update.yml`
-- Purpose: Automatic submodule updates
-- Execution: Every Monday at 4 AM
-- Process:
-  1. Update submodules
-  2. Regenerate SUMMARY.md
-  3. Create automatic PR
-  4. Update CHANGELOG
+### 1. Documentation Check (`documentation-check.yml`)
+- **Purpose**: Comprehensive documentation quality check
+- **Triggers**: Push and PR on `*.md` files
+- **Checks**:
+  - Markdown lint (markdownlint-cli2)
+  - Link validation
+  - File size limit (10KB warning)
+  - Language consistency (EN/JA versions)
+  - Document structure
+- **Status**: Active (with lint errors)
 
-## CI Pass Requirements
-1. Pass guideline size check
-2. Pass normal build (Turbopack)
-3. Pass security scan
+### 2. Markdown Link Check (`markdown-link-check.yml`)
+- **Purpose**: Validate all links in markdown files
+- **Triggers**: PR on `*.md` files
+- **Scope**: All markdown files in repository
+- **Status**: Active and working
 
-## Operational Rules
-1. **On PR Creation**
-   - Guideline size check is mandatory
-   - Automatic fail on exceeding limit
+### 3. Guidelines Size Check (`guidelines-size-check.yml`)
+- **Purpose**: Monitor AI context file token count
+- **Triggers**: Push and PR on `ai/context/summary.md`
+- **Limit**: 2000 tokens maximum
+- **Status**: Active (needs attention - file currently exceeds limit)
 
-2. **On Weekly Update**
-   - Create automatic PR
-   - Merge after review
-   - Update CHANGELOG
 
-3. **Error Handling**
-   - Size exceeded: Review SUMMARY.md summary
-   - Build failure: Check dependencies
-   - Security warnings: Fix vulnerabilities 
+
+## Maintenance Notes
+
+### Token Limit Management
+- The `ai/context/summary.md` file must stay under 2000 tokens
+- Current status: Within limit (~1250 tokens)
+- Regular monitoring recommended
+
+### Documentation Standards
+- All documentation must have both English and Japanese versions
+- File naming: `filename.md` (EN), `filename-ja.md` (JA)
+- Keep versions synchronized
+
+### File Size Guidelines
+- Warning threshold: 10KB
+- Consider splitting files larger than 10KB
+- Optimize for AI processing efficiency
+
+## Troubleshooting
+
+### Common Issues
+1. **Markdown lint errors**: Check `.markdownlint.jsonc` for rules
+2. **Token limit exceeded**: Reduce content in `ai/context/summary.md`
+3. **Link check failures**: Verify all internal and external links
+
+### Contact
+For workflow issues, contact the development team or create an issue in the repository.

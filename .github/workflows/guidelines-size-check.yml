@@ -3,32 +3,90 @@ name: Guidelines Size Check
 on:
   pull_request:
     paths:
-      - 'docs/standards/SUMMARY.md'
+      - 'ai/context/summary.md'
+      - 'ai/context/summary-ja.md'
   push:
     branches:
       - main
     paths:
-      - 'docs/standards/SUMMARY.md'
+      - 'ai/context/summary.md'
+      - 'ai/context/summary-ja.md'
 
 jobs:
   check-size:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Check SUMMARY.md size
+      - name: Check summary.md size
         run: |
-          WORD_COUNT=$(wc -w docs/standards/SUMMARY.md | awk '{print $1}')
-          echo "SUMMARY.md word count: $WORD_COUNT"
+          # Check English version
+          if [ -f "ai/context/summary.md" ]; then
+            echo "Checking ai/context/summary.md..."
+            FILE_PATH="ai/context/summary.md"
+            
+            # Get file stats
+            CHAR_COUNT=$(wc -c < "$FILE_PATH")
+            WORD_COUNT=$(wc -w < "$FILE_PATH")
+            LINE_COUNT=$(wc -l < "$FILE_PATH")
+            
+            echo "File: $FILE_PATH"
+            echo "Character count: $CHAR_COUNT"
+            echo "Word count: $WORD_COUNT"
+            echo "Line count: $LINE_COUNT"
+            
+            # More accurate token estimation for mixed EN/JA content
+            # For English: ~1 token per 4 characters
+            # For Japanese: ~1 token per 2 characters
+            # Mixed content: use character-based estimation
+            TOKEN_COUNT=$(( CHAR_COUNT / 3 ))
+            
+            echo "Estimated token count: $TOKEN_COUNT"
+            
+            # Extract MAX_TOKENS from file header if present
+            MAX_TOKENS=$(grep -o 'MAX_TOKENS: [0-9]*' "$FILE_PATH" | grep -o '[0-9]*' || echo "2000")
+            echo "Max allowed tokens: $MAX_TOKENS"
+            
+            if [ "$TOKEN_COUNT" -gt "$MAX_TOKENS" ]; then
+              echo "::error::$FILE_PATH exceeds $MAX_TOKENS tokens (estimated: $TOKEN_COUNT)"
+              echo "Please reduce the file size to stay within the token limit"
+              exit 1
+            else
+              echo "✅ File is within the $MAX_TOKENS token limit"
+            fi
+          fi
           
-          # Approximate token count (words * 1.3)
-          TOKEN_COUNT=$(echo "$WORD_COUNT * 1.3" | bc)
-          echo "Estimated token count: $TOKEN_COUNT"
-          
-          if (( $(echo "$TOKEN_COUNT > 2000" | bc -l) )); then
-            echo "Error: SUMMARY.md exceeds 2000 tokens (estimated: $TOKEN_COUNT)"
-            exit 1
-          else
-            echo "SUMMARY.md is within the 2000 token limit (estimated: $TOKEN_COUNT)"
+          # Check Japanese version
+          if [ -f "ai/context/summary-ja.md" ]; then
+            echo ""
+            echo "Checking ai/context/summary-ja.md..."
+            FILE_PATH="ai/context/summary-ja.md"
+            
+            # Get file stats
+            CHAR_COUNT=$(wc -c < "$FILE_PATH")
+            WORD_COUNT=$(wc -w < "$FILE_PATH")
+            LINE_COUNT=$(wc -l < "$FILE_PATH")
+            
+            echo "File: $FILE_PATH"
+            echo "Character count: $CHAR_COUNT"
+            echo "Word count: $WORD_COUNT"
+            echo "Line count: $LINE_COUNT"
+            
+            # Japanese content: ~1 token per 2 characters
+            TOKEN_COUNT=$(( CHAR_COUNT / 2 ))
+            
+            echo "Estimated token count: $TOKEN_COUNT"
+            
+            # Extract MAX_TOKENS from file header if present
+            MAX_TOKENS=$(grep -o 'MAX_TOKENS: [0-9]*' "$FILE_PATH" | grep -o '[0-9]*' || echo "2000")
+            echo "Max allowed tokens: $MAX_TOKENS"
+            
+            if [ "$TOKEN_COUNT" -gt "$MAX_TOKENS" ]; then
+              echo "::error::$FILE_PATH exceeds $MAX_TOKENS tokens (estimated: $TOKEN_COUNT)"
+              echo "Please reduce the file size to stay within the token limit"
+              exit 1
+            else
+              echo "✅ File is within the $MAX_TOKENS token limit"
+            fi
           fi

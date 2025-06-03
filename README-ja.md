@@ -1,17 +1,22 @@
 # AI 駆動開発ガイドライン
+
 ## ドキュメント概要
+
 ### 目的
-人間開発者と複数 AI エージェントが同じ情報源を共有し、コード・設計・運用を迷わず協働できる「レポジトリの地図」を定義する
+
+人間開発者と AI エージェントが同じ情報源を共有し、コード・設計・運用を迷わず協働できる「レポジトリの地図」を定義
 
 ### 期待効果
-- 新規参画者のオンボーディングを短縮し手戻りコストを削減
-- RAG 活用により LLM の回答精度を底上げ
-- CI で差分・互換性を自動チェックし「ドキュメント腐敗」を防止
+
+- 新規参画者のオンボーディング短縮と手戻りコスト削減
+- RAG 活用により LLM の回答精度向上
+- CI で差分・互換性チェックし「ドキュメント腐敗」を防止
 
 ### 活用シーン
+
 - 新規プロダクト立ち上げ
-- 既存レポジトリのリファクタ／OSS 公開整備
-- 監査・セキュリティレビュー時（証跡 & ADR 一元提示）
+- 既存レポジトリのリファクタ／OSS公開整備
+- 監査・セキュリティレビュー（証跡&ADR一元提示）
 
 ## 1. 構成ツリー
 
@@ -54,6 +59,7 @@
 ```
 
 ## 2. ファイル／ディレクトリ早見表
+
 | 階層 | 必須/任意 | 目的 | 主な中身 | メンテ頻度 |
 |------|-----------|------|----------|-----------|
 | `/README.md` | ✅ 必須 | TL;DR / Quick Start | 5 分で動く手順 | 各リリース |
@@ -63,7 +69,7 @@
 | `.devcontainer.json` | ✅ 必須 | 再現可能な開発環境 | image／extensions | 環境変化時 |
 | `docs/` | ✅ 必須 | 人・AI 共通知識ベース | 3 参照 | 随時 |
 | `ai/` | ✅ 必須 | AI メタレイヤ | 4 参照 | 随時 |
-| `ai/context/` | ✅ 必須 | AIコンテキスト最適化 | 方針大変更時 |
+| `ai/context/` | ✅ 必須 | AIコンテキスト最適化 | コンテキスト管理 | 方針大変更時 |
 | `ai/examples/` | ▶︎ 推奨 | 成功パターン集 | ベスト実装 | PR 採用時 |
 | `ai/feedback/` | ▶︎ 自動生成環境向け | AI 出力レビュー結果 | 評価コメント | 各 PR |
 | `ai/history/` | ▶︎ 省略可 | セッションログ・要約保存 | チャット履歴JSON, 日次 digest | 自動生成 |
@@ -73,7 +79,8 @@
 ## 3. `docs/` — 人 & AI 共通知識ベース
 
 ### 3.1 `overview.md`
-ビジネス背景・ゴール・制約。ゴール変化時に更新。
+
+ビジネス背景・ゴール・制約。ゴール変化時更新。
 
 ### 3.2 `requirements/` — 二層管理
 
@@ -82,8 +89,7 @@
 | `spec/` | ビジネス要求・非機能要件 (`REQ‑001.md` など) | 変更確定 ➡ ADR とリンク |
 | `backlog/` | PBI / 実装タスク粒度 (GitHub Issue ⇔ MD/YAML) | Issue テンプレで自動生成→閉鎖 |
 
-> **FAQ**  
-> **大粒要件も実装タスクも混在?**  
+> **FAQ: 大粒要件も実装タスクも混在?**  
 > 大枠仕様は `spec/`, 実装指示は `backlog/` に分割し静的設計書と動的バックログを両立。
 
 ### 3.3 `standards/` — コーディング規約
@@ -92,11 +98,7 @@
 |----------|------|------|
 | `coding-standards.md` | コーディング規約 | コード品質の維持と一貫性の確保 |
 
-**主な内容**:
-- ファイル行数制限（基本150行、最大250行）
-- 命名規則
-- コードスタイル
-- AIエージェントによるコード生成のガイドライン
+**主な内容**: ファイル行数制限（基本150行、最大250行）、命名規則、コードスタイル、AI コード生成ガイドライン
 
 ### 3.4 `ops/` — 運用ガイドライン
 
@@ -104,11 +106,7 @@
 |----------|------|------|
 | `operational-guidelines.md` | 運用ガイドライン | プロジェクトの運用に関する重要なガイドライン |
 
-**主な内容**:
-- デプロイメントプロセス
-- モニタリング方針
-- インシデント対応
-- バックアップとリカバリ
+**主な内容**: デプロイメントプロセス、モニタリング方針、インシデント対応、バックアップとリカバリ
 
 ### 3.5 その他サブディレクトリ
 
@@ -118,9 +116,7 @@
 | `api/` | `openapi.yaml` (SemVer) | 破壊的変更で MAJOR++ |
 | `adr/` | MADR テンプレ (`nadr-2.1.2.md`) | 1 決定＝1 ファイル |
 
-**`adr/` の運用ルール**:
-- **ID 付与**: `ADR-0001`, `ADR-0002` の形式で連番を振る
-- **メンテ**: 破壊的変更 or 技術選定時に必ず新規 ADR を追加
+**`adr/` 運用ルール**: ID付与（`ADR-0001`, `ADR-0002`形式）、破壊的変更・技術選定時に新規ADR追加
 
 ## 4. `ai/` — AI メタレイヤ
 
@@ -143,95 +139,92 @@
 | `summaries/` | 上記の要約Markdown | `2025-05-06T06:00:summary.md` |
 | `insights/` | 定期バッチで抽出した改善点 | `2025-W19-insights.md` |
 
-**メンテ方法**:
-- セッション終了後に自動で `sessions/` 保存
-- 日次 CRON で `summaries/` 生成
-- 週次で `insights/` を生成し、`ai/feedback/` へ転記
+**メンテ方法**: セッション終了後に自動で `sessions/` 保存、日次CRONで `summaries/` 生成、週次で `insights/` 生成し `ai/feedback/` へ転記
 
 ## 5. 開発ガイドライン構成
 
 プロジェクトの開発ガイドラインは以下の4つの主要部分で構成されています：
 
 ### 5.1 AIコンテキスト最適化 (`ai/context/`)
+
 - **context-optimization.md**: AIアシスタントとの効率的な連携
 - **summary-ja.md**: AI向け要約（2000トークン制限）
 - トークン制限とコンテキスト管理
 - RAGの最適化
 
 ### 5.2 コーディング規約 (`docs/standards/`)
+
 - **coding-standards.md**: コーディング規約
 - **bulletproof-react/**: Reactベストプラクティス（サブモジュール）
 - **naming-cheatsheet/**: 命名規則ガイド（サブモジュール）
 - ファイル行数制限（基本150行、最大250行）
 
 ### 5.3 運用ルール (`docs/ops/`)
+
 - **operational-guidelines.md**: 運用ガイドライン
 - **operational-rules.md**: 更新フロー、品質管理、メンテナンス
 - デプロイメントプロセス
 - インシデント対応
 
 ### 5.4 ドキュメント標準 (`docs/standards/`)
+
 - **documentation-guidelines.md**: ドキュメント作成ガイドライン
 - **review-guidelines.md**: レビューガイドライン
 - **security-guidelines.md**: セキュリティガイドライン
 
 ### ガイドライン変更時の貢献プロセス
+
 1. 課題（Issue）の作成
 2. チームとの議論
 3. プルリクエストの作成
 4. レビューと承認
 
-**重要な注意事項**:
-- SUMMARY-ja.mdを直接編集しないでください（自動生成）
-- トークン制限（2000トークン）は厳守
-- システムプロンプトとの統合を考慮
+**重要事項**: SUMMARY-ja.md直接編集禁止（自動生成）、トークン制限（2000）厳守、システムプロンプト統合考慮
 
-## 6. CI / 開発環境ポイント
+## 6. CI/開発環境
 
 - **Workflows**: `lint-and-test.yml`, `security-scan.yml`, `build-docker.yml`  
-- **Schema diff**: Confluent Registry 互換チェック  
-- **DevContainer**: VS Code 拡張、postCreate を集中管理
+- **Schema diff**: Confluent Registry互換チェック  
+- **DevContainer**: VS Code拡張、postCreate集中管理
 
-## 7. 選択的に追加するディレクトリ
+## 7. 選択的追加ディレクトリ
 
 | パス | タイミング | ユースケース |
 |------|-----------|-------------|
 | `docs/test/` | テスト拡大 | テストピラミッド管理 |
-| `docs/ops/` | SRE 専任 | SLO / Runbook |
-| `benchmarks/` | LLM 計測 | OpenAI Evals 等 |
-| `data-contract/` | イベント駆動 | AsyncAPI / Avro |
+| `docs/ops/` | SRE専任 | SLO/Runbook |
+| `benchmarks/` | LLM計測 | OpenAI Evals等 |
+| `data-contract/` | イベント駆動 | AsyncAPI/Avro |
 
-### `data-contract/` の詳細
-**用途**:  
-データプロデューサーとコンシューマー間の「契約」をコードとして残す。API契約同様に破壊的変更を防ぐ。
-- **配置物**: `customer.avro`, `orders.proto`, `contract.md` など
-- **メンテ方法**:
-  1. スキーマ変更時に PR を作成し、CI で後方互換テストを実行
-  2. リリースノートに `BREAKING CHANGE` タグを必ず記載
+### `data-contract/`詳細
 
-### `benchmarks/` の詳細
-**用途**:  
-LLM 推論コスト、性能、メモリ等を定点観測し、モデル/プロンプト変更の意思決定材料にする。
+データプロデューサーとコンシューマー間の「契約」をコード化。API契約同様に破壊的変更を防ぐ。
+
+- **配置物**: `customer.avro`, `orders.proto`, `contract.md`
+- **メンテ**: スキーマ変更時PR作成、CI後方互換テスト、リリースノートに`BREAKING CHANGE`記載
+
+### `benchmarks/`詳細
+
+LLM推論コスト、性能、メモリ定点観測でモデル/プロンプト変更の意思決定材料化。
+
 - **配置物**: `benchmark_2025-05.csv`, `plots/latency.png`, `README.md`
-- **メンテ方法**:
-  1. `make benchmark` で計測 → CSV 追記
-  2. Python スクリプトでグラフ更新、PR に貼付
+- **メンテ**: `make benchmark`で計測→CSV追記、Pythonスクリプトでグラフ更新・PR貼付
 
 ## 8. カスタマイズ参考
 
-- **Bulletproof React** — React 大規模構成例  
+- **Bulletproof React** — React大規模構成例  
 - **Naming Cheatsheet** — 分かりやすい命名指針  
 
-## 9. 更新フローまとめ
+## 9. 更新フロー
 
-1. Issue / ADR で方針決定  
-2. PR: 実装 & ドキュメント更新  
-3. CI: Lint / Test / schema diff / Secret Scan  
-4. レビュー & マージ: `ai/feedback/` に要約保存  
-5. CHANGELOG 更新 → Tag → リリース  
+1. Issue/ADRで方針決定  
+2. PR: 実装&ドキュメント更新  
+3. CI: Lint/Test/schema diff/Secret Scan  
+4. レビュー&マージ: `ai/feedback/`に要約保存  
+5. CHANGELOG更新→Tag→リリース  
 
-## 10. 今後の改善アイデア
+## 10. 改善アイデア
 
-- `benchmarks/` でレイテンシ・コスト定点観測  
-- Mermaid→SVG 自動化で図とソース乖離ゼロ  
-- `ai/prompts/` に `version:` フィールドで履歴追跡
+- `benchmarks/`でレイテンシ・コスト定点観測  
+- Mermaid→SVG自動化で図とソース乖離ゼロ  
+- `ai/prompts/`に`version:`フィールドで履歴追跡
