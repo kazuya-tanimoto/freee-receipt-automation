@@ -9,8 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Updated `ai/context/summary-ja.md`:
-  - Added token limit declaration (MAX_TOKENS: 2000)
-  - Adjusted heading hierarchy to make it more readable
-  - Added Next.js integration example with Server Actions
-  - Ensured document stays under 2k tokens
+- Reduced token count in AI context summaries:
+  - `ai/context/summary.md` and `summary-ja.md` optimized to fit within 2000 token limit
+  - Condensed content while maintaining key information
+  - Removed verbose examples and redundant explanations
+
+### Fixed
+
+- Markdown lint errors in documentation:
+  - Added proper blank lines around headings in `README-ja.md`
+  - Fixed trailing spaces in `CHANGELOG-ja.md`
+  - Added missing newlines at end of changelog files
