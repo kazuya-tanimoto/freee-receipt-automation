@@ -197,12 +197,16 @@
 | `data-contract/` | イベント駆動 | AsyncAPI/Avro |
 
 ### `data-contract/`詳細
+
 データプロデューサーとコンシューマー間の「契約」をコード化。API契約同様に破壊的変更を防ぐ。
+
 - **配置物**: `customer.avro`, `orders.proto`, `contract.md`
 - **メンテ**: スキーマ変更時PR作成、CI後方互換テスト、リリースノートに`BREAKING CHANGE`記載
 
 ### `benchmarks/`詳細
+
 LLM推論コスト、性能、メモリ定点観測でモデル/プロンプト変更の意思決定材料化。
+
 - **配置物**: `benchmark_2025-05.csv`, `plots/latency.png`, `README.md`
 - **メンテ**: `make benchmark`で計測→CSV追記、Pythonスクリプトでグラフ更新・PR貼付
 
