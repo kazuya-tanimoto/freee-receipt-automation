@@ -39,10 +39,10 @@ This document defines optimization guidelines for AI agents to efficiently under
 
 ## Summary File Management
 
-### 1. SUMMARY-ja.md Operation Rules
-- **DO NOT edit SUMMARY-ja.md directly** - It is auto-generated
+### 1. Summary File Operation Rules
+- **summary-ja.md is manually maintained** - Keep it in sync with summary.md
 - **Token limit (2000 tokens) is critical** - Must be strictly observed
-- **Consider system prompt integration** - Ensure compatibility
+- **Manual updates require careful review** - Check token count after changes
 - Share guideline changes with the team before implementation
 
 ### 2. Token Optimization

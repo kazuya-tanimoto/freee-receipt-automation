@@ -57,26 +57,7 @@ This document provides a concise summary of the development guidelines from [Bul
 - Use testing libraries that promote good practices
 - Aim for high test coverage of critical paths
 
----
 
-#### Next.js Integration Example
-
-```ts
-// app/server/actions/createTodo.ts
-import { revalidatePath } from 'next/cache'
-
-export async function createTodo(formData: FormData) {
-  'use server'
-  const title = formData.get('title') as string
-  await fetch(`${process.env.API_URL}/todos`, {
-    method: 'POST',
-    body: JSON.stringify({ title }),
-    cache: 'no-store'
-  })
-  revalidatePath('/todos')
-}
-```
-*Server Actions を使い、`fetch()` の `'no-store'` でキャッシュを無効化しつつ RSC 側で再検証を行う例。*
 
 ## Naming Cheatsheet
 

@@ -57,26 +57,7 @@
 - 良い実践を促進するテストライブラリを使用
 - 重要なパスの高いテストカバレッジを目指す
 
----
 
-#### Next.js統合例
-
-```ts
-// app/server/actions/createTodo.ts
-import { revalidatePath } from 'next/cache'
-
-export async function createTodo(formData: FormData) {
-  'use server'
-  const title = formData.get('title') as string
-  await fetch(`${process.env.API_URL}/todos`, {
-    method: 'POST',
-    body: JSON.stringify({ title }),
-    cache: 'no-store'
-  })
-  revalidatePath('/todos')
-}
-```
-*Server Actionsを使用し、`fetch()`の`'no-store'`でキャッシュを無効化しつつRSC側で再検証を行う例。*
 
 ## Naming Cheatsheet
 
