@@ -1,14 +1,20 @@
 # AI-Driven Development Guidelines
+
 ## Document Overview
+
 ### Purpose
-To define a "repository map" where human developers and multiple AI agents can share the same information source and collaborate seamlessly on code, design, and operations.
+
+To define a "repository map" where human developers and multiple AI agents can share the same information source
+and collaborate seamlessly on code, design, and operations.
 
 ### Expected Benefits
+
 - Reduce onboarding time for new participants and minimize rework costs
 - Improve LLM response accuracy through RAG utilization
 - Prevent "documentation decay" by automatically checking differences and compatibility in CI
 
 ### Use Cases
+
 - New product launch
 - Refactoring existing repositories / OSS publication preparation
 - During audits and security reviews (providing centralized evidence & ADR)
@@ -54,37 +60,40 @@ To define a "repository map" where human developers and multiple AI agents can s
 ```
 
 ## 2. File/Directory Quick Reference
+
 | Path | Required/Optional | Purpose | Main Contents | Maintenance Frequency |
 |------|-----------|------|----------|-----------|
 | `/README.md` | ✅ Required | TL;DR / Quick Start | 5-minute setup procedure | Each release |
 | `/CHANGELOG.md` | ✅ Required | Version history (Keep‑a‑Changelog) | Added / Changed / Fixed | Each release |
 | `Makefile` | ✅ Required | Common command collection | setup, test, embed, etc. | When adding features |
 | `.github/workflows/` | ✅ Required | CI / CD & Security Hardening | Lint／Test／Deploy | Each update |
-| `.devcontainer.json` | ✅ Required | Reproducible development environment | image／extensions | When environment changes |
+| `.devcontainer.json` | ✅ Required | Reproducible dev environment | image／extensions | Environment changes |
 | `docs/` | ✅ Required | Human & AI shared knowledge base | See section 3 | As needed |
 | `ai/` | ✅ Required | AI meta-layer | See section 4 | As needed |
-| `ai/context/` | ✅ Required | AI context optimization | When major policy changes |
+| `ai/context/` | ✅ Required | AI context optimization | Context management | When major policy changes |
 | `ai/examples/` | ▶︎ Recommended | Collection of successful patterns | Best implementations | When PR is adopted |
-| `ai/feedback/` | ▶︎ For auto-generation environments | AI output review results | Evaluation comments | Each PR |
-| `ai/history/` | ▶︎ Optional | Session log & summary storage | Chat history JSON, daily digest | Auto-generated |
-| `data-contract/` | ▶︎ Domain dependent | Data contract & schema compatibility guarantee | AsyncAPI, Avro schema | When schema changes |
-| `benchmarks/` | ▶︎ Optional | Performance/cost comparison, evaluation reports | LLM inference cost table, execution time measurements | Regular measurement |
+| `ai/feedback/` | ▶︎ Auto-gen env | AI Output Review | Evaluation comments | Each PR |
+| `ai/history/` | ▶︎ Optional | Session Log & Summary Storage | Chat history JSON, daily digest | Auto-generation |
+| `data-contract/` | ▶︎ Domain-dependent | Data Contract & Schema | AsyncAPI, Avro schema | Schema changes |
+| `benchmarks/` | ▶︎ Optional | Performance/Cost Comparison | LLM cost table, execution time | Regular measurement |
 
 ## 3. `docs/` — Human & AI Shared Knowledge Base
 
 ### 3.1 `overview.md`
+
 Business background, goals, and constraints. Update when goals change.
 
 ### 3.2 `requirements/` — Two-layer Management
 
-| Subpath | Usage | Operation |
-|----------|------|------|
-| `spec/` | Business requirements, non-functional requirements (`REQ‑001.md`, etc.) | When changes are confirmed ➡ Link with ADR |
-| `backlog/` | PBI / Implementation task granularity (GitHub Issue ⇔ MD/YAML) | Auto-generated from issue template → closed |
+| Subpath | Purpose | Operation |
+|---------|---------|-----------|
+| `spec/` | Business requirements, non-functional (`REQ‑001.md` etc.) | Confirmed changes ➡ Link to ADR |
+| `backlog/` | PBI / Implementation tasks (GitHub Issue ⇔ MD/YAML) | Auto-generated from Issue template→Close |
 
 > **FAQ**  
 > **Are coarse-grained requirements and implementation tasks mixed?**  
-> Framework specifications are in `spec/`, implementation instructions are in `backlog/`, enabling both static design documents and dynamic backlogs.
+> Framework specifications are in `spec/`, implementation instructions are in `backlog/`, enabling both static
+> design documents and dynamic backlogs.
 
 ### 3.3 `standards/` — コーディング規約
 
@@ -93,6 +102,7 @@ Business background, goals, and constraints. Update when goals change.
 | `coding-standards.md` | コーディング規約 | コード品質の維持と一貫性の確保 |
 
 **主な内容**:
+
 - ファイル行数制限（基本150行、最大250行）
 - 命名規則
 - コードスタイル
@@ -105,6 +115,7 @@ Business background, goals, and constraints. Update when goals change.
 | `operational-guidelines.md` | 運用ガイドライン | プロジェクトの運用に関する重要なガイドライン |
 
 **主な内容**:
+
 - デプロイメントプロセス
 - モニタリング方針
 - インシデント対応
@@ -119,6 +130,7 @@ Business background, goals, and constraints. Update when goals change.
 | `adr/` | MADR template (`nadr-2.1.2.md`) | 1 decision = 1 file |
 
 **`adr/` Operation Rules**:
+
 - **ID Assignment**: Use format `ADR-0001`, `ADR-0002` in sequential order
 - **Maintenance**: Always add a new ADR for breaking changes or technology selection
 
@@ -144,6 +156,7 @@ Business background, goals, and constraints. Update when goals change.
 | `insights/` | Improvement points extracted by periodic batch | `2025-W19-insights.md` |
 
 **Maintenance Method**:
+
 - Automatically save to `sessions/` after session ends
 - Generate `summaries/` daily via CRON
 - Generate `insights/` weekly and transcribe to `ai/feedback/`
@@ -164,16 +177,20 @@ Business background, goals, and constraints. Update when goals change.
 | `data-contract/` | Event-driven | AsyncAPI / Avro |
 
 ### `data-contract/` Details
+
 **Usage**:  
 Store "contracts" between data producers and consumers as code. Prevent breaking changes similar to API contracts.
+
 - **Placement**: `customer.avro`, `orders.proto`, `contract.md`, etc.
 - **Maintenance Method**:
   1. Create PR when schema changes, run backward compatibility tests in CI
   2. Always include `BREAKING CHANGE` tag in release notes
 
 ### `benchmarks/` Details
+
 **Usage**:  
 Monitor LLM inference costs, performance, memory, etc. to provide decision-making material for model/prompt changes.
+
 - **Placement**: `benchmark_2025-05.csv`, `plots/latency.png`, `README.md`
 - **Maintenance Method**:
   1. Measure with `make benchmark` → Append to CSV

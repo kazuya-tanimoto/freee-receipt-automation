@@ -154,6 +154,7 @@
 | `insights/` | 定期バッチで抽出した改善点 | `2025-W19-insights.md` |
 
 **メンテ方法**:
+
 - セッション終了後に自動で `sessions/` 保存
 - 日次 CRON で `summaries/` 生成
 - 週次で `insights/` を生成し、`ai/feedback/` へ転記
@@ -163,35 +164,41 @@
 プロジェクトの開発ガイドラインは以下の4つの主要部分で構成されています：
 
 ### 5.1 AIコンテキスト最適化 (`ai/context/`)
+
 - **context-optimization.md**: AIアシスタントとの効率的な連携
 - **summary-ja.md**: AI向け要約（2000トークン制限）
 - トークン制限とコンテキスト管理
 - RAGの最適化
 
 ### 5.2 コーディング規約 (`docs/standards/`)
+
 - **coding-standards.md**: コーディング規約
 - **bulletproof-react/**: Reactベストプラクティス（サブモジュール）
 - **naming-cheatsheet/**: 命名規則ガイド（サブモジュール）
 - ファイル行数制限（基本150行、最大250行）
 
 ### 5.3 運用ルール (`docs/ops/`)
+
 - **operational-guidelines.md**: 運用ガイドライン
 - **operational-rules.md**: 更新フロー、品質管理、メンテナンス
 - デプロイメントプロセス
 - インシデント対応
 
 ### 5.4 ドキュメント標準 (`docs/standards/`)
+
 - **documentation-guidelines.md**: ドキュメント作成ガイドライン
 - **review-guidelines.md**: レビューガイドライン
 - **security-guidelines.md**: セキュリティガイドライン
 
 ### ガイドライン変更時の貢献プロセス
+
 1. 課題（Issue）の作成
 2. チームとの議論
 3. プルリクエストの作成
 4. レビューと承認
 
 **重要な注意事項**:
+
 - SUMMARY-ja.mdを直接編集しないでください（自動生成）
 - トークン制限（2000トークン）は厳守
 - システムプロンプトとの統合を考慮
@@ -212,16 +219,20 @@
 | `data-contract/` | イベント駆動 | AsyncAPI / Avro |
 
 ### `data-contract/` の詳細
+
 **用途**:  
 データプロデューサーとコンシューマー間の「契約」をコードとして残す。API契約同様に破壊的変更を防ぐ。
+
 - **配置物**: `customer.avro`, `orders.proto`, `contract.md` など
 - **メンテ方法**:
   1. スキーマ変更時に PR を作成し、CI で後方互換テストを実行
   2. リリースノートに `BREAKING CHANGE` タグを必ず記載
 
 ### `benchmarks/` の詳細
+
 **用途**:  
 LLM 推論コスト、性能、メモリ等を定点観測し、モデル/プロンプト変更の意思決定材料にする。
+
 - **配置物**: `benchmark_2025-05.csv`, `plots/latency.png`, `README.md`
 - **メンテ方法**:
   1. `make benchmark` で計測 → CSV 追記
