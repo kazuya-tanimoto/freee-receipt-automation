@@ -21,9 +21,9 @@ cyclonedx-npm --output-file ./docs/standards/sbom/sbom.json --format json
 ```
 
 ## 更新スケジュール
-- GitHub Actionsによる週次の自動生成
 - 依存関係の更新時の手動生成
 - リリース前のレビューと検証
+- 将来: 週次自動生成を計画
 
 ## 使用方法
 - セキュリティ監査

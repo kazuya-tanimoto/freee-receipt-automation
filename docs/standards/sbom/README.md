@@ -21,9 +21,9 @@ cyclonedx-npm --output-file docs/standards/sbom/sbom.json --format json
 ```
 
 ## Update Schedule
-- Weekly automatic generation via GitHub Actions
 - Manual generation on dependency updates
 - Review and validation before each release
+- Future: Weekly automatic generation planned
 
 ## Usage
 - Security audits

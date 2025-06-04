@@ -32,7 +32,7 @@
   - Security
 
 ### 2. Documentation
-- Manual editing of summary is prohibited
+- Manual editing of summary is allowed with careful review
 - Prioritize automatic updates
 - Major changes require ADR
 
@@ -43,7 +43,7 @@
 
 ## Maintenance
 ### 1. Regular Updates
-- Weekly submodule updates
+- Manual submodule updates as needed
 - Monthly dependency updates
 - Quarterly security reviews
 
