@@ -1,4 +1,4 @@
-# PBI-1-1-2-B: Transaction Tables Creation
+# PBI-1-1-3: Transaction Tables Creation
 
 ## Description
 Create the transaction-related database tables for the freee receipt automation system. This includes the transactions table for storing freee API data and the processing_logs table for tracking system operations and debugging.
@@ -74,7 +74,7 @@ CREATE TRIGGER update_transactions_updated_at BEFORE UPDATE ON transactions FOR 
 - Include duration tracking for performance monitoring
 
 ### Interface Specifications
-- **Input Interfaces**: Requires receipts table from PBI-1-1-2-A
+- **Input Interfaces**: Requires receipts table from PBI-1-1-2
 - **Output Interfaces**: Tables available for matching and reporting
   ```typescript
   interface Transaction {
@@ -117,7 +117,7 @@ CREATE TRIGGER update_transactions_updated_at BEFORE UPDATE ON transactions FOR 
 - [ ] TypeScript types match database schema exactly
 
 ## Dependencies
-- **Required**: PBI-1-1-2-A - Core tables (receipts table for foreign key)
+- **Required**: PBI-1-1-2 - Core tables (receipts table for foreign key)
 
 ## Testing Requirements
 - Unit tests: Test TypeScript types compilation

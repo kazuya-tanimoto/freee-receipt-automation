@@ -1,4 +1,4 @@
-# PBI-1-1-3: Authentication Setup
+# PBI-1-1-5: Authentication Setup
 
 ## Description
 Configure authentication system for the freee receipt automation application. This includes setting up email/password authentication, creating auth helper functions, and implementing session management with Next.js middleware.

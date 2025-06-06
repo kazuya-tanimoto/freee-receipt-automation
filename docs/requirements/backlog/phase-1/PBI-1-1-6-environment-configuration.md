@@ -1,4 +1,4 @@
-# PBI-1-1-4: Environment Configuration
+# PBI-1-1-6: Environment Configuration
 
 ## Description
 Set up comprehensive environment configuration management for the application. This includes creating a centralized configuration system, implementing validation with Zod, and setting up deployment-specific configurations.

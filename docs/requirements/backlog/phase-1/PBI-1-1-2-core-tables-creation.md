@@ -1,4 +1,4 @@
-# PBI-1-1-2-A: Core Tables Creation
+# PBI-1-1-2: Core Tables Creation
 
 ## Description
 Create the core database tables for user settings and receipts in the PostgreSQL database. This includes the user_settings table (extending Supabase auth) and the receipts table for storing receipt information and OCR data.

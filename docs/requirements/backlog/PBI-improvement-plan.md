@@ -9,7 +9,7 @@ This document outlines the plan for improving Product Backlog Items (PBIs) to ma
 - [x] Create detailed implementation plan
 - [x] Create PBI template
 - [x] Design Phase 1 PBI breakdown (5 detailed PBIs created)
-- [x] Create Phase 1 detailed PBIs (8 files completed - including sub-tasks)
+- [x] Create Phase 1 detailed PBIs (7 files completed)
 - [x] Review Phase 1 PBIs and template (completed)
 - [x] Apply feedback from Phase 1 review (PBI-1-1-2 split, template enhanced)
 - [x] Refactor Phase 2 PBIs (5 large PBIs → 20 SP across 19 detailed PBIs)
@@ -69,13 +69,12 @@ Refactored structure:
 ```
 PBI-1-1: Supabase Project Setup
 ├── PBI-1-1-1: Project initialization (1 SP)
-├── PBI-1-1-2: Database schema creation (SPLIT INTO 3 SUB-TASKS)
-│   ├── PBI-1-1-2-A: Core tables creation (1 SP)
-│   ├── PBI-1-1-2-B: Transaction tables creation (1 SP)
-│   └── PBI-1-1-2-C: RLS and types setup (1 SP)
-├── PBI-1-1-3: Authentication setup (1 SP)
-├── PBI-1-1-4: Environment configuration (1 SP)
-└── PBI-1-1-5: Documentation (1 SP)
+├── PBI-1-1-2: Core tables creation (1 SP)
+├── PBI-1-1-3: Transaction tables creation (1 SP)
+├── PBI-1-1-4: RLS and types setup (1 SP)
+├── PBI-1-1-5: Authentication setup (1 SP)
+├── PBI-1-1-6: Environment configuration (1 SP)
+└── PBI-1-1-7: Documentation (1 SP)
 
 PBI-1-2: Storage and OCR
 ├── PBI-1-2-1: Storage bucket setup (1 SP)
@@ -202,33 +201,34 @@ PBI-1-3: freee API Integration
   - Set up environment variables
   - Initialize Supabase client
   
-- **PBI-1-1-2: Database Schema Creation** (3 SP - SPLIT INTO SUB-TASKS) ✅
-  - **PBI-1-1-2-A: Core Tables Creation** (1 SP) ✅
-    - Create user_settings and receipts tables
-    - Set up indexes and constraints
-    - Implement updated_at triggers
-  - **PBI-1-1-2-B: Transaction Tables Creation** (1 SP) ✅
-    - Create transactions and processing_logs tables
-    - Configure foreign key relationships
-    - Add performance indexes
-  - **PBI-1-1-2-C: RLS and Types Setup** (1 SP) ✅
-    - Configure Row Level Security policies
-    - Generate TypeScript types
-    - Create security helper functions
+- **PBI-1-1-2: Core Tables Creation** (1 SP) ✅
+  - Create user_settings and receipts tables
+  - Set up indexes and constraints
+  - Implement updated_at triggers
   
-- **PBI-1-1-3: Authentication Setup** (1 SP) ✅
+- **PBI-1-1-3: Transaction Tables Creation** (1 SP) ✅
+  - Create transactions and processing_logs tables
+  - Configure foreign key relationships
+  - Add performance indexes
+  
+- **PBI-1-1-4: RLS and Types Setup** (1 SP) ✅
+  - Configure Row Level Security policies
+  - Generate TypeScript types
+  - Create security helper functions
+  
+- **PBI-1-1-5: Authentication Setup** (1 SP) ✅
   - Configure email/password auth
   - Create auth helper functions
   - Set up Next.js middleware
   - Implement session management
   
-- **PBI-1-1-4: Environment Configuration** (1 SP) ✅
+- **PBI-1-1-6: Environment Configuration** (1 SP) ✅
   - Set up environment variables
   - Create configuration management
   - Implement validation with zod
   - Configure deployment settings
   
-- **PBI-1-1-5: Documentation** (1 SP) ✅
+- **PBI-1-1-7: Documentation** (1 SP) ✅
   - Create setup guide
   - Document architecture decisions
   - Add troubleshooting guide

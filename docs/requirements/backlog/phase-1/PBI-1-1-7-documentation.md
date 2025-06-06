@@ -1,4 +1,4 @@
-# PBI-1-1-5: Documentation
+# PBI-1-1-7: Documentation
 
 ## Description
 Create comprehensive documentation for the Supabase setup phase. This includes setup guides, architecture decisions, troubleshooting guides, and updating the main README with relevant information.
@@ -57,7 +57,7 @@ Create comprehensive documentation for the Supabase setup phase. This includes s
 - [ ] All documentation is reviewed for accuracy
 
 ## Dependencies
-- **Required**: PBI-1-1-1 through PBI-1-1-4 - Documentation reflects implemented features
+- **Required**: PBI-1-1-1 through PBI-1-1-6 - Documentation reflects implemented features
 
 ## Testing Requirements
 - Manual testing: Follow setup guide on clean environment

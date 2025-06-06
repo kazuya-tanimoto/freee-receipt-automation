@@ -1,4 +1,4 @@
-# PBI-1-1-2-C: RLS and Types Setup
+# PBI-1-1-4: RLS and Types Setup
 
 ## Description
 Configure Row Level Security (RLS) policies for all database tables and generate TypeScript types for the freee receipt automation system. This ensures data isolation between users and provides type-safe database operations.
@@ -80,7 +80,7 @@ npx supabase gen types typescript --project-id [PROJECT_ID] > src/types/database
 - Use helper functions for complex policy logic
 
 ### Interface Specifications
-- **Input Interfaces**: Requires tables from PBI-1-1-2-A and PBI-1-1-2-B
+- **Input Interfaces**: Requires tables from PBI-1-1-2 and PBI-1-1-3
 - **Output Interfaces**: Provides secure database access patterns
   ```typescript
   // Export all database types
@@ -124,8 +124,8 @@ npm run audit:security
 ```
 
 ## Dependencies
-- **Required**: PBI-1-1-2-A - Core tables must exist
-- **Required**: PBI-1-1-2-B - Transaction tables must exist
+- **Required**: PBI-1-1-2 - Core tables must exist
+- **Required**: PBI-1-1-3 - Transaction tables must exist
 
 ## Testing Requirements
 - Unit tests: Test policy helper functions
