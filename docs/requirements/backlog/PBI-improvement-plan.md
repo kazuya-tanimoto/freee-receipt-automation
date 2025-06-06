@@ -12,7 +12,7 @@ This document outlines the plan for improving Product Backlog Items (PBIs) to ma
 - [x] Create Phase 1 detailed PBIs (8 files completed - including sub-tasks)
 - [x] Review Phase 1 PBIs and template (completed)
 - [x] Apply feedback from Phase 1 review (PBI-1-1-2 split, template enhanced)
-- [ ] Refactor Phase 2 PBIs (4 large PBIs → ~25 detailed PBIs)
+- [x] Refactor Phase 2 PBIs (5 large PBIs → 20 SP across 19 detailed PBIs)
 - [ ] Refactor Phase 3 PBIs (3 large PBIs → ~15 detailed PBIs)
 - [ ] Refactor Phase 4 PBIs (3 large PBIs → ~15 detailed PBIs)
 - [ ] Refactor Phase 5 PBIs (3 large PBIs → ~15 detailed PBIs)
@@ -117,6 +117,58 @@ PBI-1-3: freee API Integration
 
 [Detailed breakdown to be added during implementation]
 
+## Phase 2 Detailed Breakdown (Completed)
+
+### PBI-2-1: Foundation Tasks (Total: 3 SP)
+- **PBI-2-1-1: OpenAPI Definition Creation** (1 SP) ✅
+- **PBI-2-1-2: Common OAuth Module** (1 SP) ✅
+- **PBI-2-1-3: Observability Setup** (1 SP) ✅
+
+### PBI-2-2: Gmail API Integration (Total: 6 SP)
+- **PBI-2-2-1: Gmail OAuth Setup** (1 SP) ✅
+- **PBI-2-2-2: Gmail Basic API Operations** (1 SP) ✅
+- **PBI-2-2-3: Gmail Business Logic Integration** (2 SP) ✅
+- **PBI-2-2-4: Gmail Error Handling and Retry Logic** (1 SP) ✅
+- **PBI-2-2-5: Gmail Testing and Documentation** (1 SP) ✅
+
+### PBI-2-3: Google Drive Integration (Total: 6 SP)
+- **PBI-2-3-1: Google Drive OAuth Setup** (1 SP) ✅
+- **PBI-2-3-2: Google Drive Basic API Operations** (1 SP) ✅
+- **PBI-2-3-3: Google Drive Business Logic Integration** (2 SP) ✅
+- **PBI-2-3-4: Google Drive Error Handling and Retry Logic** (1 SP) ✅
+- **PBI-2-3-5: Google Drive Testing and Documentation** (1 SP) ✅
+
+### PBI-2-4: Folder/File Management (Total: 4 SP)
+- **PBI-2-4-1: File Naming System** (1 SP) ✅
+- **PBI-2-4-2: Folder Structure Management** (1 SP) ✅
+- **PBI-2-4-3: Duplicate Handling Logic** (1 SP) ✅
+- **PBI-2-4-4: File Management Testing and Documentation** (1 SP) ✅
+
+### PBI-2-5: Scheduled Execution (Total: 3 SP)
+- **PBI-2-5-1: pg_cron Setup and Schedule Job Foundation** (1 SP) ✅
+- **PBI-2-5-2: Background Job Queue Implementation** (2 SP) ✅
+
+**Phase 2 Total: 22 SP (19 PBIs)**
+
+### Implementation Notes for Phase 2:
+1. **Authorization Scope Management**: Background jobs accessing both Drive and Gmail must carefully manage OAuth scopes. Consolidate settings in a single configuration file with environment variable switching for test/production.
+2. **Rate Limit Management**: Implement centralized rate limit tracking across all Google API calls to prevent quota exhaustion.
+3. **Design Buffer**: Consider adding 1-2 SP "investigation/design buffer" at the end of Phase 2 to address any specification gaps before Phase 3.
+
+## Phase 3 Planning Considerations
+
+### Risk Management
+1. **External API Changes**: Assign a team member to monitor Google API and freee API version updates, deprecation notices, and regulatory changes that might impact Phase 3-5 implementation.
+2. **Design/Investigation Buffer**: Reserve 1-2 SP equivalent "investigation buffer" before Phase 3 to:
+   - Review and address any specification gaps discovered during Phase 2
+   - Validate assumptions about user interface requirements
+   - Research best practices for management interfaces
+
+### Technical Considerations for Phase 3
+1. **UI Component Library Selection**: Evaluate and decide on UI framework (shadcn/ui, MUI, etc.) before starting interface development
+2. **State Management**: Choose appropriate state management solution for complex UI interactions
+3. **Real-time Updates**: Consider WebSocket or Server-Sent Events for live status updates
+
 ## Implementation Timeline
 1. **Week 1**: Review Phase 1 PBIs & Refactor Phase 2 PBIs
 2. **Week 2**: Refactor Phase 3 & 4 PBIs
@@ -199,4 +251,4 @@ PBI-1-3: freee API Integration
 
 ## For Continuation in Another Chat
 To continue this work in another chat, use the following command:
-"Please continue working on the PBI improvement plan in `/Users/kazuya/src/freee-receipt-automation/docs/requirements/backlog/PBI-improvement-plan.md`. Phase 1 is completed with all feedback applied (PBI-1-1-2 split into 3 sub-tasks, template enhanced with metadata and verification commands). The next steps are to refactor Phase 2 PBIs (PBI-2-1 through PBI-2-4) into detailed 1-2 SP tasks using the improved PBI template in `PBI-template.md`. Apply the external API integration patterns documented in the plan (OAuth setup, basic operations, business logic, error handling, testing)."
+"Please continue working on the PBI improvement plan in `/Users/kazuya/src/freee-receipt-automation/docs/requirements/backlog/PBI-improvement-plan.md`. Phase 1 and Phase 2 are completed with all feedback applied. Phase 2 has been reorganized with proper numbering (PBI-2-1-x for foundation, PBI-2-2-x for Gmail, etc.) totaling 22 SP across 19 PBIs. The next steps are to refactor Phase 3 PBIs (management interface) into detailed 1-2 SP tasks using the improved PBI template in `PBI-template.md`. Note the Phase 3 planning considerations section for risk management and technical decisions."
