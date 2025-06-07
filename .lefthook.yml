@@ -1,0 +1,6 @@
+pre-commit:
+  parallel: true
+  commands:
+    docs-check:
+      run: npm run check:docs
+      files: git diff --name-only --cached --diff-filter=d | grep '\.md$'

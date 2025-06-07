@@ -1,0 +1,15 @@
+{
+  "name": "freee-receipt-automation",
+  "version": "1.0.0",
+  "description": "Freee Receipt Automation System",
+  "packageManager": "yarn@4.0.0",
+  "scripts": {
+    "check:docs": "bash scripts/check-docs.sh",
+    "check:docs:size": "find docs -name '*.md' -exec sh -c 'size=$(wc -c < \"$1\"); [ $size -gt 10000 ] && echo \"$1: $size bytes (exceeds 10KB)\"' _ {} \\;",
+    "lint:md": "markdownlint-cli2 '**/*.md' '#node_modules'"
+  },
+  "devDependencies": {
+    "lefthook": "^1.11.13",
+    "markdownlint-cli2": "^0.12.1"
+  }
+}
