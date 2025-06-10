@@ -1,16 +1,21 @@
 # PBI-1-1-2: Core Tables Creation
 
 ## Description
-Create the core database tables for user settings and receipts in the PostgreSQL database. This includes the user_settings table (extending Supabase auth) and the receipts table for storing receipt information and OCR data.
+
+Create the core database tables for user settings and receipts in the PostgreSQL
+database. This includes the user_settings table (extending Supabase auth) and the
+receipts table for storing receipt information and OCR data.
 
 ## Implementation Details
 
 ### Files to Create/Modify
+
 1. `supabase/migrations/001_core_tables.sql` - Core tables creation
 2. `src/types/database/core.ts` - TypeScript types for core tables
 3. `docs/database/core-schema.md` - Core tables documentation
 
 ### Technical Requirements
+
 - Use PostgreSQL 14+ features
 - Enable UUID extension for primary keys
 - Set up proper indexes for performance
@@ -18,6 +23,7 @@ Create the core database tables for user settings and receipts in the PostgreSQL
 - Include audit fields (created_at, updated_at)
 
 ### Database Schema
+
 ```sql
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -69,13 +75,16 @@ CREATE TRIGGER update_receipts_updated_at BEFORE UPDATE ON receipts FOR EACH ROW
 ```
 
 ### Code Patterns to Follow
+
 - Use UUID for all primary keys
 - Include proper CASCADE delete behavior
 - Use CHECK constraints for enum-like fields
 - Implement updated_at triggers for audit trails
 
 ### Interface Specifications
+
 - **Output Interfaces**: Tables available for other PBIs
+
   ```typescript
   interface UserSettings {
     id: string;
@@ -96,13 +105,14 @@ CREATE TRIGGER update_receipts_updated_at BEFORE UPDATE ON receipts FOR EACH ROW
     ocr_text: string | null;
     ocr_data: Record<string, any> | null;
     processed_at: string | null;
-    status: 'pending' | 'processing' | 'completed' | 'failed';
+    status: "pending" | "processing" | "completed" | "failed";
     created_at: string;
     updated_at: string;
   }
   ```
 
 ## Acceptance Criteria
+
 - [ ] user_settings table is created with proper foreign key to auth.users
 - [ ] receipts table is created with all required fields
 - [ ] All tables have proper indexes for performance
@@ -111,20 +121,25 @@ CREATE TRIGGER update_receipts_updated_at BEFORE UPDATE ON receipts FOR EACH ROW
 - [ ] TypeScript types match database schema exactly
 
 ## Dependencies
+
 - **Required**: PBI-1-1-1 - Supabase project must be initialized
 
 ## Testing Requirements
+
 - Unit tests: Test TypeScript types compilation
 - Integration tests: Test table creation and basic CRUD operations
 - Test data: Sample user settings and receipt records
 
 ## Estimate
+
 1 story point
 
 ## Priority
+
 High - Core tables needed by all receipt processing features
 
 ## Implementation Notes
+
 - Use Supabase migration system for version control
 - Test foreign key constraints with sample data
 - Ensure proper timezone handling for timestamps

@@ -1,9 +1,13 @@
 # PBI-4-3: Basic Matching Algorithm Refinement
 
 ## Description
-Refine the basic matching algorithm to improve the accuracy and reliability of receipt-to-transaction matching. This includes implementing advanced matching techniques, optimizing matching parameters, and creating a more robust matching pipeline.
+
+Refine the basic matching algorithm to improve the accuracy and reliability of receipt-to-transaction matching.
+This includes implementing advanced matching techniques, optimizing matching parameters,
+and creating a more robust matching pipeline.
 
 ## Acceptance Criteria
+
 - Advanced matching techniques are implemented:
   - Fuzzy date matching with configurable tolerance
   - Approximate amount matching with percentage-based tolerance
@@ -28,12 +32,15 @@ Refine the basic matching algorithm to improve the accuracy and reliability of r
 - Documentation for the matching algorithm refinements is created
 
 ## Dependencies
+
 - PBI-1-2: Storage Integration and OCR Processing
 - PBI-1-3: Basic freee API Integration
 - PBI-4-2: OCR Accuracy Improvement
 
 ## Estimate
+
 8 story points (approximately 3-4 days)
 
 ## Priority
+
 Medium - Important for system reliability but builds on existing functionality

@@ -6,11 +6,7 @@ echo "🔍 Documentation pre-commit check starting..."
 
 # 1. Markdownlint チェック (エラーを無視)
 echo "✓ Running markdownlint..."
-if command -v yarn > /dev/null && yarn markdownlint-cli2 --version > /dev/null 2>&1; then
-    yarn markdownlint-cli2 "*.md" "docs/**/*.md" || true
-else
-    echo "⚠️  markdownlint-cli2 not found. Skipping..."
-fi
+yarn lint:md
 
 # 2. ファイルサイズチェック
 echo "✓ Checking file sizes..."
@@ -23,7 +19,10 @@ while IFS= read -r file; do
             large_files=$((large_files + 1))
         fi
     fi
-done < <(find docs -name "*.md" 2>/dev/null)
+done < <(find docs \
+    -path "docs/standards/bulletproof-react" -prune -o \
+    -path "docs/standards/naming-cheatsheet" -prune -o \
+    -name "*.md" 2>/dev/null)
 
 if [ $large_files -gt 0 ]; then
     echo "❌ Found $large_files files exceeding size limit"
@@ -42,7 +41,10 @@ while IFS= read -r file; do
             missing_files="${missing_files}\n  - English version missing for: $file"
         fi
     fi
-done < <(find docs -name "*-ja.md" 2>/dev/null)
+done < <(find docs \
+    -path "docs/standards/bulletproof-react" -prune -o \
+    -path "docs/standards/naming-cheatsheet" -prune -o \
+    -name "*-ja.md" 2>/dev/null)
 
 # 英語版に対応する日本語版の存在チェック
 while IFS= read -r file; do
@@ -52,7 +54,10 @@ while IFS= read -r file; do
             missing_files="${missing_files}\n  - Japanese version missing for: $file"
         fi
     fi
-done < <(find docs -name "*.md" ! -name "*-ja.md" 2>/dev/null)
+done < <(find docs \
+    -path "docs/standards/bulletproof-react" -prune -o \
+    -path "docs/standards/naming-cheatsheet" -prune -o \
+    -name "*.md" ! -name "*-ja.md" 2>/dev/null)
 
 if [ -n "$missing_files" ]; then
     echo -e "⚠️  Language consistency warnings:$missing_files"

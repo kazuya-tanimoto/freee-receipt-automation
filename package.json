@@ -2,14 +2,16 @@
   "name": "freee-receipt-automation",
   "version": "1.0.0",
   "description": "Freee Receipt Automation System",
-  "packageManager": "yarn@4.0.0",
+  "packageManager": "yarn@4.0.2",
   "scripts": {
     "check:docs": "bash scripts/check-docs.sh",
-    "check:docs:size": "find docs -name '*.md' -exec sh -c 'size=$(wc -c < \"$1\"); [ $size -gt 10000 ] && echo \"$1: $size bytes (exceeds 10KB)\"' _ {} \\;",
-    "lint:md": "markdownlint-cli2 '**/*.md' '#node_modules'"
+    "check:docs:size": "find docs -name '*.md' -exec sh -c 'size=$(wc -c < \\\"$1\\\"); [ $size -gt 10000 ] && echo \\\"$1: $size bytes (exceeds 10KB)\\\"' _ {} \\\\;",
+    "lint:md": "markdownlint-cli2 '**/*.md' '#node_modules' '#docs/standards/bulletproof-react' '#.yarn' '#docs/standards/naming-cheatsheet'",
+    "format:md": "prettier --write \"**/*.md\""
   },
   "devDependencies": {
     "lefthook": "^1.11.13",
-    "markdownlint-cli2": "^0.12.1"
+    "markdownlint-cli2": "^0.12.1",
+    "prettier": "^3.5.3"
   }
 }

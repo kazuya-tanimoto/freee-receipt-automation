@@ -1,11 +1,15 @@
 # PBI-2-1-3: Observability Setup
 
 ## Description
-Implement comprehensive observability infrastructure including structured logging, metrics collection, and distributed tracing. This enables monitoring, debugging, and performance analysis of AI-generated code and external API integrations.
+
+Implement comprehensive observability infrastructure including structured logging,
+metrics collection, and distributed tracing. This enables monitoring, debugging,
+and performance analysis of AI-generated code and external API integrations.
 
 ## Implementation Details
 
 ### Files to Create/Modify
+
 1. `src/lib/observability/logger.ts` - Structured logging configuration
 2. `src/lib/observability/metrics.ts` - Metrics collection utilities
 3. `src/lib/observability/tracing.ts` - Distributed tracing setup
@@ -15,6 +19,7 @@ Implement comprehensive observability infrastructure including structured loggin
 7. `docker-compose.observability.yml` - Local observability stack
 
 ### Technical Requirements
+
 - Implement structured JSON logging with multiple levels
 - Set up OpenTelemetry for distributed tracing
 - Configure Prometheus-compatible metrics export
@@ -22,6 +27,7 @@ Implement comprehensive observability infrastructure including structured loggin
 - Include error tracking and performance monitoring
 
 ### Logging Configuration
+
 ```typescript
 interface LogContext {
   userId?: string;
@@ -40,27 +46,32 @@ interface Logger {
 }
 
 // Usage example
-logger.info('OAuth token refreshed', {
+logger.info("OAuth token refreshed", {
   userId: user.id,
-  provider: 'google',
-  operation: 'token_refresh',
-  duration: 150
+  provider: "google",
+  operation: "token_refresh",
+  duration: 150,
 });
 ```
 
 ### Metrics Configuration
+
 ```typescript
 interface Metrics {
   // Counters
-  incrementOAuthAttempts(provider: string, status: 'success' | 'failure'): void;
-  incrementOCRProcessed(status: 'success' | 'failure'): void;
+  incrementOAuthAttempts(provider: string, status: "success" | "failure"): void;
+  incrementOCRProcessed(status: "success" | "failure"): void;
   incrementEmailsProcessed(provider: string): void;
-  
+
   // Histograms
-  recordApiDuration(provider: string, operation: string, duration: number): void;
+  recordApiDuration(
+    provider: string,
+    operation: string,
+    duration: number,
+  ): void;
   recordOCRDuration(duration: number): void;
   recordEmailProcessingDuration(duration: number): void;
-  
+
   // Gauges
   setActiveUsers(count: number): void;
   setPendingJobs(count: number): void;
@@ -68,15 +79,16 @@ interface Metrics {
 ```
 
 ### Tracing Setup
+
 ```typescript
 // OpenTelemetry configuration
-const tracer = trace.getTracer('freee-receipt-automation', '1.0.0');
+const tracer = trace.getTracer("freee-receipt-automation", "1.0.0");
 
 // Span creation helper
 export function createSpan<T>(
   name: string,
   operation: () => Promise<T>,
-  attributes?: Record<string, string | number>
+  attributes?: Record<string, string | number>,
 ): Promise<T> {
   return tracer.startActiveSpan(name, { attributes }, async (span) => {
     try {
@@ -84,9 +96,9 @@ export function createSpan<T>(
       span.setStatus({ code: SpanStatusCode.OK });
       return result;
     } catch (error) {
-      span.setStatus({ 
-        code: SpanStatusCode.ERROR, 
-        message: error instanceof Error ? error.message : 'Unknown error' 
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: error instanceof Error ? error.message : "Unknown error",
       });
       span.recordException(error as Error);
       throw error;
@@ -98,6 +110,7 @@ export function createSpan<T>(
 ```
 
 ### Environment Variables
+
 ```bash
 # Observability configuration
 LOG_LEVEL=info
@@ -112,14 +125,17 @@ SENTRY_DSN=<your-dsn>
 ```
 
 ### Code Patterns to Follow
+
 - Use structured logging with consistent field names
 - Include correlation IDs for request tracing
 - Add telemetry to all external API calls
 - Implement graceful degradation if observability fails
 
 ### Interface Specifications
+
 - **Input Interfaces**: Integrates with all other PBIs for monitoring
 - **Output Interfaces**: Provides observability utilities
+
   ```typescript
   export interface ObservabilityContext {
     logger: Logger;
@@ -127,17 +143,18 @@ SENTRY_DSN=<your-dsn>
     createSpan: typeof createSpan;
     requestId: string;
   }
-  
+
   export interface PerformanceMetrics {
     operation: string;
     duration: number;
-    status: 'success' | 'failure' | 'timeout';
+    status: "success" | "failure" | "timeout";
     provider?: string;
     errorCode?: string;
   }
   ```
 
 ## Metadata
+
 - **Status**: Not Started
 - **Actual Story Points**: [To be filled after completion]
 - **Created**: 2025-06-04
@@ -148,6 +165,7 @@ SENTRY_DSN=<your-dsn>
 - **Implementation Notes**: [Post-completion learnings]
 
 ## Acceptance Criteria
+
 - [ ] Structured logging is configured with multiple levels
 - [ ] OpenTelemetry tracing is set up and working
 - [ ] Metrics collection for key operations is implemented
@@ -156,6 +174,7 @@ SENTRY_DSN=<your-dsn>
 - [ ] Performance monitoring covers external API calls
 
 ### Verification Commands
+
 ```bash
 # Test logging output
 npm run dev && curl http://localhost:3000/api/health | jq .
@@ -166,20 +185,25 @@ docker-compose -f docker-compose.observability.yml up -d
 ```
 
 ## Dependencies
+
 - **Required**: PBI-1-1-4 - Environment configuration for observability settings
 
 ## Testing Requirements
+
 - Unit tests: Test logging, metrics, and tracing utilities
 - Integration tests: Verify observability in realistic scenarios
 - Test data: Mock telemetry data for testing dashboards
 
 ## Estimate
+
 1 story point
 
 ## Priority
+
 High - Observability needed for debugging AI-generated code
 
 ## Implementation Notes
+
 - Consider using Winston or Pino for structured logging
 - Set up Jaeger for local development tracing
 - Use Prometheus client for Node.js metrics

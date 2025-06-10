@@ -1,9 +1,13 @@
 # PBI-3-3: Manual Adjustment Features
 
 ## Description
-Implement features in the management interface to allow users to manually adjust and correct receipt-to-transaction matching results. This includes creating interfaces for manual matching, editing metadata, and providing feedback for the matching system.
+
+Implement features in the management interface to allow users to manually adjust and correct
+receipt-to-transaction matching results. This includes creating interfaces for manual matching,
+editing metadata, and providing feedback for the matching system.
 
 ## Acceptance Criteria
+
 - Manual matching interface is implemented with the following features:
   - Drag-and-drop functionality for matching receipts to transactions
   - Manual selection of receipt-transaction pairs
@@ -27,12 +31,15 @@ Implement features in the management interface to allow users to manually adjust
 - Documentation for the manual adjustment features is created
 
 ## Dependencies
+
 - PBI-3-1: NextJS Management Interface
 - PBI-3-2: Matching Status Verification
 - PBI-1-3: Basic freee API Integration
 
 ## Estimate
+
 8 story points (approximately 3-4 days)
 
 ## Priority
+
 Medium - Important for user control but depends on verification features

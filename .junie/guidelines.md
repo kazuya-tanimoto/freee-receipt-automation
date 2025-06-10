@@ -1,6 +1,7 @@
 # Development Guidelines
 
-This document provides essential information for developers working on this project. It focuses on AI-driven development guidelines and repository structure.
+This document provides essential information for developers working on this project.
+It focuses on AI-driven development guidelines and repository structure.
 
 ## Repository Structure
 
@@ -25,6 +26,7 @@ This repository serves as a guideline for AI-driven development. The main compon
 ## Versioning
 
 The project follows Semantic Versioning (SemVer):
+
 - MAJOR version for incompatible API changes
 - MINOR version for backward-compatible functionality additions
 - PATCH version for backward-compatible bug fixes

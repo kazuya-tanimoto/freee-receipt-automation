@@ -61,21 +61,37 @@ collaborate seamlessly on code, design, and operations.
 
 ## 2. File/Directory Quick Reference
 
-| Path | Required/Optional | Purpose | Main Contents | Maintenance Frequency |
-|------|-----------|------|----------|-----------|
-| `/README.md` | ✅ Required | TL;DR / Quick Start | 5-minute setup procedure | Each release |
-| `/CHANGELOG.md` | ✅ Required | Version history (Keep‑a‑Changelog) | Added / Changed / Fixed | Each release |
-| `Makefile` | ✅ Required | Common command collection | setup, test, embed, etc. | When adding features |
-| `.github/workflows/` | ✅ Required | CI / CD & Security Hardening | Lint／Test／Deploy | Each update |
-| `.devcontainer.json` | ✅ Required | Reproducible dev environment | image／extensions | Environment changes |
-| `docs/` | ✅ Required | Human & AI shared knowledge base | See section 3 | As needed |
-| `ai/` | ✅ Required | AI meta-layer | See section 4 | As needed |
-| `ai/context/` | ✅ Required | AI context optimization | Context management | When major policy changes |
-| `ai/examples/` | ▶︎ Recommended | Collection of successful patterns | Best implementations | When PR is adopted |
-| `ai/feedback/` | ▶︎ Auto-gen env | AI Output Review | Evaluation comments | Each PR |
-| `ai/history/` | ▶︎ Optional | Session Log & Summary Storage | Chat history JSON, daily digest | Auto-generation |
-| `data-contract/` | ▶︎ Domain-dependent | Data Contract & Schema | AsyncAPI, Avro schema | Schema changes |
-| `benchmarks/` | ▶︎ Optional | Performance/Cost Comparison | LLM cost table, execution time | Regular measurement |
+| Path                 | Required/Optional    | Purpose                            |
+| -------------------- | -------------------- | ---------------------------------- |
+| `/README.md`         | ✅ Required          | TL;DR / Quick Start                |
+| `/CHANGELOG.md`      | ✅ Required          | Version history (Keep‑a‑Changelog) |
+| `Makefile`           | ✅ Required          | Common command collection          |
+| `.github/workflows/` | ✅ Required          | CI / CD & Security Hardening       |
+| `.devcontainer.json` | ✅ Required          | Reproducible dev environment       |
+| `docs/`              | ✅ Required          | Human & AI shared knowledge base   |
+| `ai/`                | ✅ Required          | AI meta-layer                      |
+| `ai/context/`        | ✅ Required          | AI context optimization            |
+| `ai/examples/`       | ▶︎ Recommended      | Collection of successful patterns  |
+| `ai/feedback/`       | ▶︎ Auto-gen env     | AI Output Review                   |
+| `ai/history/`        | ▶︎ Optional         | Session Log & Summary Storage      |
+| `data-contract/`     | ▶︎ Domain-dependent | Data Contract & Schema             |
+| `benchmarks/`        | ▶︎ Optional         | Performance/Cost Comparison        |
+
+| Path (continued)     | Main Contents                   | Maintenance Frequency     |
+| -------------------- | ------------------------------- | ------------------------- |
+| `/README.md`         | 5-minute setup procedure        | Each release              |
+| `/CHANGELOG.md`      | Added / Changed / Fixed         | Each release              |
+| `Makefile`           | setup, test, embed, etc.        | When adding features      |
+| `.github/workflows/` | Lint／Test／Deploy              | Each update               |
+| `.devcontainer.json` | image／extensions               | Environment changes       |
+| `docs/`              | See section 3                   | As needed                 |
+| `ai/`                | See section 4                   | As needed                 |
+| `ai/context/`        | Context management              | When major policy changes |
+| `ai/examples/`       | Best implementations            | When PR is adopted        |
+| `ai/feedback/`       | Evaluation comments             | Each PR                   |
+| `ai/history/`        | Chat history JSON, daily digest | Auto-generation           |
+| `data-contract/`     | AsyncAPI, Avro schema           | Schema changes            |
+| `benchmarks/`        | LLM cost table, execution time  | Regular measurement       |
 
 ## 3. `docs/` — Human & AI Shared Knowledge Base
 
@@ -85,87 +101,85 @@ Business background, goals, constraints. Update when goals change.
 
 ### 3.2 `requirements/` — Two-layer Management
 
-| Subpath | Purpose | Operation |
-|---------|---------|-----------|
-| `spec/` | Business requirements, non-functional (`REQ‑001.md` etc.) | Confirmed changes ➡ Link to ADR |
-| `backlog/` | PBI / Implementation tasks (GitHub Issue ⇔ MD/YAML) | Auto-generated from Issue template→Close |
+| Subpath    | Purpose                                             | Operation                          |
+| ---------- | --------------------------------------------------- | ---------------------------------- |
+| `spec/`    | Business requirements, non-functional (REQ‑001.md)  | Confirmed changes ➡ Link to ADR   |
+| `backlog/` | PBI / Implementation tasks (GitHub Issue ⇔ MD/YAML) | Auto-generated from Issue template |
 
-> **FAQ: Are coarse-grained requirements and implementation tasks mixed?**  
+> **FAQ: Are coarse-grained requirements and implementation tasks mixed?**
 > Framework specifications are in `spec/`, implementation instructions are in `backlog/`, enabling both static
 > design documents and dynamic backlogs.
 
 ### 3.3 `standards/` — コーディング規約
 
-| Subpath | Usage | Operation |
-|----------|------|------|
+| Subpath               | Usage            | Operation                      |
+| --------------------- | ---------------- | ------------------------------ |
 | `coding-standards.md` | コーディング規約 | コード品質の維持と一貫性の確保 |
 
-**主な内容**:
 **Main Content**: File line limits (basic 150, max 250), naming conventions, code style, AI code generation
 
 ### 3.4 `ops/` — 運用ガイドライン
 
-| Subpath | Usage | Operation |
-|----------|------|------|
+| Subpath                     | Usage            | Operation                                    |
+| --------------------------- | ---------------- | -------------------------------------------- |
 | `operational-guidelines.md` | 運用ガイドライン | プロジェクトの運用に関する重要なガイドライン |
 
-**主な内容**:
 **Main Content**: Deployment process, monitoring policy, incident response, backup and recovery
 
 ### 3.5 Other Subdirectories
 
-| Path | Role | Notes |
-|------|------|------|
-| `design/architecture/` | C4 diagrams (Mermaid) | `.mmd`→SVG auto-generated by Actions |
-| `api/` | `openapi.yaml` (SemVer) | MAJOR++ for breaking changes |
-| `adr/` | MADR template (`nadr-2.1.2.md`) | 1 decision = 1 file |
+| Path                   | Role                            | Notes                                |
+| ---------------------- | ------------------------------- | ------------------------------------ |
+| `design/architecture/` | C4 diagrams (Mermaid)           | `.mmd`→SVG auto-generated by Actions |
+| `api/`                 | `openapi.yaml` (SemVer)         | MAJOR++ for breaking changes         |
+| `adr/`                 | MADR template (`nadr-2.1.2.md`) | 1 decision = 1 file                  |
 
 **`adr/` Operation Rules**: ID assignment (`ADR-0001`, `ADR-0002` format), add new ADR for breaking changes
 
 ## 4. `ai/` — AI Meta-layer
 
-| Directory | Purpose | Maintenance Method |
-|--------------|------|-----------|
-| `system_prompt.md` | Common assumptions and prohibitions | Weekly review |
-| `glossary.yml` | Domain terms ⇔ Class names | Add new terms |
-| `prompts/` | Reusable templates | Test → Promotion |
-| `tasks/` | Autonomous task definitions | When adding new flows |
-| `context/` | Long-form background (for RAG) | When major policy changes |
-| `examples/` | Successful patterns | When best practices are adopted |
-| `feedback/` | AI output reviews | Bot saved |
-| `history/` | sessions / summaries / insights | Nightly organization |
+| Directory          | Purpose                             | Maintenance Method              |
+| ------------------ | ----------------------------------- | ------------------------------- |
+| `system_prompt.md` | Common assumptions and prohibitions | Weekly review                   |
+| `glossary.yml`     | Domain terms ⇔ Class names          | Add new terms                   |
+| `prompts/`         | Reusable templates                  | Test → Promotion                |
+| `tasks/`           | Autonomous task definitions         | When adding new flows           |
+| `context/`         | Long-form background (for RAG)      | When major policy changes       |
+| `examples/`        | Successful patterns                 | When best practices are adopted |
+| `feedback/`        | AI output reviews                   | Bot saved                       |
+| `history/`         | sessions / summaries / insights     | Nightly organization            |
 
 **`history/` Structure and Operation**:
 
-| Subdirectory | Purpose | Example |
-|-----------------|------|----|
-| `sessions/` | Raw chat logs (JSON) | `2025-05-06T06:00:session.json` |
-| `summaries/` | Markdown summaries of the above | `2025-05-06T06:00:summary.md` |
-| `insights/` | Improvement points extracted by periodic batch | `2025-W19-insights.md` |
+| Subdirectory | Purpose                                        | Example                         |
+| ------------ | ---------------------------------------------- | ------------------------------- |
+| `sessions/`  | Raw chat logs (JSON)                           | `2025-05-06T06:00:session.json` |
+| `summaries/` | Markdown summaries of the above                | `2025-05-06T06:00:summary.md`   |
+| `insights/`  | Improvement points extracted by periodic batch | `2025-W19-insights.md`          |
 
 **Maintenance Method**: Auto-save to `sessions/` after session ends, daily CRON generates `summaries/`,
 weekly generate `insights/` and transfer to `ai/feedback/`
 
 ## 6. CI/Development Environment
 
-- **Workflows**: `lint-and-test.yml`, `security-scan.yml`, `build-docker.yml`  
-- **Schema diff**: Confluent Registry compatible check  
+- **Workflows**: `lint-and-test.yml`, `security-scan.yml`, `build-docker.yml`
+- **Schema diff**: Confluent Registry compatible check
 - **DevContainer**: VS Code extensions, centralized postCreate management
-- **DevContainer**: Centralized management of VS Code extensions, postCreate
 
 ## 7. Selective Additional Directories
 
-| Path | Timing | Use Case |
-|------|--------|----------|
-| `docs/test/` | Test expansion | Test pyramid management |
-| `docs/ops/` | SRE dedicated | SLO/Runbook |
-| `benchmarks/` | LLM measurement | OpenAI Evals etc. |
-| `data-contract/` | Event-driven | AsyncAPI/Avro |
+| Path             | Timing          | Use Case                |
+| ---------------- | --------------- | ----------------------- |
+| `docs/test/`     | Test expansion  | Test pyramid management |
+| `docs/ops/`      | SRE dedicated   | SLO/Runbook             |
+| `benchmarks/`    | LLM measurement | OpenAI Evals etc.       |
+| `data-contract/` | Event-driven    | AsyncAPI/Avro           |
 
 ### `data-contract/` Details
 
-**Usage**:  
-Store "contracts" between data producers and consumers as code. Prevent breaking changes similar to API contracts.
+**Usage**:
+Store "contracts" between data producers and consumers as code.
+Prevent breaking changes similar to API contracts.
 
 - **Placement**: `customer.avro`, `orders.proto`, `contract.md`, etc.
 - **Maintenance Method**:
@@ -174,8 +188,9 @@ Store "contracts" between data producers and consumers as code. Prevent breaking
 
 ### `benchmarks/` Details
 
-**Usage**:  
-Monitor LLM inference costs, performance, memory, etc. to provide decision-making material for model/prompt changes.
+**Usage**:
+Monitor LLM inference costs, performance, memory, etc. to provide decision-making material for
+model/prompt changes.
 
 - **Placement**: `benchmark_2025-05.csv`, `plots/latency.png`, `README.md`
 - **Maintenance Method**:
@@ -184,20 +199,19 @@ Monitor LLM inference costs, performance, memory, etc. to provide decision-makin
 
 ## 8. Customization Reference
 
-- **Bulletproof React** — React large-scale configuration example  
-- **Naming Cheatsheet** — Clear naming guidelines  
+- **Bulletproof React** — React large-scale configuration example
+- **Naming Cheatsheet** — Clear naming guidelines
 
 ## 9. Update Flow
 
-1. Decide policy with Issue/ADR  
-2. PR: Implementation & documentation update  
-3. CI: Lint/Test/schema diff/Secret Scan  
-4. Review & Merge: Save summary to `ai/feedback/`  
-5. Update CHANGELOG → Tag → Release  
+1. Decide policy with Issue/ADR
+2. PR: Implementation & documentation update
+3. CI: Lint/Test/schema diff/Secret Scan
+4. Review & Merge: Save summary to `ai/feedback/`
+5. Update CHANGELOG → Tag → Release
 
 ## 10. Improvement Ideas
 
-- Monitor latency/cost with `benchmarks/`  
-- Automate Mermaid→SVG for zero diagram-source discrepancy  
+- Monitor latency/cost with `benchmarks/`
+- Automate Mermaid→SVG for zero diagram-source discrepancy
 - Add `version:` field to `ai/prompts/` for history tracking
-- Track history with `version:` field in `ai/prompts/`

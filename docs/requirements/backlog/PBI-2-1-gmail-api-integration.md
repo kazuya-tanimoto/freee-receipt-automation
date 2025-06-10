@@ -1,9 +1,13 @@
 # PBI-2-1: Gmail API Integration
 
 ## Description
-Implement integration with the Gmail API to automatically retrieve email receipts (such as Apple subscriptions) and process them for expense tracking. This includes authentication, email filtering, attachment extraction, and processing pipeline integration.
+
+Implement integration with the Gmail API to automatically retrieve email receipts (such as Apple subscriptions)
+and process them for expense tracking. This includes authentication, email filtering,
+attachment extraction, and processing pipeline integration.
 
 ## Acceptance Criteria
+
 - Gmail API authentication flow is implemented
 - Email search and filtering functionality is created to identify receipt emails
 - The following capabilities are implemented:
@@ -18,11 +22,14 @@ Implement integration with the Gmail API to automatically retrieve email receipt
 - Documentation for the Gmail API integration is created
 
 ## Dependencies
+
 - PBI-1-1: Supabase Project Setup
 - PBI-1-2: Storage Integration and OCR Processing
 
 ## Estimate
+
 5 story points (approximately 2-3 days)
 
 ## Priority
+
 Medium - Important for automation but depends on core functionality

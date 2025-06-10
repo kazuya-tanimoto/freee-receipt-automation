@@ -1,16 +1,21 @@
 # PBI-1-1-3: Transaction Tables Creation
 
 ## Description
-Create the transaction-related database tables for the freee receipt automation system. This includes the transactions table for storing freee API data and the processing_logs table for tracking system operations and debugging.
+
+Create the transaction-related database tables for the freee receipt automation system.
+This includes the transactions table for storing freee API data and the
+processing_logs table for tracking system operations and debugging.
 
 ## Implementation Details
 
 ### Files to Create/Modify
+
 1. `supabase/migrations/002_transaction_tables.sql` - Transaction tables creation
 2. `src/types/database/transactions.ts` - TypeScript types for transaction tables
 3. `docs/database/transaction-schema.md` - Transaction tables documentation
 
 ### Technical Requirements
+
 - Use PostgreSQL 14+ features
 - Enable proper indexing for transaction queries
 - Set up foreign key constraints with cascade behavior
@@ -18,6 +23,7 @@ Create the transaction-related database tables for the freee receipt automation 
 - Support JSONB for flexible log data storage
 
 ### Database Schema
+
 ```sql
 -- Transactions table
 CREATE TABLE public.transactions (
@@ -68,14 +74,17 @@ CREATE TRIGGER update_transactions_updated_at BEFORE UPDATE ON transactions FOR 
 ```
 
 ### Code Patterns to Follow
+
 - Use DECIMAL for monetary amounts to avoid floating point issues
 - Use CHECK constraints for enum-like fields
 - Store flexible data in JSONB fields
 - Include duration tracking for performance monitoring
 
 ### Interface Specifications
+
 - **Input Interfaces**: Requires receipts table from PBI-1-1-2
 - **Output Interfaces**: Tables available for matching and reporting
+
   ```typescript
   interface Transaction {
     id: string;
@@ -88,7 +97,11 @@ CREATE TRIGGER update_transactions_updated_at BEFORE UPDATE ON transactions FOR 
     account_item_id: number | null;
     matched_receipt_id: string | null;
     matching_confidence: number | null;
-    matching_status: 'unmatched' | 'auto_matched' | 'manual_matched' | 'rejected';
+    matching_status:
+      | "unmatched"
+      | "auto_matched"
+      | "manual_matched"
+      | "rejected";
     freee_data: Record<string, any> | null;
     created_at: string;
     updated_at: string;
@@ -97,8 +110,13 @@ CREATE TRIGGER update_transactions_updated_at BEFORE UPDATE ON transactions FOR 
   interface ProcessingLog {
     id: string;
     user_id: string;
-    process_type: 'ocr' | 'freee_sync' | 'matching' | 'notification' | 'cleanup';
-    status: 'started' | 'completed' | 'failed' | 'cancelled';
+    process_type:
+      | "ocr"
+      | "freee_sync"
+      | "matching"
+      | "notification"
+      | "cleanup";
+    status: "started" | "completed" | "failed" | "cancelled";
     details: Record<string, any>;
     error_message: string | null;
     duration_ms: number | null;
@@ -109,6 +127,7 @@ CREATE TRIGGER update_transactions_updated_at BEFORE UPDATE ON transactions FOR 
   ```
 
 ## Acceptance Criteria
+
 - [ ] transactions table is created with proper constraints
 - [ ] processing_logs table is created with enum checks
 - [ ] All foreign key relationships work correctly
@@ -117,20 +136,25 @@ CREATE TRIGGER update_transactions_updated_at BEFORE UPDATE ON transactions FOR 
 - [ ] TypeScript types match database schema exactly
 
 ## Dependencies
+
 - **Required**: PBI-1-1-2 - Core tables (receipts table for foreign key)
 
 ## Testing Requirements
+
 - Unit tests: Test TypeScript types compilation
 - Integration tests: Test table creation and foreign key constraints
 - Test data: Sample transactions and processing logs
 
 ## Estimate
+
 1 story point
 
 ## Priority
+
 High - Transaction data structure needed for freee integration
 
 ## Implementation Notes
+
 - Use DECIMAL type for amounts to ensure precision
 - Store original freee API response in freee_data JSONB field
 - Include performance monitoring fields (duration_ms)

@@ -1,9 +1,13 @@
 # PBI-3-1: NextJS Management Interface
 
 ## Description
-Develop a NextJS-based management interface for the freee Receipt Automation system. This includes creating the frontend application structure, implementing authentication, and building the core UI components for monitoring and managing the receipt processing system.
+
+Develop a NextJS-based management interface for the freee Receipt Automation system.
+This includes creating the frontend application structure, implementing authentication,
+and building the core UI components for monitoring and managing the receipt processing system.
 
 ## Acceptance Criteria
+
 - NextJS application is set up with appropriate project structure
 - Integration with Supabase for authentication and data access is implemented
 - Responsive UI design is created with the following pages:
@@ -24,11 +28,14 @@ Develop a NextJS-based management interface for the freee Receipt Automation sys
 - Documentation for the management interface is created
 
 ## Dependencies
+
 - PBI-1-1: Supabase Project Setup
 - PBI-1-3: Basic freee API Integration
 
 ## Estimate
+
 8 story points (approximately 3-4 days)
 
 ## Priority
+
 Medium - Important for user interaction but depends on core backend functionality
