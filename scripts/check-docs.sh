@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 # scripts/check-docs.sh
 # ドキュメントの事前チェックスクリプト
 
