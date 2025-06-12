@@ -29,8 +29,6 @@
 
 ### 実装コード
 
-以下を参照：[implementation/PBI-2-5-2-background-job-queue-implementation.md](implementation/PBI-2-5-2-background-job-queue-implementation.md)
-
 - データベーススキーマ
 - コアキュー実装
 - ジョブプロセッサーとワーカー実装

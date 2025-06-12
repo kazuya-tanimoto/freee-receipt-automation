@@ -3,8 +3,8 @@
 # Development Guidelines Summary
 
 This document provides a concise summary of the development guidelines from
-[Bulletproof React](https://github.com/alan2207/bulletproof-react) and
-[Naming Cheatsheet](https://github.com/kettanaito/naming-cheatsheet).
+[Bulletproof React](../../docs/standards/bulletproof-react/README.md) and
+[Naming Cheatsheet](../../docs/standards/naming-cheatsheet/README.md).
 
 ## Bulletproof React
 
@@ -78,4 +78,4 @@ Examples: `getUser`, `getUserMessages`, `shouldDisplayMessage`
 ---
 
 This summary provides key guidelines from both sources. For more detailed information,
-refer to the original documentation in the respective repositories.
+refer to the local documentation in the respective submodule directories under `docs/standards/`.

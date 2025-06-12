@@ -27,10 +27,6 @@ Google Drive操作を領収書処理ワークフローのコアビジネスロ�
 
 ### 実装コード
 
-詳細については
-[implementation/PBI-2-3-3-drive-business-logic-implementation.md](implementation/PBI-2-3-3-drive-business-logic-implementation.md)
-を参照：
-
 - 領収書整理サービス
 - ファイルメタデータ管理
 - 取引リンクロジック

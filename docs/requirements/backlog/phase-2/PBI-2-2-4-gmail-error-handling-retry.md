@@ -27,9 +27,6 @@ rate limits, temporary service unavailability, and network issues.
 
 ### Implementation Code
 
-See [implementation/PBI-2-2-4-gmail-error-handling-implementation.md](
-implementation/PBI-2-2-4-gmail-error-handling-implementation.md) for:
-
 - Gmail error classification
 - Retry strategy implementation
 - Rate limiting logic

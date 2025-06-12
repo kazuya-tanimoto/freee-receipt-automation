@@ -28,10 +28,6 @@ Gmail操作を領収書処理ワークフローのコアビジネスロジック
 
 ### 実装コード
 
-詳細については
-[implementation/PBI-2-2-3-gmail-business-logic-implementation.md](implementation/PBI-2-2-3-gmail-business-logic-implementation.md)
-を参照：
-
 - 領収書メール識別ロジック
 - 添付ファイル抽出実装
 - メール解析ユーティリティ

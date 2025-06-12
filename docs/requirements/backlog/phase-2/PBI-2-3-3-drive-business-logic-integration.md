@@ -25,11 +25,6 @@ and coordination with freee API data to maintain proper file associations.
 - Maintain file-transaction relationships
 - Handle file movement between folders
 
-### Implementation Code
-
-See [implementation/PBI-2-3-3-drive-business-logic-implementation.md](
-implementation/PBI-2-3-3-drive-business-logic-implementation.md) for:
-
 - Receipt organization service
 - File metadata management
 - Transaction linking logic

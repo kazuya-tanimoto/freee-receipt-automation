@@ -27,10 +27,6 @@ Google Drive API操作のための包括的なエラーハンドリングとリ�
 
 ### 実装コード
 
-詳細については
-[implementation/PBI-2-3-4-drive-error-handling-implementation.md](implementation/PBI-2-3-4-drive-error-handling-implementation.md)
-を参照：
-
 - Drive固有のエラー分類
 - リトライ戦略実装
 - サーキットブレーカーパターン

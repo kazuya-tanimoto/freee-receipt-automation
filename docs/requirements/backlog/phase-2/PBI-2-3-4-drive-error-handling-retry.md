@@ -25,11 +25,6 @@ storage quota issues, network problems, and temporary service unavailability.
 - Classify errors as retryable vs. non-retryable
 - Provide detailed error reporting and recovery suggestions
 
-### Implementation Code
-
-See [implementation/PBI-2-3-4-drive-error-handling-implementation.md](
-implementation/PBI-2-3-4-drive-error-handling-implementation.md) for:
-
 - Drive-specific error classification
 - Retry strategy implementation
 - Circuit breaker pattern

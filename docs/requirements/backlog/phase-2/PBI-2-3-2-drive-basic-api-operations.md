@@ -25,11 +25,6 @@ Drive-related functionality in the application.
 - Enable file search with custom queries
 - Handle file metadata and custom properties
 
-### Implementation Code
-
-See [implementation/PBI-2-3-2-drive-basic-api-implementation.md](
-implementation/PBI-2-3-2-drive-basic-api-implementation.md) for:
-
 - Drive client initialization
 - File operation implementations
 - Search query builder

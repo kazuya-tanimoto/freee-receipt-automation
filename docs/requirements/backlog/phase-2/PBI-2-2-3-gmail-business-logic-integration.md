@@ -27,9 +27,6 @@ and coordination with OCR processing to create a seamless email-to-receipt pipel
 
 ### Implementation Code
 
-See [implementation/PBI-2-2-3-gmail-business-logic-implementation.md](
-implementation/PBI-2-2-3-gmail-business-logic-implementation.md) for:
-
 - Receipt email identification logic
 - Attachment extraction implementation
 - Email parsing utilities

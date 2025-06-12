@@ -27,10 +27,6 @@ Drive関連機能の基盤を提供します。
 
 ### 実装コード
 
-詳細については
-[implementation/PBI-2-3-2-drive-basic-api-implementation.md](implementation/PBI-2-3-2-drive-basic-api-implementation.md)
-を参照：
-
 - Driveクライアント初期化
 - ファイル操作実装
 - 検索クエリビルダー

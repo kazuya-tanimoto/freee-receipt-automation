@@ -2,7 +2,7 @@
 
 # 開発ガイドライン要約
 
-このドキュメントは[Bulletproof React](https://github.com/alan2207/bulletproof-react)と[Naming Cheatsheet](https://github.com/kettanaito/naming-cheatsheet)の開発ガイドラインの要約を提供します。
+このドキュメントは[Bulletproof React](../../docs/standards/bulletproof-react/README.md)と[Naming Cheatsheet](../../docs/standards/naming-cheatsheet/README.md)の開発ガイドラインの要約を提供します。
 
 ## Bulletproof React
 
@@ -75,4 +75,4 @@
 
 ---
 
-この要約は両方のソースからの主要なガイドラインを提供します。より詳細な情報については、それぞれのリポジトリの元のドキュメントを参照してください。
+この要約は両方のソースからの主要なガイドラインを提供します。より詳細な情報については、それぞれのサブモジュールディレクトリ（`docs/standards/`配下）のローカルドキュメントを参照してください。

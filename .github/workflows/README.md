@@ -30,7 +30,7 @@ This directory contains GitHub Actions workflow configurations for the freee exp
 - **Purpose**: Monitor AI context file token count
 - **Triggers**: Push and PR on `ai/context/summary.md`
 - **Limit**: 2000 tokens maximum
-- **Status**: Active (needs attention - file currently exceeds limit)
+- **Status**: Active (within limit)
 
 ## Maintenance Notes
 

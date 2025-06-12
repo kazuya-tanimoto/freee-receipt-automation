@@ -230,8 +230,8 @@ LLM推論コスト、性能、メモリ定点観測でモデル/プロンプト�
 
 ## 8. カスタマイズ参考
 
-- **Bulletproof React** — React大規模構成例
-- **Naming Cheatsheet** — 分かりやすい命名指針
+- **[Bulletproof React](docs/standards/bulletproof-react/README.md)** — `docs/standards/` 配下のサブモジュールで、React 大規模構成例を提供
+- **[Naming Cheatsheet](docs/standards/naming-cheatsheet/README.md)** — `docs/standards/` 配下のサブモジュールで、分かりやすい命名指針を提供
 
 ## 9. 更新フロー
 

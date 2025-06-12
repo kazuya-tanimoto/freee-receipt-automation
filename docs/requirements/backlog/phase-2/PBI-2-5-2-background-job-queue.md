@@ -29,9 +29,6 @@ and resource optimization to handle various processing tasks efficiently.
 
 ### Implementation Code
 
-See [implementation/PBI-2-5-2-background-job-queue-implementation.md](
-implementation/PBI-2-5-2-background-job-queue-implementation.md) for:
-
 - Database schema
 - Core queue implementation
 - Job processor and worker implementation

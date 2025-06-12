@@ -27,10 +27,6 @@ Gmail API操作のための包括的なエラーハンドリングとリトラ�
 
 ### 実装コード
 
-詳細については
-[implementation/PBI-2-2-4-gmail-error-handling-implementation.md](implementation/PBI-2-2-4-gmail-error-handling-implementation.md)
-を参照：
-
 - Gmailエラー分類
 - リトライ戦略実装
 - レート制限ロジック

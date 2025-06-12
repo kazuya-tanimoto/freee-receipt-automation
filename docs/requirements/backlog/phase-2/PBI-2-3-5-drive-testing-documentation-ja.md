@@ -28,10 +28,6 @@ Google Drive API統合のための包括的なテストスイートとドキュ�
 
 ### テスト実装
 
-詳細については
-[implementation/PBI-2-3-5-drive-testing-implementation.md](implementation/PBI-2-3-5-drive-testing-implementation.md)
-を参照：
-
 - ユニットテスト構造
 - 統合テストシナリオ
 - E2Eテストワークフロー

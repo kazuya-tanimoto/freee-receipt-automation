@@ -199,8 +199,10 @@ model/prompt changes.
 
 ## 8. Customization Reference
 
-- **Bulletproof React** — React large-scale configuration example
-- **Naming Cheatsheet** — Clear naming guidelines
+- **[Bulletproof React](docs/standards/bulletproof-react/README.md)** — Submodule under `docs/standards/`
+  providing a React large-scale configuration example
+- **[Naming Cheatsheet](docs/standards/naming-cheatsheet/README.md)** — Submodule under `docs/standards/`
+  providing clear naming guidelines
 
 ## 9. Update Flow
 
