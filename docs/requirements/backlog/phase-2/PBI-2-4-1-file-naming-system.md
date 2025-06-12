@@ -27,8 +27,6 @@ efficient searching and sorting of receipt files.
 
 ### Implementation Code
 
-See [implementation/PBI-2-4-1-file-naming-implementation.md](implementation/PBI-2-4-1-file-naming-implementation.md) for:
-
 - File naming strategy implementation
 - Vendor detection logic
 - Date formatting utilities

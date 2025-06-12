@@ -27,8 +27,6 @@ Supabase内でスケジュールタスク実行のためのPostgreSQL cron拡張
 
 ### 実装コード
 
-以下を参照：[implementation/PBI-2-5-1-pg-cron-setup-implementation.md](implementation/PBI-2-5-1-pg-cron-setup-implementation.md)
-
 - スケジュールジョブのデータベーススキーマ
 - pg_cron設定
 - ジョブスケジューリングユーティリティ

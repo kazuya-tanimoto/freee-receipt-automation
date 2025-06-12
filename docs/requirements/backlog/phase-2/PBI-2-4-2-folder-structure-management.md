@@ -27,9 +27,6 @@ and navigation utilities to maintain a consistent and organized file system.
 
 ### Implementation Code
 
-See [implementation/PBI-2-4-2-folder-structure-implementation.md](
-implementation/PBI-2-4-2-folder-structure-implementation.md) for:
-
 - Folder structure definition
 - Folder creation implementation
 - Permission management

@@ -27,9 +27,6 @@ basic scheduling patterns, and establishing monitoring for scheduled jobs.
 
 ### Implementation Code
 
-See [implementation/PBI-2-5-1-pg-cron-setup-implementation.md](
-implementation/PBI-2-5-1-pg-cron-setup-implementation.md) for:
-
 - Database schema for scheduled jobs
 - pg_cron configuration
 - Job scheduling utilities

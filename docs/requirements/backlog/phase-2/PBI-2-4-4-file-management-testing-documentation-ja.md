@@ -27,8 +27,6 @@
 
 ### テスト実装
 
-以下を参照：[implementation/PBI-2-4-4-file-management-testing-implementation.md](implementation/PBI-2-4-4-file-management-testing-implementation.md)
-
 - ユニットテスト構造と例
 - 統合テスト実装
 - E2Eテストシナリオ

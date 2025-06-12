@@ -29,9 +29,6 @@ on file management workflows.
 
 ### Test Implementation
 
-See [implementation/PBI-2-4-4-file-management-testing-implementation.md](
-implementation/PBI-2-4-4-file-management-testing-implementation.md) for:
-
 - Unit test structures and examples
 - Integration test implementations
 - E2E test scenarios

@@ -28,9 +28,6 @@ multiple versions of the same receipt.
 
 ### Implementation Code
 
-See [implementation/PBI-2-4-3-duplicate-handling-implementation.md](
-implementation/PBI-2-4-3-duplicate-handling-implementation.md) for:
-
 - Filename collision resolution implementation
 - Content-based duplicate detection
 - Hash-based comparison logic

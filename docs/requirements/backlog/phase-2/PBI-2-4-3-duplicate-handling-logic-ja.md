@@ -27,10 +27,6 @@
 
 ### 実装コード
 
-詳細については
-[implementation/PBI-2-4-3-duplicate-handling-implementation.md](implementation/PBI-2-4-3-duplicate-handling-implementation.md)
-を参照：
-
 - ファイル名衝突解決実装
 - コンテンツベースの重複検出
 - ハッシュベースの比較ロジック

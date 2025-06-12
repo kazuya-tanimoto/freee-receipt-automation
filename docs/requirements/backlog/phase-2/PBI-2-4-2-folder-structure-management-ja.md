@@ -27,10 +27,6 @@
 
 ### 実装コード
 
-詳細については
-[implementation/PBI-2-4-2-folder-structure-implementation.md](implementation/PBI-2-4-2-folder-structure-implementation.md)
-を参照：
-
 - フォルダー構造定義
 - フォルダー作成実装
 - 権限管理

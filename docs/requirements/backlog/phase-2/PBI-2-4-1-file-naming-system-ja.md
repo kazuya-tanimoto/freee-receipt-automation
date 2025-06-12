@@ -26,10 +26,6 @@
 
 ### 実装コード
 
-詳細については
-[implementation/PBI-2-4-1-file-naming-implementation.md](implementation/PBI-2-4-1-file-naming-implementation.md)
-を参照：
-
 - ファイル命名戦略実装
 - ベンダー検出ロジック
 - 日付フォーマットユーティリティ
