@@ -32,12 +32,13 @@ jobs:
           done
       - name: Generate SBOM
         run: |
-          if [ -f "package.json" ]; then
+          if [ -f "package.json" ] && [ -f "yarn.lock" ]; then
             npm install -g @cyclonedx/cyclonedx-npm
+            yarn install --frozen-lockfile
             cyclonedx-npm --output-file docs/standards/sbom/sbom.xml
             cyclonedx-npm --output-file docs/standards/sbom/sbom.json --format json
           else
-            echo "Skipping SBOM generation: package.json not found"
+            echo "Skipping SBOM generation: package.json or yarn.lock not found"
           fi
       - name: Check Language Consistency
         run: |
