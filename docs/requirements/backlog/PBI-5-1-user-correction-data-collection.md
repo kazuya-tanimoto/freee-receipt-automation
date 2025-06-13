@@ -1,9 +1,14 @@
 # PBI-5-1: User Correction Data Collection Features
 
 ## Description
-Implement features to collect and store user correction data from manual adjustments to receipt-transaction matching. This data will be used to automatically generate rules and improve the matching system over time. This includes creating data collection mechanisms, storage structures, and analysis tools.
+
+Implement features to collect and store user correction data from manual adjustments
+to receipt-transaction matching. This data will be used to automatically generate rules
+and improve the matching system over time. This includes creating data collection mechanisms,
+storage structures, and analysis tools.
 
 ## Acceptance Criteria
+
 - User correction data collection system is implemented:
   - Capture all manual matching adjustments
   - Record metadata about corrections (user, timestamp, original match)
@@ -26,11 +31,14 @@ Implement features to collect and store user correction data from manual adjustm
 - Documentation for the correction data collection system is created
 
 ## Dependencies
+
 - PBI-3-3: Manual Adjustment Features
 - PBI-1-1: Supabase Project Setup
 
 ## Estimate
+
 5 story points (approximately 2-3 days)
 
 ## Priority
+
 Low - Advanced feature that depends on core functionality

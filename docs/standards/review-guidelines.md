@@ -52,7 +52,7 @@ Task type examples:
 ### Change Details (Required)
 
 - **Added**: [New features/files/functionality]
-- **Modified**: [Changed features/files/functionality]  
+- **Modified**: [Changed features/files/functionality]
 - **Deleted**: [Removed features/files/functionality]
 
 ### Self-Review Results (Required)

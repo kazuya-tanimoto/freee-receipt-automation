@@ -1,11 +1,14 @@
 <!-- MAX_TOKENS: 2000 -->
+
 # Development Guidelines Summary
 
-This document provides a concise summary of the development guidelines from [Bulletproof React](https://github.com/alan2207/bulletproof-react) and [Naming Cheatsheet](https://github.com/kettanaito/naming-cheatsheet).
+This document provides a concise summary of the development guidelines from
+[Bulletproof React](../../docs/standards/bulletproof-react/README.md) and
+[Naming Cheatsheet](../../docs/standards/naming-cheatsheet/README.md).
 
 ## Bulletproof React
 
-#### Project Standards
+### Project Standards
 
 - **ESLint**: Configure `.eslintrc.js` for code quality
 - **Prettier**: Use `.prettierrc` for consistent formatting
@@ -14,36 +17,34 @@ This document provides a concise summary of the development guidelines from [Bul
 - **Absolute Imports**: Avoid messy relative paths
 - **File Naming**: Enforce consistent conventions with ESLint
 
-#### Project Structure
+### Project Structure
 
 - Organize by feature or route (not by type)
 - Keep related files close together
 - Avoid deep nesting
 
-#### Components
+### Components
 
 - Use functional components with hooks
 - Extract logic into custom hooks
 - Consider CSS-in-JS or CSS Modules
 
-#### State Management
+### State Management
 
 - UI state: local state
 - Shared state: context
 - Complex apps: external libraries
 
-#### Error Handling and Testing
+### Error Handling and Testing
 
 - Implement global error boundaries
 - Handle API errors consistently
 - Write unit and integration tests
 - Aim for high test coverage
 
-
-
 ## Naming Cheatsheet
 
-#### Core Principles
+### Core Principles
 
 - **Use English** for all names
 - **Be Consistent** with naming conventions (camelCase, PascalCase, etc.)
@@ -52,13 +53,13 @@ This document provides a concise summary of the development guidelines from [Bul
 - **Avoid Context Duplication**
 - **Reflect Expected Results**: Boolean variables match usage context
 
-#### Function Naming: A/HC/LC
+### Function Naming: A/HC/LC
 
 Pattern: `prefix? + action (A) + high context (HC) + low context? (LC)`
 
 Examples: `getUser`, `getUserMessages`, `shouldDisplayMessage`
 
-#### Action Verbs
+### Action Verbs
 
 - **get**: Data access
 - **set**: Value assignment
@@ -68,7 +69,7 @@ Examples: `getUser`, `getUserMessages`, `shouldDisplayMessage`
 - **is/has/should**: Boolean prefixes
 - **on**: Event handlers
 
-#### Singular and Plurals
+### Singular and Plurals
 
 - Single: `const user = getUser()`
 - Collections: `const users = getUsers()`
@@ -76,4 +77,5 @@ Examples: `getUser`, `getUserMessages`, `shouldDisplayMessage`
 
 ---
 
-This summary provides key guidelines from both sources. For more detailed information, refer to the original documentation in the respective repositories.
+This summary provides key guidelines from both sources. For more detailed information,
+refer to the local documentation in the respective submodule directories under `docs/standards/`.

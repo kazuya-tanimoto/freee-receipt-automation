@@ -2,5 +2,6 @@ pre-commit:
   parallel: true
   commands:
     docs-check:
-      run: npm run check:docs
-      files: git diff --name-only --cached --diff-filter=d | grep '\.md$'
+      run: yarn check:docs
+      files: git diff --name-only --cached --diff-filter=d | grep '\.md$' || true
+      skip: git diff --name-only --cached --diff-filter=d | grep -q '\.md$' || echo "skip"
