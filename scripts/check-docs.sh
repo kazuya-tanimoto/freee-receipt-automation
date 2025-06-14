@@ -61,7 +61,10 @@ done < <(find docs \
     -name "*.md" ! -name "*-ja.md" 2>/dev/null)
 
 if [ -n "$missing_files" ]; then
-    echo -e "⚠️  Language consistency warnings:$missing_files"
+    echo -e "❌ Language consistency errors:$missing_files"
+    echo ""
+    echo "Please create missing translations before committing."
+    exit 1
 fi
 
 echo "✅ Documentation check completed!"
