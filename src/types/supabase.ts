@@ -12,32 +12,91 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      users: {
+      user_settings: {
         Row: {
           id: string
-          email: string
-          name: string | null
-          avatar_url: string | null
+          freee_company_id: string | null
+          notification_email: string | null
+          notification_preferences: Json
           created_at: string
           updated_at: string
         }
         Insert: {
           id: string
-          email: string
-          name?: string | null
-          avatar_url?: string | null
+          freee_company_id?: string | null
+          notification_email?: string | null
+          notification_preferences?: Json
           created_at?: string
           updated_at?: string
         }
         Update: {
           id?: string
-          email?: string
-          name?: string | null
-          avatar_url?: string | null
+          freee_company_id?: string | null
+          notification_email?: string | null
+          notification_preferences?: Json
           created_at?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "user_settings_id_fkey"
+            columns: ["id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      receipts: {
+        Row: {
+          id: string
+          user_id: string
+          file_name: string
+          file_path: string
+          file_size: number | null
+          mime_type: string | null
+          ocr_text: string | null
+          ocr_data: Json | null
+          processed_at: string | null
+          status: "pending" | "processing" | "completed" | "failed"
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          file_name: string
+          file_path: string
+          file_size?: number | null
+          mime_type?: string | null
+          ocr_text?: string | null
+          ocr_data?: Json | null
+          processed_at?: string | null
+          status?: "pending" | "processing" | "completed" | "failed"
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          file_name?: string
+          file_path?: string
+          file_size?: number | null
+          mime_type?: string | null
+          ocr_text?: string | null
+          ocr_data?: Json | null
+          processed_at?: string | null
+          status?: "pending" | "processing" | "completed" | "failed"
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "receipts_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {
