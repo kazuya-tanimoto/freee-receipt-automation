@@ -15,14 +15,14 @@ It provides a map for both human developers and AI agents to understand the rule
 
 ## Key Guideline Documents
 
-| Guideline                      | Location                   | Purpose                                           |
-| ------------------------------ | -------------------------- | ------------------------------------------------- |
-| **AI Workflow Rules**          | [Workflow Rules]           | Defines the operational rules for AI agents.      |
-| **AI Context Optimization**    | [Context Optimization]     | How to provide and optimize context for AI.       |
-| **System Prompt (Foundation)** | [System Prompt]            | The foundational instructions for AI agent.       |
-| **PBI & Task Management**      | [Task Management]          | How to create/manage tasks for AI implementation. |
-| **Coding Standards**           | [Coding Standards]         | General coding conventions for this project.      |
-| **Review Guidelines**          | [Review Guidelines]        | Guidelines for code and documentation reviews.    |
+| Guideline                      | Location               | Purpose                                           |
+| ------------------------------ | ---------------------- | ------------------------------------------------- |
+| **AI Workflow Rules**          | [Workflow Rules]       | Defines the operational rules for AI agents.      |
+| **AI Context Optimization**    | [Context Optimization] | How to provide and optimize context for AI.       |
+| **System Prompt (Foundation)** | [System Prompt]        | The foundational instructions for AI agent.       |
+| **PBI & Task Management**      | [Task Management]      | How to create/manage tasks for AI implementation. |
+| **Coding Standards**           | [Coding Standards]     | General coding conventions for this project.      |
+| **Review Guidelines**          | [Review Guidelines]    | Guidelines for code and documentation reviews.    |
 
 [Workflow Rules]: ../ops/ai-workflow-rules.md
 [Context Optimization]: ../../ai/context/context-optimization.md

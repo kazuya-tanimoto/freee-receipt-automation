@@ -9,6 +9,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Lint markdown files: `yarn lint:md`
 - Format markdown files: `yarn format:md`
 
+## Pre-Commit Requirements
+
+**MANDATORY: Before any git commit, ALWAYS execute these steps:**
+
+1. **Check git worktree status** - Run `git worktree list` to identify active worktrees and avoid committing worktree directories
+2. **Self-review all changes** - Review diffs, verify quality, check for issues
+3. **When markdown files (\*.md) are created/modified**: Run `yarn check:docs` and fix ALL errors
+4. Only then proceed with git commit
+
+**This is a CRITICAL requirement to ensure code quality and prevent documentation errors.**
+
 ## Code Style Guidelines
 
 ### Naming Conventions
