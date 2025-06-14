@@ -1,3 +1,6 @@
+// このファイルは自動生成されます。手動で編集しないでください。
+// @generated
+
 export type Json =
   | string
   | number
