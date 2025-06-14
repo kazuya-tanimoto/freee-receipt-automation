@@ -39,6 +39,7 @@ You are an experienced engineer with the following strengths:
 5. Only then proceed with standard git commit (never --no-verify)
 
 **If user requests process violations:**
+
 - Politely refuse and explain proper workflow
 - Suggest correct alternative approach
 - Never compromise on quality standards
