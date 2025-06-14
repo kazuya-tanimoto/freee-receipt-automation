@@ -1,72 +1,141 @@
 import { envLoader } from './env';
 
-export const serverConfig = {
-  get supabase() {
-    const env = envLoader.getServerEnv();
-    return {
-      url: env.NEXT_PUBLIC_SUPABASE_URL,
-      anonKey: env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-      serviceRoleKey: env.SUPABASE_SERVICE_ROLE_KEY,
-    };
-  },
+function createServerConfig() {
+  let _env: ReturnType<typeof envLoader.getServerEnv> | null = null;
+  
+  const getEnv = () => {
+    if (!_env) {
+      _env = envLoader.getServerEnv();
+    }
+    return _env;
+  };
 
-  get app() {
-    const env = envLoader.getServerEnv();
-    return {
-      url: env.NEXT_PUBLIC_APP_URL,
-      nodeEnv: env.NODE_ENV,
-    };
-  },
+  return {
+    get supabase() {
+      const env = getEnv();
+      return {
+        url: env.NEXT_PUBLIC_SUPABASE_URL,
+        anonKey: env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+        serviceRoleKey: env.SUPABASE_SERVICE_ROLE_KEY,
+      };
+    },
 
-  get ocr() {
-    const env = envLoader.getServerEnv();
-    return {
-      apiKey: env.OCR_API_KEY,
-    };
-  },
+    get app() {
+      const env = getEnv();
+      return {
+        url: env.NEXT_PUBLIC_APP_URL,
+        nodeEnv: env.NODE_ENV,
+      };
+    },
 
-  get freee() {
-    const env = envLoader.getServerEnv();
-    return {
-      clientId: env.FREEE_CLIENT_ID,
-      clientSecret: env.FREEE_CLIENT_SECRET,
-      redirectUri: env.FREEE_REDIRECT_URI,
-    };
-  },
+    get ocr() {
+      const env = getEnv();
+      return {
+        apiKey: env.OCR_API_KEY,
+      };
+    },
 
-  get logging() {
-    const env = envLoader.getServerEnv();
-    return {
-      level: env.LOG_LEVEL,
-    };
-  },
+    get freee() {
+      const env = getEnv();
+      return {
+        clientId: env.FREEE_CLIENT_ID,
+        clientSecret: env.FREEE_CLIENT_SECRET,
+        redirectUri: env.FREEE_REDIRECT_URI,
+      };
+    },
 
-  get rateLimit() {
-    const env = envLoader.getServerEnv();
-    return {
-      maxRequests: env.RATE_LIMIT_MAX_REQUESTS,
-      windowMs: env.RATE_LIMIT_WINDOW_MS,
-    };
-  },
-};
+    get logging() {
+      const env = getEnv();
+      return {
+        level: env.LOG_LEVEL,
+      };
+    },
 
-export const clientConfig = {
-  get supabase() {
-    const env = envLoader.getClientEnv();
-    return {
-      url: env.NEXT_PUBLIC_SUPABASE_URL,
-      anonKey: env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    };
-  },
+    get rateLimit() {
+      const env = getEnv();
+      return {
+        maxRequests: env.RATE_LIMIT_MAX_REQUESTS,
+        windowMs: env.RATE_LIMIT_WINDOW_MS,
+      };
+    },
 
-  get app() {
-    const env = envLoader.getClientEnv();
-    return {
-      url: env.NEXT_PUBLIC_APP_URL,
-      nodeEnv: env.NODE_ENV,
-    };
-  },
-};
+    get all() {
+      const env = getEnv();
+      return {
+        supabase: {
+          url: env.NEXT_PUBLIC_SUPABASE_URL,
+          anonKey: env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+          serviceRoleKey: env.SUPABASE_SERVICE_ROLE_KEY,
+        },
+        app: {
+          url: env.NEXT_PUBLIC_APP_URL,
+          nodeEnv: env.NODE_ENV,
+        },
+        ocr: {
+          apiKey: env.OCR_API_KEY,
+        },
+        freee: {
+          clientId: env.FREEE_CLIENT_ID,
+          clientSecret: env.FREEE_CLIENT_SECRET,
+          redirectUri: env.FREEE_REDIRECT_URI,
+        },
+        logging: {
+          level: env.LOG_LEVEL,
+        },
+        rateLimit: {
+          maxRequests: env.RATE_LIMIT_MAX_REQUESTS,
+          windowMs: env.RATE_LIMIT_WINDOW_MS,
+        },
+      };
+    },
+  };
+}
+
+function createClientConfig() {
+  let _env: ReturnType<typeof envLoader.getClientEnv> | null = null;
+  
+  const getEnv = () => {
+    if (!_env) {
+      _env = envLoader.getClientEnv();
+    }
+    return _env;
+  };
+
+  return {
+    get supabase() {
+      const env = getEnv();
+      return {
+        url: env.NEXT_PUBLIC_SUPABASE_URL,
+        anonKey: env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+      };
+    },
+
+    get app() {
+      const env = getEnv();
+      return {
+        url: env.NEXT_PUBLIC_APP_URL,
+        nodeEnv: env.NODE_ENV,
+      };
+    },
+
+    get all() {
+      const env = getEnv();
+      return {
+        supabase: {
+          url: env.NEXT_PUBLIC_SUPABASE_URL,
+          anonKey: env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+        },
+        app: {
+          url: env.NEXT_PUBLIC_APP_URL,
+          nodeEnv: env.NODE_ENV,
+        },
+      };
+    },
+  };
+}
+
+export const serverConfig = createServerConfig();
+export const clientConfig = createClientConfig();
 
 export function validateEnvironment(): void {
   try {
