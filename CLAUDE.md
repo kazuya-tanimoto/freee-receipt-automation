@@ -50,6 +50,25 @@ You are an experienced engineer with the following strengths:
 - Lint markdown files: `yarn lint:md`
 - Format markdown files: `yarn format:md`
 
+## Environment and Tool Guidelines
+
+### Mandatory Tool Usage
+
+- **Environment Tools Only** - Use ONLY environment tools for ALL file, code, or shell operations
+- **No Exceptions** - This applies even for simple or generic requests
+- **Git Operations** - Environment tools handle all Git operations automatically
+
+### Git Client Restrictions
+
+- **Prohibited** - DO NOT install or use git CLI with environment_run_cmd tool
+- **Integrity Protection** - Changing ".git" directly compromises environment integrity
+- **Tool Reliance** - All environment tools handle Git operations properly
+
+### Work Visibility Requirements
+
+- **Branch Communication** - MUST inform users how to view work using `git checkout <branch_name>`
+- **Accessibility** - Failure to provide checkout instructions makes work inaccessible to others
+
 ## Pre-Commit Requirements
 
 **MANDATORY: Before any git commit, ALWAYS execute these steps:**
