@@ -11,6 +11,5 @@
   },
   "MD041": {
     "level": 1  // 最初の見出しのレベル
-  },
-  "ignores": ["CLAUDE.md"]  // CLAUDE.mdを対象外にする
+  }
 }
