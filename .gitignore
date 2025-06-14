@@ -27,3 +27,6 @@ yarn.lock
 
 # Supabase
 supabase/.temp/
+
+# Container development environment
+.container-use/
