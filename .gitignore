@@ -5,6 +5,11 @@
 # Dependencies
 node_modules/
 
+# Next.js
+.next/
+out/
+build/
+
 # Yarn
 yarn.lock
 .yarn/*
@@ -27,3 +32,6 @@ yarn.lock
 
 # Supabase
 supabase/.temp/
+
+# Container use
+.container-use/
