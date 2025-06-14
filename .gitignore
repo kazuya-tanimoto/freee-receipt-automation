@@ -32,6 +32,3 @@ yarn.lock
 
 # Supabase
 supabase/.temp/
-
-# Container use
-.container-use/
