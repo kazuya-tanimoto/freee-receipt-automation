@@ -4,14 +4,29 @@
   "description": "Freee Receipt Automation System",
   "packageManager": "yarn@4.0.2",
   "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "check:docs": "bash scripts/check-docs.sh",
     "check:docs:size": "find docs -name '*.md' -exec sh -c 'size=$(wc -c < \\\"$1\\\"); [ $size -gt 10000 ] && echo \\\"$1: $size bytes (exceeds 10KB)\\\"' _ {} \\\\;",
     "lint:md": "markdownlint-cli2 '**/*.md' '#node_modules' '#docs/standards/bulletproof-react' '#.yarn' '#docs/standards/naming-cheatsheet'",
     "format:md": "prettier --write \"**/*.md\""
   },
+  "dependencies": {
+    "@supabase/auth-helpers-nextjs": "^0.8.7",
+    "@supabase/supabase-js": "^2.38.4",
+    "next": "^14.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "zod": "^3.22.4"
+  },
   "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
     "lefthook": "^1.11.13",
     "markdownlint-cli2": "^0.12.1",
-    "prettier": "^3.5.3"
+    "prettier": "^3.5.3",
+    "typescript": "^5.3.3"
   }
 }
