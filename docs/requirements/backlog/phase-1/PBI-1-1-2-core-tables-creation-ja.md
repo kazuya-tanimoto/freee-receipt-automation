@@ -127,17 +127,20 @@ CREATE TRIGGER update_receipts_updated_at BEFORE UPDATE ON receipts FOR EACH ROW
 ### PBI-1-1-1からの申し送り事項
 
 #### 重要なセキュリティ要件
+
 - [ ] **RLS実装**: 新しいテーブルはすべてRow Level Securityを有効化し、デフォルトDENYポリシーを設定する必要がある
 - [ ] **Service Role Key保護**: SUPABASE_SERVICE_ROLE_KEYを絶対にクライアントサイドで使用してはいけない
 - [ ] **マイグレーションテンプレート**: 将来の開発のためにRLS対応マイグレーションテンプレートを作成する
 
 #### インフラストラクチャセットアップ要件
+
 - [ ] **依存関係インストール**: @supabase/supabase-jsと必要なNode.jsパッケージをインストール
 - [ ] **サーバークライアント分離**: サーバーサイド操作のため`src/lib/supabase/server-client.ts`を作成
 - [ ] **型生成**: 自動型生成のため`npm run supabase:types`スクリプトを追加
 - [ ] **接続テスト**: `test-supabase-connection.js` → `scripts/test-connection.ts`（TypeScript）に移動
 
 #### 品質保証セットアップ
+
 - [ ] **RLS検証**: 自動RLSチェックスクリプトを作成
 - [ ] **PRテンプレート**: RLS検証チェックリストを含むプルリクエストテンプレートを更新
 - [ ] **セキュリティドキュメント**: RLSポリシーとセキュリティパターンを文書化
