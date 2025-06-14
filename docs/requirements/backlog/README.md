@@ -1,74 +1,107 @@
 # Product Backlog Items (PBIs)
 
 This directory contains the Product Backlog Items (PBIs) for the freee Receipt Automation project.
-The PBIs are organized by development phases as outlined in the system specification.
+The PBIs are organized by development phases and have been refined for AI-driven development.
 
-## Structure
+## Directory Structure
 
-PBIs are organized into the following phases:
+```text
+backlog/
+├── phase-1/    # Basic Feature Implementation (7 PBIs)
+├── phase-2/    # Automation Feature Implementation (19 PBIs)
+├── phase-3/    # Management UI Implementation (15 PBIs)
+├── phase-4/    # Notifications and Matching Improvement (14 PBIs)
+├── phase-5/    # Rule-based Learning Features (20 PBIs)
+├── PBI-template.md    # Template for creating new PBIs
+├── PBI-template-ja.md # Japanese version of the template
+└── README.md         # This file
+```
 
-1. **Phase 1: Basic Feature Implementation**
+## Phase Overview
 
-   - Supabase project setup
-   - Storage integration and OCR processing implementation
-   - Basic freee API integration
+### Phase 1: Basic Feature Implementation
 
-2. **Phase 2: Automation Feature Implementation**
+- Supabase project initialization and setup
+- Database schema and authentication
+- Storage integration and OCR processing
+- Basic freee API integration
 
-   - Gmail API integration
-   - Google Drive integration
-   - Folder/file management features
-   - Scheduled execution setup
+### Phase 2: Automation Feature Implementation
 
-3. **Phase 3: Management UI Implementation**
+- Gmail OAuth and API operations
+- Google Drive OAuth and API operations
+- File management system
+- Scheduled execution with pg_cron
 
-   - NextJS-based management interface
-   - Matching status verification features
-   - Manual adjustment features
+### Phase 3: Management UI Implementation
 
-4. **Phase 4: Notifications and Basic Matching Improvement**
+- Next.js project setup with Supabase integration
+- Component library (buttons, forms, cards, modals)
+- Dashboard and monitoring interfaces
+- Receipt and transaction management
+- Drag-and-drop matching interface
 
-   - Email notification features
-   - OCR accuracy improvement
-   - Basic matching algorithm refinement
+### Phase 4: Notifications and Matching Improvement
 
-5. **Phase 5: Rule-based Learning Features**
-   - User correction data collection features
-   - Automatic rule generation from correction history
-   - Rule-based matching engine implementation
+- Email notification system
+- OCR accuracy improvements
+- Advanced matching algorithms
+- Performance optimization
+
+### Phase 5: Rule-based Learning Features
+
+- User correction data collection
+- Pattern extraction and rule generation
+- Rule-based matching engine
+- A/B testing and optimization
 
 ## PBI Format
 
-Each PBI follows this format:
+Each PBI follows a standardized format optimized for AI-driven development:
 
-```markdown
-# PBI-[Phase]-[Number]: [Title]
+### Required Sections
 
-## Description
+1. **Title**: Clear, action-oriented title
+2. **Description**: Context and objectives
+3. **Acceptance Criteria**: Specific, measurable outcomes
+4. **Technical Approach**: Implementation guidance
+5. **Testing Requirements**: Verification methods
+6. **Dependencies**: Prerequisites and related PBIs
+7. **Estimate**: Story points (1, 2, 3, or 5)
+8. **Priority**: High, Medium, or Low
 
-Brief description of the PBI
+### Optional Sections
 
-## Acceptance Criteria
+- Security Considerations
+- Performance Requirements
+- UI/UX Requirements
+- Documentation Requirements
 
-- Criterion 1
-- Criterion 2
-- ...
+## Guidelines for AI Implementation
 
-## Dependencies
+### PBI Characteristics
 
-- Dependency 1
-- Dependency 2
-- ...
+- **Atomic**: Each PBI should be independently implementable
+- **Specific**: Clear technical requirements and boundaries
+- **Verifiable**: Explicit acceptance criteria
+- **Sized**: Maximum 5 story points (larger tasks should be split)
 
-## Estimate
+### Implementation Notes
 
-Story points or time estimate
+- PBIs are designed to be implemented by AI agents
+- Each PBI includes technical approach guidance
+- Dependencies are clearly marked to ensure proper sequencing
+- Testing requirements are included for quality assurance
 
-## Priority
+## Language Support
 
-High/Medium/Low
-```
+All PBIs are available in both English and Japanese:
 
-## Tracking
+- English: `PBI-X-X-X-description.md`
+- Japanese: `PBI-X-X-X-description-ja.md`
 
-PBIs can be linked to GitHub Issues for tracking purposes.
+## Tracking and Management
+
+- PBIs can be linked to GitHub Issues for tracking
+- Use the phase folders to understand implementation order
+- Reference the PBI template when creating new items
