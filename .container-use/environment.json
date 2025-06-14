@@ -1,4 +1,10 @@
 {
   "workdir": "/workdir",
-  "base_image": "ubuntu:24.04"
+  "base_image": "node:20-bullseye",
+  "setup_commands": [
+    "apt-get update",
+    "apt-get install -y git curl",
+    "corepack enable",
+    "yarn --version"
+  ]
 }
