@@ -22,8 +22,22 @@ export function initializeEnvironment(): void {
 }
 
 export function getEnvironmentInfo(): Record<string, unknown> {
+  const requiredVars = [
+    'NEXT_PUBLIC_SUPABASE_URL',
+    'NEXT_PUBLIC_SUPABASE_ANON_KEY', 
+    'SUPABASE_SERVICE_ROLE_KEY',
+    'OCR_API_KEY',
+    'FREEE_CLIENT_ID',
+    'FREEE_CLIENT_SECRET'
+  ];
+  
+  const missingVars = requiredVars.filter(v => !process.env[v]);
+  
   return {
     nodeEnv: process.env.NODE_ENV,
+    isProduction: process.env.NODE_ENV === 'production',
+    missingRequired: missingVars,
+    hasAllRequired: missingVars.length === 0,
     hasSupabaseUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
     hasSupabaseAnonKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     hasSupabaseServiceKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
