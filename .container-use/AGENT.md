@@ -1,22 +1,18 @@
-This is a Next.js application with TypeScript and Yarn package manager.
+This is a Next.js + Supabase + TypeScript project for freee receipt automation.
 
 Key commands:
-- Install dependencies: yarn install
-- Run development server: yarn dev
-- Build project: yarn build
-- Documentation checks: yarn check:docs
+- Development server: yarn dev
+- Build: yarn build  
+- Documentation checks: yarn check:docs (runs scripts/check-docs.sh)
 - Lint markdown: yarn lint:md
 - Format markdown: yarn format:md
 
-The project uses:
-- Next.js 14 with React 18
+Project uses:
+- Next.js 14 for frontend
+- Supabase for backend/auth
 - TypeScript for type safety
-- Supabase for database and authentication
-- Yarn v4 as package manager
-- Lefthook for Git hooks
-- Markdownlint for markdown linting
+- Yarn 4.0.2 as package manager
+- Strict documentation standards with markdown linting
 
-Before any commits, always run:
-1. yarn check:docs
-2. Fix all documentation errors
-3. Follow the git workflow specified in CLAUDE.md
+Important: Always run yarn check:docs before commits when markdown files are modified.
+The check-docs.sh script exists in scripts/ directory and is automatically executable.
