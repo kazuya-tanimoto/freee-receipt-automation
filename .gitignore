@@ -5,6 +5,11 @@
 # Dependencies
 node_modules/
 
+# Next.js
+.next/
+out/
+build/
+
 # Yarn
 yarn.lock
 .yarn/*
