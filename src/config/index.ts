@@ -156,3 +156,42 @@ export function validateEnvironment(): void {
 }
 
 export { type Env, type ClientEnv } from './schema';
+
+// Configuration type exports for external use
+export type ServerConfig = {
+  supabase: {
+    url: string;
+    anonKey: string;
+    serviceRoleKey: string;
+  };
+  app: {
+    url: string;
+    nodeEnv: string;
+  };
+  ocr: {
+    apiKey: string;
+  };
+  freee: {
+    clientId: string;
+    clientSecret: string;
+    redirectUri: string;
+  };
+  logging: {
+    level: string;
+  };
+  rateLimit: {
+    maxRequests: number;
+    windowMs: number;
+  };
+};
+
+export type ClientConfig = {
+  supabase: {
+    url: string;
+    anonKey: string;
+  };
+  app: {
+    url: string;
+    nodeEnv: string;
+  };
+};
