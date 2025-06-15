@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import { envSchema, clientEnvSchema, type Env, type ClientEnv } from './schema';
 
 function createEnvLoader() {
@@ -11,8 +12,16 @@ function createEnvLoader() {
       _serverEnv = envSchema.parse(process.env);
       return _serverEnv;
     } catch (error) {
-      console.error('❌ Invalid server environment variables:', error);
-      throw new Error('Server environment validation failed');
+      if (error instanceof z.ZodError) {
+        const missingVars = error.errors
+          .filter(e => e.code === 'invalid_type' && e.received === 'undefined')
+          .map(e => e.path.join('.'));
+        
+        console.error('❌ Server environment validation failed:');
+        console.error('Missing variables:', missingVars);
+        console.error('Validation errors:', error.format());
+      }
+      throw new Error('Server environment validation failed. Check console for details.');
     }
   }
 
@@ -30,14 +39,30 @@ function createEnvLoader() {
       _clientEnv = clientEnvSchema.parse(clientEnvVars);
       return _clientEnv;
     } catch (error) {
-      console.error('❌ Invalid client environment variables:', error);
-      throw new Error('Client environment validation failed');
+      if (error instanceof z.ZodError) {
+        const missingVars = error.errors
+          .filter(e => e.code === 'invalid_type' && e.received === 'undefined')
+          .map(e => e.path.join('.'));
+        
+        console.error('❌ Client environment validation failed:');
+        console.error('Missing variables:', missingVars);
+        console.error('Validation errors:', error.format());
+      }
+      throw new Error('Client environment validation failed. Check console for details.');
+    }
+  }
+
+  function clearCache() {
+    if (process.env.NODE_ENV === 'development') {
+      _serverEnv = null;
+      _clientEnv = null;
     }
   }
 
   return {
     getServerEnv,
     getClientEnv,
+    clearCache,
   };
 }
 
