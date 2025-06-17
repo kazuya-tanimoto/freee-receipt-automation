@@ -4,7 +4,7 @@ This document describes the database security implementation for the freee recei
 
 ## Overview
 
-This system uses Supabase's Row Level Security (RLS) to ensure data isolation between users. RLS policies are applied to 
+This system uses Supabase's Row Level Security (RLS) to ensure data isolation between users. RLS policies are applied to
 all user data tables, allowing authenticated users to access only their own data.
 
 ## RLS (Row Level Security) Policies
@@ -116,11 +116,11 @@ Helper functions for easy RLS operations are provided in `src/lib/database/polic
 ```typescript
 export function validateUserContext(context: RLSContext): void {
   if (!context.is_authenticated) {
-    throw new RLSPolicyError('User must be authenticated', context);
+    throw new RLSPolicyError("User must be authenticated", context);
   }
-  
+
   if (!context.user_id) {
-    throw new RLSPolicyError('User ID is required', context);
+    throw new RLSPolicyError("User ID is required", context);
   }
 }
 ```
@@ -146,10 +146,12 @@ export function createSecureClient(context: RLSContext) {
 ### Testing Strategy
 
 1. **Authentication Tests**
+
    - Verify unauthenticated users cannot access data
    - Verify authenticated users can access their own data
 
 2. **Authorization Tests**
+
    - Verify User A cannot access User B's data
    - Verify proper RLS policy enforcement for each CRUD operation
 
@@ -203,10 +205,12 @@ ALTER ROLE service_role SET row_security = on;
 Recommend monitoring the following events:
 
 1. **Authentication Failures**
+
    - Invalid token access attempts
    - Expired session access attempts
 
 2. **Authorization Violations**
+
    - RLS policy violation attempts
    - Unauthorized access to other users' data
 
@@ -224,7 +228,7 @@ BEGIN
   -- Log RLS policy violations
   INSERT INTO security_logs (event_type, user_id, details, created_at)
   VALUES ('rls_violation', auth.uid(), NEW, NOW());
-  
+
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -264,8 +268,8 @@ $$ LANGUAGE plpgsql;
 
 ## Change History
 
-| Date | Changes | Author |
-|------|---------|--------|
+| Date       | Changes         | Author       |
+| ---------- | --------------- | ------------ |
 | 2025-06-17 | Initial version | AI Assistant |
 
 ## Contact

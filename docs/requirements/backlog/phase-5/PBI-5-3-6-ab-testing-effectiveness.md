@@ -30,7 +30,10 @@ the 25% accuracy improvement target with statistical significance.
 interface ABTestFramework {
   createExperiment(config: ExperimentConfig): Promise<Experiment>;
   assignUserToGroup(userId: string, experimentId: string): TestGroup;
-  trackMatchingResult(result: MatchingResult, experimentId: string): Promise<void>;
+  trackMatchingResult(
+    result: MatchingResult,
+    experimentId: string,
+  ): Promise<void>;
   analyzeExperimentResults(experimentId: string): Promise<ExperimentAnalysis>;
 }
 
@@ -59,8 +62,14 @@ interface ExperimentAnalysis {
 ```typescript
 interface EffectivenessTracker {
   trackMatchingAccuracy(results: MatchingResult[]): AccuracyMetrics;
-  measurePerformanceImprovements(baseline: PerformanceBaseline, current: PerformanceMetrics): ImprovementAnalysis;
-  calculateStatisticalSignificance(controlGroup: GroupResults, treatmentGroup: GroupResults): SignificanceTest;
+  measurePerformanceImprovements(
+    baseline: PerformanceBaseline,
+    current: PerformanceMetrics,
+  ): ImprovementAnalysis;
+  calculateStatisticalSignificance(
+    controlGroup: GroupResults,
+    treatmentGroup: GroupResults,
+  ): SignificanceTest;
   generateEffectivenessReport(timeRange: TimeRange): EffectivenessReport;
 }
 

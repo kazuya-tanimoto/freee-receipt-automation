@@ -11,22 +11,22 @@
 
 freee APIからのトランザクションデータを保存し、レシート照合関係を管理します。
 
-| カラム名               | 型                  | 制約                        | 説明                            |
-|-----------------------|---------------------|----------------------------|---------------------------------|
-| id                    | UUID                | PRIMARY KEY, DEFAULT uuid_generate_v4() | 一意のトランザクションID |
-| user_id               | UUID                | NOT NULL, FK auth.users(id) CASCADE | このトランザクションを所有するユーザー |
-| freee_transaction_id  | TEXT                | UNIQUE                     | freee APIからの一意識別子       |
-| amount                | DECIMAL(10, 2)      | NOT NULL                   | 精度付きトランザクション金額     |
-| date                  | DATE                | NOT NULL                   | トランザクション日付            |
-| description           | TEXT                | NOT NULL                   | トランザクション説明            |
-| category              | TEXT                |                            | トランザクションカテゴリ        |
-| account_item_id       | INTEGER             |                            | freee勘定項目ID                |
-| matched_receipt_id    | UUID                | FK receipts(id) SET NULL   | 関連レシート（照合済みの場合）   |
-| matching_confidence   | DECIMAL(3, 2)       | CHECK (0 <= value <= 1)   | 自動照合信頼度スコア            |
-| matching_status       | TEXT                | DEFAULT 'unmatched', CHECK | 現在の照合ステータス            |
-| freee_data            | JSONB               |                            | 元のfreee APIレスポンス         |
-| created_at            | TIMESTAMPTZ         | DEFAULT NOW()              | レコード作成タイムスタンプ      |
-| updated_at            | TIMESTAMPTZ         | DEFAULT NOW()              | レコード最終更新タイムスタンプ  |
+| カラム名             | 型             | 制約                                    | 説明                                   |
+| -------------------- | -------------- | --------------------------------------- | -------------------------------------- |
+| id                   | UUID           | PRIMARY KEY, DEFAULT uuid_generate_v4() | 一意のトランザクションID               |
+| user_id              | UUID           | NOT NULL, FK auth.users(id) CASCADE     | このトランザクションを所有するユーザー |
+| freee_transaction_id | TEXT           | UNIQUE                                  | freee APIからの一意識別子              |
+| amount               | DECIMAL(10, 2) | NOT NULL                                | 精度付きトランザクション金額           |
+| date                 | DATE           | NOT NULL                                | トランザクション日付                   |
+| description          | TEXT           | NOT NULL                                | トランザクション説明                   |
+| category             | TEXT           |                                         | トランザクションカテゴリ               |
+| account_item_id      | INTEGER        |                                         | freee勘定項目ID                        |
+| matched_receipt_id   | UUID           | FK receipts(id) SET NULL                | 関連レシート（照合済みの場合）         |
+| matching_confidence  | DECIMAL(3, 2)  | CHECK (0 <= value <= 1)                 | 自動照合信頼度スコア                   |
+| matching_status      | TEXT           | DEFAULT 'unmatched', CHECK              | 現在の照合ステータス                   |
+| freee_data           | JSONB          |                                         | 元のfreee APIレスポンス                |
+| created_at           | TIMESTAMPTZ    | DEFAULT NOW()                           | レコード作成タイムスタンプ             |
+| updated_at           | TIMESTAMPTZ    | DEFAULT NOW()                           | レコード最終更新タイムスタンプ         |
 
 #### 照合ステータス値
 
@@ -39,18 +39,18 @@ freee APIからのトランザクションデータを保存し、レシート�
 
 デバッグおよび監視目的でシステム操作を追跡します。
 
-| カラム名                  | 型          | 制約                           | 説明                         |
-|--------------------------|-------------|--------------------------------|------------------------------|
-| id                       | UUID        | PRIMARY KEY, DEFAULT uuid_generate_v4() | 一意のログエントリID |
-| user_id                  | UUID        | NOT NULL, FK auth.users(id) CASCADE | 操作に関連するユーザー |
-| process_type             | TEXT        | NOT NULL, CHECK IN (...)       | ログされるプロセスの種類      |
-| status                   | TEXT        | NOT NULL, CHECK IN (...)       | プロセスの現在ステータス      |
-| details                  | JSONB       | DEFAULT '{}'                   | プロセス固有の追加データ      |
-| error_message            | TEXT        |                                | プロセス失敗時のエラーメッセージ |
-| duration_ms              | INTEGER     |                                | プロセス実行時間（ミリ秒）    |
-| related_receipt_id       | UUID        | FK receipts(id) SET NULL       | 関連レシート（該当する場合）  |
-| related_transaction_id   | UUID        | FK transactions(id) SET NULL   | 関連トランザクション（該当する場合） |
-| created_at               | TIMESTAMPTZ | DEFAULT NOW()                  | ログエントリ作成タイムスタンプ |
+| カラム名               | 型          | 制約                                    | 説明                                 |
+| ---------------------- | ----------- | --------------------------------------- | ------------------------------------ |
+| id                     | UUID        | PRIMARY KEY, DEFAULT uuid_generate_v4() | 一意のログエントリID                 |
+| user_id                | UUID        | NOT NULL, FK auth.users(id) CASCADE     | 操作に関連するユーザー               |
+| process_type           | TEXT        | NOT NULL, CHECK IN (...)                | ログされるプロセスの種類             |
+| status                 | TEXT        | NOT NULL, CHECK IN (...)                | プロセスの現在ステータス             |
+| details                | JSONB       | DEFAULT '{}'                            | プロセス固有の追加データ             |
+| error_message          | TEXT        |                                         | プロセス失敗時のエラーメッセージ     |
+| duration_ms            | INTEGER     |                                         | プロセス実行時間（ミリ秒）           |
+| related_receipt_id     | UUID        | FK receipts(id) SET NULL                | 関連レシート（該当する場合）         |
+| related_transaction_id | UUID        | FK transactions(id) SET NULL            | 関連トランザクション（該当する場合） |
+| created_at             | TIMESTAMPTZ | DEFAULT NOW()                           | ログエントリ作成タイムスタンプ       |
 
 #### プロセス種別値
 
@@ -138,19 +138,19 @@ freee APIからのトランザクションデータを保存し、レシート�
 
 ```sql
 -- ユーザーの未照合トランザクションを取得
-SELECT * FROM transactions 
+SELECT * FROM transactions
 WHERE user_id = $1 AND matching_status = 'unmatched'
 ORDER BY date DESC;
 
 -- 失敗した操作の処理ログを取得
-SELECT * FROM processing_logs 
+SELECT * FROM processing_logs
 WHERE user_id = $1 AND status = 'failed'
 ORDER BY created_at DESC;
 
 -- 高信頼度自動照合トランザクションを取得
-SELECT * FROM transactions 
-WHERE user_id = $1 
-  AND matching_status = 'auto_matched' 
+SELECT * FROM transactions
+WHERE user_id = $1
+  AND matching_status = 'auto_matched'
   AND matching_confidence > 0.8;
 ```
 
@@ -158,11 +158,11 @@ WHERE user_id = $1
 
 ```sql
 -- freee APIレスポンスを保存
-INSERT INTO transactions (user_id, freee_data, ...) 
+INSERT INTO transactions (user_id, freee_data, ...)
 VALUES ($1, '{"api_version": "v1", "sync_time": "2024-01-01T00:00:00Z"}', ...);
 
 -- 処理詳細を保存
-INSERT INTO processing_logs (user_id, process_type, details, ...) 
+INSERT INTO processing_logs (user_id, process_type, details, ...)
 VALUES ($1, 'ocr', '{"confidence": 0.95, "text_lines": 15}', ...);
 ```
 

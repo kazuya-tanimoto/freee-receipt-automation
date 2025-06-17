@@ -29,7 +29,7 @@ and fine-tune the automatically generated matching rules.
 ```typescript
 interface RuleEditorProps {
   rule?: MatchingRule;
-  mode: 'create' | 'edit' | 'duplicate';
+  mode: "create" | "edit" | "duplicate";
   onSave: (rule: MatchingRule) => Promise<void>;
   onCancel: () => void;
 }

@@ -26,10 +26,21 @@
 
 ```typescript
 interface RulePrioritizer {
-  prioritizeRules(rules: MatchingRule[], context: PrioritizationContext): PrioritizedRule[];
-  calculatePriority(rule: MatchingRule, context: PrioritizationContext): PriorityScore;
-  updatePrioritiesFromPerformance(rulePerformance: RulePerformance[]): Promise<void>;
-  getOptimalExecutionOrder(rules: MatchingRule[], context: PrioritizationContext): string[];
+  prioritizeRules(
+    rules: MatchingRule[],
+    context: PrioritizationContext,
+  ): PrioritizedRule[];
+  calculatePriority(
+    rule: MatchingRule,
+    context: PrioritizationContext,
+  ): PriorityScore;
+  updatePrioritiesFromPerformance(
+    rulePerformance: RulePerformance[],
+  ): Promise<void>;
+  getOptimalExecutionOrder(
+    rules: MatchingRule[],
+    context: PrioritizationContext,
+  ): string[];
 }
 
 interface PrioritizedRule extends MatchingRule {
@@ -53,7 +64,10 @@ interface PriorityScore {
 ```typescript
 interface ContextAnalyzer {
   analyzeReceiptContext(receipt: Receipt): ReceiptContext;
-  calculateRuleRelevance(rule: MatchingRule, context: ReceiptContext): RelevanceScore;
+  calculateRuleRelevance(
+    rule: MatchingRule,
+    context: ReceiptContext,
+  ): RelevanceScore;
   identifyContextPatterns(receipts: Receipt[]): ContextPattern[];
 }
 

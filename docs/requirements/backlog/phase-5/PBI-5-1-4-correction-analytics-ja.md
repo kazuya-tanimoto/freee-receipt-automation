@@ -27,7 +27,10 @@
 
 ```typescript
 interface CorrectionAnalyzer {
-  analyzeCorrections(corrections: UserCorrection[], period: TimePeriod): AnalysisResult;
+  analyzeCorrections(
+    corrections: UserCorrection[],
+    period: TimePeriod,
+  ): AnalysisResult;
   calculateStatistics(corrections: UserCorrection[]): CorrectionStatistics;
   detectTrends(corrections: UserCorrection[]): TrendAnalysis;
   generateReport(analysis: AnalysisResult): AnalyticsReport;
@@ -42,7 +45,7 @@ interface CorrectionStatistics {
 }
 
 interface TrendAnalysis {
-  correctionTrend: 'increasing' | 'decreasing' | 'stable';
+  correctionTrend: "increasing" | "decreasing" | "stable";
   periodicPatterns: PeriodicPattern[];
   seasonalEffects: SeasonalEffect[];
   anomalies: CorrectionAnomaly[];
@@ -62,7 +65,7 @@ interface AnalyticsReport {
 }
 
 interface ChartData {
-  type: 'line' | 'bar' | 'pie';
+  type: "line" | "bar" | "pie";
   title: string;
   data: DataPoint[];
   labels: string[];

@@ -27,9 +27,15 @@
 ```typescript
 interface RuleValidator {
   validateRule(rule: MatchingRule): ValidationResult;
-  testAgainstHistory(rule: MatchingRule, testData: TestDataset): HistoricalTestResult;
+  testAgainstHistory(
+    rule: MatchingRule,
+    testData: TestDataset,
+  ): HistoricalTestResult;
   assessRuleQuality(rule: MatchingRule): QualityAssessment;
-  performCrossValidation(rule: MatchingRule, folds: number): CrossValidationResult;
+  performCrossValidation(
+    rule: MatchingRule,
+    folds: number,
+  ): CrossValidationResult;
 }
 
 interface ValidationResult {

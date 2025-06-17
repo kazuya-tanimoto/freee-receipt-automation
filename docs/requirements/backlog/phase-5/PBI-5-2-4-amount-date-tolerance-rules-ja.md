@@ -26,16 +26,22 @@
 
 ```typescript
 interface ToleranceRuleGenerator {
-  generateAmountRules(corrections: UserCorrection[]): Promise<AmountToleranceRule[]>;
-  generateDateRules(corrections: UserCorrection[]): Promise<DateToleranceRule[]>;
-  analyzeAmountVariations(corrections: UserCorrection[]): AmountVariationAnalysis;
+  generateAmountRules(
+    corrections: UserCorrection[],
+  ): Promise<AmountToleranceRule[]>;
+  generateDateRules(
+    corrections: UserCorrection[],
+  ): Promise<DateToleranceRule[]>;
+  analyzeAmountVariations(
+    corrections: UserCorrection[],
+  ): AmountVariationAnalysis;
   analyzeDateAdjustments(corrections: UserCorrection[]): DateAdjustmentAnalysis;
 }
 
 interface AmountToleranceRule extends MatchingRule {
-  ruleType: 'amount_tolerance';
+  ruleType: "amount_tolerance";
   ruleData: {
-    toleranceType: 'percentage' | 'fixed' | 'adaptive';
+    toleranceType: "percentage" | "fixed" | "adaptive";
     toleranceValue: number;
     minAmount?: number;
     maxAmount?: number;
@@ -44,11 +50,11 @@ interface AmountToleranceRule extends MatchingRule {
 }
 
 interface DateToleranceRule extends MatchingRule {
-  ruleType: 'date_tolerance';
+  ruleType: "date_tolerance";
   ruleData: {
-    toleranceType: 'days' | 'business_days' | 'adaptive';
+    toleranceType: "days" | "business_days" | "adaptive";
     toleranceDays: number;
-    direction: 'before' | 'after' | 'both';
+    direction: "before" | "after" | "both";
     contextSpecific?: string[];
   };
 }

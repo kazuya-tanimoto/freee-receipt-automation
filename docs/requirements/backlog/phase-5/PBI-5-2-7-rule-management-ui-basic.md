@@ -43,7 +43,7 @@ interface RuleCardProps {
 
 interface RuleFilter {
   type?: RuleType[];
-  status?: 'active' | 'inactive' | 'all';
+  status?: "active" | "inactive" | "all";
   confidence?: {
     min: number;
     max: number;
@@ -63,7 +63,7 @@ interface RuleDisplayData {
   title: string;
   description: string;
   type: RuleType;
-  status: 'active' | 'inactive';
+  status: "active" | "inactive";
   confidence: number;
   performance: RulePerformanceMetrics;
   createdAt: Date;
@@ -74,7 +74,7 @@ interface RulePerformanceMetrics {
   successRate: number;
   totalApplications: number;
   averageConfidence: number;
-  trend: 'improving' | 'declining' | 'stable';
+  trend: "improving" | "declining" | "stable";
 }
 ```
 

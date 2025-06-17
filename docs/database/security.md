@@ -115,11 +115,11 @@ CREATE POLICY "Users can insert own logs" ON public.processing_logs
 ```typescript
 export function validateUserContext(context: RLSContext): void {
   if (!context.is_authenticated) {
-    throw new RLSPolicyError('User must be authenticated', context);
+    throw new RLSPolicyError("User must be authenticated", context);
   }
-  
+
   if (!context.user_id) {
-    throw new RLSPolicyError('User ID is required', context);
+    throw new RLSPolicyError("User ID is required", context);
   }
 }
 ```
@@ -145,10 +145,12 @@ export function createSecureClient(context: RLSContext) {
 ### テスト戦略
 
 1. **認証テスト**
+
    - 未認証ユーザーがデータにアクセスできないことを確認
    - 認証されたユーザーが自分のデータにアクセスできることを確認
 
 2. **権限テスト**
+
    - ユーザーAがユーザーBのデータにアクセスできないことを確認
    - 各CRUD操作で適切なRLSポリシーが適用されることを確認
 
@@ -202,10 +204,12 @@ ALTER ROLE service_role SET row_security = on;
 以下のイベントを監視することを推奨：
 
 1. **認証失敗**
+
    - 無効なトークンでのアクセス試行
    - 期限切れセッションでのアクセス試行
 
 2. **権限違反**
+
    - RLSポリシー違反の試行
    - 他ユーザーデータへの不正アクセス試行
 
@@ -223,7 +227,7 @@ BEGIN
   -- RLSポリシー違反をログに記録
   INSERT INTO security_logs (event_type, user_id, details, created_at)
   VALUES ('rls_violation', auth.uid(), NEW, NOW());
-  
+
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -263,8 +267,8 @@ $$ LANGUAGE plpgsql;
 
 ## 更新履歴
 
-| 日付 | 変更内容 | 担当者 |
-|------|----------|--------|
+| 日付       | 変更内容 | 担当者       |
+| ---------- | -------- | ------------ |
 | 2025-06-17 | 初版作成 | AI Assistant |
 
 ## 問い合わせ

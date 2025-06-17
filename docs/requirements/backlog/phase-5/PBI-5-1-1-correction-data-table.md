@@ -55,7 +55,7 @@ interface UserCorrection {
   createdAt: string;
 }
 
-type CorrectionType = 'date' | 'amount' | 'vendor' | 'category' | 'unmatch';
+type CorrectionType = "date" | "amount" | "vendor" | "category" | "unmatch";
 ```
 
 ## Acceptance Criteria

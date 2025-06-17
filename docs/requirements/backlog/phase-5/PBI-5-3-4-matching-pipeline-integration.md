@@ -28,9 +28,14 @@ phases while maintaining backward compatibility and performance.
 
 ```typescript
 interface PipelineIntegrator {
-  integrateRuleEngine(pipeline: MatchingPipeline, ruleEngine: RuleExecutionEngine): HybridPipeline;
+  integrateRuleEngine(
+    pipeline: MatchingPipeline,
+    ruleEngine: RuleExecutionEngine,
+  ): HybridPipeline;
   configureRulePhases(config: RulePhaseConfig): void;
-  optimizePipelinePerformance(pipeline: HybridPipeline): PerformanceOptimization;
+  optimizePipelinePerformance(
+    pipeline: HybridPipeline,
+  ): PerformanceOptimization;
 }
 
 interface HybridPipeline extends MatchingPipeline {
@@ -54,8 +59,14 @@ interface RulePhaseConfig {
 ```typescript
 interface MatchingWorkflow {
   executePreMatchingRules(context: MatchingContext): Promise<PreMatchingResult>;
-  executeBasicMatching(context: MatchingContext, preResults: PreMatchingResult): Promise<BasicMatchingResult>;
-  executePostMatchingRules(context: MatchingContext, basicResults: BasicMatchingResult): Promise<FinalMatchingResult>;
+  executeBasicMatching(
+    context: MatchingContext,
+    preResults: PreMatchingResult,
+  ): Promise<BasicMatchingResult>;
+  executePostMatchingRules(
+    context: MatchingContext,
+    basicResults: BasicMatchingResult,
+  ): Promise<FinalMatchingResult>;
   handleRuleFailures(failures: RuleFailure[]): Promise<FallbackResult>;
 }
 

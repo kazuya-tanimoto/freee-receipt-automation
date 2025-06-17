@@ -28,10 +28,21 @@ This ensures optimal rule application sequence for maximum matching accuracy.
 
 ```typescript
 interface RulePrioritizer {
-  prioritizeRules(rules: MatchingRule[], context: PrioritizationContext): PrioritizedRule[];
-  calculatePriority(rule: MatchingRule, context: PrioritizationContext): PriorityScore;
-  updatePrioritiesFromPerformance(rulePerformance: RulePerformance[]): Promise<void>;
-  getOptimalExecutionOrder(rules: MatchingRule[], context: PrioritizationContext): string[];
+  prioritizeRules(
+    rules: MatchingRule[],
+    context: PrioritizationContext,
+  ): PrioritizedRule[];
+  calculatePriority(
+    rule: MatchingRule,
+    context: PrioritizationContext,
+  ): PriorityScore;
+  updatePrioritiesFromPerformance(
+    rulePerformance: RulePerformance[],
+  ): Promise<void>;
+  getOptimalExecutionOrder(
+    rules: MatchingRule[],
+    context: PrioritizationContext,
+  ): string[];
 }
 
 interface PrioritizedRule extends MatchingRule {

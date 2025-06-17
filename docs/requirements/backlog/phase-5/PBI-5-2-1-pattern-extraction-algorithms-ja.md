@@ -51,7 +51,11 @@ interface VendorPattern extends Pattern {
 ### パターンタイプ
 
 ```typescript
-type PatternType = 'vendor_category' | 'keyword_category' | 'amount_tolerance' | 'date_adjustment';
+type PatternType =
+  | "vendor_category"
+  | "keyword_category"
+  | "amount_tolerance"
+  | "date_adjustment";
 
 interface PatternAnalysis {
   totalCorrections: number;
@@ -101,11 +105,11 @@ interface PatternAnalysis {
 ```typescript
 // 不十分なデータシナリオを処理
 if (corrections.length < MIN_SAMPLE_SIZE) {
-  return { 
-    patterns: [], 
-    confidence: 0, 
-    reason: 'insufficient_data',
-    requiredSamples: MIN_SAMPLE_SIZE 
+  return {
+    patterns: [],
+    confidence: 0,
+    reason: "insufficient_data",
+    requiredSamples: MIN_SAMPLE_SIZE,
   };
 }
 
@@ -114,7 +118,7 @@ if (dataQualityScore < QUALITY_THRESHOLD) {
   return {
     patterns: fallbackPatterns,
     confidence: 0.3,
-    reason: 'low_quality_data'
+    reason: "low_quality_data",
   };
 }
 ```

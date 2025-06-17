@@ -9,7 +9,7 @@
 ### 設定の読み込み
 
 ```typescript
-import { serverConfig, clientConfig } from '@/config';
+import { serverConfig, clientConfig } from "@/config";
 
 // サーバーサイドでの使用
 const supabaseConfig = serverConfig.supabase; // { url, anonKey, serviceRoleKey }
@@ -41,8 +41,8 @@ Next.jsの環境変数読み込み順序に準拠しています：
 
 ### 重要な考慮事項
 
-- **NEXT_PUBLIC_** プレフィックス変数は自動的にクライアントサイドに露出されます
-- 本システムでは、NEXT_PUBLIC_変数に機密情報が含まれていないかを自動検証します
+- **NEXT*PUBLIC*** プレフィックス変数は自動的にクライアントサイドに露出されます
+- 本システムでは、NEXT*PUBLIC*変数に機密情報が含まれていないかを自動検証します
 - 設定の変更は開発サーバーの再起動が必要です（ホットリロード対象外）
 
 ## セキュリティ機能
@@ -72,7 +72,7 @@ Next.jsの環境変数読み込み順序に準拠しています：
 
 - `PASSWORD`, `CREDENTIAL`, `ENCRYPT`
 
-### NEXT_PUBLIC_変数の安全性チェック
+### NEXT*PUBLIC*変数の安全性チェック
 
 ```typescript
 // ❌ これは自動的に検出されエラーになります
@@ -156,7 +156,7 @@ npm run dev
 ### デバッグ用コマンド
 
 ```typescript
-import { getEnvironmentInfo } from '@/lib/validation/env';
+import { getEnvironmentInfo } from "@/lib/validation/env";
 
 // 環境情報の確認
 console.log(getEnvironmentInfo());
@@ -242,6 +242,6 @@ type ServerConfig = {
 
 ## 変更履歴
 
-| 日付       | バージョン | 変更内容                                     | 担当者 |
-| ---------- | ---------- | -------------------------------------------- | ------ |
-| 2025-06-15 | 1.0.0      | 初版作成（PBI-1-1-6実装に伴うガイド作成）   | AI     |
+| 日付       | バージョン | 変更内容                                  | 担当者 |
+| ---------- | ---------- | ----------------------------------------- | ------ |
+| 2025-06-15 | 1.0.0      | 初版作成（PBI-1-1-6実装に伴うガイド作成） | AI     |

@@ -11,22 +11,22 @@ These tables handle freee API integration, receipt-transaction matching, and sys
 
 Stores transaction data from freee API and manages receipt matching relationships.
 
-| Column                | Type                | Constraints                | Description                     |
-|-----------------------|---------------------|----------------------------|---------------------------------|
-| id                    | UUID                | PRIMARY KEY, DEFAULT uuid_generate_v4() | Unique transaction ID |
-| user_id               | UUID                | NOT NULL, FK auth.users(id) CASCADE | User who owns this transaction |
-| freee_transaction_id  | TEXT                | UNIQUE                     | Unique identifier from freee API |
-| amount                | DECIMAL(10, 2)      | NOT NULL                   | Transaction amount with precision |
-| date                  | DATE                | NOT NULL                   | Transaction date                |
-| description           | TEXT                | NOT NULL                   | Transaction description         |
-| category              | TEXT                |                            | Transaction category            |
-| account_item_id       | INTEGER             |                            | freee account item ID           |
-| matched_receipt_id    | UUID                | FK receipts(id) SET NULL   | Associated receipt (if matched) |
-| matching_confidence   | DECIMAL(3, 2)       | CHECK (0 <= value <= 1)   | Auto-matching confidence score |
-| matching_status       | TEXT                | DEFAULT 'unmatched', CHECK | Current matching status         |
-| freee_data            | JSONB               |                            | Original freee API response     |
-| created_at            | TIMESTAMPTZ         | DEFAULT NOW()              | Record creation timestamp       |
-| updated_at            | TIMESTAMPTZ         | DEFAULT NOW()              | Record last update timestamp    |
+| Column               | Type           | Constraints                             | Description                       |
+| -------------------- | -------------- | --------------------------------------- | --------------------------------- |
+| id                   | UUID           | PRIMARY KEY, DEFAULT uuid_generate_v4() | Unique transaction ID             |
+| user_id              | UUID           | NOT NULL, FK auth.users(id) CASCADE     | User who owns this transaction    |
+| freee_transaction_id | TEXT           | UNIQUE                                  | Unique identifier from freee API  |
+| amount               | DECIMAL(10, 2) | NOT NULL                                | Transaction amount with precision |
+| date                 | DATE           | NOT NULL                                | Transaction date                  |
+| description          | TEXT           | NOT NULL                                | Transaction description           |
+| category             | TEXT           |                                         | Transaction category              |
+| account_item_id      | INTEGER        |                                         | freee account item ID             |
+| matched_receipt_id   | UUID           | FK receipts(id) SET NULL                | Associated receipt (if matched)   |
+| matching_confidence  | DECIMAL(3, 2)  | CHECK (0 <= value <= 1)                 | Auto-matching confidence score    |
+| matching_status      | TEXT           | DEFAULT 'unmatched', CHECK              | Current matching status           |
+| freee_data           | JSONB          |                                         | Original freee API response       |
+| created_at           | TIMESTAMPTZ    | DEFAULT NOW()                           | Record creation timestamp         |
+| updated_at           | TIMESTAMPTZ    | DEFAULT NOW()                           | Record last update timestamp      |
 
 #### Matching Status Values
 
@@ -39,18 +39,18 @@ Stores transaction data from freee API and manages receipt matching relationship
 
 Tracks system operations for debugging and monitoring purposes.
 
-| Column                   | Type        | Constraints                    | Description                   |
-|--------------------------|-------------|--------------------------------|-------------------------------|
-| id                       | UUID        | PRIMARY KEY, DEFAULT uuid_generate_v4() | Unique log entry ID |
-| user_id                  | UUID        | NOT NULL, FK auth.users(id) CASCADE | User associated with operation |
-| process_type             | TEXT        | NOT NULL, CHECK IN (...)       | Type of process being logged  |
-| status                   | TEXT        | NOT NULL, CHECK IN (...)       | Current status of the process |
-| details                  | JSONB       | DEFAULT '{}'                   | Additional process-specific data |
-| error_message            | TEXT        |                                | Error message if process failed |
-| duration_ms              | INTEGER     |                                | Process duration in milliseconds |
-| related_receipt_id       | UUID        | FK receipts(id) SET NULL       | Related receipt (if applicable) |
-| related_transaction_id   | UUID        | FK transactions(id) SET NULL   | Related transaction (if applicable) |
-| created_at               | TIMESTAMPTZ | DEFAULT NOW()                  | Log entry creation timestamp  |
+| Column                 | Type        | Constraints                             | Description                         |
+| ---------------------- | ----------- | --------------------------------------- | ----------------------------------- |
+| id                     | UUID        | PRIMARY KEY, DEFAULT uuid_generate_v4() | Unique log entry ID                 |
+| user_id                | UUID        | NOT NULL, FK auth.users(id) CASCADE     | User associated with operation      |
+| process_type           | TEXT        | NOT NULL, CHECK IN (...)                | Type of process being logged        |
+| status                 | TEXT        | NOT NULL, CHECK IN (...)                | Current status of the process       |
+| details                | JSONB       | DEFAULT '{}'                            | Additional process-specific data    |
+| error_message          | TEXT        |                                         | Error message if process failed     |
+| duration_ms            | INTEGER     |                                         | Process duration in milliseconds    |
+| related_receipt_id     | UUID        | FK receipts(id) SET NULL                | Related receipt (if applicable)     |
+| related_transaction_id | UUID        | FK transactions(id) SET NULL            | Related transaction (if applicable) |
+| created_at             | TIMESTAMPTZ | DEFAULT NOW()                           | Log entry creation timestamp        |
 
 #### Process Type Values
 
@@ -138,19 +138,19 @@ Note: Processing logs are typically append-only, so UPDATE/DELETE policies are n
 
 ```sql
 -- Get unmatched transactions for a user
-SELECT * FROM transactions 
+SELECT * FROM transactions
 WHERE user_id = $1 AND matching_status = 'unmatched'
 ORDER BY date DESC;
 
 -- Get processing logs for failed operations
-SELECT * FROM processing_logs 
+SELECT * FROM processing_logs
 WHERE user_id = $1 AND status = 'failed'
 ORDER BY created_at DESC;
 
 -- Get transactions with high confidence auto-matching
-SELECT * FROM transactions 
-WHERE user_id = $1 
-  AND matching_status = 'auto_matched' 
+SELECT * FROM transactions
+WHERE user_id = $1
+  AND matching_status = 'auto_matched'
   AND matching_confidence > 0.8;
 ```
 
@@ -158,11 +158,11 @@ WHERE user_id = $1
 
 ```sql
 -- Store freee API response
-INSERT INTO transactions (user_id, freee_data, ...) 
+INSERT INTO transactions (user_id, freee_data, ...)
 VALUES ($1, '{"api_version": "v1", "sync_time": "2024-01-01T00:00:00Z"}', ...);
 
 -- Store processing details
-INSERT INTO processing_logs (user_id, process_type, details, ...) 
+INSERT INTO processing_logs (user_id, process_type, details, ...)
 VALUES ($1, 'ocr', '{"confidence": 0.95, "text_lines": 15}', ...);
 ```
 

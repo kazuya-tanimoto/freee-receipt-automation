@@ -41,7 +41,7 @@ interface RuleCardProps {
 
 interface RuleFilter {
   type?: RuleType[];
-  status?: 'active' | 'inactive' | 'all';
+  status?: "active" | "inactive" | "all";
   confidence?: {
     min: number;
     max: number;
@@ -57,8 +57,8 @@ interface RuleFilter {
 
 ```typescript
 interface RuleSortOptions {
-  field: 'name' | 'confidence' | 'performance' | 'created' | 'lastUsed';
-  direction: 'asc' | 'desc';
+  field: "name" | "confidence" | "performance" | "created" | "lastUsed";
+  direction: "asc" | "desc";
 }
 
 interface RuleListState {

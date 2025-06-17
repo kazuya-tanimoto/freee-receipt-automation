@@ -11,14 +11,14 @@
 
 Supabaseの`auth.users`テーブルをアプリケーション固有のユーザー設定で拡張します。
 
-| カラム | 型 | 制約 | 説明 |
-|--------|------|-------------|-------------|
-| `id` | UUID | PRIMARY KEY, REFERENCES auth.users(id) ON DELETE CASCADE | Supabase認証のユーザーID |
-| `freee_company_id` | TEXT | NULL | 連携用のfreee会社ID |
-| `notification_email` | TEXT | NULL | 通知用メールアドレス |
-| `notification_preferences` | JSONB | DEFAULT '{}' | 通知設定を含むJSONオブジェクト |
-| `created_at` | TIMESTAMP WITH TIME ZONE | DEFAULT NOW() | レコード作成タイムスタンプ |
-| `updated_at` | TIMESTAMP WITH TIME ZONE | DEFAULT NOW() | 最終更新タイムスタンプ |
+| カラム                     | 型                       | 制約                                                     | 説明                           |
+| -------------------------- | ------------------------ | -------------------------------------------------------- | ------------------------------ |
+| `id`                       | UUID                     | PRIMARY KEY, REFERENCES auth.users(id) ON DELETE CASCADE | Supabase認証のユーザーID       |
+| `freee_company_id`         | TEXT                     | NULL                                                     | 連携用のfreee会社ID            |
+| `notification_email`       | TEXT                     | NULL                                                     | 通知用メールアドレス           |
+| `notification_preferences` | JSONB                    | DEFAULT '{}'                                             | 通知設定を含むJSONオブジェクト |
+| `created_at`               | TIMESTAMP WITH TIME ZONE | DEFAULT NOW()                                            | レコード作成タイムスタンプ     |
+| `updated_at`               | TIMESTAMP WITH TIME ZONE | DEFAULT NOW()                                            | 最終更新タイムスタンプ         |
 
 **インデックス:**
 
@@ -37,20 +37,20 @@ Supabaseの`auth.users`テーブルをアプリケーション固有のユーザ
 
 領収書ファイルとOCR処理結果を保存します。
 
-| カラム | 型 | 制約 | 説明 |
-|--------|------|-------------|-------------|
-| `id` | UUID | PRIMARY KEY DEFAULT uuid_generate_v4() | 一意の領収書識別子 |
-| `user_id` | UUID | NOT NULL, REFERENCES auth.users(id) ON DELETE CASCADE | 領収書の所有者 |
-| `file_name` | TEXT | NOT NULL | アップロードされた領収書の元ファイル名 |
-| `file_path` | TEXT | NOT NULL | 領収書ファイルの保存パス |
-| `file_size` | INTEGER | NULL | ファイルサイズ（バイト） |
-| `mime_type` | TEXT | NULL | ファイルのMIMEタイプ |
-| `ocr_text` | TEXT | NULL | 領収書から抽出された生OCRテキスト |
-| `ocr_data` | JSONB | NULL | 構造化OCRデータ（JSON形式） |
-| `processed_at` | TIMESTAMP WITH TIME ZONE | NULL | OCR処理完了時刻 |
-| `status` | TEXT | DEFAULT 'pending', CHECK status IN (...) | 処理ステータス |
-| `created_at` | TIMESTAMP WITH TIME ZONE | DEFAULT NOW() | レコード作成タイムスタンプ |
-| `updated_at` | TIMESTAMP WITH TIME ZONE | DEFAULT NOW() | 最終更新タイムスタンプ |
+| カラム         | 型                       | 制約                                                  | 説明                                   |
+| -------------- | ------------------------ | ----------------------------------------------------- | -------------------------------------- |
+| `id`           | UUID                     | PRIMARY KEY DEFAULT uuid_generate_v4()                | 一意の領収書識別子                     |
+| `user_id`      | UUID                     | NOT NULL, REFERENCES auth.users(id) ON DELETE CASCADE | 領収書の所有者                         |
+| `file_name`    | TEXT                     | NOT NULL                                              | アップロードされた領収書の元ファイル名 |
+| `file_path`    | TEXT                     | NOT NULL                                              | 領収書ファイルの保存パス               |
+| `file_size`    | INTEGER                  | NULL                                                  | ファイルサイズ（バイト）               |
+| `mime_type`    | TEXT                     | NULL                                                  | ファイルのMIMEタイプ                   |
+| `ocr_text`     | TEXT                     | NULL                                                  | 領収書から抽出された生OCRテキスト      |
+| `ocr_data`     | JSONB                    | NULL                                                  | 構造化OCRデータ（JSON形式）            |
+| `processed_at` | TIMESTAMP WITH TIME ZONE | NULL                                                  | OCR処理完了時刻                        |
+| `status`       | TEXT                     | DEFAULT 'pending', CHECK status IN (...)              | 処理ステータス                         |
+| `created_at`   | TIMESTAMP WITH TIME ZONE | DEFAULT NOW()                                         | レコード作成タイムスタンプ             |
+| `updated_at`   | TIMESTAMP WITH TIME ZONE | DEFAULT NOW()                                         | 最終更新タイムスタンプ                 |
 
 **インデックス:**
 
