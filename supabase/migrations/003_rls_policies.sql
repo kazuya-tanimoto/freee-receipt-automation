@@ -52,6 +52,11 @@ CREATE POLICY "Users can view own logs" ON public.processing_logs
 CREATE POLICY "Users can insert own logs" ON public.processing_logs
   FOR INSERT WITH CHECK (auth.uid() = user_id);
 
+-- Processing logs should be immutable for regular users
+-- Only allow deletion for cleanup operations by system administrators
+CREATE POLICY "Prevent log deletion" ON public.processing_logs
+  FOR DELETE USING (false);
+
 -- Comments for future reference
 COMMENT ON POLICY "Users can view own settings" ON public.user_settings IS
   'Allows users to view only their own settings using auth.uid()';
@@ -64,3 +69,6 @@ COMMENT ON POLICY "Users can view own transactions" ON public.transactions IS
 
 COMMENT ON POLICY "Users can view own logs" ON public.processing_logs IS
   'Allows users to view only their own processing logs using user_id foreign key';
+
+COMMENT ON POLICY "Prevent log deletion" ON public.processing_logs IS
+  'Processing logs are immutable audit records and should never be deleted by regular users';
