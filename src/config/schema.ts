@@ -104,6 +104,14 @@ const baseEnvSchema = z.object({
   NEXTAUTH_URL: z.string().url('Invalid NextAuth URL').optional(),
 });
 
+// Client-side environment schema (only NEXT_PUBLIC_ variables)
+export const clientEnvSchema = z.object({
+  NEXT_PUBLIC_SUPABASE_URL: z.string().url('Invalid Supabase URL'),
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1, 'Supabase anon key is required'),
+  NEXT_PUBLIC_APP_URL: z.string().url('Invalid app URL').default('http://localhost:3000'),
+  NODE_ENV: z.enum(['development', 'test', 'production', 'staging']),
+});
+
 // Development environment schema
 const developmentEnvSchema = baseEnvSchema.extend({
   NODE_ENV: z.literal('development'),
@@ -143,6 +151,8 @@ export const envSchema = z.discriminatedUnion('NODE_ENV', [
 ]);
 
 export type EnvSchema = z.infer<typeof envSchema>;
+export type Env = z.infer<typeof envSchema>;
+export type ClientEnv = z.infer<typeof clientEnvSchema>;
 
 // Validate environment variables
 export function validateEnv(): EnvSchema {
