@@ -1,5 +1,86 @@
 import { z } from 'zod';
 
+/**
+ * Validation schema for environment variables and configuration
+ */
+
+// User profile validation
+export const userProfileSchema = z.object({
+  id: z.string().uuid(),
+  email: z.string().email(),
+  name: z.string().optional(),
+  avatar_url: z.string().url().optional(),
+  created_at: z.string().datetime(),
+  updated_at: z.string().datetime(),
+});
+
+// User settings validation
+export const userSettingsSchema = z.object({
+  id: z.string().uuid(),
+  user_id: z.string().uuid(),
+  receipt_auto_upload: z.boolean().default(true),
+  notification_enabled: z.boolean().default(true),
+  default_tax_rate: z.number().min(0).max(100).default(10),
+  auto_categorization: z.boolean().default(true),
+  created_at: z.string().datetime(),
+  updated_at: z.string().datetime(),
+});
+
+// Receipt validation
+export const receiptSchema = z.object({
+  id: z.string().uuid(),
+  user_id: z.string().uuid(),
+  file_path: z.string(),
+  file_name: z.string(),
+  file_size: z.number().positive(),
+  mime_type: z.string(),
+  status: z.enum(['pending', 'processing', 'completed', 'failed']),
+  ocr_result: z.string().optional(),
+  created_at: z.string().datetime(),
+  updated_at: z.string().datetime(),
+});
+
+// Transaction validation
+export const transactionSchema = z.object({
+  id: z.string().uuid(),
+  user_id: z.string().uuid(),
+  receipt_id: z.string().uuid().optional(),
+  amount: z.number(),
+  tax_amount: z.number().default(0),
+  description: z.string(),
+  category: z.string(),
+  date: z.string().date(),
+  vendor: z.string().optional(),
+  status: z.enum(['draft', 'confirmed', 'synced']),
+  freee_transaction_id: z.string().optional(),
+  created_at: z.string().datetime(),
+  updated_at: z.string().datetime(),
+});
+
+// API validation schemas
+export const signUpRequestSchema = z.object({
+  email: z.string().email('Invalid email format'),
+  password: z.string()
+    .min(8, 'Password must be at least 8 characters')
+    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+    .regex(/[0-9]/, 'Password must contain at least one number'),
+  name: z.string().optional(),
+});
+
+export const signInRequestSchema = z.object({
+  email: z.string().email('Invalid email format'),
+  password: z.string().min(1, 'Password is required'),
+});
+
+// Environment validation helper
+export function validateEnvVar(name: string, value: string | undefined): { isValid: boolean; error?: string } {
+  if (!value) {
+    return { isValid: false, error: `${name} is not set` };
+  }
+  return { isValid: true };
+}
+
 // 機密性の高い環境変数の包括的検証
 const SECRET_PATTERNS = {
   // プレフィックスパターン
@@ -84,32 +165,91 @@ const baseEnvSchema = z.object({
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1, 'Supabase anonymous key is required'),
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1, 'Supabase service role key is required'),
 
-  // Application Configuration
-  NEXT_PUBLIC_APP_URL: z.string().url('Invalid application URL'),
+  // Application Configuration - with default for development flexibility
+  NEXT_PUBLIC_APP_URL: z.string().url('Invalid application URL').default('http://localhost:3000'),
 
-  // External API Configuration
+  // External API Configuration - required for PBI-1-1-4 functionality
   OCR_API_KEY: z.string().min(1, 'OCR API key is required'),
   FREEE_CLIENT_ID: z.string().min(1, 'freee client ID is required'),
   FREEE_CLIENT_SECRET: z.string().min(1, 'freee client secret is required'),
   FREEE_REDIRECT_URI: z.string().url('Invalid freee redirect URI'),
+
+  // Authentication Configuration - from main branch integration
+  NEXTAUTH_SECRET: z.string().min(32, 'NextAuth secret must be at least 32 characters').optional(),
+  NEXTAUTH_URL: z.string().url('Invalid NextAuth URL').optional(),
 
   // Optional Configuration with Environment-based Defaults
   LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).default(getDefaultLogLevel),
   RATE_LIMIT_MAX_REQUESTS: z.coerce.number().positive().default(100),
   RATE_LIMIT_WINDOW_MS: z.coerce.number().positive().default(60000),
 
-  // Environment - Added 'test' to fix TypeScript error
+  // Environment - includes test environment for comprehensive support
   NODE_ENV: z.enum(['development', 'test', 'staging', 'production']).default('development'),
 });
 
-export const clientEnvSchema = baseEnvSchema.pick({
-  NEXT_PUBLIC_SUPABASE_URL: true,
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: true,
-  NEXT_PUBLIC_APP_URL: true,
-  NODE_ENV: true,
+// Client-side environment schema (only NEXT_PUBLIC_ variables)
+export const clientEnvSchema = z.object({
+  NEXT_PUBLIC_SUPABASE_URL: z.string().url('Invalid Supabase URL'),
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1, 'Supabase anon key is required'),
+  NEXT_PUBLIC_APP_URL: z.string().url('Invalid app URL').default('http://localhost:3000'),
+  NODE_ENV: z.enum(['development', 'test', 'production', 'staging']),
 });
 
-export const envSchema = baseEnvSchema.refine(
+// Development environment schema - flexible for development
+const developmentEnvSchema = baseEnvSchema.extend({
+  NODE_ENV: z.literal('development'),
+  // Development can have optional external services
+  OCR_API_KEY: z.string().min(1, 'OCR API key is required').optional(),
+  FREEE_CLIENT_ID: z.string().min(1, 'freee client ID is required').optional(),
+  FREEE_CLIENT_SECRET: z.string().min(1, 'freee client secret is required').optional(),
+  FREEE_REDIRECT_URI: z.string().url('Invalid freee redirect URI').optional(),
+});
+
+// Test environment schema - similar to development
+const testEnvSchema = baseEnvSchema.extend({
+  NODE_ENV: z.literal('test'),
+  // Test environment doesn't require external services
+  OCR_API_KEY: z.string().min(1, 'OCR API key is required').optional(),
+  FREEE_CLIENT_ID: z.string().min(1, 'freee client ID is required').optional(),
+  FREEE_CLIENT_SECRET: z.string().min(1, 'freee client secret is required').optional(),
+  FREEE_REDIRECT_URI: z.string().url('Invalid freee redirect URI').optional(),
+  NEXTAUTH_SECRET: z.string().min(32, 'NextAuth secret required for testing').optional(),
+  NEXTAUTH_URL: z.string().url('NextAuth URL required for testing').optional(),
+});
+
+// Production environment schema - strict requirements
+const productionEnvSchema = baseEnvSchema.extend({
+  NODE_ENV: z.literal('production'),
+  // Production requires all services configured
+  SUPABASE_SERVICE_ROLE_KEY: z.string().min(1, 'Supabase service role key is required in production'),
+  OCR_API_KEY: z.string().min(1, 'OCR API key is required in production'),
+  FREEE_CLIENT_ID: z.string().min(1, 'freee client ID is required in production'),
+  FREEE_CLIENT_SECRET: z.string().min(1, 'freee client secret is required in production'),
+  FREEE_REDIRECT_URI: z.string().url('Invalid freee redirect URI'),
+  NEXTAUTH_SECRET: z.string().min(32, 'NextAuth secret is required in production'),
+  NEXTAUTH_URL: z.string().url('NextAuth URL is required in production'),
+});
+
+// Staging environment schema - production-like requirements
+const stagingEnvSchema = baseEnvSchema.extend({
+  NODE_ENV: z.literal('staging'),
+  // Staging requires most services for testing
+  SUPABASE_SERVICE_ROLE_KEY: z.string().min(1, 'Supabase service role key is required in staging'),
+  OCR_API_KEY: z.string().min(1, 'OCR API key is required in staging'),
+  FREEE_CLIENT_ID: z.string().min(1, 'freee client ID is required in staging'),
+  FREEE_CLIENT_SECRET: z.string().min(1, 'freee client secret is required in staging'),
+  FREEE_REDIRECT_URI: z.string().url('Invalid freee redirect URI'),
+  NEXTAUTH_SECRET: z.string().min(32, 'NextAuth secret is required in staging'),
+  NEXTAUTH_URL: z.string().url('NextAuth URL is required in staging'),
+});
+
+// Combined environment schema with security validation
+export const envSchema = z.discriminatedUnion('NODE_ENV', [
+  developmentEnvSchema,
+  testEnvSchema,
+  productionEnvSchema,
+  stagingEnvSchema,
+]).refine(
   (data) => {
     // NEXT_PUBLIC_プレフィックス変数の安全性を詳細検証
     const validation = validatePublicVariableSecurity(data);
@@ -120,5 +260,29 @@ export const envSchema = baseEnvSchema.refine(
   }
 );
 
+export type EnvSchema = z.infer<typeof envSchema>;
 export type Env = z.infer<typeof envSchema>;
 export type ClientEnv = z.infer<typeof clientEnvSchema>;
+
+// Validate environment variables
+export function validateEnv(): EnvSchema {
+  const result = envSchema.safeParse(process.env);
+  
+  if (!result.success) {
+    console.error('❌ Invalid environment variables:');
+    result.error.issues.forEach((issue) => {
+      console.error(`  - ${issue.path.join('.')}: ${issue.message}`);
+    });
+    throw new Error('Invalid environment configuration');
+  }
+  
+  return result.data;
+}
+
+// Type exports
+export type UserProfile = z.infer<typeof userProfileSchema>;
+export type UserSettings = z.infer<typeof userSettingsSchema>;
+export type Receipt = z.infer<typeof receiptSchema>;
+export type Transaction = z.infer<typeof transactionSchema>;
+export type SignUpRequest = z.infer<typeof signUpRequestSchema>;
+export type SignInRequest = z.infer<typeof signInRequestSchema>;

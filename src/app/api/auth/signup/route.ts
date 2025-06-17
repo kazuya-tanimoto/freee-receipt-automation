@@ -1,18 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { signUp } from '@/lib/auth'
-import { z } from 'zod'
-
-const signupSchema = z.object({
-  email: z.string().email('Invalid email format'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-  name: z.string().optional()
-})
+import { signUpRequestSchema } from '@/config/schema'
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     
-    const validationResult = signupSchema.safeParse(body)
+    const validationResult = signUpRequestSchema.safeParse(body)
     if (!validationResult.success) {
       return NextResponse.json(
         { 
@@ -51,12 +45,7 @@ export async function POST(request: NextRequest) {
         name: user.user_metadata?.name || null,
         avatar_url: user.user_metadata?.avatar_url || null
       },
-      session: session ? {
-        access_token: session.access_token,
-        refresh_token: session.refresh_token,
-        expires_at: session.expires_at,
-        expires_in: session.expires_in
-      } : null,
+      // セッション情報はSupabaseがcookieで自動管理するため不要
       message: session ? 'User created and signed in' : 'User created. Please check your email for verification.'
     })
   } catch (error) {
