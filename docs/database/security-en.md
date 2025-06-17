@@ -4,7 +4,8 @@ This document describes the database security implementation for the freee recei
 
 ## Overview
 
-This system uses Supabase's Row Level Security (RLS) to ensure data isolation between users. RLS policies are applied to all user data tables, allowing authenticated users to access only their own data.
+This system uses Supabase's Row Level Security (RLS) to ensure data isolation between users. RLS policies are applied to 
+all user data tables, allowing authenticated users to access only their own data.
 
 ## RLS (Row Level Security) Policies
 
