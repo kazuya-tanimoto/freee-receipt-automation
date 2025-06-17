@@ -49,13 +49,8 @@ export async function POST(request: NextRequest) {
         email: user.email,
         name: user.user_metadata?.name || null,
         avatar_url: user.user_metadata?.avatar_url || null
-      },
-      session: {
-        access_token: session.access_token,
-        refresh_token: session.refresh_token,
-        expires_at: session.expires_at,
-        expires_in: session.expires_in
       }
+      // セッション情報はSupabaseがcookieで自動管理するため不要
     })
   } catch (error) {
     console.error('Login API error:', error)
