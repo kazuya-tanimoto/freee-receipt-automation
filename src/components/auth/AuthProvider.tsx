@@ -25,6 +25,9 @@ interface AuthProviderProps {
   children: React.ReactNode
 }
 
+// 事前ロード
+const authModule = import('@/lib/auth')
+
 export function AuthProvider({ children }: AuthProviderProps) {
   const [sessionData, setSessionData] = useState<SessionData>(() => 
     sessionManager.getSessionData()
@@ -40,7 +43,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const signIn = async (email: string, password: string): Promise<{ error?: string }> => {
     try {
-      const { signIn: authSignIn } = await import('@/lib/auth')
+      const { signIn: authSignIn } = await authModule
       const { error } = await authSignIn({ email, password })
       
       if (error) {
@@ -56,7 +59,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const signUp = async (email: string, password: string, name?: string): Promise<{ error?: string }> => {
     try {
-      const { signUp: authSignUp } = await import('@/lib/auth')
+      const { signUp: authSignUp } = await authModule
       const { error } = await authSignUp({ email, password, name })
       
       if (error) {
@@ -72,7 +75,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const signOut = async (): Promise<void> => {
     try {
-      const { signOut: authSignOut } = await import('@/lib/auth')
+      const { signOut: authSignOut } = await authModule
       const { error } = await authSignOut()
       
       if (error) {
