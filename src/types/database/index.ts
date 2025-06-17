@@ -5,7 +5,7 @@
  * combining Supabase auto-generated types with custom application types.
  */
 
-// Export Supabase generated types
+// Export Supabase generated types first
 export type { Database, Tables, TablesInsert, TablesUpdate } from "../supabase";
 
 // Export core table types
@@ -33,6 +33,9 @@ export type {
   ProcessingLogFilters,
 } from "./transactions";
 
+// Import Database type for use in helper types
+import type { Database } from "../supabase";
+
 // Helper types for common database operations
 export type DatabaseInsert<T extends keyof Database["public"]["Tables"]> =
   Database["public"]["Tables"][T]["Insert"];
@@ -45,6 +48,19 @@ export type DatabaseRow<T extends keyof Database["public"]["Tables"]> =
 
 // Type aliases for commonly used table names
 export type TableName = keyof Database["public"]["Tables"];
+
+// Import specific types for union types
+import type { 
+  UserSettingsInsert, 
+  ReceiptInsert, 
+  UserSettingsUpdate, 
+  ReceiptUpdate 
+} from "./core";
+import type { 
+  TransactionInsert, 
+  ProcessingLogInsert, 
+  TransactionUpdate 
+} from "./transactions";
 
 // Union type for all possible table insert operations
 export type AnyTableInsert = 
@@ -82,6 +98,10 @@ export interface PaginatedFilters extends BaseFilters {
 /**
  * Type guards for runtime type checking
  */
+
+// Import enum types for type guards
+import type { ReceiptStatus, MatchingStatus, ProcessType, ProcessStatus } from "./core";
+import type { MatchingStatus as TxMatchingStatus, ProcessType as TxProcessType, ProcessStatus as TxProcessStatus } from "./transactions";
 
 export function isReceiptStatus(status: string): status is ReceiptStatus {
   return ['pending', 'processing', 'completed', 'failed'].includes(status);
