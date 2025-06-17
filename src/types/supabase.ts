@@ -98,6 +98,128 @@ export interface Database {
           }
         ]
       }
+      transactions: {
+        Row: {
+          id: string
+          user_id: string
+          freee_transaction_id: string | null
+          amount: number
+          date: string
+          description: string
+          category: string | null
+          account_item_id: number | null
+          matched_receipt_id: string | null
+          matching_confidence: number | null
+          matching_status: "unmatched" | "auto_matched" | "manual_matched" | "rejected"
+          freee_data: Json | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          freee_transaction_id?: string | null
+          amount: number
+          date: string
+          description: string
+          category?: string | null
+          account_item_id?: number | null
+          matched_receipt_id?: string | null
+          matching_confidence?: number | null
+          matching_status?: "unmatched" | "auto_matched" | "manual_matched" | "rejected"
+          freee_data?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          freee_transaction_id?: string | null
+          amount?: number
+          date?: string
+          description?: string
+          category?: string | null
+          account_item_id?: number | null
+          matched_receipt_id?: string | null
+          matching_confidence?: number | null
+          matching_status?: "unmatched" | "auto_matched" | "manual_matched" | "rejected"
+          freee_data?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transactions_matched_receipt_id_fkey"
+            columns: ["matched_receipt_id"]
+            referencedRelation: "receipts"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      processing_logs: {
+        Row: {
+          id: string
+          user_id: string
+          process_type: "ocr" | "freee_sync" | "matching" | "notification" | "cleanup"
+          status: "started" | "completed" | "failed" | "cancelled"
+          details: Json
+          error_message: string | null
+          duration_ms: number | null
+          related_receipt_id: string | null
+          related_transaction_id: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          process_type: "ocr" | "freee_sync" | "matching" | "notification" | "cleanup"
+          status: "started" | "completed" | "failed" | "cancelled"
+          details: Json
+          error_message?: string | null
+          duration_ms?: number | null
+          related_receipt_id?: string | null
+          related_transaction_id?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          process_type?: "ocr" | "freee_sync" | "matching" | "notification" | "cleanup"
+          status?: "started" | "completed" | "failed" | "cancelled"
+          details?: Json
+          error_message?: string | null
+          duration_ms?: number | null
+          related_receipt_id?: string | null
+          related_transaction_id?: string | null
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "processing_logs_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "processing_logs_related_receipt_id_fkey"
+            columns: ["related_receipt_id"]
+            referencedRelation: "receipts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "processing_logs_related_transaction_id_fkey"
+            columns: ["related_transaction_id"]
+            referencedRelation: "transactions"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
       [_ in never]: never
