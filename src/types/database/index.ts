@@ -49,31 +49,15 @@ export type DatabaseRow<T extends keyof Database["public"]["Tables"]> =
 // Type aliases for commonly used table names
 export type TableName = keyof Database["public"]["Tables"];
 
-// Import specific types for union types
-import type { 
-  UserSettingsInsert, 
-  ReceiptInsert, 
-  UserSettingsUpdate, 
-  ReceiptUpdate 
-} from "./core";
-import type { 
-  TransactionInsert, 
-  ProcessingLogInsert, 
-  TransactionUpdate 
-} from "./transactions";
-
 // Union type for all possible table insert operations
 export type AnyTableInsert = 
-  | UserSettingsInsert
-  | ReceiptInsert
-  | TransactionInsert
-  | ProcessingLogInsert;
+  | Database["public"]["Tables"]["user_settings"]["Insert"]
+  | Database["public"]["Tables"]["receipts"]["Insert"];
 
 // Union type for all possible table update operations
 export type AnyTableUpdate = 
-  | UserSettingsUpdate
-  | ReceiptUpdate
-  | TransactionUpdate;
+  | Database["public"]["Tables"]["user_settings"]["Update"]
+  | Database["public"]["Tables"]["receipts"]["Update"];
 
 // Utility type for extracting foreign key relationships
 export type ForeignKeyUser = {
@@ -98,24 +82,19 @@ export interface PaginatedFilters extends BaseFilters {
 /**
  * Type guards for runtime type checking
  */
-
-// Import enum types for type guards
-import type { ReceiptStatus, MatchingStatus, ProcessType, ProcessStatus } from "./core";
-import type { MatchingStatus as TxMatchingStatus, ProcessType as TxProcessType, ProcessStatus as TxProcessStatus } from "./transactions";
-
-export function isReceiptStatus(status: string): status is ReceiptStatus {
+export function isReceiptStatus(status: string): status is "pending" | "processing" | "completed" | "failed" {
   return ['pending', 'processing', 'completed', 'failed'].includes(status);
 }
 
-export function isMatchingStatus(status: string): status is MatchingStatus {
+export function isMatchingStatus(status: string): status is "unmatched" | "auto_matched" | "manual_matched" | "rejected" {
   return ['unmatched', 'auto_matched', 'manual_matched', 'rejected'].includes(status);
 }
 
-export function isProcessType(type: string): type is ProcessType {
+export function isProcessType(type: string): type is "ocr" | "freee_sync" | "matching" | "notification" | "cleanup" {
   return ['ocr', 'freee_sync', 'matching', 'notification', 'cleanup'].includes(type);
 }
 
-export function isProcessStatus(status: string): status is ProcessStatus {
+export function isProcessStatus(status: string): status is "started" | "completed" | "failed" | "cancelled" {
   return ['started', 'completed', 'failed', 'cancelled'].includes(status);
 }
 
