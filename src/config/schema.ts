@@ -67,8 +67,9 @@ function validatePublicVariableSecurity(envData: Record<string, unknown>) {
 
 const getDefaultLogLevel = () => {
   const env = process.env.NODE_ENV;
-  return env === 'production' ? 'warn' : 
-         env === 'staging' ? 'info' : 'debug';
+  if (env === 'production') return 'warn';
+  if (env === 'staging') return 'info';
+  return 'debug'; // development, test, or any other environment
 };
 
 const baseEnvSchema = z.object({
@@ -91,8 +92,8 @@ const baseEnvSchema = z.object({
   RATE_LIMIT_MAX_REQUESTS: z.coerce.number().positive().default(100),
   RATE_LIMIT_WINDOW_MS: z.coerce.number().positive().default(60000),
 
-  // Environment
-  NODE_ENV: z.enum(['development', 'staging', 'production']).default('development'),
+  // Environment - Added 'test' to fix TypeScript error
+  NODE_ENV: z.enum(['development', 'test', 'staging', 'production']).default('development'),
 });
 
 export const clientEnvSchema = baseEnvSchema.pick({
