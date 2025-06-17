@@ -27,13 +27,16 @@
 ```typescript
 interface VendorRuleGenerator {
   generateRules(corrections: UserCorrection[]): Promise<VendorRule[]>;
-  refineExistingRules(rules: VendorRule[], newCorrections: UserCorrection[]): Promise<VendorRule[]>;
+  refineExistingRules(
+    rules: VendorRule[],
+    newCorrections: UserCorrection[],
+  ): Promise<VendorRule[]>;
   detectConflicts(rules: VendorRule[]): RuleConflict[];
   normalizeVendorName(vendorName: string): string;
 }
 
 interface VendorRule extends MatchingRule {
-  ruleType: 'vendor_category';
+  ruleType: "vendor_category";
   ruleData: {
     vendorPattern: string;
     vendorVariations: string[];

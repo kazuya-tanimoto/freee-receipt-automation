@@ -27,7 +27,7 @@
 ```typescript
 interface RuleEditorProps {
   rule?: MatchingRule;
-  mode: 'create' | 'edit' | 'duplicate';
+  mode: "create" | "edit" | "duplicate";
   onSave: (rule: MatchingRule) => Promise<void>;
   onCancel: () => void;
 }
@@ -51,7 +51,7 @@ interface RuleBatchActionsProps {
 ### バッチ操作
 
 ```typescript
-type BatchAction = 'enable' | 'disable' | 'delete' | 'duplicate' | 'export';
+type BatchAction = "enable" | "disable" | "delete" | "duplicate" | "export";
 
 interface BatchActionResult {
   action: BatchAction;

@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## 🎯 ABSOLUTE PRIORITIES (in order)
 
 1. **Rule Compliance** - Following rules is the highest priority
-2. **Code Quality** - Maintaining quality standards  
+2. **Code Quality** - Maintaining quality standards
 3. **Task Completion** - Completing the task
 
 ⚠️ **CRITICAL**: Never sacrifice higher priorities for lower ones
@@ -62,7 +62,7 @@ Stop only when human judgment or review is essential.
 **MANDATORY pre-commit checklist:**
 
 1. **Verify branch** - Must NOT be on main branch
-2. **Check worktree** - Run `git worktree list` to avoid committing worktree directories  
+2. **Check worktree** - Run `git worktree list` to avoid committing worktree directories
 3. **Review changes** - Use `git diff` to self-review all modifications
 4. **Documentation check** - Run `yarn check:docs` and fix ALL errors
 5. **Commit** - Use standard `git commit` (NEVER use --no-verify)
@@ -70,7 +70,7 @@ Stop only when human judgment or review is essential.
 **If user requests process violations:**
 
 - Politely refuse and explain proper workflow
-- Suggest correct alternative approach  
+- Suggest correct alternative approach
 - Never compromise on quality standards
 
 ## 🚨 ERROR HANDLING PROTOCOL

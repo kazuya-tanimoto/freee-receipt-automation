@@ -28,8 +28,14 @@ algorithms and metadata tagging for correction analysis.
 
 ```typescript
 interface CorrectionClassifier {
-  classify(beforeData: CorrectionData, afterData: CorrectionData): ClassificationResult;
-  detectChanges(beforeData: CorrectionData, afterData: CorrectionData): FieldChange[];
+  classify(
+    beforeData: CorrectionData,
+    afterData: CorrectionData,
+  ): ClassificationResult;
+  detectChanges(
+    beforeData: CorrectionData,
+    afterData: CorrectionData,
+  ): FieldChange[];
   extractMetadata(correction: UserCorrection): CorrectionMetadata;
 }
 
@@ -45,7 +51,7 @@ interface FieldChange {
   field: string;
   oldValue: any;
   newValue: any;
-  changeType: 'add' | 'remove' | 'modify';
+  changeType: "add" | "remove" | "modify";
   magnitude?: number;
 }
 ```
@@ -53,7 +59,7 @@ interface FieldChange {
 ### Classification Logic
 
 ```typescript
-type CorrectionType = 'date' | 'amount' | 'vendor' | 'category' | 'unmatch';
+type CorrectionType = "date" | "amount" | "vendor" | "category" | "unmatch";
 
 interface CorrectionMetadata {
   dateShift?: number; // days

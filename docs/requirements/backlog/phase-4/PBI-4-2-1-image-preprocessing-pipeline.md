@@ -37,7 +37,7 @@ interface ImageProcessingConfig {
   enableNoiseReduction: boolean;
   enableContrastEnhancement: boolean;
   enableRotationCorrection: boolean;
-  processingQuality: 'low' | 'medium' | 'high';
+  processingQuality: "low" | "medium" | "high";
   maxImageSize: number;
 }
 

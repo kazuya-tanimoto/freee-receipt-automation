@@ -14,7 +14,7 @@ vendor name substring matching, and configurable scoring for improved receipt-tr
 - Vendor name substring and partial matching
 - Simple weighted scoring system:
   - Date match: 30% weight
-  - Amount match: 40% weight  
+  - Amount match: 40% weight
   - Vendor match: 30% weight
 - Configurable matching thresholds
 - Rule-based confidence scoring

@@ -29,8 +29,14 @@ logging capabilities.
 
 ```typescript
 interface RuleExecutionEngine {
-  executeRule(rule: MatchingRule, context: ExecutionContext): Promise<RuleResult>;
-  executeRuleSet(rules: MatchingRule[], context: ExecutionContext): Promise<RuleSetResult>;
+  executeRule(
+    rule: MatchingRule,
+    context: ExecutionContext,
+  ): Promise<RuleResult>;
+  executeRuleSet(
+    rules: MatchingRule[],
+    context: ExecutionContext,
+  ): Promise<RuleSetResult>;
   parseRule(rule: MatchingRule): ParsedRule;
   validateRule(rule: MatchingRule): ValidationResult;
 }
@@ -70,7 +76,13 @@ interface RuleCondition {
   weight?: number;
 }
 
-type ConditionOperator = 'equals' | 'contains' | 'startsWith' | 'endsWith' | 'between' | 'fuzzyMatch';
+type ConditionOperator =
+  | "equals"
+  | "contains"
+  | "startsWith"
+  | "endsWith"
+  | "between"
+  | "fuzzyMatch";
 ```
 
 ## Acceptance Criteria

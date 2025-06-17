@@ -50,7 +50,7 @@ interface StatisticsPanelProps {
 ### チャートタイプ
 
 ```typescript
-type ChartType = 'line' | 'bar' | 'doughnut' | 'area';
+type ChartType = "line" | "bar" | "doughnut" | "area";
 
 interface ChartData {
   labels: string[];

@@ -27,7 +27,11 @@
 ```typescript
 interface RuleCache {
   getCachedResult(cacheKey: string): Promise<CachedRuleResult | null>;
-  setCachedResult(cacheKey: string, result: RuleResult, ttl: number): Promise<void>;
+  setCachedResult(
+    cacheKey: string,
+    result: RuleResult,
+    ttl: number,
+  ): Promise<void>;
   invalidateCache(pattern: string): Promise<void>;
   generateCacheKey(rule: MatchingRule, context: ExecutionContext): string;
 }
@@ -42,8 +46,12 @@ interface CachedRuleResult {
 
 interface PerformanceOptimizer {
   optimizeRuleExecution(rules: MatchingRule[]): OptimizedRuleSet;
-  analyzeRulePerformance(metrics: RulePerformanceMetrics[]): OptimizationRecommendations;
-  implementOptimizations(recommendations: OptimizationRecommendations): Promise<void>;
+  analyzeRulePerformance(
+    metrics: RulePerformanceMetrics[],
+  ): OptimizationRecommendations;
+  implementOptimizations(
+    recommendations: OptimizationRecommendations,
+  ): Promise<void>;
 }
 ```
 
@@ -51,7 +59,10 @@ interface PerformanceOptimizer {
 
 ```typescript
 interface BatchProcessor {
-  processBatch(receipts: Receipt[], rules: MatchingRule[]): Promise<BatchResult>;
+  processBatch(
+    receipts: Receipt[],
+    rules: MatchingRule[],
+  ): Promise<BatchResult>;
   optimizeBatchSize(workload: Workload): number;
   prioritizeBatchExecution(batches: Batch[]): PrioritizedBatch[];
 }

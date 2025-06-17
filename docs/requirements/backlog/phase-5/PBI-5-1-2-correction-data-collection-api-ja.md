@@ -28,12 +28,12 @@
 ```typescript
 // Server Actions
 async function collectCorrection(
-  correctionData: CreateCorrectionData
+  correctionData: CreateCorrectionData,
 ): Promise<UserCorrection>;
 
 async function getCorrectionHistory(
   userId: string,
-  limit?: number
+  limit?: number,
 ): Promise<UserCorrection[]>;
 
 // 収集サービス
