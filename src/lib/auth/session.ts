@@ -17,6 +17,7 @@ export class SessionManager {
     isAuthenticated: false
   }
   private listeners: Set<(data: SessionData) => void> = new Set()
+  private unsubscribe: (() => void) | null = null
 
   private constructor() {
     this.initialize()
@@ -51,9 +52,10 @@ export class SessionManager {
         isAuthenticated: this.isValidSession(session)
       })
 
-      supabase.auth.onAuthStateChange((event, session) => {
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
         this.handleAuthStateChange(event, session)
       })
+      this.unsubscribe = () => subscription.unsubscribe()
     } catch (error) {
       console.error('Session manager initialization failed:', error)
       this.updateSessionData({
@@ -155,6 +157,11 @@ export class SessionManager {
       isLoading: false,
       isAuthenticated: false
     })
+  }
+
+  public destroy(): void {
+    this.unsubscribe?.()
+    this.listeners.clear()
   }
 }
 
