@@ -65,11 +65,17 @@ function validatePublicVariableSecurity(envData: Record<string, unknown>) {
   return { isValid: true };
 }
 
-const getDefaultLogLevel = () => {
-  const env = process.env.NODE_ENV;
-  if (env === 'production') return 'warn';
-  if (env === 'staging') return 'info';
-  return 'debug'; // development, test, or any other environment
+// Default log level based on NODE_ENV with type safety
+const DEFAULT_LOG_LEVELS = {
+  production: 'warn',
+  staging: 'info',
+  development: 'debug',
+  test: 'debug'
+} as const;
+
+const getDefaultLogLevel = (): 'debug' | 'info' | 'warn' | 'error' => {
+  const env = process.env.NODE_ENV as keyof typeof DEFAULT_LOG_LEVELS;
+  return DEFAULT_LOG_LEVELS[env] || 'debug';
 };
 
 const baseEnvSchema = z.object({
