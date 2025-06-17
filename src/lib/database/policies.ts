@@ -8,8 +8,8 @@
 
 import { supabase } from '@/lib/supabase/client';
 import { createClient } from '@/lib/supabase/server';
+import type { Database } from '@/types/supabase';
 import type {
-  Database,
   UserSettings,
   Receipt,
   Transaction,
@@ -102,7 +102,11 @@ export const userSettingsPolicies = {
       throw new RLSPolicyError(`Failed to fetch user settings: ${error.message}`, context);
     }
 
-    return data;
+    // Type conversion for notification_preferences from Json to Record<string, any>
+    return data ? {
+      ...data,
+      notification_preferences: data.notification_preferences as Record<string, any>
+    } as UserSettings : null;
   },
 };
 
@@ -137,7 +141,7 @@ export const receiptPolicies = {
     options: {
       limit?: number;
       offset?: number;
-      status?: string;
+      status?: Database["public"]["Tables"]["receipts"]["Row"]["status"];
     } = {}
   ): Promise<Receipt[]> {
     validateUserContext(context);
@@ -167,7 +171,11 @@ export const receiptPolicies = {
       throw new RLSPolicyError(`Failed to fetch receipts: ${error.message}`, context);
     }
 
-    return data || [];
+    // Type conversion for ocr_data from Json to Record<string, any> | null
+    return (data || []).map(item => ({
+      ...item,
+      ocr_data: item.ocr_data as Record<string, any> | null
+    })) as Receipt[];
   },
 };
 
@@ -202,7 +210,7 @@ export const transactionPolicies = {
     options: {
       limit?: number;
       offset?: number;
-      matching_status?: string;
+      matching_status?: Database["public"]["Tables"]["transactions"]["Row"]["matching_status"];
       date_from?: string;
       date_to?: string;
     } = {}
@@ -242,7 +250,11 @@ export const transactionPolicies = {
       throw new RLSPolicyError(`Failed to fetch transactions: ${error.message}`, context);
     }
 
-    return data || [];
+    // Type conversion for freee_data from Json to Record<string, any> | null
+    return (data || []).map(item => ({
+      ...item,
+      freee_data: item.freee_data as Record<string, any> | null
+    })) as Transaction[];
   },
 };
 
@@ -275,8 +287,8 @@ export const processingLogPolicies = {
   async createProcessingLog(
     context: RLSContext,
     logData: {
-      process_type: string;
-      status: string;
+      process_type: Database["public"]["Tables"]["processing_logs"]["Row"]["process_type"];
+      status: Database["public"]["Tables"]["processing_logs"]["Row"]["status"];
       details: Record<string, any>;
       error_message?: string;
       related_receipt_id?: string;
@@ -290,7 +302,12 @@ export const processingLogPolicies = {
       .from('processing_logs')
       .insert({
         user_id: context.user_id,
-        ...logData,
+        process_type: logData.process_type,
+        status: logData.status,
+        details: logData.details,
+        error_message: logData.error_message || null,
+        related_receipt_id: logData.related_receipt_id || null,
+        related_transaction_id: logData.related_transaction_id || null,
       })
       .select()
       .single();
@@ -299,7 +316,11 @@ export const processingLogPolicies = {
       throw new RLSPolicyError(`Failed to create processing log: ${error.message}`, context);
     }
 
-    return data;
+    // Type conversion for details from Json to Record<string, any>
+    return {
+      ...data,
+      details: data.details as Record<string, any>
+    } as ProcessingLog;
   },
 };
 
