@@ -11,14 +11,14 @@ These tables form the foundation for user settings management and receipt proces
 
 Extends Supabase's `auth.users` table with application-specific user settings.
 
-| Column                     | Type                     | Constraints                                              | Description                                     |
-| -------------------------- | ------------------------ | -------------------------------------------------------- | ----------------------------------------------- |
-| `id`                       | UUID                     | PRIMARY KEY, REFERENCES auth.users(id) ON DELETE CASCADE | User ID from Supabase auth                      |
-| `freee_company_id`         | TEXT                     | NULL                                                     | freee company ID for integration                |
-| `notification_email`       | TEXT                     | NULL                                                     | Email address for notifications                 |
-| `notification_preferences` | JSONB                    | DEFAULT '{}'                                             | JSON object containing notification preferences |
-| `created_at`               | TIMESTAMP WITH TIME ZONE | DEFAULT NOW()                                            | Record creation timestamp                       |
-| `updated_at`               | TIMESTAMP WITH TIME ZONE | DEFAULT NOW()                                            | Last update timestamp                           |
+| Column | Type | Constraints | Description |
+| --- | --- | --- | --- |
+| `id` | UUID | PK, FK auth.users(id) CASCADE | User ID from Supabase auth |
+| `freee_company_id` | TEXT | NULL | freee company ID for integration |
+| `notification_email` | TEXT | NULL | Email address for notifications |
+| `notification_preferences` | JSONB | DEFAULT '{}' | Notification preferences JSON |
+| `created_at` | TIMESTAMPTZ | DEFAULT NOW() | Record creation timestamp |
+| `updated_at` | TIMESTAMPTZ | DEFAULT NOW() | Last update timestamp |
 
 **Indexes:**
 
@@ -37,20 +37,20 @@ Extends Supabase's `auth.users` table with application-specific user settings.
 
 Stores receipt files and OCR processing results.
 
-| Column         | Type                     | Constraints                                           | Description                           |
-| -------------- | ------------------------ | ----------------------------------------------------- | ------------------------------------- |
-| `id`           | UUID                     | PRIMARY KEY DEFAULT uuid_generate_v4()                | Unique receipt identifier             |
-| `user_id`      | UUID                     | NOT NULL, REFERENCES auth.users(id) ON DELETE CASCADE | Owner of the receipt                  |
-| `file_name`    | TEXT                     | NOT NULL                                              | Original filename of uploaded receipt |
-| `file_path`    | TEXT                     | NOT NULL                                              | Storage path to the receipt file      |
-| `file_size`    | INTEGER                  | NULL                                                  | File size in bytes                    |
-| `mime_type`    | TEXT                     | NULL                                                  | MIME type of the file                 |
-| `ocr_text`     | TEXT                     | NULL                                                  | Raw OCR text extracted from receipt   |
-| `ocr_data`     | JSONB                    | NULL                                                  | Structured OCR data as JSON           |
-| `processed_at` | TIMESTAMP WITH TIME ZONE | NULL                                                  | When OCR processing completed         |
-| `status`       | TEXT                     | DEFAULT 'pending', CHECK status IN (...)              | Processing status                     |
-| `created_at`   | TIMESTAMP WITH TIME ZONE | DEFAULT NOW()                                         | Record creation timestamp             |
-| `updated_at`   | TIMESTAMP WITH TIME ZONE | DEFAULT NOW()                                         | Last update timestamp                 |
+| Column | Type | Constraints | Description |
+| --- | --- | --- | --- |
+| `id` | UUID | PK DEFAULT uuid_generate_v4() | Unique receipt identifier |
+| `user_id` | UUID | NOT NULL, FK auth.users(id) CASCADE | Owner of the receipt |
+| `file_name` | TEXT | NOT NULL | Original filename of uploaded receipt |
+| `file_path` | TEXT | NOT NULL | Storage path to the receipt file |
+| `file_size` | INTEGER | NULL | File size in bytes |
+| `mime_type` | TEXT | NULL | MIME type of the file |
+| `ocr_text` | TEXT | NULL | Raw OCR text extracted from receipt |
+| `ocr_data` | JSONB | NULL | Structured OCR data as JSON |
+| `processed_at` | TIMESTAMPTZ | NULL | When OCR processing completed |
+| `status` | TEXT | DEFAULT 'pending', CHECK IN (...) | Processing status |
+| `created_at` | TIMESTAMPTZ | DEFAULT NOW() | Record creation timestamp |
+| `updated_at` | TIMESTAMPTZ | DEFAULT NOW() | Last update timestamp |
 
 **Indexes:**
 

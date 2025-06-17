@@ -1,116 +1,117 @@
 # Database Security Documentation
 
-このドキュメントは、freeeレシート自動化システムのデータベースセキュリティ実装について説明します。
+This document describes the database security implementation for the freee receipt automation system.
 
-## 概要
+## Overview
 
-本システムでは、Supabaseの行レベルセキュリティ（RLS）を使用して、ユーザー間のデータ分離を確保しています。すべてのユーザーデータテーブルにRLSポリシーが適用され、認証されたユーザーが自分のデータのみにアクセスできるようになっています。
+This system uses Supabase's Row Level Security (RLS) to ensure data isolation between users. RLS policies are applied to
+all user data tables, allowing authenticated users to access only their own data.
 
-## RLS (Row Level Security) ポリシー
+## RLS (Row Level Security) Policies
 
-### 有効化されているテーブル
+### Enabled Tables
 
-以下のテーブルでRLSが有効化されています：
+RLS is enabled on the following tables:
 
-- `user_settings` - ユーザー設定
-- `receipts` - レシート情報
-- `transactions` - 取引データ
-- `processing_logs` - 処理ログ
+- `user_settings` - User settings
+- `receipts` - Receipt information
+- `transactions` - Transaction data
+- `processing_logs` - Processing logs
 
-### ポリシーの概要
+### Policy Overview
 
-#### 1. User Settings テーブル
+#### 1. User Settings Table
 
 ```sql
--- ユーザーは自分の設定のみ閲覧可能
+-- Users can only view their own settings
 CREATE POLICY "Users can view own settings" ON public.user_settings
   FOR SELECT USING (auth.uid() = id);
 
--- ユーザーは自分の設定のみ挿入可能
+-- Users can only insert their own settings
 CREATE POLICY "Users can insert own settings" ON public.user_settings
   FOR INSERT WITH CHECK (auth.uid() = id);
 
--- ユーザーは自分の設定のみ更新可能
+-- Users can only update their own settings
 CREATE POLICY "Users can update own settings" ON public.user_settings
   FOR UPDATE USING (auth.uid() = id);
 ```
 
-#### 2. Receipts テーブル
+#### 2. Receipts Table
 
 ```sql
--- ユーザーは自分のレシートのみ閲覧可能
+-- Users can only view their own receipts
 CREATE POLICY "Users can view own receipts" ON public.receipts
   FOR SELECT USING (auth.uid() = user_id);
 
--- ユーザーは自分のレシートのみ挿入可能
+-- Users can only insert their own receipts
 CREATE POLICY "Users can insert own receipts" ON public.receipts
   FOR INSERT WITH CHECK (auth.uid() = user_id);
 
--- ユーザーは自分のレシートのみ更新可能
+-- Users can only update their own receipts
 CREATE POLICY "Users can update own receipts" ON public.receipts
   FOR UPDATE USING (auth.uid() = user_id);
 
--- ユーザーは自分のレシートのみ削除可能
+-- Users can only delete their own receipts
 CREATE POLICY "Users can delete own receipts" ON public.receipts
   FOR DELETE USING (auth.uid() = user_id);
 ```
 
-#### 3. Transactions テーブル
+#### 3. Transactions Table
 
 ```sql
--- ユーザーは自分の取引のみ閲覧可能
+-- Users can only view their own transactions
 CREATE POLICY "Users can view own transactions" ON public.transactions
   FOR SELECT USING (auth.uid() = user_id);
 
--- ユーザーは自分の取引のみ挿入可能
+-- Users can only insert their own transactions
 CREATE POLICY "Users can insert own transactions" ON public.transactions
   FOR INSERT WITH CHECK (auth.uid() = user_id);
 
--- ユーザーは自分の取引のみ更新可能
+-- Users can only update their own transactions
 CREATE POLICY "Users can update own transactions" ON public.transactions
   FOR UPDATE USING (auth.uid() = user_id);
 ```
 
-#### 4. Processing Logs テーブル
+#### 4. Processing Logs Table
 
 ```sql
--- ユーザーは自分のログのみ閲覧可能
+-- Users can only view their own logs
 CREATE POLICY "Users can view own logs" ON public.processing_logs
   FOR SELECT USING (auth.uid() = user_id);
 
--- ユーザーは自分のログのみ挿入可能
+-- Users can only insert their own logs
 CREATE POLICY "Users can insert own logs" ON public.processing_logs
   FOR INSERT WITH CHECK (auth.uid() = user_id);
 ```
 
-## セキュリティ原則
+## Security Principles
 
-### 1. 認証の必須化
+### 1. Authentication Required
 
-- すべてのデータベース操作には認証が必要
-- `auth.uid()`を使用してユーザーを識別
-- 未認証ユーザーはデータにアクセス不可
+- All database operations require authentication
+- Use `auth.uid()` to identify users
+- Unauthenticated users cannot access data
 
-### 2. データ分離
+### 2. Data Isolation
 
-- ユーザーは自分のデータのみアクセス可能
-- 他のユーザーのデータは完全に隔離
-- 管理者権限の概念は現在実装していない
+- Users can only access their own data
+- Other users' data is completely isolated
+- No admin privilege concept currently implemented
 
-### 3. 操作制限
+### 3. Operation Restrictions
 
-- SELECT: 自分のデータのみ閲覧可能
-- INSERT: 自分のuser_idでのみ作成可能
-- UPDATE: 自分のデータのみ更新可能
-- DELETE: 自分のデータのみ削除可能（レシートテーブルのみ）
+- SELECT: Can only view own data
+- INSERT: Can only create with own user_id
+- UPDATE: Can only update own data
+- DELETE: Can only delete own data (receipts table only)
 
-## RLSポリシーヘルパー関数
+## RLS Policy Helper Functions
 
-`src/lib/database/policies.ts`にRLS操作を簡単にするヘルパー関数を提供しています。
+Helper functions for easy RLS operations are provided in `src/lib/database/policies.ts`.
 
-### 主要な機能
+### Key Features
 
-#### 1. ユーザーコンテキストの検証
+#### 1. User Context Validation
 
 ```typescript
 export function validateUserContext(context: RLSContext): void {
@@ -124,7 +125,7 @@ export function validateUserContext(context: RLSContext): void {
 }
 ```
 
-#### 2. セキュアなクライアント作成
+#### 2. Secure Client Creation
 
 ```typescript
 export function createSecureClient(context: RLSContext) {
@@ -133,98 +134,98 @@ export function createSecureClient(context: RLSContext) {
 }
 ```
 
-#### 3. テーブル固有のポリシーヘルパー
+#### 3. Table-Specific Policy Helpers
 
-- `userSettingsPolicies` - ユーザー設定操作
-- `receiptPolicies` - レシート操作
-- `transactionPolicies` - 取引操作
-- `processingLogPolicies` - ログ操作
+- `userSettingsPolicies` - User settings operations
+- `receiptPolicies` - Receipt operations
+- `transactionPolicies` - Transaction operations
+- `processingLogPolicies` - Log operations
 
-## セキュリティテスト
+## Security Testing
 
-### テスト戦略
+### Testing Strategy
 
-1. **認証テスト**
+1. **Authentication Tests**
 
-   - 未認証ユーザーがデータにアクセスできないことを確認
-   - 認証されたユーザーが自分のデータにアクセスできることを確認
+   - Verify unauthenticated users cannot access data
+   - Verify authenticated users can access their own data
 
-2. **権限テスト**
+2. **Authorization Tests**
 
-   - ユーザーAがユーザーBのデータにアクセスできないことを確認
-   - 各CRUD操作で適切なRLSポリシーが適用されることを確認
+   - Verify User A cannot access User B's data
+   - Verify proper RLS policy enforcement for each CRUD operation
 
-3. **エラーハンドリングテスト**
-   - 不正なアクセス試行で適切なエラーが発生することを確認
-   - RLSPolicyErrorが適切にスローされることを確認
+3. **Error Handling Tests**
+   - Verify proper errors on unauthorized access attempts
+   - Verify RLSPolicyError is thrown appropriately
 
-### テストコマンド
+### Test Commands
 
 ```bash
-# RLSポリシーのテスト
+# Test RLS policies
 npm run test:rls
 
-# セキュリティ監査の実行
+# Run security audit
 npm run audit:security
 
-# TypeScript型の検証
+# Verify TypeScript types
 npx supabase gen types typescript --check
 ```
 
-## セキュリティ設定
+## Security Configuration
 
-### 環境変数
+### Environment Variables
 
-以下の環境変数が適切に設定されていることを確認してください：
+Ensure the following environment variables are properly configured:
 
 ```bash
-# Supabase設定
+# Supabase configuration
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 
-# RLS強制モード（推奨）
+# RLS enforcement mode (recommended)
 SUPABASE_RLS_ENABLED=true
 ```
 
-### データベース設定
+### Database Configuration
 
 ```sql
--- RLS強制モードを有効化
+-- Enable RLS enforcement mode
 ALTER DATABASE postgres SET row_security = on;
 
--- SupabaseサービスロールでもRLSを強制
+-- Force RLS even for Supabase service role
 ALTER ROLE service_role SET row_security = on;
 ```
 
-## 監査とモニタリング
+## Monitoring and Auditing
 
-### ログ監視
+### Log Monitoring
 
-以下のイベントを監視することを推奨：
+Recommend monitoring the following events:
 
-1. **認証失敗**
+1. **Authentication Failures**
 
-   - 無効なトークンでのアクセス試行
-   - 期限切れセッションでのアクセス試行
+   - Invalid token access attempts
+   - Expired session access attempts
 
-2. **権限違反**
+2. **Authorization Violations**
 
-   - RLSポリシー違反の試行
-   - 他ユーザーデータへの不正アクセス試行
+   - RLS policy violation attempts
+   - Unauthorized access to other users' data
 
-3. **異常な操作パターン**
-   - 大量のデータアクセス
-   - 通常と異なる時間帯でのアクセス
+3. **Unusual Access Patterns**
+   - Bulk data access
+   - Access during unusual hours
 
-### アラート設定
+### Alert Configuration
 
 ```sql
--- 権限違反の監視
+-- Monitor authorization violations
 CREATE OR REPLACE FUNCTION log_rls_violations()
 RETURNS trigger AS $$
 BEGIN
-  -- RLSポリシー違反をログに記録
+  -- Log RLS policy violations
   INSERT INTO security_logs (event_type, user_id, details, created_at)
   VALUES ('rls_violation', auth.uid(), NEW, NOW());
 
@@ -233,44 +234,44 @@ END;
 $$ LANGUAGE plpgsql;
 ```
 
-## 注意事項とベストプラクティス
+## Best Practices and Considerations
 
-### 1. サービスロールの使用
+### 1. Service Role Usage
 
-- サービスロールはRLSをバイパスできる
-- 管理操作以外ではサービスロールを使用しない
-- サービスロールキーの管理を厳重に行う
+- Service role can bypass RLS
+- Do not use service role except for admin operations
+- Strictly manage service role keys
 
-### 2. クライアントサイドのセキュリティ
+### 2. Client-Side Security
 
-- フロントエンドでも適切な権限チェックを実装
-- RLSは最後の防御線として機能
-- ユーザーインターフェースレベルでのアクセス制御も重要
+- Implement proper permission checks in frontend
+- RLS serves as the last line of defense
+- User interface level access control is also important
 
-### 3. エラーハンドリング
+### 3. Error Handling
 
-- セキュリティ関連のエラーは詳細な情報を露出しない
-- ログには詳細を記録するが、ユーザーには一般的なメッセージを表示
-- 攻撃者に有用な情報を与えない
+- Do not expose detailed security error information
+- Log details but show generic messages to users
+- Do not provide useful information to attackers
 
-### 4. 定期的な監査
+### 4. Regular Auditing
 
-- RLSポリシーの定期的な見直し
-- セキュリティテストの自動化
-- アクセスログの定期的な分析
+- Regular review of RLS policies
+- Automate security testing
+- Regular analysis of access logs
 
-## 関連ファイル
+## Related Files
 
-- [`supabase/migrations/003_rls_policies.sql`](../../supabase/migrations/003_rls_policies.sql) - RLSポリシー定義
-- [`src/lib/database/policies.ts`](../../src/lib/database/policies.ts) - ポリシーヘルパー関数
-- [`src/types/database/index.ts`](../../src/types/database/index.ts) - TypeScript型定義
+- [`supabase/migrations/003_rls_policies.sql`](../../supabase/migrations/003_rls_policies.sql) - RLS policy definitions
+- [`src/lib/database/policies.ts`](../../src/lib/database/policies.ts) - Policy helper functions
+- [`src/types/database/index.ts`](../../src/types/database/index.ts) - TypeScript type definitions
 
-## 更新履歴
+## Change History
 
-| 日付       | 変更内容 | 担当者       |
-| ---------- | -------- | ------------ |
-| 2025-06-17 | 初版作成 | AI Assistant |
+| Date       | Changes         | Author       |
+| ---------- | --------------- | ------------ |
+| 2025-06-17 | Initial version | AI Assistant |
 
-## 問い合わせ
+## Contact
 
-セキュリティに関する質問や懸念事項がある場合は、開発チームまでお問い合わせください。
+For security-related questions or concerns, please contact the development team.
