@@ -6,8 +6,8 @@
  * common patterns for user-scoped database operations.
  */
 
-import { createClient } from '@/lib/supabase/client';
-import { createServerClient } from '@/lib/supabase/server';
+import { supabase } from '@/lib/supabase/client';
+import { createClient } from '@/lib/supabase/server';
 import type {
   Database,
   UserSettings,
@@ -48,7 +48,7 @@ export function createSecureClient(context: RLSContext) {
   validateUserContext(context);
   
   // For server-side operations, we need to set the user context
-  return createServerClient();
+  return createClient();
 }
 
 /**
@@ -91,8 +91,8 @@ export const userSettingsPolicies = {
   async fetchUserSettings(context: RLSContext): Promise<UserSettings | null> {
     validateUserContext(context);
     
-    const supabase = createSecureClient(context);
-    const { data, error } = await supabase
+    const supabaseClient = createSecureClient(context);
+    const { data, error } = await supabaseClient
       .from('user_settings')
       .select('*')
       .eq('id', context.user_id)
@@ -142,8 +142,8 @@ export const receiptPolicies = {
   ): Promise<Receipt[]> {
     validateUserContext(context);
     
-    const supabase = createSecureClient(context);
-    let query = supabase
+    const supabaseClient = createSecureClient(context);
+    let query = supabaseClient
       .from('receipts')
       .select('*')
       .eq('user_id', context.user_id)
@@ -209,8 +209,8 @@ export const transactionPolicies = {
   ): Promise<Transaction[]> {
     validateUserContext(context);
     
-    const supabase = createSecureClient(context);
-    let query = supabase
+    const supabaseClient = createSecureClient(context);
+    let query = supabaseClient
       .from('transactions')
       .select('*')
       .eq('user_id', context.user_id)
@@ -285,8 +285,8 @@ export const processingLogPolicies = {
   ): Promise<ProcessingLog> {
     validateUserContext(context);
     
-    const supabase = createSecureClient(context);
-    const { data, error } = await supabase
+    const supabaseClient = createSecureClient(context);
+    const { data, error } = await supabaseClient
       .from('processing_logs')
       .insert({
         user_id: context.user_id,
