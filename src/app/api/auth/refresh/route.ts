@@ -32,13 +32,8 @@ export async function POST(request: NextRequest) {
         email: data.user.email,
         name: data.user.user_metadata?.name || null,
         avatar_url: data.user.user_metadata?.avatar_url || null
-      },
-      session: {
-        access_token: data.session.access_token,
-        refresh_token: data.session.refresh_token,
-        expires_at: data.session.expires_at,
-        expires_in: data.session.expires_in
       }
+      // セッション情報はSupabaseがcookieで自動管理するため不要
     })
   } catch (error) {
     console.error('Refresh API error:', error)

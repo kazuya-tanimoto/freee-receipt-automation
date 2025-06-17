@@ -1,17 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { signIn } from '@/lib/auth'
-import { z } from 'zod'
-
-const loginSchema = z.object({
-  email: z.string().email('Invalid email format'),
-  password: z.string().min(6, 'Password must be at least 6 characters')
-})
+import { signInRequestSchema } from '@/config/schema'
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     
-    const validationResult = loginSchema.safeParse(body)
+    const validationResult = signInRequestSchema.safeParse(body)
     if (!validationResult.success) {
       return NextResponse.json(
         { 
@@ -49,13 +44,8 @@ export async function POST(request: NextRequest) {
         email: user.email,
         name: user.user_metadata?.name || null,
         avatar_url: user.user_metadata?.avatar_url || null
-      },
-      session: {
-        access_token: session.access_token,
-        refresh_token: session.refresh_token,
-        expires_at: session.expires_at,
-        expires_in: session.expires_in
       }
+      // セッション情報はSupabaseがcookieで自動管理するため不要
     })
   } catch (error) {
     console.error('Login API error:', error)

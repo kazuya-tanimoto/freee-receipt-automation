@@ -110,7 +110,7 @@ export async function updatePassword(password: string): Promise<{ error?: AuthEr
   return { error }
 }
 
-export function isAuthenticated(session: AuthSession | null): boolean {
+export function isAuthenticated(session: AuthSession | null): session is AuthSession {
   if (!session) return false
   
   const now = Math.floor(Date.now() / 1000)

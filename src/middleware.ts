@@ -52,7 +52,12 @@ export async function middleware(req: NextRequest) {
     } = await supabase.auth.getSession()
 
     if (error) {
-      console.error('Middleware auth error:', error)
+      console.error('Middleware auth error:', {
+        message: error.message,
+        code: error.code,
+        pathname,
+        timestamp: new Date().toISOString()
+      })
       
       if (!isPublicRoute(pathname)) {
         const redirectUrl = new URL('/auth/signin', req.url)
