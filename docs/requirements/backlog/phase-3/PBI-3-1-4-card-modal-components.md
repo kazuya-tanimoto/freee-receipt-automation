@@ -2,8 +2,8 @@
 
 ## Description
 
-Implement Card layout and Modal dialog components using shadcn/ui patterns with
-flexible content layouts, responsive design, and accessibility features.
+Implement Card layout and Modal dialog components using shadcn/ui patterns with flexible content layouts, responsive
+design, and accessibility features.
 
 ## Implementation Details
 
@@ -40,8 +40,8 @@ flexible content layouts, responsive design, and accessibility features.
 
 ```typescript
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: "default" | "outline" | "elevated";
-  padding?: "none" | "sm" | "md" | "lg";
+  variant?: 'default' | 'outline' | 'elevated';
+  padding?: 'none' | 'sm' | 'md' | 'lg';
 }
 
 interface ModalProps {
@@ -50,11 +50,11 @@ interface ModalProps {
   title?: string;
   description?: string;
   children: React.ReactNode;
-  size?: "sm" | "md" | "lg" | "xl" | "full";
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
 }
 
 interface AlertProps {
-  variant?: "default" | "destructive" | "warning" | "success";
+  variant?: 'default' | 'destructive' | 'warning' | 'success';
   title?: string;
   description?: string;
   action?: React.ReactNode;

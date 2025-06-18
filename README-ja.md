@@ -105,8 +105,8 @@
 | `spec/`    | ビジネス要求・非機能要件 (`REQ‑001.md` など)  | 変更確定 ➡ ADR とリンク      |
 | `backlog/` | PBI / 実装タスク粒度 (GitHub Issue ⇔ MD/YAML) | Issue テンプレで自動生成→閉鎖 |
 
-> **FAQ: 大粒要件も実装タスクも混在?**
-> 大枠仕様は `spec/`, 実装指示は `backlog/` に分割し静的設計書と動的バックログを両立。
+> **FAQ: 大粒要件も実装タスクも混在?** 大枠仕様は `spec/`, 実装指示は `backlog/`
+> に分割し静的設計書と動的バックログを両立。
 
 ### 3.3 `standards/` — コーディング規約
 
@@ -155,8 +155,8 @@
 | `summaries/`     | 上記の要約Markdown         | `2025-05-06T06:00:summary.md`   |
 | `insights/`      | 定期バッチで抽出した改善点 | `2025-W19-insights.md`          |
 
-**メンテ方法**: セッション終了後に自動で `sessions/` 保存、日次CRONで `summaries/` 生成、
-週次で `insights/` 生成し `ai/feedback/` へ転記
+**メンテ方法**: セッション終了後に自動で `sessions/` 保存、日次CRONで `summaries/` 生成、週次で `insights/` 生成し
+`ai/feedback/` へ転記
 
 ## 5. 開発ガイドライン構成
 
@@ -196,8 +196,7 @@
 3. プルリクエストの作成
 4. レビューと承認
 
-**重要事項**: SUMMARY-ja.md直接編集禁止（自動生成）、トークン制限（2000）厳守、
-システムプロンプト統合考慮
+**重要事項**: SUMMARY-ja.md直接編集禁止（自動生成）、トークン制限（2000）厳守、システムプロンプト統合考慮
 
 ## 6. CI/開発環境
 
@@ -230,8 +229,10 @@ LLM推論コスト、性能、メモリ定点観測でモデル/プロンプト�
 
 ## 8. カスタマイズ参考
 
-- **[Bulletproof React](docs/standards/bulletproof-react/README.md)** — `docs/standards/` 配下のサブモジュールで、React 大規模構成例を提供
-- **[Naming Cheatsheet](docs/standards/naming-cheatsheet/README.md)** — `docs/standards/` 配下のサブモジュールで、分かりやすい命名指針を提供
+- **[Bulletproof React](docs/standards/bulletproof-react/README.md)** — `docs/standards/`
+  配下のサブモジュールで、React 大規模構成例を提供
+- **[Naming Cheatsheet](docs/standards/naming-cheatsheet/README.md)** — `docs/standards/`
+  配下のサブモジュールで、分かりやすい命名指針を提供
 
 ## 9. 更新フロー
 

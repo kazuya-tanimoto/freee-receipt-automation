@@ -2,9 +2,9 @@
 
 ## Description
 
-Implement a robust background job queue system for processing receipts asynchronously.
-This includes creating a queue management system with retry logic, priority handling,
-and resource optimization to handle various processing tasks efficiently.
+Implement a robust background job queue system for processing receipts asynchronously. This includes creating a queue
+management system with retry logic, priority handling, and resource optimization to handle various processing tasks
+efficiently.
 
 ## Implementation Details
 

@@ -2,8 +2,7 @@
 
 ## 説明
 
-リアルタイムメトリクス、A/Bテストフレームワーク、パフォーマンス分析を含む包括的OCR精度モニタリングシステムを実装し、
-テキスト認識精度を継続的に改善します。
+リアルタイムメトリクス、A/Bテストフレームワーク、パフォーマンス分析を含む包括的OCR精度モニタリングシステムを実装し、テキスト認識精度を継続的に改善します。
 
 ## 実装詳細
 
@@ -76,10 +75,7 @@ class AccuracyCalculator {
   calculateWordAccuracy(expected: string[], actual: string[]): number;
 
   // フィールド固有精度計算
-  calculateFieldAccuracy(
-    expectedFields: Fields,
-    actualFields: Fields,
-  ): FieldAccuracy;
+  calculateFieldAccuracy(expectedFields: Fields, actualFields: Fields): FieldAccuracy;
 
   // 信頼度スコア分析
   analyzeConfidenceDistribution(results: OCRResult[]): ConfidenceAnalysis;
@@ -94,16 +90,10 @@ class AccuracyCalculator {
 ```typescript
 interface RegressionDetector {
   // 統計的有意性検定による精度回帰検出
-  detectAccuracyRegression(
-    currentMetrics: OCRMetrics,
-    historicalMetrics: OCRMetrics[],
-  ): RegressionAlert;
+  detectAccuracyRegression(currentMetrics: OCRMetrics, historicalMetrics: OCRMetrics[]): RegressionAlert;
 
   // パフォーマンス回帰検出
-  detectPerformanceRegression(
-    currentTimes: number[],
-    historicalTimes: number[],
-  ): RegressionAlert;
+  detectPerformanceRegression(currentTimes: number[], historicalTimes: number[]): RegressionAlert;
 
   // 自動アラート生成
   generateRegressionAlerts(regressions: RegressionAlert[]): void;

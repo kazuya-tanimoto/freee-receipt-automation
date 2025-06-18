@@ -2,8 +2,8 @@
 
 ## Description
 
-Implement specialized handlers for major receipt formats (Amazon, Apple, Rakuten, gas stations, subscriptions)
-with format-specific extraction patterns, validation rules, and accuracy optimization techniques.
+Implement specialized handlers for major receipt formats (Amazon, Apple, Rakuten, gas stations, subscriptions) with
+format-specific extraction patterns, validation rules, and accuracy optimization techniques.
 
 ## Implementation Details
 
@@ -39,9 +39,9 @@ interface ReceiptFormat {
 }
 
 interface ExtractionPattern {
-  field: "amount" | "date" | "vendor" | "items" | "tax";
+  field: 'amount' | 'date' | 'vendor' | 'items' | 'tax';
   regex: RegExp;
-  position: "header" | "body" | "footer" | "any";
+  position: 'header' | 'body' | 'footer' | 'any';
   confidence: number;
   transform?: (value: string) => any;
 }

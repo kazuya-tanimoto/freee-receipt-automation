@@ -2,8 +2,7 @@
 
 ## 説明
 
-OCR出力をクリーンアップ、正規化、拡張するための包括的テキスト後処理パイプラインを実装し、
-エラー修正、フォーマット標準化、信頼度ベーステキスト検証を含みます。
+OCR出力をクリーンアップ、正規化、拡張するための包括的テキスト後処理パイプラインを実装し、エラー修正、フォーマット標準化、信頼度ベーステキスト検証を含みます。
 
 ## 実装詳細
 
@@ -52,7 +51,7 @@ interface PostprocessingConfig {
   enableErrorCorrection: boolean;
   enableFormatStandardization: boolean;
   confidenceThreshold: number;
-  language: "en" | "ja" | "auto";
+  language: 'en' | 'ja' | 'auto';
   customDictionary: string[];
 }
 ```
@@ -65,16 +64,10 @@ class OCRErrorCorrector {
   async correctCommonErrors(text: string): Promise<string>;
 
   // 辞書ベース単語修正
-  async correctWithDictionary(
-    text: string,
-    dictionary: string[],
-  ): Promise<string>;
+  async correctWithDictionary(text: string, dictionary: string[]): Promise<string>;
 
   // コンテキストベースエラー修正
-  async correctWithContext(
-    text: string,
-    context: ReceiptContext,
-  ): Promise<string>;
+  async correctWithContext(text: string, context: ReceiptContext): Promise<string>;
 
   // 数値とフォーマット修正
   async correctNumbers(text: string): Promise<string>;

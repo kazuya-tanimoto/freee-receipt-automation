@@ -2,9 +2,9 @@
 
 ## Description
 
-Set up PostgreSQL cron extension (pg_cron) for scheduled task execution within Supabase.
-This includes creating the foundation for automated receipt processing, implementing
-basic scheduling patterns, and establishing monitoring for scheduled jobs.
+Set up PostgreSQL cron extension (pg_cron) for scheduled task execution within Supabase. This includes creating the
+foundation for automated receipt processing, implementing basic scheduling patterns, and establishing monitoring for
+scheduled jobs.
 
 ## Implementation Details
 

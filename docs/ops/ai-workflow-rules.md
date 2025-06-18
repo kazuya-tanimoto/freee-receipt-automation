@@ -18,8 +18,8 @@ Target audience: AI Assistants / Reviewers
 
 ### 2. ADR Submission
 
-- For changes with "medium" or higher impact, follow [Operational Rules Guidelines](./operational-rules.md)
-  and add ADR to `docs/adr/`
+- For changes with "medium" or higher impact, follow [Operational Rules Guidelines](./operational-rules.md) and add ADR
+  to `docs/adr/`
 - ADR required content:
   - Background
   - Decision

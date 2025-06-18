@@ -2,9 +2,8 @@
 
 ## Description
 
-Implement automatic generation of amount tolerance and date adjustment rules based
-on user correction patterns. This creates rules for handling acceptable variations
-in amounts and dates during receipt-transaction matching.
+Implement automatic generation of amount tolerance and date adjustment rules based on user correction patterns. This
+creates rules for handling acceptable variations in amounts and dates during receipt-transaction matching.
 
 ## Implementation Details
 
@@ -28,22 +27,16 @@ in amounts and dates during receipt-transaction matching.
 
 ```typescript
 interface ToleranceRuleGenerator {
-  generateAmountRules(
-    corrections: UserCorrection[],
-  ): Promise<AmountToleranceRule[]>;
-  generateDateRules(
-    corrections: UserCorrection[],
-  ): Promise<DateToleranceRule[]>;
-  analyzeAmountVariations(
-    corrections: UserCorrection[],
-  ): AmountVariationAnalysis;
+  generateAmountRules(corrections: UserCorrection[]): Promise<AmountToleranceRule[]>;
+  generateDateRules(corrections: UserCorrection[]): Promise<DateToleranceRule[]>;
+  analyzeAmountVariations(corrections: UserCorrection[]): AmountVariationAnalysis;
   analyzeDateAdjustments(corrections: UserCorrection[]): DateAdjustmentAnalysis;
 }
 
 interface AmountToleranceRule extends MatchingRule {
-  ruleType: "amount_tolerance";
+  ruleType: 'amount_tolerance';
   ruleData: {
-    toleranceType: "percentage" | "fixed" | "adaptive";
+    toleranceType: 'percentage' | 'fixed' | 'adaptive';
     toleranceValue: number;
     minAmount?: number;
     maxAmount?: number;
@@ -52,10 +45,10 @@ interface AmountToleranceRule extends MatchingRule {
 }
 
 interface DateToleranceRule extends MatchingRule {
-  ruleType: "date_tolerance";
+  ruleType: 'date_tolerance';
   ruleData: {
     toleranceDays: number;
-    direction: "before" | "after" | "both";
+    direction: 'before' | 'after' | 'both';
     contextRules: DateContextRule[];
   };
 }
@@ -75,7 +68,7 @@ interface AmountVariationAnalysis {
 interface DateAdjustmentAnalysis {
   commonAdjustments: DateAdjustment[];
   averageDaysShift: number;
-  adjustmentDirection: "before" | "after" | "both";
+  adjustmentDirection: 'before' | 'after' | 'both';
   seasonalPatterns: SeasonalPattern[];
   recommendedTolerance: number;
 }

@@ -77,5 +77,5 @@ Examples: `getUser`, `getUserMessages`, `shouldDisplayMessage`
 
 ---
 
-This summary provides key guidelines from both sources. For more detailed information,
-refer to the local documentation in the respective submodule directories under `docs/standards/`.
+This summary provides key guidelines from both sources. For more detailed information, refer to the local documentation
+in the respective submodule directories under `docs/standards/`.

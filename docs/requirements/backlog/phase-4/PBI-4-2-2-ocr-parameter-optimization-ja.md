@@ -2,8 +2,7 @@
 
 ## 説明
 
-レシート画像での最大テキスト認識精度のためのOCRエンジンパラメータと設定の最適化を行い、
-言語設定、認識モード、信頼度しきい値、エンジン固有のチューニングを含みます。
+レシート画像での最大テキスト認識精度のためのOCRエンジンパラメータと設定の最適化を行い、言語設定、認識モード、信頼度しきい値、エンジン固有のチューニングを含みます。
 
 ## 実装詳細
 
@@ -33,7 +32,7 @@
 ```typescript
 interface OCRParameters {
   languages: string[]; // ['eng', 'jpn', 'jpn_vert']
-  engineMode: "LEGACY" | "NEURAL_NETS" | "DEFAULT" | "COMBINED";
+  engineMode: 'LEGACY' | 'NEURAL_NETS' | 'DEFAULT' | 'COMBINED';
   pageSegMode: number; // 0-13, PSMモード
   ocrEngineMode: number; // 0-3, OEMモード
   whiteList: string; // 認識する文字
@@ -46,12 +45,7 @@ interface OCRParameters {
 interface OptimizationProfile {
   name: string;
   description: string;
-  targetReceiptType:
-    | "general"
-    | "amazon"
-    | "apple"
-    | "gas_station"
-    | "restaurant";
+  targetReceiptType: 'general' | 'amazon' | 'apple' | 'gas_station' | 'restaurant';
   parameters: OCRParameters;
   expectedAccuracy: number;
   averageProcessingTime: number;
@@ -79,28 +73,19 @@ interface OCROptimizationResult {
 ```typescript
 class OCRParameterOptimizer {
   // 特定のレシートタイプ用パラメータ最適化
-  async optimizeForReceiptType(
-    images: ImageData[],
-    receiptType: string,
-  ): Promise<OCRParameters>;
+  async optimizeForReceiptType(images: ImageData[], receiptType: string): Promise<OCRParameters>;
 
   // 異なるパラメータセットのA/Bテスト
-  async compareParameterSets(
-    parameterSets: OCRParameters[],
-    testImages: ImageData[],
-  ): Promise<OptimizationResult[]>;
+  async compareParameterSets(parameterSets: OCRParameters[], testImages: ImageData[]): Promise<OptimizationResult[]>;
 
   // 履歴パフォーマンスに基づくパラメータ自動チューニング
   async autoTuneParameters(
     currentParams: OCRParameters,
-    performanceHistory: PerformanceMetric[],
+    performanceHistory: PerformanceMetric[]
   ): Promise<OCRParameters>;
 
   // パラメータ有効性の検証
-  async validateParameters(
-    parameters: OCRParameters,
-    validationSet: ImageData[],
-  ): Promise<ValidationResult>;
+  async validateParameters(parameters: OCRParameters, validationSet: ImageData[]): Promise<ValidationResult>;
 }
 ```
 
@@ -109,28 +94,27 @@ class OCRParameterOptimizer {
 ```typescript
 const OPTIMIZATION_PROFILES: OptimizationProfile[] = [
   {
-    name: "general_receipts",
-    description: "汎用レシートOCR",
-    targetReceiptType: "general",
+    name: 'general_receipts',
+    description: '汎用レシートOCR',
+    targetReceiptType: 'general',
     parameters: {
-      languages: ["eng"],
-      engineMode: "NEURAL_NETS",
+      languages: ['eng'],
+      engineMode: 'NEURAL_NETS',
       pageSegMode: 6, // 単一均一ブロック
       ocrEngineMode: 3, // デフォルト
       minConfidence: 60,
-      whiteList:
-        "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,$/¥-: ",
+      whiteList: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,$/¥-: ',
       timeoutMs: 30000,
     },
     expectedAccuracy: 85,
   },
   {
-    name: "japanese_receipts",
-    description: "日本語レシートOCR最適化",
-    targetReceiptType: "general",
+    name: 'japanese_receipts',
+    description: '日本語レシートOCR最適化',
+    targetReceiptType: 'general',
     parameters: {
-      languages: ["jpn", "eng"],
-      engineMode: "NEURAL_NETS",
+      languages: ['jpn', 'eng'],
+      engineMode: 'NEURAL_NETS',
       pageSegMode: 6,
       ocrEngineMode: 3,
       minConfidence: 55,

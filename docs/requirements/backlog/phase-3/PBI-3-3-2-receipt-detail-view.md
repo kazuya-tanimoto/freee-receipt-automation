@@ -2,8 +2,8 @@
 
 ## Description
 
-Create detailed receipt view showing full image, extracted OCR data, confidence scores,
-and matching information for comprehensive receipt verification.
+Create detailed receipt view showing full image, extracted OCR data, confidence scores, and matching information for
+comprehensive receipt verification.
 
 ## Implementation Details
 

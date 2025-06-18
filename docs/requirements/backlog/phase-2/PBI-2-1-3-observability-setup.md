@@ -2,9 +2,9 @@
 
 ## Description
 
-Implement comprehensive observability infrastructure including structured logging,
-metrics collection, and distributed tracing. This enables monitoring, debugging,
-and performance analysis of AI-generated code and external API integrations.
+Implement comprehensive observability infrastructure including structured logging, metrics collection, and distributed
+tracing. This enables monitoring, debugging, and performance analysis of AI-generated code and external API
+integrations.
 
 ## Implementation Details
 
@@ -46,10 +46,10 @@ interface Logger {
 }
 
 // Usage example
-logger.info("OAuth token refreshed", {
+logger.info('OAuth token refreshed', {
   userId: user.id,
-  provider: "google",
-  operation: "token_refresh",
+  provider: 'google',
+  operation: 'token_refresh',
   duration: 150,
 });
 ```
@@ -59,16 +59,12 @@ logger.info("OAuth token refreshed", {
 ```typescript
 interface Metrics {
   // Counters
-  incrementOAuthAttempts(provider: string, status: "success" | "failure"): void;
-  incrementOCRProcessed(status: "success" | "failure"): void;
+  incrementOAuthAttempts(provider: string, status: 'success' | 'failure'): void;
+  incrementOCRProcessed(status: 'success' | 'failure'): void;
   incrementEmailsProcessed(provider: string): void;
 
   // Histograms
-  recordApiDuration(
-    provider: string,
-    operation: string,
-    duration: number,
-  ): void;
+  recordApiDuration(provider: string, operation: string, duration: number): void;
   recordOCRDuration(duration: number): void;
   recordEmailProcessingDuration(duration: number): void;
 
@@ -82,15 +78,15 @@ interface Metrics {
 
 ```typescript
 // OpenTelemetry configuration
-const tracer = trace.getTracer("freee-receipt-automation", "1.0.0");
+const tracer = trace.getTracer('freee-receipt-automation', '1.0.0');
 
 // Span creation helper
 export function createSpan<T>(
   name: string,
   operation: () => Promise<T>,
-  attributes?: Record<string, string | number>,
+  attributes?: Record<string, string | number>
 ): Promise<T> {
-  return tracer.startActiveSpan(name, { attributes }, async (span) => {
+  return tracer.startActiveSpan(name, { attributes }, async span => {
     try {
       const result = await operation();
       span.setStatus({ code: SpanStatusCode.OK });
@@ -98,7 +94,7 @@ export function createSpan<T>(
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error instanceof Error ? error.message : "Unknown error",
+        message: error instanceof Error ? error.message : 'Unknown error',
       });
       span.recordException(error as Error);
       throw error;
@@ -147,7 +143,7 @@ SENTRY_DSN=<your-dsn>
   export interface PerformanceMetrics {
     operation: string;
     duration: number;
-    status: "success" | "failure" | "timeout";
+    status: 'success' | 'failure' | 'timeout';
     provider?: string;
     errorCode?: string;
   }

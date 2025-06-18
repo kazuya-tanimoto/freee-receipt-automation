@@ -2,10 +2,9 @@
 
 ## Description
 
-Create a reusable OAuth 2.0 authentication module that handles authentication flows
-for multiple external services (Gmail, Google Drive, freee API). This provides
-consistent authentication patterns and reduces code duplication across different
-API integrations.
+Create a reusable OAuth 2.0 authentication module that handles authentication flows for multiple external services
+(Gmail, Google Drive, freee API). This provides consistent authentication patterns and reduces code duplication across
+different API integrations.
 
 ## Implementation Details
 
@@ -41,21 +40,18 @@ interface OAuthProvider {
 
 const providers: Record<string, OAuthProvider> = {
   google: {
-    name: "Google",
-    authUrl: "https://accounts.google.com/o/oauth2/v2/auth",
-    tokenUrl: "https://oauth2.googleapis.com/token",
-    scopes: [
-      "https://www.googleapis.com/auth/gmail.readonly",
-      "https://www.googleapis.com/auth/drive.file",
-    ],
+    name: 'Google',
+    authUrl: 'https://accounts.google.com/o/oauth2/v2/auth',
+    tokenUrl: 'https://oauth2.googleapis.com/token',
+    scopes: ['https://www.googleapis.com/auth/gmail.readonly', 'https://www.googleapis.com/auth/drive.file'],
     clientId: process.env.GOOGLE_CLIENT_ID!,
     redirectUri: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback/google`,
   },
   freee: {
-    name: "freee",
-    authUrl: "https://accounts.secure.freee.co.jp/public_api/authorize",
-    tokenUrl: "https://accounts.secure.freee.co.jp/public_api/token",
-    scopes: ["read", "write"],
+    name: 'freee',
+    authUrl: 'https://accounts.secure.freee.co.jp/public_api/authorize',
+    tokenUrl: 'https://accounts.secure.freee.co.jp/public_api/token',
+    scopes: ['read', 'write'],
     clientId: process.env.FREEE_CLIENT_ID!,
     redirectUri: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback/freee`,
   },
@@ -105,16 +101,9 @@ CREATE INDEX idx_oauth_tokens_expires_at ON oauth_tokens(expires_at);
   }
 
   interface TokenManager {
-    storeTokens(
-      userId: string,
-      provider: string,
-      tokens: TokenResponse,
-    ): Promise<void>;
+    storeTokens(userId: string, provider: string, tokens: TokenResponse): Promise<void>;
     getValidToken(userId: string, provider: string): Promise<string | null>;
-    refreshTokenIfNeeded(
-      userId: string,
-      provider: string,
-    ): Promise<string | null>;
+    refreshTokenIfNeeded(userId: string, provider: string): Promise<string | null>;
     revokeTokens(userId: string, provider: string): Promise<void>;
   }
 

@@ -26,14 +26,9 @@
 
 ```typescript
 interface PipelineIntegrator {
-  integrateRuleEngine(
-    pipeline: MatchingPipeline,
-    ruleEngine: RuleExecutionEngine,
-  ): HybridPipeline;
+  integrateRuleEngine(pipeline: MatchingPipeline, ruleEngine: RuleExecutionEngine): HybridPipeline;
   configureRulePhases(config: RulePhaseConfig): void;
-  optimizePipelinePerformance(
-    pipeline: HybridPipeline,
-  ): PerformanceOptimization;
+  optimizePipelinePerformance(pipeline: HybridPipeline): PerformanceOptimization;
 }
 
 interface HybridPipeline extends MatchingPipeline {
@@ -56,14 +51,9 @@ interface RulePhaseConfig {
 
 ```typescript
 interface PipelineOrchestrator {
-  orchestrateMatching(
-    receipt: Receipt,
-    transactions: Transaction[],
-  ): Promise<MatchingResult>;
+  orchestrateMatching(receipt: Receipt, transactions: Transaction[]): Promise<MatchingResult>;
   executePreMatchingRules(context: MatchingContext): Promise<PreMatchingResult>;
-  executePostMatchingRules(
-    result: BasicMatchingResult,
-  ): Promise<EnhancedMatchingResult>;
+  executePostMatchingRules(result: BasicMatchingResult): Promise<EnhancedMatchingResult>;
   handleRuleFailures(failures: RuleFailure[]): Promise<FallbackResult>;
 }
 

@@ -2,8 +2,8 @@
 
 ## Description
 
-Implement intelligent conflict resolution system to handle multiple receipt candidates for transactions,
-multiple transaction candidates for receipts, and ambiguous matches with prioritization rules.
+Implement intelligent conflict resolution system to handle multiple receipt candidates for transactions, multiple
+transaction candidates for receipts, and ambiguous matches with prioritization rules.
 
 ## Implementation Details
 
@@ -20,7 +20,7 @@ multiple transaction candidates for receipts, and ambiguous matches with priorit
 
 ```typescript
 interface MatchingConflict {
-  type: "multiple_receipts" | "multiple_transactions" | "ambiguous_match";
+  type: 'multiple_receipts' | 'multiple_transactions' | 'ambiguous_match';
   confidence: number;
   candidates: MatchCandidate[];
   resolution: ConflictResolution;

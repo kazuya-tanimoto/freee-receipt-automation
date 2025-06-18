@@ -2,9 +2,8 @@
 
 ## 説明
 
-freee領収書自動化システムのすべてのAPIエンドポイントに対する包括的なOpenAPI 3.0仕様を作成します。
-これにより、フロントエンドとバックエンド間の明確な契約を確立し、実装開始前に型安全な開発と
-自動テストを可能にします。
+freee領収書自動化システムのすべてのAPIエンドポイントに対する包括的なOpenAPI
+3.0仕様を作成します。これにより、フロントエンドとバックエンド間の明確な契約を確立し、実装開始前に型安全な開発と自動テストを可能にします。
 
 ## 実装詳細
 
@@ -79,11 +78,7 @@ components:
         amount: { type: number, format: decimal }
         date: { type: string, format: date }
         description: { type: string }
-        matching_status:
-          {
-            type: string,
-            enum: [unmatched, auto_matched, manual_matched, rejected],
-          }
+        matching_status: { type: string, enum: [unmatched, auto_matched, manual_matched, rejected] }
 ```
 
 ### 従うべきコードパターン
@@ -104,7 +99,7 @@ components:
     id: string;
     user_id: string;
     file_name: string;
-    status: "pending" | "processing" | "completed" | "failed";
+    status: 'pending' | 'processing' | 'completed' | 'failed';
     created_at: string;
   }
 

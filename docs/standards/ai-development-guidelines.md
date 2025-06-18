@@ -2,8 +2,8 @@
 
 ## Overview
 
-This document serves as the central hub for all guidelines related to AI-driven development in this repository.
-It provides a map for both human developers and AI agents to understand the rules and workflows.
+This document serves as the central hub for all guidelines related to AI-driven development in this repository. It
+provides a map for both human developers and AI agents to understand the rules and workflows.
 
 ## Core Principles
 

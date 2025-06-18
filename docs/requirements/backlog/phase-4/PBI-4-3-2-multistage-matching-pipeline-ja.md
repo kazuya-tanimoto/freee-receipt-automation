@@ -2,8 +2,7 @@
 
 ## 説明
 
-一次完全マッチング、二次ファジーマッチング、エッジケース用フォールバックマッチングを含む
-洗練されたマルチステージマッチングパイプラインを作成し、設定可能なステージと信頼度閾値を提供します。
+一次完全マッチング、二次ファジーマッチング、エッジケース用フォールバックマッチングを含む洗練されたマルチステージマッチングパイプラインを作成し、設定可能なステージと信頼度閾値を提供します。
 
 ## 実装詳細
 
@@ -42,21 +41,16 @@ interface MatchingStage {
 
 interface MatchingPipeline {
   stages: MatchingStage[];
-  execute(
-    receipt: Receipt,
-    transactions: Transaction[],
-  ): Promise<MatchingResult[]>;
-  optimizeStages(
-    performanceData: PerformanceMetric[],
-  ): Promise<MatchingStage[]>;
+  execute(receipt: Receipt, transactions: Transaction[]): Promise<MatchingResult[]>;
+  optimizeStages(performanceData: PerformanceMetric[]): Promise<MatchingStage[]>;
   addStage(stage: MatchingStage): void;
   removeStage(stageName: string): void;
   reorderStages(stageOrder: string[]): void;
 }
 
 interface MatchingCriteria {
-  field: "amount" | "date" | "vendor" | "description" | "category";
-  matchType: "exact" | "fuzzy" | "range" | "similarity";
+  field: 'amount' | 'date' | 'vendor' | 'description' | 'category';
+  matchType: 'exact' | 'fuzzy' | 'range' | 'similarity';
   tolerance: number;
   weight: number;
   required: boolean;
@@ -67,16 +61,13 @@ interface MatchingCriteria {
 
 ```typescript
 class ExactMatchingStage implements MatchingStage {
-  name = "exact_matching";
+  name = 'exact_matching';
 
-  async execute(
-    receipt: Receipt,
-    transactions: Transaction[],
-  ): Promise<MatchingResult[]> {
+  async execute(receipt: Receipt, transactions: Transaction[]): Promise<MatchingResult[]> {
     // 金額、日付、ベンダーの完全マッチング
     return transactions
-      .filter((t) => this.isExactMatch(receipt, t))
-      .map((t) => ({ transaction: t, confidence: 1.0, stage: this.name }));
+      .filter(t => this.isExactMatch(receipt, t))
+      .map(t => ({ transaction: t, confidence: 1.0, stage: this.name }));
   }
 
   private isExactMatch(receipt: Receipt, transaction: Transaction): boolean {
@@ -89,58 +80,40 @@ class ExactMatchingStage implements MatchingStage {
 }
 
 class FuzzyMatchingStage implements MatchingStage {
-  name = "fuzzy_matching";
+  name = 'fuzzy_matching';
 
-  async execute(
-    receipt: Receipt,
-    transactions: Transaction[],
-  ): Promise<MatchingResult[]> {
+  async execute(receipt: Receipt, transactions: Transaction[]): Promise<MatchingResult[]> {
     // 許容度付きファジーマッチング
     return transactions
-      .map((t) => ({
+      .map(t => ({
         transaction: t,
         confidence: this.calculateFuzzyConfidence(receipt, t),
         stage: this.name,
       }))
-      .filter((result) => result.confidence >= this.threshold);
+      .filter(result => result.confidence >= this.threshold);
   }
 
-  private calculateFuzzyConfidence(
-    receipt: Receipt,
-    transaction: Transaction,
-  ): number {
-    const amountScore = this.calculateAmountSimilarity(
-      receipt.amount,
-      transaction.amount,
-    );
-    const dateScore = this.calculateDateSimilarity(
-      receipt.date,
-      transaction.date,
-    );
-    const vendorScore = this.calculateVendorSimilarity(
-      receipt.vendor,
-      transaction.vendor,
-    );
+  private calculateFuzzyConfidence(receipt: Receipt, transaction: Transaction): number {
+    const amountScore = this.calculateAmountSimilarity(receipt.amount, transaction.amount);
+    const dateScore = this.calculateDateSimilarity(receipt.date, transaction.date);
+    const vendorScore = this.calculateVendorSimilarity(receipt.vendor, transaction.vendor);
 
     return amountScore * 0.4 + dateScore * 0.3 + vendorScore * 0.3;
   }
 }
 
 class FallbackMatchingStage implements MatchingStage {
-  name = "fallback_matching";
+  name = 'fallback_matching';
 
-  async execute(
-    receipt: Receipt,
-    transactions: Transaction[],
-  ): Promise<MatchingResult[]> {
+  async execute(receipt: Receipt, transactions: Transaction[]): Promise<MatchingResult[]> {
     // エッジケースと部分マッチング
     return transactions
-      .map((t) => ({
+      .map(t => ({
         transaction: t,
         confidence: this.calculateFallbackConfidence(receipt, t),
         stage: this.name,
       }))
-      .filter((result) => result.confidence >= this.threshold)
+      .filter(result => result.confidence >= this.threshold)
       .sort((a, b) => b.confidence - a.confidence)
       .slice(0, 3); // 上位3候補のみ
   }
@@ -152,12 +125,9 @@ class FallbackMatchingStage implements MatchingStage {
 ```typescript
 class PipelineOptimizer {
   // パフォーマンスデータに基づくステージ最適化
-  async optimizeStages(
-    stages: MatchingStage[],
-    performanceData: PerformanceMetric[],
-  ): Promise<MatchingStage[]> {
+  async optimizeStages(stages: MatchingStage[], performanceData: PerformanceMetric[]): Promise<MatchingStage[]> {
     // 処理時間と精度のバランスを最適化
-    return stages.map((stage) => ({
+    return stages.map(stage => ({
       ...stage,
       threshold: this.optimizeThreshold(stage, performanceData),
       weight: this.optimizeWeight(stage, performanceData),

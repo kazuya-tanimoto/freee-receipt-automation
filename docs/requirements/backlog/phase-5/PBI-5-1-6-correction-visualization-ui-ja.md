@@ -2,8 +2,7 @@
 
 ## 説明
 
-チャート、グラフ、ダッシュボードビューを含む修正データ可視化のユーザーインターフェース
-コンポーネントを実装します。ユーザーの修正パターンとシステム学習進捗の洞察を提供します。
+チャート、グラフ、ダッシュボードビューを含む修正データ可視化のユーザーインターフェースコンポーネントを実装します。ユーザーの修正パターンとシステム学習進捗の洞察を提供します。
 
 ## 実装詳細
 
@@ -50,7 +49,7 @@ interface StatisticsPanelProps {
 ### チャートタイプ
 
 ```typescript
-type ChartType = "line" | "bar" | "doughnut" | "area";
+type ChartType = 'line' | 'bar' | 'doughnut' | 'area';
 
 interface ChartData {
   labels: string[];

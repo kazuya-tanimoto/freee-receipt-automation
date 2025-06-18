@@ -2,9 +2,7 @@
 
 ## 説明
 
-レシート-取引マッチングの手動調整からのユーザー修正データを保存するための
-データベーステーブルと型を作成します。これにはスキーマ設計、RLSポリシー、
-基本的なTypeScript型定義が含まれます。
+レシート-取引マッチングの手動調整からのユーザー修正データを保存するためのデータベーステーブルと型を作成します。これにはスキーマ設計、RLSポリシー、基本的なTypeScript型定義が含まれます。
 
 ## 実装詳細
 
@@ -55,7 +53,7 @@ interface UserCorrection {
   createdAt: string;
 }
 
-type CorrectionType = "date" | "amount" | "vendor" | "category" | "unmatch";
+type CorrectionType = 'date' | 'amount' | 'vendor' | 'category' | 'unmatch';
 ```
 
 ## 受け入れ基準

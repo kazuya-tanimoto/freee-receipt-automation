@@ -27,14 +27,8 @@
 
 ```typescript
 interface RuleExecutionEngine {
-  executeRule(
-    rule: MatchingRule,
-    context: ExecutionContext,
-  ): Promise<RuleResult>;
-  executeRuleSet(
-    rules: MatchingRule[],
-    context: ExecutionContext,
-  ): Promise<RuleSetResult>;
+  executeRule(rule: MatchingRule, context: ExecutionContext): Promise<RuleResult>;
+  executeRuleSet(rules: MatchingRule[], context: ExecutionContext): Promise<RuleSetResult>;
   parseRule(rule: MatchingRule): ParsedRule;
   validateRule(rule: MatchingRule): ValidationResult;
 }
@@ -60,22 +54,10 @@ interface RuleResult {
 
 ```typescript
 interface RuleExecutor {
-  executeVendorRule(
-    rule: VendorRule,
-    context: ExecutionContext,
-  ): Promise<VendorRuleResult>;
-  executeKeywordRule(
-    rule: KeywordRule,
-    context: ExecutionContext,
-  ): Promise<KeywordRuleResult>;
-  executeAmountRule(
-    rule: AmountToleranceRule,
-    context: ExecutionContext,
-  ): Promise<AmountRuleResult>;
-  executeDateRule(
-    rule: DateToleranceRule,
-    context: ExecutionContext,
-  ): Promise<DateRuleResult>;
+  executeVendorRule(rule: VendorRule, context: ExecutionContext): Promise<VendorRuleResult>;
+  executeKeywordRule(rule: KeywordRule, context: ExecutionContext): Promise<KeywordRuleResult>;
+  executeAmountRule(rule: AmountToleranceRule, context: ExecutionContext): Promise<AmountRuleResult>;
+  executeDateRule(rule: DateToleranceRule, context: ExecutionContext): Promise<DateRuleResult>;
 }
 
 interface ExecutionLogger {

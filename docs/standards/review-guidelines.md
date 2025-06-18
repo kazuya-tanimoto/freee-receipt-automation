@@ -26,26 +26,21 @@ Task type examples:
 ### Basic Information (Required)
 
 ```markdown
-**Task**: [Brief description of what you're working on]
-**Repository**: [Repository name]
-**Branch**: [Source branch -> Target branch]
-**Reviewer**: [Assigned reviewer(s)]
-**Work Date**: [YYYY/MM/DD HH:MM - HH:MM]
+**Task**: [Brief description of what you're working on] **Repository**: [Repository name] **Branch**: [Source branch ->
+Target branch] **Reviewer**: [Assigned reviewer(s)] **Work Date**: [YYYY/MM/DD HH:MM - HH:MM]
 ```
 
 ### TL;DR (Required)
 
 ```markdown
-**Key Changes**: [1-2 sentence summary of main changes]
-**Impact Areas**: [Core systems/features affected]
-**Review Focus**: [What reviewers should pay most attention to]
+**Key Changes**: [1-2 sentence summary of main changes] **Impact Areas**: [Core systems/features affected] **Review
+Focus**: [What reviewers should pay most attention to]
 ```
 
 ### Work Summary (Required)
 
 ```markdown
-**Changes**: [Brief summary of changes made]
-**Files Changed**: [Number] files ([New: X / Modified: Y / Deleted: Z])
+**Changes**: [Brief summary of changes made] **Files Changed**: [Number] files ([New: X / Modified: Y / Deleted: Z])
 **Impact Scope**: [Areas affected by changes]
 ```
 
@@ -81,33 +76,25 @@ Task type examples:
 ## Quick Example
 
 ```markdown
-**Task**: User Authentication Implementation
-**Repository**: auth-service  
-**Branch**: feature/auth -> main
-**Reviewer**: @senior-dev, @security-team
+**Task**: User Authentication Implementation **Repository**: auth-service  
+**Branch**: feature/auth -> main **Reviewer**: @senior-dev, @security-team
 
-**Key Changes**: JWT-based authentication replacing session auth
-**Impact Areas**: Auth flow, API endpoints, frontend integration
-**Review Focus**: Token security and error handling
+**Key Changes**: JWT-based authentication replacing session auth **Impact Areas**: Auth flow, API endpoints, frontend
+integration **Review Focus**: Token security and error handling
 
-**Changes**: JWT authentication system implementation
-**Files Changed**: 8 files (New: 4 / Modified: 3 / Deleted: 1)
+**Changes**: JWT authentication system implementation **Files Changed**: 8 files (New: 4 / Modified: 3 / Deleted: 1)
 
-**Added**: JWT generation/validation, Auth middleware, Login/logout endpoints
-**Modified**: API route protection, Frontend auth state, Error handling
-**Deleted**: Legacy session-based auth code
+**Added**: JWT generation/validation, Auth middleware, Login/logout endpoints **Modified**: API route protection,
+Frontend auth state, Error handling **Deleted**: Legacy session-based auth code
 
-**Completed Checks**: Build success, Tests pass (95% coverage), Security audit complete
-**Test Results**: 45/45 tests pass, no vulnerabilities
-**Quality Metrics**: Coverage 95%, ESLint clean
+**Completed Checks**: Build success, Tests pass (95% coverage), Security audit complete **Test Results**: 45/45 tests
+pass, no vulnerabilities **Quality Metrics**: Coverage 95%, ESLint clean
 
-**Priority Areas**: JWT security, Password hashing, Session timeout, Error sanitization
-**Known Issues**: Rate limiting pending (follow-up task)
-**Risks**: Breaking change for existing API consumers
+**Priority Areas**: JWT security, Password hashing, Session timeout, Error sanitization **Known Issues**: Rate limiting
+pending (follow-up task) **Risks**: Breaking change for existing API consumers
 
-**Testing Commands**: `npm run build`, `npm test -- --coverage`
-**Demo**: http://localhost:3000/auth-demo
-**Next Steps**: Merge, deploy staging, update docs
+**Testing Commands**: `npm run build`, `npm test -- --coverage` **Demo**: http://localhost:3000/auth-demo **Next
+Steps**: Merge, deploy staging, update docs
 ```
 
 ## Integration with Existing Guidelines
@@ -124,8 +111,8 @@ For comprehensive project guidelines, see the [Project README](../../README.md).
 
 ### Best Practices
 
-**Before Review**: Complete self-review, run tests, check formatting, update docs
-**During Review**: Respond promptly, provide clarifications, make changes thoroughly  
+**Before Review**: Complete self-review, run tests, check formatting, update docs **During Review**: Respond promptly,
+provide clarifications, make changes thoroughly  
 **After Approval**: Follow next steps immediately, notify stakeholders, monitor issues
 
 Good review requests save time and improve code quality.

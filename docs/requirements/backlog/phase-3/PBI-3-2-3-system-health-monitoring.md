@@ -2,8 +2,8 @@
 
 ## Description
 
-Create system status monitoring components displaying API connectivity health,
-service availability, and error tracking for external integrations.
+Create system status monitoring components displaying API connectivity health, service availability, and error tracking
+for external integrations.
 
 ## Implementation Details
 

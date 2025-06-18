@@ -2,9 +2,8 @@
 
 ## Overview
 
-This directory contains the Software Bill of Materials (SBOM) for the project.
-SBOM is a formal record containing the details and supply chain relationships
-of various components used in building software.
+This directory contains the Software Bill of Materials (SBOM) for the project. SBOM is a formal record containing the
+details and supply chain relationships of various components used in building software.
 
 ## Contents
 

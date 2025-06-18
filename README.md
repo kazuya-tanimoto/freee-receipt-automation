@@ -4,8 +4,8 @@
 
 ### Purpose
 
-Define a "repository map" where human developers and AI agents share the same information source and
-collaborate seamlessly on code, design, and operations.
+Define a "repository map" where human developers and AI agents share the same information source and collaborate
+seamlessly on code, design, and operations.
 
 ### Expected Benefits
 
@@ -106,9 +106,8 @@ Business background, goals, constraints. Update when goals change.
 | `spec/`    | Business requirements, non-functional (REQ‑001.md)  | Confirmed changes ➡ Link to ADR   |
 | `backlog/` | PBI / Implementation tasks (GitHub Issue ⇔ MD/YAML) | Auto-generated from Issue template |
 
-> **FAQ: Are coarse-grained requirements and implementation tasks mixed?**
-> Framework specifications are in `spec/`, implementation instructions are in `backlog/`, enabling both static
-> design documents and dynamic backlogs.
+> **FAQ: Are coarse-grained requirements and implementation tasks mixed?** Framework specifications are in `spec/`,
+> implementation instructions are in `backlog/`, enabling both static design documents and dynamic backlogs.
 
 ### 3.3 `standards/` — コーディング規約
 
@@ -157,8 +156,8 @@ Business background, goals, constraints. Update when goals change.
 | `summaries/` | Markdown summaries of the above                | `2025-05-06T06:00:summary.md`   |
 | `insights/`  | Improvement points extracted by periodic batch | `2025-W19-insights.md`          |
 
-**Maintenance Method**: Auto-save to `sessions/` after session ends, daily CRON generates `summaries/`,
-weekly generate `insights/` and transfer to `ai/feedback/`
+**Maintenance Method**: Auto-save to `sessions/` after session ends, daily CRON generates `summaries/`, weekly generate
+`insights/` and transfer to `ai/feedback/`
 
 ## 6. CI/Development Environment
 
@@ -177,9 +176,8 @@ weekly generate `insights/` and transfer to `ai/feedback/`
 
 ### `data-contract/` Details
 
-**Usage**:
-Store "contracts" between data producers and consumers as code.
-Prevent breaking changes similar to API contracts.
+**Usage**: Store "contracts" between data producers and consumers as code. Prevent breaking changes similar to API
+contracts.
 
 - **Placement**: `customer.avro`, `orders.proto`, `contract.md`, etc.
 - **Maintenance Method**:
@@ -188,9 +186,8 @@ Prevent breaking changes similar to API contracts.
 
 ### `benchmarks/` Details
 
-**Usage**:
-Monitor LLM inference costs, performance, memory, etc. to provide decision-making material for
-model/prompt changes.
+**Usage**: Monitor LLM inference costs, performance, memory, etc. to provide decision-making material for model/prompt
+changes.
 
 - **Placement**: `benchmark_2025-05.csv`, `plots/latency.png`, `README.md`
 - **Maintenance Method**:
@@ -199,10 +196,10 @@ model/prompt changes.
 
 ## 8. Customization Reference
 
-- **[Bulletproof React](docs/standards/bulletproof-react/README.md)** — Submodule under `docs/standards/`
-  providing a React large-scale configuration example
-- **[Naming Cheatsheet](docs/standards/naming-cheatsheet/README.md)** — Submodule under `docs/standards/`
-  providing clear naming guidelines
+- **[Bulletproof React](docs/standards/bulletproof-react/README.md)** — Submodule under `docs/standards/` providing a
+  React large-scale configuration example
+- **[Naming Cheatsheet](docs/standards/naming-cheatsheet/README.md)** — Submodule under `docs/standards/` providing
+  clear naming guidelines
 
 ## 9. Update Flow
 

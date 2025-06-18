@@ -2,8 +2,8 @@
 
 ## Description
 
-Create sophisticated multi-stage matching pipeline with primary exact matching, secondary fuzzy matching,
-and fallback matching for edge cases with configurable stages and confidence thresholds.
+Create sophisticated multi-stage matching pipeline with primary exact matching, secondary fuzzy matching, and fallback
+matching for edge cases with configurable stages and confidence thresholds.
 
 ## Implementation Details
 
@@ -29,13 +29,8 @@ interface MatchingStage {
 
 interface MatchingPipeline {
   stages: MatchingStage[];
-  execute(
-    receipt: Receipt,
-    transactions: Transaction[],
-  ): Promise<MatchingResult[]>;
-  optimizeStages(
-    performanceData: PerformanceMetric[],
-  ): Promise<MatchingStage[]>;
+  execute(receipt: Receipt, transactions: Transaction[]): Promise<MatchingResult[]>;
+  optimizeStages(performanceData: PerformanceMetric[]): Promise<MatchingStage[]>;
 }
 ```
 

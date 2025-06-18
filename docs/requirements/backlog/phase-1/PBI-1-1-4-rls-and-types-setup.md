@@ -2,9 +2,8 @@
 
 ## Description
 
-Configure Row Level Security (RLS) policies for all database tables and generate
-TypeScript types for the freee receipt automation system. This ensures data
-isolation between users and provides type-safe database operations.
+Configure Row Level Security (RLS) policies for all database tables and generate TypeScript types for the freee receipt
+automation system. This ensures data isolation between users and provides type-safe database operations.
 
 ## Implementation Details
 
@@ -94,20 +93,13 @@ npx supabase gen types typescript --project-id [PROJECT_ID] > src/types/database
 
   ```typescript
   // Export all database types
-  export type { Database } from "./supabase";
-  export type {
-    UserSettings,
-    Receipt,
-    Transaction,
-    ProcessingLog,
-  } from "./supabase";
+  export type { Database } from './supabase';
+  export type { UserSettings, Receipt, Transaction, ProcessingLog } from './supabase';
 
   // Helper types for common operations
-  export type DatabaseInsert<T extends keyof Database["public"]["Tables"]> =
-    Database["public"]["Tables"][T]["Insert"];
+  export type DatabaseInsert<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Insert'];
 
-  export type DatabaseUpdate<T extends keyof Database["public"]["Tables"]> =
-    Database["public"]["Tables"][T]["Update"];
+  export type DatabaseUpdate<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Update'];
   ```
 
 ## Metadata

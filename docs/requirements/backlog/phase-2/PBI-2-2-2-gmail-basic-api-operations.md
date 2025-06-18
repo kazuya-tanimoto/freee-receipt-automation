@@ -2,9 +2,8 @@
 
 ## Description
 
-Implement core Gmail API operations for searching, filtering, and retrieving email
-messages. This provides the foundation for identifying and accessing receipt emails
-through configurable search criteria.
+Implement core Gmail API operations for searching, filtering, and retrieving email messages. This provides the
+foundation for identifying and accessing receipt emails through configurable search criteria.
 
 ## Implementation Details
 
@@ -51,7 +50,7 @@ export class GmailOperations {
 
   async searchEmails(options: GmailSearchOptions): Promise<EmailSearchResult> {
     const response = await this.client.users.messages.list({
-      userId: "me",
+      userId: 'me',
       q: options.query,
       maxResults: options.maxResults || 50,
       pageToken: options.pageToken,
@@ -66,9 +65,9 @@ export class GmailOperations {
 
   async getEmailDetails(messageId: string): Promise<EmailDetails> {
     const response = await this.client.users.messages.get({
-      userId: "me",
+      userId: 'me',
       id: messageId,
-      format: "full",
+      format: 'full',
     });
 
     return this.parseEmailMessage(response.data);
@@ -81,16 +80,16 @@ export class GmailOperations {
     for (const part of this.findAttachmentParts(message.payload)) {
       if (part.body?.attachmentId) {
         const attachment = await this.client.users.messages.attachments.get({
-          userId: "me",
+          userId: 'me',
           messageId: messageId,
           id: part.body.attachmentId,
         });
 
         attachments.push({
-          filename: part.filename || "attachment",
-          mimeType: part.mimeType || "application/octet-stream",
+          filename: part.filename || 'attachment',
+          mimeType: part.mimeType || 'application/octet-stream',
           size: part.body.size || 0,
-          data: attachment.data.data || "",
+          data: attachment.data.data || '',
         });
       }
     }
@@ -107,16 +106,12 @@ export function buildGmailQuery(filter: EmailFilter): string {
   const queryParts: string[] = [];
 
   if (filter.senders?.length) {
-    const senderQuery = filter.senders
-      .map((sender) => `from:${sender}`)
-      .join(" OR ");
+    const senderQuery = filter.senders.map(sender => `from:${sender}`).join(' OR ');
     queryParts.push(`(${senderQuery})`);
   }
 
   if (filter.subjects?.length) {
-    const subjectQuery = filter.subjects
-      .map((subject) => `subject:"${subject}"`)
-      .join(" OR ");
+    const subjectQuery = filter.subjects.map(subject => `subject:"${subject}"`).join(' OR ');
     queryParts.push(`(${subjectQuery})`);
   }
 
@@ -129,32 +124,28 @@ export function buildGmailQuery(filter: EmailFilter): string {
   }
 
   if (filter.hasAttachment) {
-    queryParts.push("has:attachment");
+    queryParts.push('has:attachment');
   }
 
   if (filter.labels?.length) {
-    filter.labels.forEach((label) => queryParts.push(`label:${label}`));
+    filter.labels.forEach(label => queryParts.push(`label:${label}`));
   }
 
-  return queryParts.join(" ");
+  return queryParts.join(' ');
 }
 
 // Predefined receipt filters
 export const RECEIPT_FILTERS = {
   apple: {
-    senders: ["no_reply@email.apple.com", "noreply@email.apple.com"],
-    subjects: ["Your receipt from Apple"],
+    senders: ['no_reply@email.apple.com', 'noreply@email.apple.com'],
+    subjects: ['Your receipt from Apple'],
   },
   subscription: {
-    subjects: ["receipt", "invoice", "billing"],
+    subjects: ['receipt', 'invoice', 'billing'],
     hasAttachment: true,
   },
   ecommerce: {
-    subjects: [
-      "order confirmation",
-      "purchase receipt",
-      "transaction complete",
-    ],
+    subjects: ['order confirmation', 'purchase receipt', 'transaction complete'],
   },
 } as const;
 ```
@@ -164,7 +155,7 @@ export const RECEIPT_FILTERS = {
 ```typescript
 // GET /api/gmail/search?filter=apple&page=1
 interface SearchEmailsRequest {
-  filter: keyof typeof RECEIPT_FILTERS | "custom";
+  filter: keyof typeof RECEIPT_FILTERS | 'custom';
   customFilter?: EmailFilter;
   page?: number;
   limit?: number;

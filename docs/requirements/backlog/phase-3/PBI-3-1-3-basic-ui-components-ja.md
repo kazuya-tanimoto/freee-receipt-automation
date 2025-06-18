@@ -2,8 +2,7 @@
 
 ## 概要
 
-一貫したスタイリングとアクセシビリティ機能を備えたButton、Input、Card、
-フォームコンポーネントを含む、shadcn/uiパターンを使用した基盤UIコンポーネントを実装。
+一貫したスタイリングとアクセシビリティ機能を備えたButton、Input、Card、フォームコンポーネントを含む、shadcn/uiパターンを使用した基盤UIコンポーネントを実装。
 
 ## 実装詳細
 
@@ -37,8 +36,8 @@
 
 ```typescript
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "default" | "destructive" | "outline" | "secondary" | "ghost";
-  size?: "default" | "sm" | "lg" | "icon";
+  variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost';
+  size?: 'default' | 'sm' | 'lg' | 'icon';
   loading?: boolean;
 }
 

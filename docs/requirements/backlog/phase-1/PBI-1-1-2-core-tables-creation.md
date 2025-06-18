@@ -2,9 +2,8 @@
 
 ## Description
 
-Create the core database tables for user settings and receipts in the PostgreSQL
-database. This includes the user_settings table (extending Supabase auth) and the
-receipts table for storing receipt information and OCR data.
+Create the core database tables for user settings and receipts in the PostgreSQL database. This includes the
+user_settings table (extending Supabase auth) and the receipts table for storing receipt information and OCR data.
 
 ## Implementation Details
 
@@ -105,7 +104,7 @@ CREATE TRIGGER update_receipts_updated_at BEFORE UPDATE ON receipts FOR EACH ROW
     ocr_text: string | null;
     ocr_data: Record<string, any> | null;
     processed_at: string | null;
-    status: "pending" | "processing" | "completed" | "failed";
+    status: 'pending' | 'processing' | 'completed' | 'failed';
     created_at: string;
     updated_at: string;
   }

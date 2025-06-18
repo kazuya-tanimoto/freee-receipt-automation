@@ -2,9 +2,9 @@
 
 ## Description
 
-Implement comprehensive error handling and retry mechanisms for Google Drive API operations.
-This ensures robust operation under various failure conditions including API rate limits,
-storage quota issues, network problems, and temporary service unavailability.
+Implement comprehensive error handling and retry mechanisms for Google Drive API operations. This ensures robust
+operation under various failure conditions including API rate limits, storage quota issues, network problems, and
+temporary service unavailability.
 
 ## Implementation Details
 

@@ -26,10 +26,7 @@
 
 ```typescript
 interface ConfidenceCalculator {
-  calculateConfidence(
-    rule: MatchingRule,
-    context: ConfidenceContext,
-  ): ConfidenceScore;
+  calculateConfidence(rule: MatchingRule, context: ConfidenceContext): ConfidenceScore;
   updateConfidence(ruleId: string, performance: RulePerformance): Promise<void>;
   getConfidenceFactors(rule: MatchingRule): ConfidenceFactor[];
   validateStatisticalSignificance(rule: MatchingRule): SignificanceTest;
@@ -39,7 +36,7 @@ interface ConfidenceScore {
   overall: number; // 0-1
   factors: ConfidenceFactor[];
   explanation: string;
-  reliability: "high" | "medium" | "low";
+  reliability: 'high' | 'medium' | 'low';
   lastUpdated: Date;
 }
 
@@ -56,10 +53,7 @@ interface ConfidenceFactor {
 ```typescript
 interface StatisticalAnalyzer {
   performTTest(sample1: number[], sample2: number[]): TTestResult;
-  calculateConfidenceInterval(
-    data: number[],
-    confidence: number,
-  ): [number, number];
+  calculateConfidenceInterval(data: number[], confidence: number): [number, number];
   assessSampleSize(data: number[], requiredPower: number): SampleSizeAssessment;
   detectOutliers(data: number[]): OutlierAnalysis;
 }

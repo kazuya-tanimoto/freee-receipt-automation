@@ -100,7 +100,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v3
         with:
-          version: "8"
+          version: '8'
       - run: pnpm install
       - run: pnpm biome ci
       - run: pnpm vitest run
@@ -116,25 +116,14 @@ jobs:
 
 ## 参考リンク
 
-- Turbopack APIリファレンス
-  [Next.js by Vercel](https://nextjs.org/docs/app/api-reference/turbopack)
-- App Router入門
-  [Next.js by Vercel](https://nextjs.org/docs/app)
-- Next.js Vitestガイド
-  [Next.js by Vercel](https://nextjs.org/docs/app/guides/testing/vitest)
-- MSW × Vitest Browser Mode
-  [Mock Service Worker](https://mswjs.io/docs/recipes/vitest-browser-mode/)
-- Playwrightベストプラクティス
-  [playwright.dev](https://playwright.dev/docs/best-practices)
-- Next.js用Storybook
-  [Storybook](https://storybook.js.org/docs/get-started/frameworks/nextjs)
-- Chromaticビジュアルテスト
-  [chromatic.com](https://www.chromatic.com/storybook)
-- Biome移行ガイド
-  [Biome](https://biomejs.dev/guides/migrate-eslint-prettier/)
-- Tailwind × Next.jsセットアップ
-  [Tailwind CSS](https://tailwindcss.com/docs/guides/nextjs)
-- shadcn/ui Tailwind v4アップデート
-  [Build your component library](https://ui.shadcn.com/docs/tailwind-v4)
-- Supabase Auth-Helpers (App Router)
-  [Supabase](https://supabase.com/docs/guides/auth/auth-helpers/nextjs)
+- Turbopack APIリファレンス [Next.js by Vercel](https://nextjs.org/docs/app/api-reference/turbopack)
+- App Router入門 [Next.js by Vercel](https://nextjs.org/docs/app)
+- Next.js Vitestガイド [Next.js by Vercel](https://nextjs.org/docs/app/guides/testing/vitest)
+- MSW × Vitest Browser Mode [Mock Service Worker](https://mswjs.io/docs/recipes/vitest-browser-mode/)
+- Playwrightベストプラクティス [playwright.dev](https://playwright.dev/docs/best-practices)
+- Next.js用Storybook [Storybook](https://storybook.js.org/docs/get-started/frameworks/nextjs)
+- Chromaticビジュアルテスト [chromatic.com](https://www.chromatic.com/storybook)
+- Biome移行ガイド [Biome](https://biomejs.dev/guides/migrate-eslint-prettier/)
+- Tailwind × Next.jsセットアップ [Tailwind CSS](https://tailwindcss.com/docs/guides/nextjs)
+- shadcn/ui Tailwind v4アップデート [Build your component library](https://ui.shadcn.com/docs/tailwind-v4)
+- Supabase Auth-Helpers (App Router) [Supabase](https://supabase.com/docs/guides/auth/auth-helpers/nextjs)

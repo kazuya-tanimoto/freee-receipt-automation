@@ -2,8 +2,8 @@
 
 ## Description
 
-Create the main application layout with sidebar navigation, header, and responsive design
-for the authenticated dashboard area of the management interface.
+Create the main application layout with sidebar navigation, header, and responsive design for the authenticated
+dashboard area of the management interface.
 
 ## Implementation Details
 
@@ -55,18 +55,18 @@ interface ErrorBoundaryProps {
 
 const navigationConfig = {
   main: [
-    { id: "dashboard", label: "Dashboard", href: "/", icon: HomeIcon },
-    { id: "receipts", label: "Receipts", href: "/receipts", icon: ReceiptIcon },
+    { id: 'dashboard', label: 'Dashboard', href: '/', icon: HomeIcon },
+    { id: 'receipts', label: 'Receipts', href: '/receipts', icon: ReceiptIcon },
     {
-      id: "transactions",
-      label: "Transactions",
-      href: "/transactions",
+      id: 'transactions',
+      label: 'Transactions',
+      href: '/transactions',
       icon: CreditCardIcon,
     },
     {
-      id: "settings",
-      label: "Settings",
-      href: "/settings",
+      id: 'settings',
+      label: 'Settings',
+      href: '/settings',
       icon: SettingsIcon,
     },
   ],

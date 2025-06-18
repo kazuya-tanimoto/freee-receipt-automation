@@ -28,17 +28,12 @@
 interface KeywordRuleGenerator {
   generateRules(corrections: UserCorrection[]): Promise<KeywordRule[]>;
   extractKeywords(receiptText: string): ExtractedKeyword[];
-  analyzeKeywordEffectiveness(
-    keywords: string[],
-    corrections: UserCorrection[],
-  ): KeywordAnalysis;
-  generateKeywordCombinations(
-    keywords: ExtractedKeyword[],
-  ): KeywordCombination[];
+  analyzeKeywordEffectiveness(keywords: string[], corrections: UserCorrection[]): KeywordAnalysis;
+  generateKeywordCombinations(keywords: ExtractedKeyword[]): KeywordCombination[];
 }
 
 interface KeywordRule extends MatchingRule {
-  ruleType: "keyword_category";
+  ruleType: 'keyword_category';
   ruleData: {
     keywords: string[];
     keywordWeights: Record<string, number>;

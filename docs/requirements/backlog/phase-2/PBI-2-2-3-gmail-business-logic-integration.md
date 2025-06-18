@@ -2,9 +2,9 @@
 
 ## Description
 
-Integrate Gmail operations with the core business logic for receipt processing workflow.
-This includes email search for receipts, attachment extraction, metadata parsing,
-and coordination with OCR processing to create a seamless email-to-receipt pipeline.
+Integrate Gmail operations with the core business logic for receipt processing workflow. This includes email search for
+receipts, attachment extraction, metadata parsing, and coordination with OCR processing to create a seamless
+email-to-receipt pipeline.
 
 ## Implementation Details
 

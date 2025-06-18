@@ -2,9 +2,8 @@
 
 ## Description
 
-Implement automatic generation of vendor-to-category mapping rules based on user
-correction patterns. This creates rules that map specific vendors to expense
-categories based on historical user corrections.
+Implement automatic generation of vendor-to-category mapping rules based on user correction patterns. This creates rules
+that map specific vendors to expense categories based on historical user corrections.
 
 ## Implementation Details
 
@@ -29,16 +28,13 @@ categories based on historical user corrections.
 ```typescript
 interface VendorRuleGenerator {
   generateRules(corrections: UserCorrection[]): Promise<VendorRule[]>;
-  refineExistingRules(
-    rules: VendorRule[],
-    newCorrections: UserCorrection[],
-  ): Promise<VendorRule[]>;
+  refineExistingRules(rules: VendorRule[], newCorrections: UserCorrection[]): Promise<VendorRule[]>;
   detectConflicts(rules: VendorRule[]): RuleConflict[];
   normalizeVendorName(vendorName: string): string;
 }
 
 interface VendorRule extends MatchingRule {
-  ruleType: "vendor_category";
+  ruleType: 'vendor_category';
   ruleData: {
     vendorPattern: string;
     vendorVariations: string[];

@@ -2,9 +2,8 @@
 
 ## Description
 
-Implement a standardized file naming system for receipts that incorporates date, vendor,
-and content information. This ensures consistent file organization and enables
-efficient searching and sorting of receipt files.
+Implement a standardized file naming system for receipts that incorporates date, vendor, and content information. This
+ensures consistent file organization and enables efficient searching and sorting of receipt files.
 
 ## Implementation Details
 

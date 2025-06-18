@@ -2,8 +2,8 @@
 
 ## 説明
 
-手動マッチング調整からのユーザー修正データを収集するためのServer ActionsとAPI層を実装します。
-これにはデータ検証、保存、基本的な分析収集メカニズムが含まれます。
+手動マッチング調整からのユーザー修正データを収集するためのServer
+ActionsとAPI層を実装します。これにはデータ検証、保存、基本的な分析収集メカニズムが含まれます。
 
 ## 実装詳細
 
@@ -27,14 +27,9 @@
 
 ```typescript
 // Server Actions
-async function collectCorrection(
-  correctionData: CreateCorrectionData,
-): Promise<UserCorrection>;
+async function collectCorrection(correctionData: CreateCorrectionData): Promise<UserCorrection>;
 
-async function getCorrectionHistory(
-  userId: string,
-  limit?: number,
-): Promise<UserCorrection[]>;
+async function getCorrectionHistory(userId: string, limit?: number): Promise<UserCorrection[]>;
 
 // 収集サービス
 interface CorrectionCollector {

@@ -2,8 +2,8 @@
 
 ## Description
 
-Create a comprehensive receipt list page with search, filtering, sorting, and pagination
-for managing and reviewing all processed receipts.
+Create a comprehensive receipt list page with search, filtering, sorting, and pagination for managing and reviewing all
+processed receipts.
 
 ## Implementation Details
 
@@ -31,7 +31,7 @@ for managing and reviewing all processed receipts.
 interface ReceiptFilters {
   search?: string;
   dateRange?: { from: Date; to: Date };
-  status?: Array<"pending" | "processed" | "error">;
+  status?: Array<'pending' | 'processed' | 'error'>;
   amountRange?: { min: number; max: number };
   vendorNames?: string[];
 }

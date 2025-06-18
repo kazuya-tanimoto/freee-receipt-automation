@@ -9,7 +9,7 @@
 ### 設定の読み込み
 
 ```typescript
-import { serverConfig, clientConfig } from "@/config";
+import { serverConfig, clientConfig } from '@/config';
 
 // サーバーサイドでの使用
 const supabaseConfig = serverConfig.supabase; // { url, anonKey, serviceRoleKey }
@@ -156,7 +156,7 @@ npm run dev
 ### デバッグ用コマンド
 
 ```typescript
-import { getEnvironmentInfo } from "@/lib/validation/env";
+import { getEnvironmentInfo } from '@/lib/validation/env';
 
 // 環境情報の確認
 console.log(getEnvironmentInfo());

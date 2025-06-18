@@ -2,8 +2,8 @@
 
 ## Overview
 
-This document describes the transaction-related database tables implemented in PBI-1-1-3.
-These tables handle freee API integration, receipt-transaction matching, and system operation logging.
+This document describes the transaction-related database tables implemented in PBI-1-1-3. These tables handle freee API
+integration, receipt-transaction matching, and system operation logging.
 
 ## Tables
 

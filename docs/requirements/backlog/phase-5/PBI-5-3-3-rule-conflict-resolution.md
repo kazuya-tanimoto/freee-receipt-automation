@@ -2,9 +2,8 @@
 
 ## Description
 
-Implement system to detect and resolve conflicts between matching rules, handling
-contradictory rules, overlapping conditions, and competing matches. This ensures
-consistent and predictable rule behavior in complex scenarios.
+Implement system to detect and resolve conflicts between matching rules, handling contradictory rules, overlapping
+conditions, and competing matches. This ensures consistent and predictable rule behavior in complex scenarios.
 
 ## Implementation Details
 
@@ -29,10 +28,7 @@ consistent and predictable rule behavior in complex scenarios.
 ```typescript
 interface ConflictDetector {
   detectConflicts(rules: MatchingRule[]): RuleConflict[];
-  analyzeRuleCompatibility(
-    rule1: MatchingRule,
-    rule2: MatchingRule,
-  ): CompatibilityAnalysis;
+  analyzeRuleCompatibility(rule1: MatchingRule, rule2: MatchingRule): CompatibilityAnalysis;
   findOverlappingRules(rules: MatchingRule[]): RuleOverlap[];
   detectContradictoryRules(rules: MatchingRule[]): ContradictoryRule[];
 }
@@ -41,27 +37,20 @@ interface RuleConflict {
   id: string;
   type: ConflictType;
   conflictingRules: string[];
-  severity: "low" | "medium" | "high";
+  severity: 'low' | 'medium' | 'high';
   description: string;
   examples: ConflictExample[];
   resolutionSuggestions: ResolutionSuggestion[];
 }
 
-type ConflictType =
-  | "contradiction"
-  | "overlap"
-  | "circular_dependency"
-  | "mutual_exclusion";
+type ConflictType = 'contradiction' | 'overlap' | 'circular_dependency' | 'mutual_exclusion';
 ```
 
 ### Conflict Resolution
 
 ```typescript
 interface ConflictResolver {
-  resolveConflict(
-    conflict: RuleConflict,
-    strategy: ResolutionStrategy,
-  ): ConflictResolution;
+  resolveConflict(conflict: RuleConflict, strategy: ResolutionStrategy): ConflictResolution;
   getAvailableStrategies(conflict: RuleConflict): ResolutionStrategy[];
   applyResolution(resolution: ConflictResolution): Promise<void>;
   validateResolution(resolution: ConflictResolution): ValidationResult;

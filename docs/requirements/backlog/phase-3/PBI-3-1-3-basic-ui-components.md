@@ -2,8 +2,8 @@
 
 ## Description
 
-Implement foundational Button and form-related UI components using shadcn/ui patterns with
-consistent styling, accessibility features, and validation support.
+Implement foundational Button and form-related UI components using shadcn/ui patterns with consistent styling,
+accessibility features, and validation support.
 
 ## Implementation Details
 
@@ -41,8 +41,8 @@ consistent styling, accessibility features, and validation support.
 
 ```typescript
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "default" | "destructive" | "outline" | "secondary" | "ghost";
-  size?: "default" | "sm" | "lg" | "icon";
+  variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost';
+  size?: 'default' | 'sm' | 'lg' | 'icon';
   loading?: boolean;
   loadingText?: string;
 }

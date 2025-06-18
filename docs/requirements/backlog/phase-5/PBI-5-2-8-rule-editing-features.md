@@ -2,9 +2,8 @@
 
 ## Description
 
-Implement advanced rule management features including rule editing, manual rule
-creation, rule duplication, and batch operations. This allows users to customize
-and fine-tune the automatically generated matching rules.
+Implement advanced rule management features including rule editing, manual rule creation, rule duplication, and batch
+operations. This allows users to customize and fine-tune the automatically generated matching rules.
 
 ## Implementation Details
 
@@ -29,7 +28,7 @@ and fine-tune the automatically generated matching rules.
 ```typescript
 interface RuleEditorProps {
   rule?: MatchingRule;
-  mode: "create" | "edit" | "duplicate";
+  mode: 'create' | 'edit' | 'duplicate';
   onSave: (rule: MatchingRule) => Promise<void>;
   onCancel: () => void;
 }

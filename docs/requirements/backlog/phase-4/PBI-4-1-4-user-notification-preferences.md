@@ -2,8 +2,8 @@
 
 ## Description
 
-Implement comprehensive user notification preferences system allowing users to configure
-notification types, delivery schedules, and communication channels with real-time updates and profile integration.
+Implement comprehensive user notification preferences system allowing users to configure notification types, delivery
+schedules, and communication channels with real-time updates and profile integration.
 
 ## Implementation Details
 
@@ -41,14 +41,14 @@ interface NotificationPreferences {
   notifications: {
     processingSummary: {
       enabled: boolean;
-      frequency: "weekly" | "biweekly" | "monthly";
+      frequency: 'weekly' | 'biweekly' | 'monthly';
       dayOfWeek: number; // 0-6
       hour: number; // 0-23
       timezone: string;
     };
     errorAlerts: {
       enabled: boolean;
-      severity: ("low" | "medium" | "high" | "critical")[];
+      severity: ('low' | 'medium' | 'high' | 'critical')[];
       immediateDelivery: boolean;
     };
     actionRequired: {
@@ -74,17 +74,10 @@ interface NotificationPreferences {
 
 interface PreferencesService {
   getPreferences(userId: string): Promise<NotificationPreferences>;
-  updatePreferences(
-    userId: string,
-    preferences: Partial<NotificationPreferences>,
-  ): Promise<boolean>;
+  updatePreferences(userId: string, preferences: Partial<NotificationPreferences>): Promise<boolean>;
   resetToDefaults(userId: string): Promise<NotificationPreferences>;
-  validatePreferences(
-    preferences: NotificationPreferences,
-  ): Promise<ValidationResult>;
-  previewSchedule(
-    preferences: NotificationPreferences,
-  ): Promise<SchedulePreview>;
+  validatePreferences(preferences: NotificationPreferences): Promise<ValidationResult>;
+  previewSchedule(preferences: NotificationPreferences): Promise<SchedulePreview>;
 }
 ```
 

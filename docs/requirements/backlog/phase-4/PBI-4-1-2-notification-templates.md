@@ -2,8 +2,8 @@
 
 ## Description
 
-Create responsive and accessible email templates for different notification types including
-processing summaries, error alerts, and action-required notifications with support for both HTML and plain text formats.
+Create responsive and accessible email templates for different notification types including processing summaries, error
+alerts, and action-required notifications with support for both HTML and plain text formats.
 
 ## Implementation Details
 
@@ -60,8 +60,8 @@ interface ProcessingSummaryData {
 }
 
 interface ErrorNotificationData {
-  errorType: "processing" | "matching" | "integration";
-  severity: "low" | "medium" | "high" | "critical";
+  errorType: 'processing' | 'matching' | 'integration';
+  severity: 'low' | 'medium' | 'high' | 'critical';
   message: string;
   details: string;
   timestamp: Date;

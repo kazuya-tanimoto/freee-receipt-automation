@@ -2,9 +2,9 @@
 
 ## Description
 
-Integrate Google Drive operations with the core business logic for receipt processing workflow.
-This includes file organization based on transaction data, integration with OCR results,
-and coordination with freee API data to maintain proper file associations.
+Integrate Google Drive operations with the core business logic for receipt processing workflow. This includes file
+organization based on transaction data, integration with OCR results, and coordination with freee API data to maintain
+proper file associations.
 
 ## Implementation Details
 

@@ -2,9 +2,8 @@
 
 ## 説明
 
-freeeレシート自動化システムのトランザクション関連データベーステーブルを作成します。
-これには、freee APIデータを保存するためのtransactionsテーブルと、
-システムの操作を追跡し、デバッグを行うためのprocessing_logsテーブルが含まれます。
+freeeレシート自動化システムのトランザクション関連データベーステーブルを作成します。これには、freee
+APIデータを保存するためのtransactionsテーブルと、システムの操作を追跡し、デバッグを行うためのprocessing_logsテーブルが含まれます。
 
 ## 実装詳細
 
@@ -97,11 +96,7 @@ CREATE TRIGGER update_transactions_updated_at BEFORE UPDATE ON transactions FOR 
     account_item_id: number | null;
     matched_receipt_id: string | null;
     matching_confidence: number | null;
-    matching_status:
-      | "unmatched"
-      | "auto_matched"
-      | "manual_matched"
-      | "rejected";
+    matching_status: 'unmatched' | 'auto_matched' | 'manual_matched' | 'rejected';
     freee_data: Record<string, any> | null;
     created_at: string;
     updated_at: string;
@@ -110,13 +105,8 @@ CREATE TRIGGER update_transactions_updated_at BEFORE UPDATE ON transactions FOR 
   interface ProcessingLog {
     id: string;
     user_id: string;
-    process_type:
-      | "ocr"
-      | "freee_sync"
-      | "matching"
-      | "notification"
-      | "cleanup";
-    status: "started" | "completed" | "failed" | "cancelled";
+    process_type: 'ocr' | 'freee_sync' | 'matching' | 'notification' | 'cleanup';
+    status: 'started' | 'completed' | 'failed' | 'cancelled';
     details: Record<string, any>;
     error_message: string | null;
     duration_ms: number | null;

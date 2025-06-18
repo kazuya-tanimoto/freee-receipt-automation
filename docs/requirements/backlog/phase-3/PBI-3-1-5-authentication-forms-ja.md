@@ -2,8 +2,7 @@
 
 ## 概要
 
-管理インターフェース用のログイン、登録、パスワードリセットフォームを検証、
-エラーハンドリング、Supabase Auth統合で作成。
+管理インターフェース用のログイン、登録、パスワードリセットフォームを検証、エラーハンドリング、Supabase Auth統合で作成。
 
 ## 実装詳細
 
@@ -36,15 +35,15 @@
 
 ```typescript
 const loginSchema = z.object({
-  email: z.string().email("無効なメールアドレスです"),
-  password: z.string().min(8, "パスワードは8文字以上である必要があります"),
+  email: z.string().email('無効なメールアドレスです'),
+  password: z.string().min(8, 'パスワードは8文字以上である必要があります'),
 });
 
 const registerSchema = z.object({
-  email: z.string().email("無効なメールアドレスです"),
-  password: z.string().min(8, "パスワードは8文字以上である必要があります"),
+  email: z.string().email('無効なメールアドレスです'),
+  password: z.string().min(8, 'パスワードは8文字以上である必要があります'),
   confirmPassword: z.string(),
-  fullName: z.string().min(2, "氏名は必須です"),
+  fullName: z.string().min(2, '氏名は必須です'),
 });
 ```
 

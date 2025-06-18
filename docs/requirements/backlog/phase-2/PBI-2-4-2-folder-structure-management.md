@@ -2,9 +2,9 @@
 
 ## Description
 
-Implement Google Drive folder organization structure for receipts based on fiscal year
-and month. This includes automated folder creation, permissions management,
-and navigation utilities to maintain a consistent and organized file system.
+Implement Google Drive folder organization structure for receipts based on fiscal year and month. This includes
+automated folder creation, permissions management, and navigation utilities to maintain a consistent and organized file
+system.
 
 ## Implementation Details
 

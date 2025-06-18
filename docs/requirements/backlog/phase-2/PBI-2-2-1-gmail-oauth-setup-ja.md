@@ -2,9 +2,9 @@
 
 ## 説明
 
-共通OAuthモジュールを使用してGmail API OAuth 2.0認証を構成します。これにより、
-適切なスコープと権限を持つメール領収書を読み取るためのGmail APIへの安全なアクセスを
-確立します。
+共通OAuthモジュールを使用してGmail API OAuth
+2.0認証を構成します。これにより、適切なスコープと権限を持つメール領収書を読み取るためのGmail
+APIへの安全なアクセスを確立します。
 
 ## 実装詳細
 
@@ -28,32 +28,32 @@
 ### Gmail固有のOAuth設定
 
 ```typescript
-import { OAuthClient } from "@/lib/oauth";
+import { OAuthClient } from '@/lib/oauth';
 
 const GMAIL_SCOPES = [
-  "https://www.googleapis.com/auth/gmail.readonly",
-  "https://www.googleapis.com/auth/gmail.metadata",
+  'https://www.googleapis.com/auth/gmail.readonly',
+  'https://www.googleapis.com/auth/gmail.metadata',
 ];
 
 export class GmailOAuthClient extends OAuthClient {
   constructor() {
-    super("google", {
+    super('google', {
       scopes: GMAIL_SCOPES,
       additionalParams: {
-        access_type: "offline",
-        prompt: "consent",
+        access_type: 'offline',
+        prompt: 'consent',
       },
     });
   }
 
   async getGmailClient(userId: string): Promise<gmail_v1.Gmail | null> {
-    const token = await this.tokenManager.getValidToken(userId, "google");
+    const token = await this.tokenManager.getValidToken(userId, 'google');
     if (!token) return null;
 
     const auth = new google.auth.OAuth2();
     auth.setCredentials({ access_token: token });
 
-    return google.gmail({ version: "v1", auth });
+    return google.gmail({ version: 'v1', auth });
   }
 }
 ```

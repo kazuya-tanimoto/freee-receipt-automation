@@ -2,9 +2,8 @@
 
 ## Description
 
-Implement privacy protection features for user correction data including data
-encryption, anonymization, retention policies, and GDPR compliance mechanisms.
-This ensures secure handling of sensitive correction information.
+Implement privacy protection features for user correction data including data encryption, anonymization, retention
+policies, and GDPR compliance mechanisms. This ensures secure handling of sensitive correction information.
 
 ## Implementation Details
 

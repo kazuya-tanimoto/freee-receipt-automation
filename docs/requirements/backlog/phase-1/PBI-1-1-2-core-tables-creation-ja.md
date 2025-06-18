@@ -2,9 +2,8 @@
 
 ## 説明
 
-PostgreSQLデータベースにユーザー設定とレシート用のコアデータベーステーブルを作成します。
-これにはuser_settingsテーブル（Supabase authの拡張）と、
-レシート情報とOCRデータを保存するreceiptsテーブルが含まれます。
+PostgreSQLデータベースにユーザー設定とレシート用のコアデータベーステーブルを作成します。これにはuser_settingsテーブル（Supabase
+authの拡張）と、レシート情報とOCRデータを保存するreceiptsテーブルが含まれます。
 
 ## 実装詳細
 
@@ -105,7 +104,7 @@ CREATE TRIGGER update_receipts_updated_at BEFORE UPDATE ON receipts FOR EACH ROW
     ocr_text: string | null;
     ocr_data: Record<string, any> | null;
     processed_at: string | null;
-    status: "pending" | "processing" | "completed" | "failed";
+    status: 'pending' | 'processing' | 'completed' | 'failed';
     created_at: string;
     updated_at: string;
   }

@@ -2,9 +2,8 @@
 
 ## Description
 
-Implement user interface components for visualizing correction data including
-charts, graphs, and dashboard views. This provides users with insights into
-their correction patterns and system learning progress.
+Implement user interface components for visualizing correction data including charts, graphs, and dashboard views. This
+provides users with insights into their correction patterns and system learning progress.
 
 ## Implementation Details
 
@@ -51,7 +50,7 @@ interface StatisticsPanelProps {
 ### Chart Types
 
 ```typescript
-type ChartType = "line" | "bar" | "doughnut" | "area";
+type ChartType = 'line' | 'bar' | 'doughnut' | 'area';
 
 interface ChartData {
   labels: string[];

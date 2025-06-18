@@ -2,9 +2,8 @@
 
 ## Description
 
-Implement basic user interface for viewing and managing generated matching rules
-including rule listing, basic filtering, and rule status management. This provides
-users with visibility and control over the rule generation system.
+Implement basic user interface for viewing and managing generated matching rules including rule listing, basic
+filtering, and rule status management. This provides users with visibility and control over the rule generation system.
 
 ## Implementation Details
 
@@ -43,7 +42,7 @@ interface RuleCardProps {
 
 interface RuleFilter {
   type?: RuleType[];
-  status?: "active" | "inactive" | "all";
+  status?: 'active' | 'inactive' | 'all';
   confidence?: {
     min: number;
     max: number;
@@ -63,7 +62,7 @@ interface RuleDisplayData {
   title: string;
   description: string;
   type: RuleType;
-  status: "active" | "inactive";
+  status: 'active' | 'inactive';
   confidence: number;
   performance: RulePerformanceMetrics;
   createdAt: Date;
@@ -74,7 +73,7 @@ interface RulePerformanceMetrics {
   successRate: number;
   totalApplications: number;
   averageConfidence: number;
-  trend: "improving" | "declining" | "stable";
+  trend: 'improving' | 'declining' | 'stable';
 }
 ```
 
