@@ -5,3 +5,8 @@ pre-commit:
       run: yarn check:docs
       files: git diff --name-only --cached --diff-filter=d | grep '\.md$' || true
       skip: git diff --name-only --cached --diff-filter=d | grep -q '\.md$' || echo "skip"
+    
+    test-check:
+      run: yarn test:run
+      files: git diff --name-only --cached --diff-filter=d | grep -E '\.(ts|tsx|js|jsx)$' || true
+      skip: git diff --name-only --cached --diff-filter=d | grep -qE '\.(ts|tsx|js|jsx)$' || echo "skip"
