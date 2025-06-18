@@ -22,20 +22,9 @@
 
 ```typescript
 interface MatchingAlgorithm {
-  dateRangeMatch(
-    receiptDate: Date,
-    transactionDate: Date,
-    toleranceDays: number,
-  ): number;
-  amountToleranceMatch(
-    receiptAmount: number,
-    transactionAmount: number,
-    tolerancePercent: number,
-  ): number;
-  vendorSubstringMatch(
-    receiptVendor: string,
-    transactionVendor: string,
-  ): number;
+  dateRangeMatch(receiptDate: Date, transactionDate: Date, toleranceDays: number): number;
+  amountToleranceMatch(receiptAmount: number, transactionAmount: number, tolerancePercent: number): number;
+  vendorSubstringMatch(receiptVendor: string, transactionVendor: string): number;
   calculateWeightedScore(scores: MatchingScores): number;
 }
 ```

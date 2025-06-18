@@ -2,8 +2,7 @@
 
 ## 説明
 
-取引に対する複数レシート候補、レシートに対する複数取引候補、曖昧なマッチを処理するインテリジェント競合解決システムを実装し、
-優先順位ルールと自動解決機能を提供します。
+取引に対する複数レシート候補、レシートに対する複数取引候補、曖昧なマッチを処理するインテリジェント競合解決システムを実装し、優先順位ルールと自動解決機能を提供します。
 
 ## 実装詳細
 
@@ -32,22 +31,19 @@
 
 ```typescript
 interface MatchingConflict {
-  type: "multiple_receipts" | "multiple_transactions" | "ambiguous_match";
+  type: 'multiple_receipts' | 'multiple_transactions' | 'ambiguous_match';
   confidence: number;
   candidates: MatchCandidate[];
   resolution: ConflictResolution;
   context: ConflictContext;
-  priority: "low" | "medium" | "high" | "critical";
+  priority: 'low' | 'medium' | 'high' | 'critical';
 }
 
 interface ConflictResolver {
   detectConflicts(matches: MatchingResult[]): Promise<MatchingConflict[]>;
   resolveConflict(conflict: MatchingConflict): Promise<ConflictResolution>;
   applyResolution(resolution: ConflictResolution): Promise<boolean>;
-  learnFromResolution(
-    conflict: MatchingConflict,
-    userChoice: ResolutionChoice,
-  ): Promise<void>;
+  learnFromResolution(conflict: MatchingConflict, userChoice: ResolutionChoice): Promise<void>;
   getConflictHistory(dateRange: DateRange): Promise<ConflictHistory[]>;
 }
 
@@ -60,7 +56,7 @@ interface MatchCandidate {
 }
 
 interface ConflictResolution {
-  strategy: "auto" | "manual" | "defer";
+  strategy: 'auto' | 'manual' | 'defer';
   selectedCandidate?: MatchCandidate;
   reasoning: string;
   confidence: number;
@@ -74,20 +70,13 @@ interface ConflictResolution {
 ```typescript
 class ConflictDetector {
   // 複数レシート競合検出
-  detectMultipleReceiptConflicts(
-    transaction: Transaction,
-    receipts: Receipt[],
-  ): MatchingConflict[] {
-    const matchingReceipts = receipts.filter((r) =>
-      this.couldMatch(transaction, r),
-    );
+  detectMultipleReceiptConflicts(transaction: Transaction, receipts: Receipt[]): MatchingConflict[] {
+    const matchingReceipts = receipts.filter(r => this.couldMatch(transaction, r));
     if (matchingReceipts.length > 1) {
       return [
         {
-          type: "multiple_receipts",
-          candidates: matchingReceipts.map((r) =>
-            this.createCandidate(r, transaction),
-          ),
+          type: 'multiple_receipts',
+          candidates: matchingReceipts.map(r => this.createCandidate(r, transaction)),
           confidence: this.calculateConflictConfidence(matchingReceipts),
           priority: this.determineConflictPriority(matchingReceipts),
         },
@@ -97,20 +86,13 @@ class ConflictDetector {
   }
 
   // 複数取引競合検出
-  detectMultipleTransactionConflicts(
-    receipt: Receipt,
-    transactions: Transaction[],
-  ): MatchingConflict[] {
-    const matchingTransactions = transactions.filter((t) =>
-      this.couldMatch(receipt, t),
-    );
+  detectMultipleTransactionConflicts(receipt: Receipt, transactions: Transaction[]): MatchingConflict[] {
+    const matchingTransactions = transactions.filter(t => this.couldMatch(receipt, t));
     if (matchingTransactions.length > 1) {
       return [
         {
-          type: "multiple_transactions",
-          candidates: matchingTransactions.map((t) =>
-            this.createCandidate(t, receipt),
-          ),
+          type: 'multiple_transactions',
+          candidates: matchingTransactions.map(t => this.createCandidate(t, receipt)),
           confidence: this.calculateConflictConfidence(matchingTransactions),
           priority: this.determineConflictPriority(matchingTransactions),
         },
@@ -122,12 +104,12 @@ class ConflictDetector {
   // 曖昧マッチ検出
   detectAmbiguousMatches(matches: MatchingResult[]): MatchingConflict[] {
     return matches
-      .filter((match) => match.confidence < 0.8 && match.confidence > 0.3)
-      .map((match) => ({
-        type: "ambiguous_match",
+      .filter(match => match.confidence < 0.8 && match.confidence > 0.3)
+      .map(match => ({
+        type: 'ambiguous_match',
         candidates: [this.createCandidate(match.transaction, match.receipt)],
         confidence: match.confidence,
-        priority: "medium",
+        priority: 'medium',
       }));
   }
 }
@@ -138,16 +120,12 @@ class ConflictDetector {
 ```typescript
 class AutoResolutionStrategy {
   // 信頼度ベース自動解決
-  async resolveByConfidence(
-    conflict: MatchingConflict,
-  ): Promise<ConflictResolution> {
-    const bestCandidate = conflict.candidates.sort(
-      (a, b) => b.confidence - a.confidence,
-    )[0];
+  async resolveByConfidence(conflict: MatchingConflict): Promise<ConflictResolution> {
+    const bestCandidate = conflict.candidates.sort((a, b) => b.confidence - a.confidence)[0];
 
     if (bestCandidate.confidence > 0.9) {
       return {
-        strategy: "auto",
+        strategy: 'auto',
         selectedCandidate: bestCandidate,
         reasoning: `高信頼度マッチ (${(bestCandidate.confidence * 100).toFixed(1)}%)`,
         confidence: bestCandidate.confidence,
@@ -159,15 +137,13 @@ class AutoResolutionStrategy {
   }
 
   // 履歴パターンベース解決
-  async resolveByHistoricalPattern(
-    conflict: MatchingConflict,
-  ): Promise<ConflictResolution> {
+  async resolveByHistoricalPattern(conflict: MatchingConflict): Promise<ConflictResolution> {
     const historicalResolutions = await this.getHistoricalResolutions(conflict);
     const patternMatch = this.findPatternMatch(conflict, historicalResolutions);
 
     if (patternMatch && patternMatch.confidence > 0.8) {
       return {
-        strategy: "auto",
+        strategy: 'auto',
         selectedCandidate: patternMatch.candidate,
         reasoning: `履歴パターンマッチング (類似ケース: ${patternMatch.similarCases}件)`,
         confidence: patternMatch.confidence,
@@ -181,14 +157,12 @@ class AutoResolutionStrategy {
 
 class ManualResolutionStrategy {
   // ユーザー介入付き解決
-  async resolveWithUserInput(
-    conflict: MatchingConflict,
-  ): Promise<ConflictResolution> {
+  async resolveWithUserInput(conflict: MatchingConflict): Promise<ConflictResolution> {
     // UIコンポーネントを通じてユーザー選択を待機
     const userChoice = await this.promptUserForResolution(conflict);
 
     return {
-      strategy: "manual",
+      strategy: 'manual',
       selectedCandidate: userChoice.candidate,
       reasoning: `ユーザー選択: ${userChoice.reason}`,
       confidence: userChoice.confidence,
@@ -203,10 +177,7 @@ class ManualResolutionStrategy {
 ```typescript
 class ResolutionLearningSystem {
   // ユーザー解決からの学習
-  async learnFromUserResolution(
-    conflict: MatchingConflict,
-    userResolution: ConflictResolution,
-  ): Promise<void> {
+  async learnFromUserResolution(conflict: MatchingConflict, userResolution: ConflictResolution): Promise<void> {
     const learningData = {
       conflictFeatures: this.extractConflictFeatures(conflict),
       resolutionChoice: userResolution.selectedCandidate,

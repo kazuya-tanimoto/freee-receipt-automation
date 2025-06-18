@@ -2,9 +2,8 @@
 
 ## Description
 
-Configure Google Drive API OAuth 2.0 authentication using the common OAuth module.
-This establishes secure access to Google Drive API for file storage and organization
-with appropriate scopes and permissions.
+Configure Google Drive API OAuth 2.0 authentication using the common OAuth module. This establishes secure access to
+Google Drive API for file storage and organization with appropriate scopes and permissions.
 
 ## Implementation Details
 
@@ -28,40 +27,40 @@ with appropriate scopes and permissions.
 ### Drive-specific OAuth Configuration
 
 ```typescript
-import { OAuthClient } from "@/lib/oauth";
+import { OAuthClient } from '@/lib/oauth';
 
 const DRIVE_SCOPES = [
-  "https://www.googleapis.com/auth/drive.file",
-  "https://www.googleapis.com/auth/drive.metadata.readonly",
+  'https://www.googleapis.com/auth/drive.file',
+  'https://www.googleapis.com/auth/drive.metadata.readonly',
 ];
 
 export class DriveOAuthClient extends OAuthClient {
   constructor() {
-    super("google", {
+    super('google', {
       scopes: DRIVE_SCOPES,
       additionalParams: {
-        access_type: "offline",
-        prompt: "consent",
-        include_granted_scopes: "true",
+        access_type: 'offline',
+        prompt: 'consent',
+        include_granted_scopes: 'true',
       },
     });
   }
 
   async getDriveClient(userId: string): Promise<drive_v3.Drive | null> {
-    const token = await this.tokenManager.getValidToken(userId, "google");
+    const token = await this.tokenManager.getValidToken(userId, 'google');
     if (!token) return null;
 
     const auth = new google.auth.OAuth2();
     auth.setCredentials({ access_token: token });
 
-    return google.drive({ version: "v3", auth });
+    return google.drive({ version: 'v3', auth });
   }
 
   async hasRequiredScopes(userId: string): Promise<boolean> {
-    const tokenInfo = await this.tokenManager.getTokenInfo(userId, "google");
+    const tokenInfo = await this.tokenManager.getTokenInfo(userId, 'google');
     if (!tokenInfo?.scopes) return false;
 
-    return DRIVE_SCOPES.every((scope) => tokenInfo.scopes.includes(scope));
+    return DRIVE_SCOPES.every(scope => tokenInfo.scopes.includes(scope));
   }
 }
 ```
@@ -107,11 +106,11 @@ interface DriveStatusResponse {
 ```typescript
 export interface FolderStructure {
   receipts: {
-    path: "/01.領収書";
+    path: '/01.領収書';
     monthly: boolean; // Creates MM/ subfolders
   };
   fixedAssets: {
-    path: "/99.固定資産分";
+    path: '/99.固定資産分';
     monthly: false;
   };
 }
@@ -119,9 +118,7 @@ export interface FolderStructure {
 export class DriveFolderManager {
   constructor(private driveClient: drive_v3.Drive) {}
 
-  async ensureFolderStructure(
-    structure: FolderStructure,
-  ): Promise<Record<string, string>> {
+  async ensureFolderStructure(structure: FolderStructure): Promise<Record<string, string>> {
     const folderIds: Record<string, string> = {};
 
     for (const [key, config] of Object.entries(structure)) {
@@ -131,7 +128,7 @@ export class DriveFolderManager {
       if (config.monthly) {
         // Create monthly subfolders (01/, 02/, ... 12/)
         for (let month = 1; month <= 12; month++) {
-          const monthStr = month.toString().padStart(2, "0");
+          const monthStr = month.toString().padStart(2, '0');
           await this.ensureFolder(`${monthStr}/`, folderId);
         }
       }
@@ -173,10 +170,7 @@ DRIVE_FOLDER_STRUCTURE_CONFIG=path/to/folder-config.json
 
   ```typescript
   export interface DriveAuthService {
-    initiateAuth(
-      userId: string,
-      scopes?: string[],
-    ): Promise<{ authUrl: string; state: string }>;
+    initiateAuth(userId: string, scopes?: string[]): Promise<{ authUrl: string; state: string }>;
     handleCallback(code: string, state: string): Promise<void>;
     getAuthenticatedClient(userId: string): Promise<drive_v3.Drive | null>;
     isAuthenticated(userId: string): Promise<boolean>;

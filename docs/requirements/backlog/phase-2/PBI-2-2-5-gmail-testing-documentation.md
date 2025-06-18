@@ -2,9 +2,9 @@
 
 ## Description
 
-Create comprehensive testing suite and documentation for Gmail API integration.
-This includes unit tests, integration tests, end-to-end testing scenarios,
-and complete user and developer documentation for email receipt processing workflows.
+Create comprehensive testing suite and documentation for Gmail API integration. This includes unit tests, integration
+tests, end-to-end testing scenarios, and complete user and developer documentation for email receipt processing
+workflows.
 
 ## Implementation Details
 

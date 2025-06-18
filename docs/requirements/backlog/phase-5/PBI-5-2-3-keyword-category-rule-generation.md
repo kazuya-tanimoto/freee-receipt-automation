@@ -2,9 +2,8 @@
 
 ## Description
 
-Implement automatic generation of keyword-to-category classification rules based
-on user correction patterns. This creates rules that classify transactions into
-categories based on receipt text keywords and descriptions.
+Implement automatic generation of keyword-to-category classification rules based on user correction patterns. This
+creates rules that classify transactions into categories based on receipt text keywords and descriptions.
 
 ## Implementation Details
 
@@ -30,17 +29,12 @@ categories based on receipt text keywords and descriptions.
 interface KeywordRuleGenerator {
   generateRules(corrections: UserCorrection[]): Promise<KeywordRule[]>;
   extractKeywords(receiptText: string): ExtractedKeyword[];
-  analyzeKeywordEffectiveness(
-    keywords: string[],
-    corrections: UserCorrection[],
-  ): KeywordAnalysis;
-  generateKeywordCombinations(
-    keywords: ExtractedKeyword[],
-  ): KeywordCombination[];
+  analyzeKeywordEffectiveness(keywords: string[], corrections: UserCorrection[]): KeywordAnalysis;
+  generateKeywordCombinations(keywords: ExtractedKeyword[]): KeywordCombination[];
 }
 
 interface KeywordRule extends MatchingRule {
-  ruleType: "keyword_category";
+  ruleType: 'keyword_category';
   ruleData: {
     keywords: string[];
     keywordWeights: Record<string, number>;

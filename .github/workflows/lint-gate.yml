@@ -1,0 +1,66 @@
+name: 🚨 Lint Gate (Required)
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  lint-gate:
+    runs-on: ubuntu-latest
+    name: Documentation Quality Check
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: false  # Submodules are excluded from lint
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+      
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      
+      - name: 🔍 Run Documentation Checks
+        id: docs-check
+        run: |
+          echo "::group::Documentation quality check"
+          
+          # Run comprehensive documentation check
+          if yarn check:docs; then
+            echo "✅ All documentation checks passed"
+            echo "docs_passed=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Documentation quality check failed"
+            echo "docs_passed=false" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+          
+          echo "::endgroup::"
+      
+      - name: 📊 Summary
+        if: always()
+        run: |
+          echo "## 📋 Lint Gate Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.docs-check.outputs.docs_passed }}" = "true" ]; then
+            echo "✅ **All checks passed!**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Documentation quality standards met. Ready to merge." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Checks failed!**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Please fix the following:" >> $GITHUB_STEP_SUMMARY
+            echo "1. Run \`yarn check:docs\` locally" >> $GITHUB_STEP_SUMMARY
+            echo "2. Fix all reported errors" >> $GITHUB_STEP_SUMMARY
+            echo "3. Use \`yarn format:md\` for safe formatting" >> $GITHUB_STEP_SUMMARY
+            echo "4. Commit and push the fixes" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Note**: This PR cannot be merged until all checks pass." >> $GITHUB_STEP_SUMMARY
+          fi

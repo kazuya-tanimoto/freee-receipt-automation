@@ -2,10 +2,9 @@
 
 ## Description
 
-Implement comprehensive duplicate file detection and handling logic to prevent file conflicts
-and manage similar receipts. This includes filename collision resolution,
-content-based duplicate detection, and intelligent merging strategies for handling
-multiple versions of the same receipt.
+Implement comprehensive duplicate file detection and handling logic to prevent file conflicts and manage similar
+receipts. This includes filename collision resolution, content-based duplicate detection, and intelligent merging
+strategies for handling multiple versions of the same receipt.
 
 ## Implementation Details
 

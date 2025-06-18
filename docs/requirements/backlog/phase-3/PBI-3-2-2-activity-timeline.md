@@ -2,8 +2,8 @@
 
 ## Description
 
-Create activity timeline component showing recent system events, processing results,
-and user actions with real-time updates and filtering capabilities.
+Create activity timeline component showing recent system events, processing results, and user actions with real-time
+updates and filtering capabilities.
 
 ## Implementation Details
 

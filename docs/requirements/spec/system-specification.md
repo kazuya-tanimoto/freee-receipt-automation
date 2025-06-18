@@ -2,8 +2,8 @@
 
 ## Purpose
 
-Build a system to automate freelance expense management and receipt association,
-significantly improving tax filing and bookkeeping efficiency.
+Build a system to automate freelance expense management and receipt association, significantly improving tax filing and
+bookkeeping efficiency.
 
 ## Requirements
 
@@ -206,7 +206,6 @@ significantly improving tax filing and bookkeeping efficiency.
 - Consider data protection and privacy (handling personal receipt information)
 - Build self-evolving mechanism through rule-based automatic improvement
 
-This architecture enables significant automation from receipt management to transaction association,
-improving tax filing and bookkeeping efficiency. Additionally, by automatically generating
-and accumulating rules from user corrections, the system achieves improved accuracy over time
-while maintaining low costs.
+This architecture enables significant automation from receipt management to transaction association, improving tax
+filing and bookkeeping efficiency. Additionally, by automatically generating and accumulating rules from user
+corrections, the system achieves improved accuracy over time while maintaining low costs.

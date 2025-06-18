@@ -2,8 +2,8 @@
 
 ## Background
 
-As a freelance IT engineer using freee for expense and revenue management,
-I currently perform the following tasks manually and would like to automate them.
+As a freelance IT engineer using freee for expense and revenue management, I currently perform the following tasks
+manually and would like to automate them.
 
 ## Current Workflow
 
@@ -32,8 +32,8 @@ I currently perform the following tasks manually and would like to automate them
 
 ### Daily Manual Operations
 
-- For Rakuten and Amazon receipts with API limitations, users will download
-  from their member pages and save to specified folders
+- For Rakuten and Amazon receipts with API limitations, users will download from their member pages and save to
+  specified folders
 
 - For gas and other receipts, users will scan using a scanning app and save to designated folders
   - Use scanning app instead of simple photo capture to improve OCR accuracy

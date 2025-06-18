@@ -2,8 +2,8 @@
 
 ## Description
 
-Optimize OCR engine parameters and configuration for maximum text recognition accuracy on receipt images,
-including language settings, recognition modes, confidence thresholds, and engine-specific tuning.
+Optimize OCR engine parameters and configuration for maximum text recognition accuracy on receipt images, including
+language settings, recognition modes, confidence thresholds, and engine-specific tuning.
 
 ## Implementation Details
 
@@ -33,7 +33,7 @@ including language settings, recognition modes, confidence thresholds, and engin
 ```typescript
 interface OCRParameters {
   languages: string[]; // ['eng', 'jpn', 'jpn_vert']
-  engineMode: "LEGACY" | "NEURAL_NETS" | "DEFAULT" | "COMBINED";
+  engineMode: 'LEGACY' | 'NEURAL_NETS' | 'DEFAULT' | 'COMBINED';
   pageSegMode: number; // 0-13, PSM modes
   ocrEngineMode: number; // 0-3, OEM modes
   whiteList: string; // Characters to recognize
@@ -46,12 +46,7 @@ interface OCRParameters {
 interface OptimizationProfile {
   name: string;
   description: string;
-  targetReceiptType:
-    | "general"
-    | "amazon"
-    | "apple"
-    | "gas_station"
-    | "restaurant";
+  targetReceiptType: 'general' | 'amazon' | 'apple' | 'gas_station' | 'restaurant';
   parameters: OCRParameters;
   expectedAccuracy: number;
   averageProcessingTime: number;
@@ -79,28 +74,19 @@ interface OCROptimizationResult {
 ```typescript
 class OCRParameterOptimizer {
   // Optimize parameters for specific receipt types
-  async optimizeForReceiptType(
-    images: ImageData[],
-    receiptType: string,
-  ): Promise<OCRParameters>;
+  async optimizeForReceiptType(images: ImageData[], receiptType: string): Promise<OCRParameters>;
 
   // A/B test different parameter sets
-  async compareParameterSets(
-    parameterSets: OCRParameters[],
-    testImages: ImageData[],
-  ): Promise<OptimizationResult[]>;
+  async compareParameterSets(parameterSets: OCRParameters[], testImages: ImageData[]): Promise<OptimizationResult[]>;
 
   // Auto-tune parameters based on historical performance
   async autoTuneParameters(
     currentParams: OCRParameters,
-    performanceHistory: PerformanceMetric[],
+    performanceHistory: PerformanceMetric[]
   ): Promise<OCRParameters>;
 
   // Validate parameter effectiveness
-  async validateParameters(
-    parameters: OCRParameters,
-    validationSet: ImageData[],
-  ): Promise<ValidationResult>;
+  async validateParameters(parameters: OCRParameters, validationSet: ImageData[]): Promise<ValidationResult>;
 }
 ```
 
@@ -109,28 +95,27 @@ class OCRParameterOptimizer {
 ```typescript
 const OPTIMIZATION_PROFILES: OptimizationProfile[] = [
   {
-    name: "general_receipts",
-    description: "General purpose receipt OCR",
-    targetReceiptType: "general",
+    name: 'general_receipts',
+    description: 'General purpose receipt OCR',
+    targetReceiptType: 'general',
     parameters: {
-      languages: ["eng"],
-      engineMode: "NEURAL_NETS",
+      languages: ['eng'],
+      engineMode: 'NEURAL_NETS',
       pageSegMode: 6, // Single uniform block
       ocrEngineMode: 3, // Default
       minConfidence: 60,
-      whiteList:
-        "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,$/¥-: ",
+      whiteList: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,$/¥-: ',
       timeoutMs: 30000,
     },
     expectedAccuracy: 85,
   },
   {
-    name: "japanese_receipts",
-    description: "Japanese receipt OCR optimization",
-    targetReceiptType: "general",
+    name: 'japanese_receipts',
+    description: 'Japanese receipt OCR optimization',
+    targetReceiptType: 'general',
     parameters: {
-      languages: ["jpn", "eng"],
-      engineMode: "NEURAL_NETS",
+      languages: ['jpn', 'eng'],
+      engineMode: 'NEURAL_NETS',
       pageSegMode: 6,
       ocrEngineMode: 3,
       minConfidence: 55,

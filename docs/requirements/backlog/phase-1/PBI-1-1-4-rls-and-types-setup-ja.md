@@ -2,9 +2,7 @@
 
 ## 説明
 
-すべてのデータベーステーブルに対して行レベルセキュリティ（RLS）ポリシーを設定し、
-freeeレシート自動化システム用のTypeScript型を生成します。
-これによりユーザー間のデータ分離を確保し、型安全なデータベース操作を提供します。
+すべてのデータベーステーブルに対して行レベルセキュリティ（RLS）ポリシーを設定し、freeeレシート自動化システム用のTypeScript型を生成します。これによりユーザー間のデータ分離を確保し、型安全なデータベース操作を提供します。
 
 ## 実装詳細
 
@@ -94,20 +92,13 @@ npx supabase gen types typescript --project-id [PROJECT_ID] > src/types/database
 
   ```typescript
   // すべてのデータベース型をエクスポート
-  export type { Database } from "./supabase";
-  export type {
-    UserSettings,
-    Receipt,
-    Transaction,
-    ProcessingLog,
-  } from "./supabase";
+  export type { Database } from './supabase';
+  export type { UserSettings, Receipt, Transaction, ProcessingLog } from './supabase';
 
   // 一般的な操作用のヘルパー型
-  export type DatabaseInsert<T extends keyof Database["public"]["Tables"]> =
-    Database["public"]["Tables"][T]["Insert"];
+  export type DatabaseInsert<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Insert'];
 
-  export type DatabaseUpdate<T extends keyof Database["public"]["Tables"]> =
-    Database["public"]["Tables"][T]["Update"];
+  export type DatabaseUpdate<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Update'];
   ```
 
 ## メタデータ

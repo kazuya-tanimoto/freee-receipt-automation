@@ -2,9 +2,9 @@
 
 ## Description
 
-Create comprehensive OpenAPI 3.0 specifications for all API endpoints in the freee
-receipt automation system. This establishes clear contracts between frontend and
-backend, enabling type-safe development and automated testing before implementation begins.
+Create comprehensive OpenAPI 3.0 specifications for all API endpoints in the freee receipt automation system. This
+establishes clear contracts between frontend and backend, enabling type-safe development and automated testing before
+implementation begins.
 
 ## Implementation Details
 
@@ -79,11 +79,7 @@ components:
         amount: { type: number, format: decimal }
         date: { type: string, format: date }
         description: { type: string }
-        matching_status:
-          {
-            type: string,
-            enum: [unmatched, auto_matched, manual_matched, rejected],
-          }
+        matching_status: { type: string, enum: [unmatched, auto_matched, manual_matched, rejected] }
 ```
 
 ### Code Patterns to Follow
@@ -104,7 +100,7 @@ components:
     id: string;
     user_id: string;
     file_name: string;
-    status: "pending" | "processing" | "completed" | "failed";
+    status: 'pending' | 'processing' | 'completed' | 'failed';
     created_at: string;
   }
 

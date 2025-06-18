@@ -2,8 +2,7 @@
 
 ## 説明
 
-リアルタイムメトリクス、A/Bテストフレームワーク、分析ダッシュボードを含む包括的マッチング精度モニタリングシステムを実装し、
-マッチングアルゴリズムパフォーマンスを継続的に改善します。
+リアルタイムメトリクス、A/Bテストフレームワーク、分析ダッシュボードを含む包括的マッチング精度モニタリングシステムを実装し、マッチングアルゴリズムパフォーマンスを継続的に改善します。
 
 ## 実装詳細
 
@@ -49,9 +48,7 @@ interface AccuracyMonitor {
   detectRegressions(): Promise<RegressionAlert[]>;
   runABTest(testConfig: ABTestConfig): Promise<ABTestResult>;
   generateAccuracyReport(period: string): Promise<AccuracyReport>;
-  analyzeUserCorrections(
-    corrections: UserCorrection[],
-  ): Promise<CorrectionAnalysis>;
+  analyzeUserCorrections(corrections: UserCorrection[]): Promise<CorrectionAnalysis>;
 }
 
 interface MatchingABTestConfig {
@@ -60,7 +57,7 @@ interface MatchingABTestConfig {
   algorithms: MatchingAlgorithmVariant[];
   sampleSize: number;
   duration: number;
-  successMetrics: ("accuracy" | "precision" | "recall" | "speed")[];
+  successMetrics: ('accuracy' | 'precision' | 'recall' | 'speed')[];
   confidenceLevel: number;
 }
 ```
@@ -70,46 +67,23 @@ interface MatchingABTestConfig {
 ```typescript
 class MatchingAccuracyCalculator {
   // 全体的マッチング精度計算
-  calculateOverallAccuracy(
-    results: MatchingResult[],
-    groundTruth: GroundTruth[],
-  ): number {
-    const correctMatches = results.filter((r) =>
-      this.isCorrectMatch(r, groundTruth),
-    );
+  calculateOverallAccuracy(results: MatchingResult[], groundTruth: GroundTruth[]): number {
+    const correctMatches = results.filter(r => this.isCorrectMatch(r, groundTruth));
     return correctMatches.length / results.length;
   }
 
   // 精密度（Precision）計算
-  calculatePrecision(
-    results: MatchingResult[],
-    groundTruth: GroundTruth[],
-  ): number {
-    const truePositives = results.filter((r) =>
-      this.isTruePositive(r, groundTruth),
-    );
-    const falsePositives = results.filter((r) =>
-      this.isFalsePositive(r, groundTruth),
-    );
-    return (
-      truePositives.length / (truePositives.length + falsePositives.length)
-    );
+  calculatePrecision(results: MatchingResult[], groundTruth: GroundTruth[]): number {
+    const truePositives = results.filter(r => this.isTruePositive(r, groundTruth));
+    const falsePositives = results.filter(r => this.isFalsePositive(r, groundTruth));
+    return truePositives.length / (truePositives.length + falsePositives.length);
   }
 
   // 再現率（Recall）計算
-  calculateRecall(
-    results: MatchingResult[],
-    groundTruth: GroundTruth[],
-  ): number {
-    const truePositives = results.filter((r) =>
-      this.isTruePositive(r, groundTruth),
-    );
-    const falseNegatives = groundTruth.filter(
-      (gt) => !this.hasMatchingResult(gt, results),
-    );
-    return (
-      truePositives.length / (truePositives.length + falseNegatives.length)
-    );
+  calculateRecall(results: MatchingResult[], groundTruth: GroundTruth[]): number {
+    const truePositives = results.filter(r => this.isTruePositive(r, groundTruth));
+    const falseNegatives = groundTruth.filter(gt => !this.hasMatchingResult(gt, results));
+    return truePositives.length / (truePositives.length + falseNegatives.length);
   }
 
   // F1スコア計算
@@ -118,11 +92,9 @@ class MatchingAccuracyCalculator {
   }
 
   // 信頼度別精度分析
-  analyzeAccuracyByConfidence(
-    results: MatchingResult[],
-  ): ConfidenceAccuracyAnalysis {
+  analyzeAccuracyByConfidence(results: MatchingResult[]): ConfidenceAccuracyAnalysis {
     const confidenceBuckets = this.groupByConfidenceBuckets(results);
-    return confidenceBuckets.map((bucket) => ({
+    return confidenceBuckets.map(bucket => ({
       confidenceRange: bucket.range,
       accuracy: this.calculateBucketAccuracy(bucket.results),
       count: bucket.results.length,
@@ -136,10 +108,7 @@ class MatchingAccuracyCalculator {
 ```typescript
 class MatchingErrorAnalyzer {
   // マッチングエラーパターン検出
-  async analyzeErrorPatterns(
-    failedMatches: MatchingResult[],
-    corrections: UserCorrection[],
-  ): Promise<ErrorPattern[]> {
+  async analyzeErrorPatterns(failedMatches: MatchingResult[], corrections: UserCorrection[]): Promise<ErrorPattern[]> {
     const patterns = [
       await this.analyzeAmountMismatchPatterns(failedMatches),
       await this.analyzeDateMismatchPatterns(failedMatches),
@@ -150,13 +119,11 @@ class MatchingErrorAnalyzer {
   }
 
   // 繰り返しエラーの識別
-  async identifyRecurringErrors(
-    errorHistory: MatchingError[],
-  ): Promise<RecurringError[]> {
+  async identifyRecurringErrors(errorHistory: MatchingError[]): Promise<RecurringError[]> {
     const groupedErrors = this.groupErrorsByCharacteristics(errorHistory);
     return groupedErrors
-      .filter((group) => group.frequency > this.recurringThreshold)
-      .map((group) => ({
+      .filter(group => group.frequency > this.recurringThreshold)
+      .map(group => ({
         pattern: group.pattern,
         frequency: group.frequency,
         impact: this.calculateErrorImpact(group.errors),
@@ -172,9 +139,7 @@ class MatchingABTestFramework {
   // マッチングアルゴリズムA/Bテスト実行
   async runMatchingABTest(config: MatchingABTestConfig): Promise<ABTestResult> {
     const testGroups = await this.createTestGroups(config);
-    const results = await Promise.all(
-      testGroups.map((group) => this.runTestGroup(group, config)),
-    );
+    const results = await Promise.all(testGroups.map(group => this.runTestGroup(group, config)));
 
     return {
       testId: config.name,
@@ -186,20 +151,15 @@ class MatchingABTestFramework {
   }
 
   // 統計的有意性検定
-  private calculateSignificance(
-    results: TestGroupResult[],
-  ): StatisticalSignificance {
-    const controlGroup = results.find((r) => r.variant === "control");
-    const testGroups = results.filter((r) => r.variant !== "control");
+  private calculateSignificance(results: TestGroupResult[]): StatisticalSignificance {
+    const controlGroup = results.find(r => r.variant === 'control');
+    const testGroups = results.filter(r => r.variant !== 'control');
 
-    return testGroups.map((testGroup) => ({
+    return testGroups.map(testGroup => ({
       variant: testGroup.variant,
       pValue: this.performTTest(controlGroup.metrics, testGroup.metrics),
       confidenceInterval: this.calculateConfidenceInterval(testGroup.metrics),
-      isSignificant: this.isStatisticallySignificant(
-        controlGroup.metrics,
-        testGroup.metrics,
-      ),
+      isSignificant: this.isStatisticallySignificant(controlGroup.metrics, testGroup.metrics),
     }));
   }
 }
@@ -212,23 +172,23 @@ class MatchingRegressionDetector {
   // マッチング精度回帰検出
   async detectAccuracyRegression(
     currentMetrics: MatchingMetrics,
-    historicalMetrics: MatchingMetrics[],
+    historicalMetrics: MatchingMetrics[]
   ): Promise<RegressionAlert[]> {
     const alerts: RegressionAlert[] = [];
 
     // 精度低下検出
     const accuracyRegression = this.detectMetricRegression(
       currentMetrics.accuracy,
-      historicalMetrics.map((m) => m.accuracy),
-      "accuracy",
+      historicalMetrics.map(m => m.accuracy),
+      'accuracy'
     );
     if (accuracyRegression) alerts.push(accuracyRegression);
 
     // 処理時間増加検出
     const performanceRegression = this.detectMetricRegression(
       currentMetrics.processingTime,
-      historicalMetrics.map((m) => m.processingTime),
-      "processingTime",
+      historicalMetrics.map(m => m.processingTime),
+      'processingTime'
     );
     if (performanceRegression) alerts.push(performanceRegression);
 
@@ -236,12 +196,10 @@ class MatchingRegressionDetector {
   }
 
   // 自動アラート生成
-  async generateRegressionAlerts(
-    regressions: RegressionAlert[],
-  ): Promise<void> {
+  async generateRegressionAlerts(regressions: RegressionAlert[]): Promise<void> {
     for (const regression of regressions) {
       await this.sendAlert({
-        type: "regression",
+        type: 'regression',
         severity: regression.severity,
         message: `マッチング${regression.metric}の回帰検出: ${regression.changePercent}%低下`,
         suggestions: regression.suggestedActions,

@@ -2,8 +2,7 @@
 
 ## 説明
 
-ユーザーが通知タイプ、配信スケジュール、通信チャネルを設定できる
-包括的なユーザー通知設定システムを、リアルタイム更新とプロフィール統合とともに実装します。
+ユーザーが通知タイプ、配信スケジュール、通信チャネルを設定できる包括的なユーザー通知設定システムを、リアルタイム更新とプロフィール統合とともに実装します。
 
 ## 実装詳細
 
@@ -41,14 +40,14 @@ interface NotificationPreferences {
   notifications: {
     processingSummary: {
       enabled: boolean;
-      frequency: "weekly" | "biweekly" | "monthly";
+      frequency: 'weekly' | 'biweekly' | 'monthly';
       dayOfWeek: number; // 0-6
       hour: number; // 0-23
       timezone: string;
     };
     errorAlerts: {
       enabled: boolean;
-      severity: ("low" | "medium" | "high" | "critical")[];
+      severity: ('low' | 'medium' | 'high' | 'critical')[];
       immediateDelivery: boolean;
     };
     actionRequired: {
@@ -74,17 +73,10 @@ interface NotificationPreferences {
 
 interface PreferencesService {
   getPreferences(userId: string): Promise<NotificationPreferences>;
-  updatePreferences(
-    userId: string,
-    preferences: Partial<NotificationPreferences>,
-  ): Promise<boolean>;
+  updatePreferences(userId: string, preferences: Partial<NotificationPreferences>): Promise<boolean>;
   resetToDefaults(userId: string): Promise<NotificationPreferences>;
-  validatePreferences(
-    preferences: NotificationPreferences,
-  ): Promise<ValidationResult>;
-  previewSchedule(
-    preferences: NotificationPreferences,
-  ): Promise<SchedulePreview>;
+  validatePreferences(preferences: NotificationPreferences): Promise<ValidationResult>;
+  previewSchedule(preferences: NotificationPreferences): Promise<SchedulePreview>;
 }
 ```
 

@@ -2,8 +2,8 @@
 
 ## Description
 
-Create advanced UI components for data display including Table, Badge, Dialog,
-and notification components for organizing and presenting information.
+Create advanced UI components for data display including Table, Badge, Dialog, and notification components for
+organizing and presenting information.
 
 ## Implementation Details
 

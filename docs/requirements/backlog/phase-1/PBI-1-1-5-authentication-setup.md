@@ -2,9 +2,8 @@
 
 ## Description
 
-Configure authentication system for the freee receipt automation application. This
-includes setting up email/password authentication, creating auth helper functions,
-and implementing session management with Next.js middleware.
+Configure authentication system for the freee receipt automation application. This includes setting up email/password
+authentication, creating auth helper functions, and implementing session management with Next.js middleware.
 
 ## Implementation Details
 

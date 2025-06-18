@@ -2,8 +2,7 @@
 
 ## 説明
 
-ユーザー修正の自動分類システムを実装し、実行された調整のタイプ（日付、金額、仕入先、カテゴリ、マッチ解除）を分類します。
-これには検出アルゴリズムと修正分析用のメタデータタグ付けが含まれます。
+ユーザー修正の自動分類システムを実装し、実行された調整のタイプ（日付、金額、仕入先、カテゴリ、マッチ解除）を分類します。これには検出アルゴリズムと修正分析用のメタデータタグ付けが含まれます。
 
 ## 実装詳細
 
@@ -27,14 +26,8 @@
 
 ```typescript
 interface CorrectionClassifier {
-  classify(
-    beforeData: CorrectionData,
-    afterData: CorrectionData,
-  ): ClassificationResult;
-  detectChanges(
-    beforeData: CorrectionData,
-    afterData: CorrectionData,
-  ): FieldChange[];
+  classify(beforeData: CorrectionData, afterData: CorrectionData): ClassificationResult;
+  detectChanges(beforeData: CorrectionData, afterData: CorrectionData): FieldChange[];
   extractMetadata(correction: UserCorrection): CorrectionMetadata;
 }
 
@@ -50,7 +43,7 @@ interface FieldChange {
   field: string;
   oldValue: any;
   newValue: any;
-  changeType: "add" | "remove" | "modify";
+  changeType: 'add' | 'remove' | 'modify';
   magnitude?: number;
 }
 ```
@@ -58,7 +51,7 @@ interface FieldChange {
 ### 分類ロジック
 
 ```typescript
-type CorrectionType = "date" | "amount" | "vendor" | "category" | "unmatch";
+type CorrectionType = 'date' | 'amount' | 'vendor' | 'category' | 'unmatch';
 
 interface CorrectionMetadata {
   dateShift?: number; // 日数

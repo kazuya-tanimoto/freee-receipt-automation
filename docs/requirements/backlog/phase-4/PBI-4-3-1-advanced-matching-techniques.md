@@ -2,8 +2,8 @@
 
 ## Description
 
-Implement rule-based matching algorithms including date range matching, amount tolerance matching,
-vendor name substring matching, and configurable scoring for improved receipt-transaction accuracy.
+Implement rule-based matching algorithms including date range matching, amount tolerance matching, vendor name substring
+matching, and configurable scoring for improved receipt-transaction accuracy.
 
 ## Implementation Details
 
@@ -23,20 +23,9 @@ vendor name substring matching, and configurable scoring for improved receipt-tr
 
 ```typescript
 interface MatchingAlgorithm {
-  dateRangeMatch(
-    receiptDate: Date,
-    transactionDate: Date,
-    toleranceDays: number,
-  ): number;
-  amountToleranceMatch(
-    receiptAmount: number,
-    transactionAmount: number,
-    tolerancePercent: number,
-  ): number;
-  vendorSubstringMatch(
-    receiptVendor: string,
-    transactionVendor: string,
-  ): number;
+  dateRangeMatch(receiptDate: Date, transactionDate: Date, toleranceDays: number): number;
+  amountToleranceMatch(receiptAmount: number, transactionAmount: number, tolerancePercent: number): number;
+  vendorSubstringMatch(receiptVendor: string, transactionVendor: string): number;
   calculateWeightedScore(scores: MatchingScores): number;
 }
 ```

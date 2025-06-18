@@ -2,8 +2,8 @@
 
 ## Overview
 
-This document defines optimization guidelines for AI agents to efficiently understand project context
-and provide appropriate support.
+This document defines optimization guidelines for AI agents to efficiently understand project context and provide
+appropriate support.
 
 ## Context Provision
 

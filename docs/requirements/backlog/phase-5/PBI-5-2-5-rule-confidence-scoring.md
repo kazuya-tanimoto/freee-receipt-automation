@@ -2,9 +2,8 @@
 
 ## Description
 
-Implement comprehensive confidence scoring system for generated matching rules
-based on statistical analysis, sample size, consistency, and performance metrics.
-This ensures reliable rule application and prioritization.
+Implement comprehensive confidence scoring system for generated matching rules based on statistical analysis, sample
+size, consistency, and performance metrics. This ensures reliable rule application and prioritization.
 
 ## Implementation Details
 
@@ -28,10 +27,7 @@ This ensures reliable rule application and prioritization.
 
 ```typescript
 interface ConfidenceCalculator {
-  calculateConfidence(
-    rule: MatchingRule,
-    context: ConfidenceContext,
-  ): ConfidenceScore;
+  calculateConfidence(rule: MatchingRule, context: ConfidenceContext): ConfidenceScore;
   updateConfidence(ruleId: string, performance: RulePerformance): Promise<void>;
   getConfidenceFactors(rule: MatchingRule): ConfidenceFactor[];
   validateStatisticalSignificance(rule: MatchingRule): SignificanceTest;
@@ -41,7 +37,7 @@ interface ConfidenceScore {
   overall: number; // 0-1
   factors: ConfidenceFactor[];
   explanation: string;
-  reliability: "high" | "medium" | "low";
+  reliability: 'high' | 'medium' | 'low';
   lastUpdated: Date;
 }
 

@@ -2,9 +2,9 @@
 
 ## Description
 
-Implement basic image preprocessing pipeline to enhance receipt images before OCR processing,
-including brightness/contrast adjustment, simple rotation correction, and basic noise reduction
-using Canvas API for improved text recognition accuracy.
+Implement basic image preprocessing pipeline to enhance receipt images before OCR processing, including
+brightness/contrast adjustment, simple rotation correction, and basic noise reduction using Canvas API for improved text
+recognition accuracy.
 
 ## Implementation Details
 
@@ -37,7 +37,7 @@ interface ImageProcessingConfig {
   enableNoiseReduction: boolean;
   enableContrastEnhancement: boolean;
   enableRotationCorrection: boolean;
-  processingQuality: "low" | "medium" | "high";
+  processingQuality: 'low' | 'medium' | 'high';
   maxImageSize: number;
 }
 
@@ -72,10 +72,7 @@ class ImagePreprocessor {
   async denoiseImage(image: ImageData, strength: number): Promise<ImageData>;
 
   // Contrast enhancement using CLAHE (Contrast Limited Adaptive Histogram Equalization)
-  async enhanceContrast(
-    image: ImageData,
-    clipLimit: number,
-  ): Promise<ImageData>;
+  async enhanceContrast(image: ImageData, clipLimit: number): Promise<ImageData>;
 
   // Automatic rotation correction using Hough line detection
   async correctRotation(image: ImageData, maxAngle: number): Promise<ImageData>;
@@ -84,10 +81,7 @@ class ImagePreprocessor {
   async correctPerspective(image: ImageData): Promise<ImageData>;
 
   // Adaptive binarization for better text recognition
-  async binarizeImage(
-    image: ImageData,
-    method: "otsu" | "adaptive",
-  ): Promise<ImageData>;
+  async binarizeImage(image: ImageData, method: 'otsu' | 'adaptive'): Promise<ImageData>;
 
   // Quality assessment and processing recommendation
   async assessImageQuality(image: ImageData): Promise<QualityAssessment>;

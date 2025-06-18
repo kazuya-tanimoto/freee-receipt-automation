@@ -2,9 +2,8 @@
 
 ## Description
 
-Implement core Google Drive API operations including file upload, download, search,
-folder management, and metadata operations. This provides the foundation for all
-Drive-related functionality in the application.
+Implement core Google Drive API operations including file upload, download, search, folder management, and metadata
+operations. This provides the foundation for all Drive-related functionality in the application.
 
 ## Implementation Details
 

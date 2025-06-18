@@ -2,8 +2,8 @@
 
 ## Description
 
-Create intuitive drag-and-drop interface for manually matching receipts with transactions,
-including visual feedback, validation, and conflict resolution.
+Create intuitive drag-and-drop interface for manually matching receipts with transactions, including visual feedback,
+validation, and conflict resolution.
 
 ## Implementation Details
 
@@ -42,8 +42,8 @@ interface MatchValidationResult {
 }
 
 interface MatchConflict {
-  type: "amount" | "date" | "duplicate" | "status";
-  severity: "low" | "medium" | "high";
+  type: 'amount' | 'date' | 'duplicate' | 'status';
+  severity: 'low' | 'medium' | 'high';
   message: string;
   suggestedAction?: string;
 }

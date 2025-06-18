@@ -2,8 +2,8 @@
 
 ## Description
 
-Implement comprehensive OCR accuracy monitoring system with real-time metrics, A/B testing framework,
-and performance analytics to continuously improve text recognition accuracy.
+Implement comprehensive OCR accuracy monitoring system with real-time metrics, A/B testing framework, and performance
+analytics to continuously improve text recognition accuracy.
 
 ## Implementation Details
 

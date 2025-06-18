@@ -2,8 +2,8 @@
 
 ## Description
 
-Implement notification scheduling system with support for recurring weekly summaries,
-immediate critical alerts, and user-configurable delivery timing using Supabase Cron and database queue.
+Implement notification scheduling system with support for recurring weekly summaries, immediate critical alerts, and
+user-configurable delivery timing using Supabase Cron and database queue.
 
 ## Implementation Details
 
@@ -32,14 +32,14 @@ immediate critical alerts, and user-configurable delivery timing using Supabase 
 ```typescript
 interface NotificationJob {
   id: string;
-  type: "summary" | "error" | "action_required";
-  priority: "low" | "normal" | "high" | "critical";
+  type: 'summary' | 'error' | 'action_required';
+  priority: 'low' | 'normal' | 'high' | 'critical';
   scheduledAt: Date;
   userId: string;
   data: Record<string, any>;
   retryCount: number;
   maxRetries: number;
-  status: "pending" | "processing" | "completed" | "failed";
+  status: 'pending' | 'processing' | 'completed' | 'failed';
 }
 
 interface SchedulingConfig {
@@ -64,10 +64,7 @@ interface SchedulingConfig {
 }
 
 interface NotificationScheduler {
-  scheduleWeeklySummary(
-    userId: string,
-    config: SchedulingConfig,
-  ): Promise<string>;
+  scheduleWeeklySummary(userId: string, config: SchedulingConfig): Promise<string>;
   scheduleImmediateNotification(notification: NotificationJob): Promise<string>;
   cancelScheduledNotification(jobId: string): Promise<boolean>;
   updateSchedule(userId: string, config: SchedulingConfig): Promise<boolean>;

@@ -116,11 +116,11 @@ Helper functions for easy RLS operations are provided in `src/lib/database/polic
 ```typescript
 export function validateUserContext(context: RLSContext): void {
   if (!context.is_authenticated) {
-    throw new RLSPolicyError("User must be authenticated", context);
+    throw new RLSPolicyError('User must be authenticated', context);
   }
 
   if (!context.user_id) {
-    throw new RLSPolicyError("User ID is required", context);
+    throw new RLSPolicyError('User ID is required', context);
   }
 }
 ```

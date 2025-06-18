@@ -27,10 +27,7 @@
 ```typescript
 interface ConflictDetector {
   detectConflicts(rules: MatchingRule[]): RuleConflict[];
-  analyzeRuleCompatibility(
-    rule1: MatchingRule,
-    rule2: MatchingRule,
-  ): CompatibilityAnalysis;
+  analyzeRuleCompatibility(rule1: MatchingRule, rule2: MatchingRule): CompatibilityAnalysis;
   findOverlappingRules(rules: MatchingRule[]): RuleOverlap[];
   detectContradictoryRules(rules: MatchingRule[]): ContradictoryRule[];
 }
@@ -39,38 +36,27 @@ interface RuleConflict {
   id: string;
   type: ConflictType;
   conflictingRules: string[];
-  severity: "low" | "medium" | "high";
+  severity: 'low' | 'medium' | 'high';
   description: string;
   examples: ConflictExample[];
   resolutionSuggestions: ResolutionSuggestion[];
 }
 
-type ConflictType =
-  | "contradiction"
-  | "overlap"
-  | "circular_dependency"
-  | "mutual_exclusion";
+type ConflictType = 'contradiction' | 'overlap' | 'circular_dependency' | 'mutual_exclusion';
 ```
 
 ### 競合解決
 
 ```typescript
 interface ConflictResolver {
-  resolveConflict(
-    conflict: RuleConflict,
-    strategy: ResolutionStrategy,
-  ): ResolutionResult;
+  resolveConflict(conflict: RuleConflict, strategy: ResolutionStrategy): ResolutionResult;
   suggestResolutions(conflict: RuleConflict): ResolutionSuggestion[];
   applyResolution(resolution: Resolution): Promise<void>;
   trackResolutionDecision(decision: ResolutionDecision): Promise<void>;
 }
 
 interface ResolutionStrategy {
-  type:
-    | "priority_based"
-    | "confidence_based"
-    | "user_preference"
-    | "context_specific";
+  type: 'priority_based' | 'confidence_based' | 'user_preference' | 'context_specific';
   parameters: ResolutionParameters;
 }
 

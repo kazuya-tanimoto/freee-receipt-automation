@@ -2,8 +2,7 @@
 
 ## 説明
 
-shadcn/uiパターンを使用してCardレイアウトとModalダイアログコンポーネントを実装し、
-柔軟なコンテンツレイアウト、レスポンシブデザイン、アクセシビリティ機能を提供します。
+shadcn/uiパターンを使用してCardレイアウトとModalダイアログコンポーネントを実装し、柔軟なコンテンツレイアウト、レスポンシブデザイン、アクセシビリティ機能を提供します。
 
 ## 実装詳細
 
@@ -40,8 +39,8 @@ shadcn/uiパターンを使用してCardレイアウトとModalダイアログ�
 
 ```typescript
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: "default" | "outline" | "elevated";
-  padding?: "none" | "sm" | "md" | "lg";
+  variant?: 'default' | 'outline' | 'elevated';
+  padding?: 'none' | 'sm' | 'md' | 'lg';
 }
 
 interface ModalProps {
@@ -50,11 +49,11 @@ interface ModalProps {
   title?: string;
   description?: string;
   children: React.ReactNode;
-  size?: "sm" | "md" | "lg" | "xl" | "full";
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
 }
 
 interface AlertProps {
-  variant?: "default" | "destructive" | "warning" | "success";
+  variant?: 'default' | 'destructive' | 'warning' | 'success';
   title?: string;
   description?: string;
   action?: React.ReactNode;

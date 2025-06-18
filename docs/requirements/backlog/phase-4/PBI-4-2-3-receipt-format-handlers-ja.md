@@ -2,8 +2,7 @@
 
 ## 説明
 
-主要レシートフォーマット（Amazon、Apple、楽天、ガソリンスタンド、サブスクリプション）向けの特定ハンドラーを実装し、
-フォーマット固有の抽出パターン、検証ルール、精度最適化技術を提供します。
+主要レシートフォーマット（Amazon、Apple、楽天、ガソリンスタンド、サブスクリプション）向けの特定ハンドラーを実装し、フォーマット固有の抽出パターン、検証ルール、精度最適化技術を提供します。
 
 ## 実装詳細
 
@@ -39,9 +38,9 @@ interface ReceiptFormat {
 }
 
 interface ExtractionPattern {
-  field: "amount" | "date" | "vendor" | "items" | "tax";
+  field: 'amount' | 'date' | 'vendor' | 'items' | 'tax';
   regex: RegExp;
-  position: "header" | "body" | "footer" | "any";
+  position: 'header' | 'body' | 'footer' | 'any';
   confidence: number;
   transform?: (value: string) => any;
 }

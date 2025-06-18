@@ -2,8 +2,8 @@
 
 ## Overview
 
-This template defines the standard format for Product Backlog Items (PBIs)
-optimized for AI-driven development. Each PBI should be implementable in a single AI session.
+This template defines the standard format for Product Backlog Items (PBIs) optimized for AI-driven development. Each PBI
+should be implementable in a single AI session.
 
 ## Template Structure
 
@@ -67,7 +67,7 @@ CREATE TABLE table_name (
   ```typescript
   interface OutputData {
     result: string;
-    status: "success" | "error";
+    status: 'success' | 'error';
   }
   ```
 

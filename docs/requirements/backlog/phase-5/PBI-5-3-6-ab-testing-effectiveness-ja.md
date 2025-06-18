@@ -28,10 +28,7 @@
 interface ABTestFramework {
   createExperiment(config: ExperimentConfig): Promise<Experiment>;
   assignUserToGroup(userId: string, experimentId: string): TestGroup;
-  trackMatchingResult(
-    result: MatchingResult,
-    experimentId: string,
-  ): Promise<void>;
+  trackMatchingResult(result: MatchingResult, experimentId: string): Promise<void>;
   analyzeExperimentResults(experimentId: string): Promise<ExperimentAnalysis>;
 }
 
@@ -59,16 +56,9 @@ interface ExperimentAnalysis {
 
 ```typescript
 interface EffectivenessTracker {
-  trackMatchingAccuracy(
-    result: MatchingResult,
-    group: TestGroup,
-  ): Promise<void>;
-  calculateAccuracyImprovement(
-    experimentId: string,
-  ): Promise<AccuracyImprovement>;
-  generateEffectivenessReport(
-    experimentId: string,
-  ): Promise<EffectivenessReport>;
+  trackMatchingAccuracy(result: MatchingResult, group: TestGroup): Promise<void>;
+  calculateAccuracyImprovement(experimentId: string): Promise<AccuracyImprovement>;
+  generateEffectivenessReport(experimentId: string): Promise<EffectivenessReport>;
 }
 
 interface AccuracyImprovement {

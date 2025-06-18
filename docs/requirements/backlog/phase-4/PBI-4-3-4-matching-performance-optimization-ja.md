@@ -2,8 +2,7 @@
 
 ## 説明
 
-大容量データセット向けマッチングアルゴリズムパフォーマンス最適化。
-インデックス化、キャッシュ、並列処理により高速マッチング速度と精度向上を維持。
+大容量データセット向けマッチングアルゴリズムパフォーマンス最適化。インデックス化、キャッシュ、並列処理により高速マッチング速度と精度向上を維持。
 
 ## 実装詳細
 
@@ -35,13 +34,8 @@ interface MatchingOptimizer {
   indexTransactions(transactions: Transaction[]): Promise<void>;
   cacheMatchingResults(results: MatchingResult[]): Promise<void>;
   parallelMatch(receipts: Receipt[]): Promise<MatchingResult[]>;
-  filterCandidates(
-    receipt: Receipt,
-    transactions: Transaction[],
-  ): Transaction[];
-  optimizeMatchingStrategy(
-    performanceData: PerformanceData,
-  ): Promise<OptimizationResult>;
+  filterCandidates(receipt: Receipt, transactions: Transaction[]): Transaction[];
+  optimizeMatchingStrategy(performanceData: PerformanceData): Promise<OptimizationResult>;
 }
 
 interface PerformanceMetrics {
@@ -95,11 +89,7 @@ class TransactionIndexer {
     const vendorCandidates = this.findByVendorSimilarity(receipt.vendor);
 
     // 交差による候補絞り込み
-    return this.intersectCandidates([
-      amountCandidates,
-      dateCandidates,
-      vendorCandidates,
-    ]);
+    return this.intersectCandidates([amountCandidates, dateCandidates, vendorCandidates]);
   }
 }
 ```
@@ -124,11 +114,7 @@ class MatchingCache {
     return null;
   }
 
-  async cacheMatchingResult(
-    cacheKey: string,
-    result: MatchingResult,
-    ttl: number = 3600000,
-  ): Promise<void> {
+  async cacheMatchingResult(cacheKey: string, result: MatchingResult, ttl: number = 3600000): Promise<void> {
     // キャッシュサイズ制限チェック
     if (this.cache.size >= this.maxCacheSize) {
       this.evictLeastRecentlyUsed();
@@ -162,29 +148,24 @@ class ParallelMatchingProcessor {
     const chunks = this.chunkReceipts(receipts, this.maxWorkers);
 
     // 並列処理実行
-    const matchingPromises = chunks.map((chunk, index) =>
-      this.processChunkWithWorker(chunk, index),
-    );
+    const matchingPromises = chunks.map((chunk, index) => this.processChunkWithWorker(chunk, index));
 
     const results = await Promise.all(matchingPromises);
     return results.flat();
   }
 
-  private async processChunkWithWorker(
-    receipts: Receipt[],
-    workerIndex: number,
-  ): Promise<MatchingResult[]> {
+  private async processChunkWithWorker(receipts: Receipt[], workerIndex: number): Promise<MatchingResult[]> {
     const worker = this.getOrCreateWorker(workerIndex);
 
     return new Promise((resolve, reject) => {
       worker.postMessage({
-        type: "MATCH_RECEIPTS",
+        type: 'MATCH_RECEIPTS',
         receipts,
         timestamp: Date.now(),
       });
 
-      worker.onmessage = (event) => {
-        if (event.data.type === "MATCHING_COMPLETE") {
+      worker.onmessage = event => {
+        if (event.data.type === 'MATCHING_COMPLETE') {
           resolve(event.data.results);
         }
       };
@@ -200,10 +181,7 @@ class ParallelMatchingProcessor {
 ```typescript
 class SmartFilter {
   // 事前フィルタリングで候補数を削減
-  async filterTransactionCandidates(
-    receipt: Receipt,
-    transactions: Transaction[],
-  ): Promise<Transaction[]> {
+  async filterTransactionCandidates(receipt: Receipt, transactions: Transaction[]): Promise<Transaction[]> {
     // 段階的フィルタリング（早期終了で高速化）
     let candidates = transactions;
 
@@ -237,16 +215,13 @@ class MemoryOptimizer {
   // ストリーミング処理で大容量データを処理
   async streamingMatch(
     receiptStream: AsyncIterable<Receipt>,
-    transactionIndex: TransactionIndex,
+    transactionIndex: TransactionIndex
   ): Promise<AsyncIterable<MatchingResult>> {
     return {
       async *[Symbol.asyncIterator]() {
         for await (const receipt of receiptStream) {
           const candidates = await transactionIndex.findCandidates(receipt);
-          const results = await this.matchReceiptWithCandidates(
-            receipt,
-            candidates,
-          );
+          const results = await this.matchReceiptWithCandidates(receipt, candidates);
           yield* results;
           this.cleanupTemporaryData();
         }

@@ -2,9 +2,9 @@
 
 ## Description
 
-Implement comprehensive error handling and retry mechanisms for Gmail API operations.
-This ensures robust email processing under various failure conditions including API
-rate limits, temporary service unavailability, and network issues.
+Implement comprehensive error handling and retry mechanisms for Gmail API operations. This ensures robust email
+processing under various failure conditions including API rate limits, temporary service unavailability, and network
+issues.
 
 ## Implementation Details
 

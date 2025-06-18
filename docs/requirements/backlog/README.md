@@ -1,7 +1,7 @@
 # Product Backlog Items (PBIs)
 
-This directory contains the Product Backlog Items (PBIs) for the freee Receipt Automation project.
-The PBIs are organized by development phases and have been refined for AI-driven development.
+This directory contains the Product Backlog Items (PBIs) for the freee Receipt Automation project. The PBIs are
+organized by development phases and have been refined for AI-driven development.
 
 ## Directory Structure
 

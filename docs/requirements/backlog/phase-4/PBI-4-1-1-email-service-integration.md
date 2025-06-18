@@ -2,8 +2,8 @@
 
 ## Description
 
-Integrate SendGrid API for reliable email delivery with basic queue management
-using Supabase database and simple delivery tracking capabilities.
+Integrate SendGrid API for reliable email delivery with basic queue management using Supabase database and simple
+delivery tracking capabilities.
 
 ## Implementation Details
 
@@ -31,7 +31,7 @@ using Supabase database and simple delivery tracking capabilities.
 
 ```typescript
 interface EmailServiceConfig {
-  provider: "sendgrid";
+  provider: 'sendgrid';
   apiKey: string;
   fromEmail: string;
   fromName: string;
@@ -41,7 +41,7 @@ interface EmailServiceConfig {
 
 interface EmailDeliveryResult {
   messageId: string;
-  status: "queued" | "sent" | "delivered" | "bounced" | "failed";
+  status: 'queued' | 'sent' | 'delivered' | 'bounced' | 'failed';
   timestamp: Date;
   recipient: string;
   error?: string;

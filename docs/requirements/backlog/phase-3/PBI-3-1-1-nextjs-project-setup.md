@@ -2,8 +2,8 @@
 
 ## Description
 
-Initialize NextJS 15 project with TypeScript, Tailwind CSS, and essential build configuration.
-Set up the foundational project structure for the freee receipt automation management interface.
+Initialize NextJS 15 project with TypeScript, Tailwind CSS, and essential build configuration. Set up the foundational
+project structure for the freee receipt automation management interface.
 
 ## Implementation Details
 

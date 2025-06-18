@@ -2,8 +2,8 @@
 
 ## Description
 
-Implement comprehensive text postprocessing pipeline to clean, normalize, and enhance OCR output
-including error correction, format standardization, and confidence-based text validation.
+Implement comprehensive text postprocessing pipeline to clean, normalize, and enhance OCR output including error
+correction, format standardization, and confidence-based text validation.
 
 ## Implementation Details
 

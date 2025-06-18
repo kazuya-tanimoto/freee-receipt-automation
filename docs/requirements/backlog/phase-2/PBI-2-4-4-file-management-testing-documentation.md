@@ -2,10 +2,9 @@
 
 ## Description
 
-Create comprehensive testing suite and documentation for file management features
-including naming, folder structure, and duplicate handling.
-This ensures reliable file organization and provides clear guidance for users and developers
-on file management workflows.
+Create comprehensive testing suite and documentation for file management features including naming, folder structure,
+and duplicate handling. This ensures reliable file organization and provides clear guidance for users and developers on
+file management workflows.
 
 ## Implementation Details
 

@@ -2,8 +2,7 @@
 
 ## 概要
 
-処理済み領収書の管理とレビュー用の検索、フィルタリング、ソート、
-ページネーション機能を備えた包括的な領収書リストページを作成。
+処理済み領収書の管理とレビュー用の検索、フィルタリング、ソート、ページネーション機能を備えた包括的な領収書リストページを作成。
 
 ## 実装詳細
 
@@ -31,7 +30,7 @@
 interface ReceiptFilters {
   search?: string;
   dateRange?: { from: Date; to: Date };
-  status?: Array<"pending" | "processed" | "error">;
+  status?: Array<'pending' | 'processed' | 'error'>;
   amountRange?: { min: number; max: number };
   vendorNames?: string[];
 }

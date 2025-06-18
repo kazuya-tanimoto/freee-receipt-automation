@@ -2,8 +2,8 @@
 
 ## 概要
 
-このテンプレートは、AI駆動開発に最適化されたProduct Backlog Items（PBI）の標準フォーマットを定義します。
-各PBIは単一のAIセッションで実装可能であるべきです。
+このテンプレートは、AI駆動開発に最適化されたProduct Backlog
+Items（PBI）の標準フォーマットを定義します。各PBIは単一のAIセッションで実装可能であるべきです。
 
 ## テンプレート構造
 
@@ -67,7 +67,7 @@ CREATE TABLE table_name (
   ```typescript
   interface OutputData {
     result: string;
-    status: "success" | "error";
+    status: 'success' | 'error';
   }
   ```
 

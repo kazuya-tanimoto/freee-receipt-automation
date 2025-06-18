@@ -2,9 +2,8 @@
 
 ## Description
 
-Implement algorithms to analyze user correction history and extract patterns for
-automatic rule generation. This includes frequency analysis, correlation detection,
-and pattern scoring mechanisms.
+Implement algorithms to analyze user correction history and extract patterns for automatic rule generation. This
+includes frequency analysis, correlation detection, and pattern scoring mechanisms.
 
 ## Implementation Details
 
@@ -53,11 +52,7 @@ interface VendorPattern extends Pattern {
 ### Pattern Types
 
 ```typescript
-type PatternType =
-  | "vendor_category"
-  | "keyword_category"
-  | "amount_tolerance"
-  | "date_adjustment";
+type PatternType = 'vendor_category' | 'keyword_category' | 'amount_tolerance' | 'date_adjustment';
 
 interface PatternAnalysis {
   totalCorrections: number;
@@ -110,7 +105,7 @@ if (corrections.length < MIN_SAMPLE_SIZE) {
   return {
     patterns: [],
     confidence: 0,
-    reason: "insufficient_data",
+    reason: 'insufficient_data',
     requiredSamples: MIN_SAMPLE_SIZE,
   };
 }
@@ -120,7 +115,7 @@ if (dataQualityScore < QUALITY_THRESHOLD) {
   return {
     patterns: fallbackPatterns,
     confidence: 0.3,
-    reason: "low_quality_data",
+    reason: 'low_quality_data',
   };
 }
 ```

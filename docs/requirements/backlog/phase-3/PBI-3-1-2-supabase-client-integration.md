@@ -2,8 +2,8 @@
 
 ## Description
 
-Configure Supabase client for browser and server-side operations with cookie-based authentication.
-Set up TypeScript types and environment configuration for secure database access.
+Configure Supabase client for browser and server-side operations with cookie-based authentication. Set up TypeScript
+types and environment configuration for secure database access.
 
 ## Implementation Details
 
@@ -54,7 +54,7 @@ interface DatabaseClient {
   cookieOptions: {
     name: string;
     domain?: string;
-    sameSite: "lax" | "strict" | "none";
+    sameSite: 'lax' | 'strict' | 'none';
   };
 }
 

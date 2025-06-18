@@ -2,9 +2,8 @@
 
 ## Description
 
-Create comprehensive documentation for the Supabase setup phase. This includes
-setup guides, architecture decisions, troubleshooting guides, and updating the
-main README with relevant information.
+Create comprehensive documentation for the Supabase setup phase. This includes setup guides, architecture decisions,
+troubleshooting guides, and updating the main README with relevant information.
 
 ## Implementation Details
 

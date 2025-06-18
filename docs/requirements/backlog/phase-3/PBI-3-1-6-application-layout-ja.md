@@ -2,8 +2,7 @@
 
 ## 概要
 
-管理インターフェースの認証済みダッシュボード領域用の
-サイドバーナビゲーション、ヘッダー、レスポンシブデザインを含むメインアプリケーションレイアウトを作成。
+管理インターフェースの認証済みダッシュボード領域用のサイドバーナビゲーション、ヘッダー、レスポンシブデザインを含むメインアプリケーションレイアウトを作成。
 
 ## 実装詳細
 
@@ -49,15 +48,15 @@ interface NavigationItem {
 
 const navigationConfig = {
   main: [
-    { id: "dashboard", label: "ダッシュボード", href: "/", icon: HomeIcon },
-    { id: "receipts", label: "領収書", href: "/receipts", icon: ReceiptIcon },
+    { id: 'dashboard', label: 'ダッシュボード', href: '/', icon: HomeIcon },
+    { id: 'receipts', label: '領収書', href: '/receipts', icon: ReceiptIcon },
     {
-      id: "transactions",
-      label: "取引",
-      href: "/transactions",
+      id: 'transactions',
+      label: '取引',
+      href: '/transactions',
       icon: CreditCardIcon,
     },
-    { id: "settings", label: "設定", href: "/settings", icon: SettingsIcon },
+    { id: 'settings', label: '設定', href: '/settings', icon: SettingsIcon },
   ],
 };
 ```

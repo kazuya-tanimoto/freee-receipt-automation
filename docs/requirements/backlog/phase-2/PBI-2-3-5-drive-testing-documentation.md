@@ -2,9 +2,9 @@
 
 ## Description
 
-Create comprehensive testing suite and documentation for Google Drive API integration.
-This includes unit tests, integration tests, end-to-end testing scenarios,
-and complete user and developer documentation covering file organization and management workflows.
+Create comprehensive testing suite and documentation for Google Drive API integration. This includes unit tests,
+integration tests, end-to-end testing scenarios, and complete user and developer documentation covering file
+organization and management workflows.
 
 ## Implementation Details
 

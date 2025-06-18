@@ -2,8 +2,8 @@
 
 ## Description
 
-Create user settings interface for profile management, theme selection, notification
-preferences, and application configuration.
+Create user settings interface for profile management, theme selection, notification preferences, and application
+configuration.
 
 ## Implementation Details
 

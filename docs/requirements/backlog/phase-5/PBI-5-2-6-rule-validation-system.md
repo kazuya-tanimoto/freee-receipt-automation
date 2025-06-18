@@ -2,9 +2,8 @@
 
 ## Description
 
-Implement comprehensive rule validation system that tests generated rules against
-historical data, validates rule logic, and ensures rule quality before activation.
-This prevents poor-performing rules from affecting matching accuracy.
+Implement comprehensive rule validation system that tests generated rules against historical data, validates rule logic,
+and ensures rule quality before activation. This prevents poor-performing rules from affecting matching accuracy.
 
 ## Implementation Details
 
@@ -29,15 +28,9 @@ This prevents poor-performing rules from affecting matching accuracy.
 ```typescript
 interface RuleValidator {
   validateRule(rule: MatchingRule): ValidationResult;
-  testAgainstHistory(
-    rule: MatchingRule,
-    testData: TestDataset,
-  ): HistoricalTestResult;
+  testAgainstHistory(rule: MatchingRule, testData: TestDataset): HistoricalTestResult;
   assessRuleQuality(rule: MatchingRule): QualityAssessment;
-  performCrossValidation(
-    rule: MatchingRule,
-    folds: number,
-  ): CrossValidationResult;
+  performCrossValidation(rule: MatchingRule, folds: number): CrossValidationResult;
 }
 
 interface ValidationResult {
@@ -74,7 +67,7 @@ interface QualityMetric {
   name: string;
   score: number;
   threshold: number;
-  status: "pass" | "warn" | "fail";
+  status: 'pass' | 'warn' | 'fail';
 }
 
 interface CrossValidationResult {

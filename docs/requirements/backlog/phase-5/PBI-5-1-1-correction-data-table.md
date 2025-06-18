@@ -2,9 +2,8 @@
 
 ## Description
 
-Create database tables and types for storing user correction data from manual adjustments
-to receipt-transaction matching. This includes schema design, RLS policies, and basic
-TypeScript type definitions.
+Create database tables and types for storing user correction data from manual adjustments to receipt-transaction
+matching. This includes schema design, RLS policies, and basic TypeScript type definitions.
 
 ## Implementation Details
 
@@ -55,7 +54,7 @@ interface UserCorrection {
   createdAt: string;
 }
 
-type CorrectionType = "date" | "amount" | "vendor" | "category" | "unmatch";
+type CorrectionType = 'date' | 'amount' | 'vendor' | 'category' | 'unmatch';
 ```
 
 ## Acceptance Criteria

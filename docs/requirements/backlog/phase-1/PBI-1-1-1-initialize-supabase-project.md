@@ -2,9 +2,8 @@
 
 ## Description
 
-Create a new Supabase project with initial configuration for the freee receipt
-automation system. This includes setting up the project via Supabase CLI and
-configuring basic settings.
+Create a new Supabase project with initial configuration for the freee receipt automation system. This includes setting
+up the project via Supabase CLI and configuring basic settings.
 
 ## Implementation Details
 

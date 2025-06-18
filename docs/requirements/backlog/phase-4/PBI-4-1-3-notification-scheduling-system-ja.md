@@ -2,8 +2,8 @@
 
 ## 説明
 
-週次要約の定期配信、即座の重要アラート、ユーザー設定可能な配信タイミングに対応する
-通知スケジューリングシステムを、Supabase Cronとデータベースキューで実装します。
+週次要約の定期配信、即座の重要アラート、ユーザー設定可能な配信タイミングに対応する通知スケジューリングシステムを、Supabase
+Cronとデータベースキューで実装します。
 
 ## 実装詳細
 
@@ -32,14 +32,14 @@
 ```typescript
 interface NotificationJob {
   id: string;
-  type: "summary" | "error" | "action_required";
-  priority: "low" | "normal" | "high" | "critical";
+  type: 'summary' | 'error' | 'action_required';
+  priority: 'low' | 'normal' | 'high' | 'critical';
   scheduledAt: Date;
   userId: string;
   data: Record<string, any>;
   retryCount: number;
   maxRetries: number;
-  status: "pending" | "processing" | "completed" | "failed";
+  status: 'pending' | 'processing' | 'completed' | 'failed';
 }
 
 interface SchedulingConfig {
@@ -64,10 +64,7 @@ interface SchedulingConfig {
 }
 
 interface NotificationScheduler {
-  scheduleWeeklySummary(
-    userId: string,
-    config: SchedulingConfig,
-  ): Promise<string>;
+  scheduleWeeklySummary(userId: string, config: SchedulingConfig): Promise<string>;
   scheduleImmediateNotification(notification: NotificationJob): Promise<string>;
   cancelScheduledNotification(jobId: string): Promise<boolean>;
   updateSchedule(userId: string, config: SchedulingConfig): Promise<boolean>;

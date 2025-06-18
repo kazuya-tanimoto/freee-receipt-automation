@@ -2,9 +2,8 @@
 
 ## Description
 
-Configure Gmail API OAuth 2.0 authentication using the common OAuth module. This
-establishes secure access to Gmail API for reading email receipts with appropriate
-scopes and permissions.
+Configure Gmail API OAuth 2.0 authentication using the common OAuth module. This establishes secure access to Gmail API
+for reading email receipts with appropriate scopes and permissions.
 
 ## Implementation Details
 
@@ -28,32 +27,32 @@ scopes and permissions.
 ### Gmail-specific OAuth Configuration
 
 ```typescript
-import { OAuthClient } from "@/lib/oauth";
+import { OAuthClient } from '@/lib/oauth';
 
 const GMAIL_SCOPES = [
-  "https://www.googleapis.com/auth/gmail.readonly",
-  "https://www.googleapis.com/auth/gmail.metadata",
+  'https://www.googleapis.com/auth/gmail.readonly',
+  'https://www.googleapis.com/auth/gmail.metadata',
 ];
 
 export class GmailOAuthClient extends OAuthClient {
   constructor() {
-    super("google", {
+    super('google', {
       scopes: GMAIL_SCOPES,
       additionalParams: {
-        access_type: "offline",
-        prompt: "consent",
+        access_type: 'offline',
+        prompt: 'consent',
       },
     });
   }
 
   async getGmailClient(userId: string): Promise<gmail_v1.Gmail | null> {
-    const token = await this.tokenManager.getValidToken(userId, "google");
+    const token = await this.tokenManager.getValidToken(userId, 'google');
     if (!token) return null;
 
     const auth = new google.auth.OAuth2();
     auth.setCredentials({ access_token: token });
 
-    return google.gmail({ version: "v1", auth });
+    return google.gmail({ version: 'v1', auth });
   }
 }
 ```

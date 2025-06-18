@@ -2,8 +2,8 @@
 
 ## Description
 
-Create transaction list interface displaying freee transactions with their receipt matching
-status, confidence scores, and filtering capabilities.
+Create transaction list interface displaying freee transactions with their receipt matching status, confidence scores,
+and filtering capabilities.
 
 ## Implementation Details
 
@@ -27,11 +27,11 @@ status, confidence scores, and filtering capabilities.
 
 ```typescript
 type MatchStatus =
-  | "matched_high" // > 80% confidence
-  | "matched_medium" // 50-80% confidence
-  | "matched_low" // < 50% confidence
-  | "unmatched" // No receipt matched
-  | "manual"; // Manually matched
+  | 'matched_high' // > 80% confidence
+  | 'matched_medium' // 50-80% confidence
+  | 'matched_low' // < 50% confidence
+  | 'unmatched' // No receipt matched
+  | 'manual'; // Manually matched
 ```
 
 ## Metadata

@@ -2,9 +2,8 @@
 
 ## Description
 
-Set up comprehensive environment configuration management for the application. This
-includes creating a centralized configuration system, implementing validation with
-Zod, and setting up deployment-specific configurations.
+Set up comprehensive environment configuration management for the application. This includes creating a centralized
+configuration system, implementing validation with Zod, and setting up deployment-specific configurations.
 
 ## Implementation Details
 

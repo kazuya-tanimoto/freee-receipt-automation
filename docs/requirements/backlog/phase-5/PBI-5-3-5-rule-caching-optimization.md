@@ -2,9 +2,8 @@
 
 ## Description
 
-Implement comprehensive caching and performance optimization for rule execution
-including rule result caching, query optimization, batch processing, and
-intelligent prefetching to minimize rule execution latency.
+Implement comprehensive caching and performance optimization for rule execution including rule result caching, query
+optimization, batch processing, and intelligent prefetching to minimize rule execution latency.
 
 ## Implementation Details
 
@@ -29,11 +28,7 @@ intelligent prefetching to minimize rule execution latency.
 ```typescript
 interface RuleCache {
   getCachedResult(cacheKey: string): Promise<CachedRuleResult | null>;
-  setCachedResult(
-    cacheKey: string,
-    result: RuleResult,
-    ttl: number,
-  ): Promise<void>;
+  setCachedResult(cacheKey: string, result: RuleResult, ttl: number): Promise<void>;
   invalidateCache(pattern: string): Promise<void>;
   generateCacheKey(rule: MatchingRule, context: ExecutionContext): string;
 }
@@ -48,12 +43,8 @@ interface CachedRuleResult {
 
 interface PerformanceOptimizer {
   optimizeRuleExecution(rules: MatchingRule[]): OptimizedRuleSet;
-  analyzeRulePerformance(
-    metrics: RulePerformanceMetrics[],
-  ): OptimizationRecommendations;
-  implementOptimizations(
-    recommendations: OptimizationRecommendations,
-  ): Promise<void>;
+  analyzeRulePerformance(metrics: RulePerformanceMetrics[]): OptimizationRecommendations;
+  implementOptimizations(recommendations: OptimizationRecommendations): Promise<void>;
 }
 ```
 
@@ -61,10 +52,7 @@ interface PerformanceOptimizer {
 
 ```typescript
 interface BatchProcessor {
-  processBatch(
-    receipts: Receipt[],
-    rules: MatchingRule[],
-  ): Promise<BatchResult>;
+  processBatch(receipts: Receipt[], rules: MatchingRule[]): Promise<BatchResult>;
   optimizeBatchSize(workload: BatchWorkload): OptimalBatchConfig;
   parallelizeExecution(batch: ExecutionBatch): Promise<ParallelResult[]>;
 }

@@ -2,9 +2,8 @@
 
 ## Description
 
-Implement Server Actions and API layer for collecting user correction data from manual
-matching adjustments. This includes data validation, storage, and basic analytics
-collection mechanisms.
+Implement Server Actions and API layer for collecting user correction data from manual matching adjustments. This
+includes data validation, storage, and basic analytics collection mechanisms.
 
 ## Implementation Details
 
@@ -28,14 +27,9 @@ collection mechanisms.
 
 ```typescript
 // Server Actions
-async function collectCorrection(
-  correctionData: CreateCorrectionData,
-): Promise<UserCorrection>;
+async function collectCorrection(correctionData: CreateCorrectionData): Promise<UserCorrection>;
 
-async function getCorrectionHistory(
-  userId: string,
-  limit?: number,
-): Promise<UserCorrection[]>;
+async function getCorrectionHistory(userId: string, limit?: number): Promise<UserCorrection[]>;
 
 // Collection Service
 interface CorrectionCollector {

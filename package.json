@@ -10,7 +10,7 @@
     "check:docs": "bash scripts/check-docs.sh",
     "check:docs:size": "find docs -name '*.md' -exec sh -c 'size=$(wc -c < \\\"$1\\\"); [ $size -gt 10000 ] && echo \\\"$1: $size bytes (exceeds 10KB)\\\"' _ {} \\\\;",
     "lint:md": "markdownlint-cli2 '**/*.md' '#node_modules' '#docs/standards/bulletproof-react' '#.yarn' '#docs/standards/naming-cheatsheet' '#.container-use'",
-    "format:md": "prettier --write \"**/*.md\""
+    "format:md": "prettier --write '**/*.md' --ignore-path .prettierignore"
   },
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.8.7",

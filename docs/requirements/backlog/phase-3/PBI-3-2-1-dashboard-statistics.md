@@ -2,8 +2,8 @@
 
 ## Description
 
-Create the main dashboard page with key statistics cards showing receipt processing metrics,
-transaction matching rates, and system performance indicators.
+Create the main dashboard page with key statistics cards showing receipt processing metrics, transaction matching rates,
+and system performance indicators.
 
 ## Implementation Details
 
