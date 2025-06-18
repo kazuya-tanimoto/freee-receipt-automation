@@ -43,24 +43,67 @@ jobs:
           
           echo "::endgroup::"
       
+      - name: 🧪 Run Tests
+        id: test-check
+        run: |
+          echo "::group::Test suite execution"
+          
+          # Run comprehensive test suite
+          if yarn test:run; then
+            echo "✅ All tests passed"
+            echo "tests_passed=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Tests failed"
+            echo "tests_passed=false" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+          
+          echo "::endgroup::"
+        env:
+          NODE_ENV: test
+          NEXT_PUBLIC_SUPABASE_URL: http://localhost:54321
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: test-anon-key
+          NEXT_PUBLIC_APP_URL: http://localhost:3000
+          SUPABASE_SERVICE_ROLE_KEY: test-service-role-key
+      
       - name: 📊 Summary
         if: always()
         run: |
-          echo "## 📋 Lint Gate Results" >> $GITHUB_STEP_SUMMARY
+          echo "## 📋 Quality Gate Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           
-          if [ "${{ steps.docs-check.outputs.docs_passed }}" = "true" ]; then
+          docs_passed="${{ steps.docs-check.outputs.docs_passed }}"
+          tests_passed="${{ steps.test-check.outputs.tests_passed }}"
+          
+          if [ "$docs_passed" = "true" ] && [ "$tests_passed" = "true" ]; then
             echo "✅ **All checks passed!**" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "Documentation quality standards met. Ready to merge." >> $GITHUB_STEP_SUMMARY
+            echo "### Status" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ Documentation quality: Passed" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ Test suite: Passed" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Quality standards met. Ready to merge." >> $GITHUB_STEP_SUMMARY
           else
-            echo "❌ **Checks failed!**" >> $GITHUB_STEP_SUMMARY
+            echo "❌ **Quality checks failed!**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Status" >> $GITHUB_STEP_SUMMARY
+            echo "- $([ \"$docs_passed\" = \"true\" ] && echo \"✅\" || echo \"❌\") Documentation quality" >> $GITHUB_STEP_SUMMARY
+            echo "- $([ \"$tests_passed\" = \"true\" ] && echo \"✅\" || echo \"❌\") Test suite" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "### Please fix the following:" >> $GITHUB_STEP_SUMMARY
-            echo "1. Run \`yarn check:docs\` locally" >> $GITHUB_STEP_SUMMARY
-            echo "2. Fix all reported errors" >> $GITHUB_STEP_SUMMARY
-            echo "3. Use \`yarn format:md\` for safe formatting" >> $GITHUB_STEP_SUMMARY
-            echo "4. Commit and push the fixes" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
+            if [ "$docs_passed" != "true" ]; then
+              echo "**Documentation Issues:**" >> $GITHUB_STEP_SUMMARY
+              echo "1. Run \`yarn check:docs\` locally" >> $GITHUB_STEP_SUMMARY
+              echo "2. Fix all reported errors" >> $GITHUB_STEP_SUMMARY
+              echo "3. Use \`yarn format:md\` for safe formatting" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+            fi
+            if [ "$tests_passed" != "true" ]; then
+              echo "**Test Issues:**" >> $GITHUB_STEP_SUMMARY
+              echo "1. Run \`yarn test:run\` locally" >> $GITHUB_STEP_SUMMARY
+              echo "2. Fix all failing tests" >> $GITHUB_STEP_SUMMARY
+              echo "3. Ensure test environment is properly configured" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+            fi
             echo "**Note**: This PR cannot be merged until all checks pass." >> $GITHUB_STEP_SUMMARY
           fi

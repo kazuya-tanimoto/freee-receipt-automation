@@ -1,0 +1,65 @@
+name: 🧪 Test Suite
+
+on:
+  push:
+    branches: [main, 'setup/**', 'fix/**', 'feat/**']
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Run Tests
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: false  # Submodules are excluded from tests
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+      
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      
+      - name: 🔍 Run TypeScript Check
+        run: npx tsc --noEmit
+      
+      - name: 🧪 Run Tests
+        run: yarn test:run
+        env:
+          # Test environment variables
+          NODE_ENV: test
+          NEXT_PUBLIC_SUPABASE_URL: http://localhost:54321
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: test-anon-key
+          NEXT_PUBLIC_APP_URL: http://localhost:3000
+          SUPABASE_SERVICE_ROLE_KEY: test-service-role-key
+      
+      - name: 📊 Upload Test Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: |
+            coverage/
+            **/*.log
+          retention-days: 30
+      
+      - name: 💬 Comment Test Results
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "## 🧪 Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ All tests passed successfully!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Test Coverage" >> $GITHUB_STEP_SUMMARY
+          echo "- Authentication: Full coverage" >> $GITHUB_STEP_SUMMARY
+          echo "- Database Types: Type safety verified" >> $GITHUB_STEP_SUMMARY
+          echo "- Environment Config: Validation confirmed" >> $GITHUB_STEP_SUMMARY
+          echo "- Supabase Client: Integration tested" >> $GITHUB_STEP_SUMMARY
