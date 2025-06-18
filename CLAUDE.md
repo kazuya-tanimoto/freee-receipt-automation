@@ -109,10 +109,25 @@ Success means:
 
 ## Build, Lint, and Test Commands
 
+### Documentation Commands
+
 - Run documentation checks: `yarn check:docs`
 - Run document size check: `yarn check:docs:size`
 - Lint markdown files: `yarn lint:md`
 - Format markdown files: `yarn format:md`
+
+### Test Commands
+
+- Run all tests: `yarn test:run`
+- Watch mode testing: `yarn test:watch`
+- Test with UI: `yarn test:ui`
+- Test coverage: `yarn test:coverage`
+
+### Development Commands
+
+- Start development: `yarn dev`
+- Build production: `yarn build`
+- Start production: `yarn start`
 
 ## Environment and Tool Guidelines
 
@@ -167,3 +182,60 @@ splitting the feature/PBI before splitting the code.
 - Markdown line length: 120 characters max
 - First heading must be level 1
 - Only allow `<kbd>` HTML tags in markdown
+
+## 🧪 Testing Requirements
+
+### Mandatory Testing Standards
+
+**ALL code changes MUST include appropriate tests:**
+
+1. **New Functions/Methods** → Unit tests required
+2. **New Components** → Component tests required  
+3. **API Routes/Endpoints** → Integration tests required
+4. **Bug Fixes** → Regression tests required
+5. **Database Changes** → Type safety tests required
+
+### Test Categories Required
+
+- **Unit Tests**: Individual function/method testing
+- **Integration Tests**: Component interaction testing
+- **Type Tests**: TypeScript interface validation
+- **Mock Tests**: External dependency mocking
+
+### Testing Framework Standards
+
+- **Framework**: Vitest + Testing Library + MSW
+- **Coverage**: Aim for >80% code coverage
+- **Mocking**: Use MSW for API mocking, vi.mock for modules
+- **Environment**: Isolated test environment with mock data
+
+### Test Execution Requirements
+
+**Before ANY commit:**
+
+```bash
+yarn test:run  # Must pass 100%
+```
+
+**During development:**
+
+```bash
+yarn test:watch  # Continuous testing
+```
+
+### CI/CD Integration
+
+- ✅ **ALL PRs require test success**
+- ✅ **Cannot merge with failing tests**
+- ✅ **Automatic test execution on push**
+- ✅ **Test results visible in PR reviews**
+
+### Enforcement
+
+**ABSOLUTE REQUIREMENT**: No code reaches main branch without corresponding tests.
+
+**Violation Consequences**:
+
+1. PR automatically blocked
+2. Must add missing tests before review
+3. No exceptions - quality over speed
