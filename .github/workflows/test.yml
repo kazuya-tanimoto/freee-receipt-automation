@@ -42,7 +42,7 @@ jobs:
       - name: Install dependencies
         run: |
           node .yarn/releases/yarn-4.0.2.cjs --version
-          YARN_ENABLE_HARDENED_MODE=0 node .yarn/releases/yarn-4.0.2.cjs install --immutable
+          YARN_ENABLE_HARDENED_MODE=0 node .yarn/releases/yarn-4.0.2.cjs install --check-cache
       
       - name: 🔍 Run TypeScript Check
         run: npx tsc --noEmit
