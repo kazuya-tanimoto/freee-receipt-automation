@@ -30,6 +30,16 @@ jobs:
       - name: Setup Yarn
         run: corepack prepare yarn@4.0.2 --activate
       
+      - name: Cache Yarn
+        uses: actions/cache@v3
+        with:
+          path: |
+            .yarn/cache
+            .yarn/unplugged
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      
       - name: Install dependencies
         run: |
           yarn --version
