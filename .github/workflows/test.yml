@@ -31,7 +31,11 @@ jobs:
         run: corepack prepare yarn@4.0.2 --activate
       
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: |
+          yarn --version
+          yarn install --immutable
+        env:
+          YARN_ENABLE_IMMUTABLE_INSTALLS: false
       
       - name: 🔍 Run TypeScript Check
         run: npx tsc --noEmit
