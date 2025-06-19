@@ -19,36 +19,23 @@ jobs:
           fetch-depth: 0
           submodules: false  # Submodules are excluded from tests
       
+      - name: Enable Corepack
+        run: corepack enable
+        
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          
-      - name: Setup Yarn from committed binary
-        run: |
-          node .yarn/releases/yarn-4.0.2.cjs --version
-          echo "Using committed Yarn binary"
-      
-      - name: Cache Yarn
-        uses: actions/cache@v3
-        with:
-          path: |
-            .yarn/cache
-            .yarn/unplugged
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          cache: 'yarn'
       
       - name: Install dependencies
-        run: |
-          node .yarn/releases/yarn-4.0.2.cjs --version
-          YARN_ENABLE_HARDENED_MODE=0 node .yarn/releases/yarn-4.0.2.cjs install --check-cache
+        run: yarn install --frozen-lockfile
       
       - name: 🔍 Run TypeScript Check
         run: npx tsc --noEmit
       
       - name: 🧪 Run Tests
-        run: node .yarn/releases/yarn-4.0.2.cjs test:run
+        run: yarn test:run
         env:
           # Test environment variables
           NODE_ENV: test

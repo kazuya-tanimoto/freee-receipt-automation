@@ -17,30 +17,17 @@ jobs:
           fetch-depth: 0
           submodules: false  # Submodules are excluded from lint
       
+      - name: Enable Corepack
+        run: corepack enable
+        
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          
-      - name: Setup Yarn from committed binary
-        run: |
-          node .yarn/releases/yarn-4.0.2.cjs --version
-          echo "Using committed Yarn binary"
-      
-      - name: Cache Yarn
-        uses: actions/cache@v3
-        with:
-          path: |
-            .yarn/cache
-            .yarn/unplugged
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          cache: 'yarn'
       
       - name: Install dependencies
-        run: |
-          node .yarn/releases/yarn-4.0.2.cjs --version
-          YARN_ENABLE_HARDENED_MODE=0 node .yarn/releases/yarn-4.0.2.cjs install --check-cache
+        run: yarn install --frozen-lockfile
       
       - name: 🔍 Run Documentation Checks
         id: docs-check
@@ -48,7 +35,7 @@ jobs:
           echo "::group::Documentation quality check"
           
           # Run comprehensive documentation check
-          if node .yarn/releases/yarn-4.0.2.cjs check:docs; then
+          if yarn check:docs; then
             echo "✅ All documentation checks passed"
             echo "docs_passed=true" >> $GITHUB_OUTPUT
           else
@@ -65,7 +52,7 @@ jobs:
           echo "::group::Test suite execution"
           
           # Run comprehensive test suite
-          if node .yarn/releases/yarn-4.0.2.cjs test:run; then
+          if yarn test:run; then
             echo "✅ All tests passed"
             echo "tests_passed=true" >> $GITHUB_OUTPUT
           else
