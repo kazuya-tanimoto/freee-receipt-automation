@@ -40,7 +40,7 @@ jobs:
       - name: Install dependencies
         run: |
           node .yarn/releases/yarn-4.0.2.cjs --version
-          node .yarn/releases/yarn-4.0.2.cjs install --immutable
+          YARN_ENABLE_HARDENED_MODE=0 node .yarn/releases/yarn-4.0.2.cjs install --immutable
       
       - name: 🔍 Run Documentation Checks
         id: docs-check
