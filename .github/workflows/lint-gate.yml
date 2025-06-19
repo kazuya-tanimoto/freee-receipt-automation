@@ -41,7 +41,7 @@ jobs:
       - name: Install dependencies
         run: |
           yarn --version
-          yarn install
+          yarn install --immutable
       
       - name: 🔍 Run Documentation Checks
         id: docs-check
