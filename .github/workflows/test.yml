@@ -24,11 +24,10 @@ jobs:
         with:
           node-version: '18'
           
-      - name: Enable Corepack
-        run: corepack enable
-        
-      - name: Setup Yarn
-        run: corepack prepare yarn@4.0.2 --activate
+      - name: Setup Yarn from committed binary
+        run: |
+          node .yarn/releases/yarn-4.0.2.cjs --version
+          echo "Using committed Yarn binary"
       
       - name: Cache Yarn
         uses: actions/cache@v3
@@ -49,7 +48,7 @@ jobs:
         run: npx tsc --noEmit
       
       - name: 🧪 Run Tests
-        run: yarn test:run
+        run: node .yarn/releases/yarn-4.0.2.cjs test:run
         env:
           # Test environment variables
           NODE_ENV: test

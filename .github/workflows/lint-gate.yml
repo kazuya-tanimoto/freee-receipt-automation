@@ -22,11 +22,10 @@ jobs:
         with:
           node-version: '18'
           
-      - name: Enable Corepack
-        run: corepack enable
-        
-      - name: Setup Yarn
-        run: corepack prepare yarn@4.0.2 --activate
+      - name: Setup Yarn from committed binary
+        run: |
+          node .yarn/releases/yarn-4.0.2.cjs --version
+          echo "Using committed Yarn binary"
       
       - name: Cache Yarn
         uses: actions/cache@v3
@@ -40,8 +39,8 @@ jobs:
       
       - name: Install dependencies
         run: |
-          yarn --version
-          yarn install --immutable
+          node .yarn/releases/yarn-4.0.2.cjs --version
+          node .yarn/releases/yarn-4.0.2.cjs install --immutable
       
       - name: 🔍 Run Documentation Checks
         id: docs-check
@@ -49,7 +48,7 @@ jobs:
           echo "::group::Documentation quality check"
           
           # Run comprehensive documentation check
-          if yarn check:docs; then
+          if node .yarn/releases/yarn-4.0.2.cjs check:docs; then
             echo "✅ All documentation checks passed"
             echo "docs_passed=true" >> $GITHUB_OUTPUT
           else
@@ -66,7 +65,7 @@ jobs:
           echo "::group::Test suite execution"
           
           # Run comprehensive test suite
-          if yarn test:run; then
+          if node .yarn/releases/yarn-4.0.2.cjs test:run; then
             echo "✅ All tests passed"
             echo "tests_passed=true" >> $GITHUB_OUTPUT
           else
