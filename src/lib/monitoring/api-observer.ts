@@ -471,7 +471,8 @@ export class MetricsCollector {
     const now = new Date();
     const oneMinuteAgo = new Date(now.getTime() - 60000);
     
-    for (const [key, metrics] of this.metrics.entries()) {
+    const metricsArray = Array.from(this.metrics.entries());
+    for (const [key, metrics] of metricsArray) {
       // Calculate requests per second
       const timeWindowMs = now.getTime() - new Date(metrics.timeWindow.start).getTime();
       metrics.requestsPerSecond = (metrics.requestCount / (timeWindowMs / 1000));
@@ -509,7 +510,8 @@ export class MetricsCollector {
    * Evaluate error rate alerts
    */
   private evaluateErrorRateAlerts(rule: AlertRule): void {
-    for (const [key, metrics] of this.metrics.entries()) {
+    const metricsArray = Array.from(this.metrics.entries());
+    for (const [key, metrics] of metricsArray) {
       if (metrics.errorRate > rule.threshold) {
         this.createAlert(rule, {
           endpoint: metrics.endpoint,
@@ -525,7 +527,8 @@ export class MetricsCollector {
    * Evaluate response time alerts
    */
   private evaluateResponseTimeAlerts(rule: AlertRule): void {
-    for (const [key, metrics] of this.metrics.entries()) {
+    const metricsArray = Array.from(this.metrics.entries());
+    for (const [key, metrics] of metricsArray) {
       if (metrics.p95ResponseTime > rule.threshold) {
         this.createAlert(rule, {
           endpoint: metrics.endpoint,
@@ -541,7 +544,8 @@ export class MetricsCollector {
    * Evaluate rate limit alerts
    */
   private evaluateRateLimitAlerts(rule: AlertRule): void {
-    for (const [key, metrics] of this.rateLimits.entries()) {
+    const rateLimitsArray = Array.from(this.rateLimits.entries());
+    for (const [key, metrics] of rateLimitsArray) {
       const usage = (metrics.currentCount / metrics.limit) * 100;
       if (usage > rule.threshold) {
         this.createAlert(rule, {
@@ -558,7 +562,8 @@ export class MetricsCollector {
    * Evaluate quota alerts
    */
   private evaluateQuotaAlerts(rule: AlertRule): void {
-    for (const [key, metrics] of this.externalApis.entries()) {
+    const externalApisArray = Array.from(this.externalApis.entries());
+    for (const [key, metrics] of externalApisArray) {
       if (metrics.quotaUsage && metrics.quotaUsage.percentage > rule.threshold) {
         this.createAlert(rule, {
           service: metrics.service,
