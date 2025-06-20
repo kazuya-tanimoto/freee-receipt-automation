@@ -268,7 +268,10 @@ export type OAuthErrorCode =
   | 'temporarily_unavailable'
   | 'invalid_grant'
   | 'invalid_client'
-  | 'unsupported_grant_type';
+  | 'unsupported_grant_type'
+  | 'invalid_token'
+  | 'insufficient_scope'
+  | 'token_expired';
 
 /**
  * OAuth exception class
