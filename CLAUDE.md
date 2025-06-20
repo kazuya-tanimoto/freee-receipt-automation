@@ -121,16 +121,19 @@ Success means:
 ### Rule Details
 
 1. **Required Commands**:
+
    - TypeScript: `npx tsc --noEmit`
    - Tests: `npm run test`
    - Documentation: `yarn check:docs`
 
 2. **Reporting Obligation**:
+
    - **No report = Self-check not performed**
    - Execute all 3 items and report results
    - Continue work until all errors are fixed
 
 3. **Completion Criteria**:
+
    - Do not report "work complete" until all 3 items show ✅
    - Re-run self-check after fixing errors
 

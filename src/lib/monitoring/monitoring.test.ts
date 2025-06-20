@@ -395,7 +395,7 @@ describe('HealthCheckMonitor', () => {
 
       monitor.registerCheck('external-service', failingCheck);
 
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise(resolve => setTimeout(resolve, 10));
 
       const systemHealth = monitor.getSystemHealth();
       const externalCheck = systemHealth.checks.find(c => c.name === 'external-service');

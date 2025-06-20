@@ -4,7 +4,9 @@ This document describes the OAuth2.0 authentication flows implemented for Gmail 
 
 ## Overview
 
-The freee Receipt Automation system uses **OAuth2.0 Authorization Code flow with PKCE (Proof Key for Code Exchange)** for secure authentication with Google services. This approach provides enhanced security for public clients and single-page applications.
+The freee Receipt Automation system uses **OAuth2.0 Authorization Code flow with PKCE (Proof Key for Code Exchange)**
+for secure authentication with Google services. This approach provides enhanced security for public clients and
+single-page applications.
 
 ## Security Architecture
 
@@ -42,14 +44,14 @@ sequenceDiagram
     App->>DB: Store PKCE parameters temporarily
     App->>Auth: Redirect to authorization URL
     Note over Auth: with client_id, redirect_uri, code_challenge, state, scopes
-    
+
     User->>Auth: Grant permissions
     Auth->>App: Redirect with authorization code & state
     App->>App: Verify state parameter
     App->>DB: Retrieve code_verifier
     App->>Auth: Exchange code for tokens
     Note over Auth: with code, code_verifier, client_id, redirect_uri
-    
+
     Auth->>App: Return access_token & refresh_token
     App->>DB: Store encrypted tokens in user_metadata
     App->>API: Make API calls with access_token
@@ -83,6 +85,7 @@ sequenceDiagram
 **Endpoint**: `/api/auth/oauth/initiate`
 
 **Parameters**:
+
 - `client_id`: Google OAuth client ID
 - `redirect_uri`: Application callback URL
 - `response_type`: Always `code`
@@ -94,7 +97,8 @@ sequenceDiagram
 - `prompt`: `consent` to ensure refresh token
 
 **Example Authorization URL**:
-```
+
+```url
 https://accounts.google.com/o/oauth2/v2/auth?
   client_id=123456789.apps.googleusercontent.com&
   redirect_uri=https://app.example.com/auth/callback&
@@ -112,6 +116,7 @@ https://accounts.google.com/o/oauth2/v2/auth?
 **Endpoint**: `/api/auth/oauth/callback`
 
 **Request Body**:
+
 ```json
 {
   "code": "4/0AX4XfWjYZ...",
@@ -122,6 +127,7 @@ https://accounts.google.com/o/oauth2/v2/auth?
 ```
 
 **Token Request to Google**:
+
 ```json
 {
   "client_id": "123456789.apps.googleusercontent.com",
@@ -152,13 +158,16 @@ Tokens are stored encrypted in Supabase `auth.users.user_metadata`:
 ## Required Scopes
 
 ### Gmail Integration
+
 - `https://www.googleapis.com/auth/gmail.readonly`
   - Read Gmail messages and attachments
   - Search for emails with attachments
   - Download receipt attachments
 
 ### Drive Integration
+
 - `https://www.googleapis.com/auth/drive.file`
+
   - Create, read, update, and delete files created by the app
   - Upload processed receipts
   - Manage receipt file permissions
@@ -176,9 +185,7 @@ Tokens are stored encrypted in Supabase `auth.users.user_metadata`:
 const codeVerifier = base64URLEncode(crypto.randomBytes(32));
 
 // Generate code challenge
-const codeChallenge = base64URLEncode(
-  crypto.createHash('sha256').update(codeVerifier).digest()
-);
+const codeChallenge = base64URLEncode(crypto.createHash('sha256').update(codeVerifier).digest());
 ```
 
 ### 2. State Parameter Validation
@@ -205,7 +212,7 @@ const encryptedTokens = await encrypt(tokens, process.env.ENCRYPTION_KEY);
 
 // Store in Supabase user metadata
 await supabase.auth.updateUser({
-  data: { google_oauth: encryptedTokens }
+  data: { google_oauth: encryptedTokens },
 });
 ```
 
@@ -223,12 +230,14 @@ if (isTokenExpired(accessToken)) {
 ## Rate Limiting & Quotas
 
 ### Gmail API Quotas
+
 - **Daily Quota**: 1,000,000,000 quota units
 - **Per User Rate Limit**: 250 quota units per user per 100 seconds
 - **Batch Requests**: Recommended for bulk operations
 
 ### Drive API Quotas
-- **Daily Quota**: 10,000,000,000 quota units  
+
+- **Daily Quota**: 10,000,000,000 quota units
 - **Per User Rate Limit**: 1,000 requests per 100 seconds per user
 - **Upload Size Limit**: 5TB per file
 
@@ -243,36 +252,39 @@ if (isTokenExpired(accessToken)) {
 
 ### Common OAuth Errors
 
-| Error Code | Description | Resolution |
-|------------|-------------|------------|
-| `invalid_request` | Invalid authorization request | Validate all required parameters |
-| `unauthorized_client` | Client not authorized | Check client credentials |
-| `access_denied` | User denied access | Request user to grant permissions |
-| `invalid_grant` | Invalid authorization code | Ensure code is not expired/reused |
-| `invalid_scope` | Requested scope invalid | Use only supported scopes |
+| Error Code            | Description                   | Resolution                        |
+| --------------------- | ----------------------------- | --------------------------------- |
+| `invalid_request`     | Invalid authorization request | Validate all required parameters  |
+| `unauthorized_client` | Client not authorized         | Check client credentials          |
+| `access_denied`       | User denied access            | Request user to grant permissions |
+| `invalid_grant`       | Invalid authorization code    | Ensure code is not expired/reused |
+| `invalid_scope`       | Requested scope invalid       | Use only supported scopes         |
 
 ### Token Refresh Errors
 
-| Error Code | Description | Resolution |
-|------------|-------------|------------|
-| `invalid_grant` | Refresh token invalid/expired | Re-authenticate user |
-| `unauthorized_client` | Client credentials invalid | Check client configuration |
+| Error Code            | Description                   | Resolution                 |
+| --------------------- | ----------------------------- | -------------------------- |
+| `invalid_grant`       | Refresh token invalid/expired | Re-authenticate user       |
+| `unauthorized_client` | Client credentials invalid    | Check client configuration |
 
 ## Testing Strategy
 
 ### 1. Unit Tests
+
 - PKCE parameter generation
 - State parameter validation
 - Token encryption/decryption
 - Error handling scenarios
 
 ### 2. Integration Tests
+
 - Complete OAuth flow simulation
 - Token refresh functionality
 - API calls with tokens
 - Error recovery mechanisms
 
 ### 3. Security Tests
+
 - CSRF attack prevention
 - Token storage security
 - Authorization code interception
@@ -281,12 +293,14 @@ if (isTokenExpired(accessToken)) {
 ## Compliance & Standards
 
 ### OAuth2.0 Standards
+
 - **RFC 6749**: OAuth 2.0 Authorization Framework
 - **RFC 7636**: PKCE Extension
 - **RFC 6750**: Bearer Token Usage
 - **RFC 7662**: Token Introspection
 
 ### Google API Guidelines
+
 - [Google OAuth2.0 Documentation](https://developers.google.com/identity/protocols/oauth2)
 - [Gmail API Authentication](https://developers.google.com/gmail/api/auth/web-server)
 - [Drive API Authentication](https://developers.google.com/drive/api/v3/about-auth)
@@ -294,18 +308,21 @@ if (isTokenExpired(accessToken)) {
 ## Monitoring & Observability
 
 ### Key Metrics
+
 - OAuth flow success/failure rates
 - Token refresh frequency
 - API call latency and error rates
 - Rate limit threshold approaches
 
 ### Logging Requirements
+
 - All OAuth requests (without sensitive data)
 - Token refresh events
 - API call failures
 - Security incidents (invalid state, expired tokens)
 
 ### Alerting
+
 - High OAuth failure rates
 - Token refresh failures
 - Rate limit threshold exceeded

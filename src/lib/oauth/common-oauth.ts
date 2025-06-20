@@ -505,9 +505,16 @@ export class OAuthManager {
 // ============================================================================
 
 /**
- * Singleton OAuth manager instance
+ * Singleton OAuth manager instance (lazy initialization)
  */
-export const oauthManager = new OAuthManager();
+let _oauthManager: OAuthManager | null = null;
+
+export const getOAuthManager = (): OAuthManager => {
+  if (!_oauthManager) {
+    _oauthManager = new OAuthManager();
+  }
+  return _oauthManager;
+};
 
 // ============================================================================
 // Convenience Functions
@@ -520,7 +527,7 @@ export async function initiateOAuth(
   userId: string,
   request: OAuthInitiateRequest
 ): Promise<OAuthInitiateResponse> {
-  return oauthManager.initiateOAuth(userId, request);
+  return getOAuthManager().initiateOAuth(userId, request);
 }
 
 /**
@@ -531,7 +538,7 @@ export async function handleOAuthCallback(
   provider: OAuthProvider,
   request: OAuthCallbackRequest
 ): Promise<OAuthTokenResponse> {
-  return oauthManager.handleOAuthCallback(userId, provider, request);
+  return getOAuthManager().handleOAuthCallback(userId, provider, request);
 }
 
 /**
@@ -541,7 +548,7 @@ export async function getValidAccessToken(
   userId: string,
   provider: OAuthProvider
 ): Promise<string> {
-  return oauthManager.getValidAccessToken(userId, provider);
+  return getOAuthManager().getValidAccessToken(userId, provider);
 }
 
 /**
@@ -552,7 +559,7 @@ export async function refreshToken(
   provider: OAuthProvider,
   request?: OAuthRefreshRequest
 ): Promise<OAuthTokenResponse> {
-  return oauthManager.refreshToken(userId, provider, request);
+  return getOAuthManager().refreshToken(userId, provider, request);
 }
 
 /**
@@ -562,7 +569,7 @@ export async function revokeTokens(
   userId: string,
   provider: OAuthProvider
 ): Promise<void> {
-  return oauthManager.revokeTokens(userId, provider);
+  return getOAuthManager().revokeTokens(userId, provider);
 }
 
 /**
@@ -572,5 +579,5 @@ export async function hasValidTokens(
   userId: string,
   provider: OAuthProvider
 ): Promise<boolean> {
-  return oauthManager.hasValidTokens(userId, provider);
+  return getOAuthManager().hasValidTokens(userId, provider);
 }

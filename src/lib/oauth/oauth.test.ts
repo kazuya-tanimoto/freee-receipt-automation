@@ -11,10 +11,12 @@ import { GoogleOAuthProvider } from './providers/google-oauth-provider';
 import { OAuthException } from './types';
 import type {
   OAuthInitiateRequest,
+  OAuthInitiateResponse,
   OAuthCallbackRequest,
   OAuthTokenResponse,
   OAuthUserInfo
 } from './types';
+import { isOAuthError, isOAuthTokenResponse, isValidOAuthProvider } from './types';
 
 // ============================================================================
 // Test Setup and Mocks
@@ -33,26 +35,30 @@ vi.mock('@supabase/supabase-js', () => ({
 }));
 
 // Mock crypto for deterministic tests
-vi.mock('crypto', () => ({
-  randomBytes: vi.fn((size: number) => Buffer.alloc(size, 'a')),
-  createHash: vi.fn(() => ({
-    update: vi.fn().mockReturnThis(),
-    digest: vi.fn(() => Buffer.from('mocked-hash'))
-  })),
-  createCipher: vi.fn(() => ({
-    setAAD: vi.fn(),
-    update: vi.fn(() => 'encrypted'),
-    final: vi.fn(() => ''),
-    getAuthTag: vi.fn(() => Buffer.from('tag'))
-  })),
-  createDecipher: vi.fn(() => ({
-    setAAD: vi.fn(),
-    setAuthTag: vi.fn(),
-    update: vi.fn(() => 'decrypted'),
-    final: vi.fn(() => '')
-  })),
-  scryptSync: vi.fn(() => Buffer.alloc(32))
-}));
+vi.mock('crypto', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('crypto')>();
+  return {
+    ...actual,
+    randomBytes: vi.fn((size: number) => Buffer.alloc(size, 'a')),
+    createHash: vi.fn(() => ({
+      update: vi.fn().mockReturnThis(),
+      digest: vi.fn(() => Buffer.from('mocked-hash'))
+    })),
+    createCipher: vi.fn(() => ({
+      setAAD: vi.fn(),
+      update: vi.fn(() => 'encrypted'),
+      final: vi.fn(() => ''),
+      getAuthTag: vi.fn(() => Buffer.from('tag'))
+    })),
+    createDecipher: vi.fn(() => ({
+      setAAD: vi.fn(),
+      setAuthTag: vi.fn(),
+      update: vi.fn(() => 'decrypted'),
+      final: vi.fn(() => '')
+    })),
+    scryptSync: vi.fn(() => Buffer.alloc(32))
+  };
+});
 
 // Mock fetch
 global.fetch = vi.fn();
@@ -69,6 +75,9 @@ beforeEach(() => {
     OAUTH_ENCRYPTION_KEY: 'test-encryption-key',
     NEXT_PUBLIC_APP_URL: 'https://test.example.com'
   };
+  // Reset fetch mock
+  vi.clearAllMocks();
+  global.fetch = vi.fn() as any;
 });
 
 afterEach(() => {
@@ -85,16 +94,6 @@ describe('OAuthManager (without auto-initialization)', () => {
 
   describe('OAuth Flow Initiation', () => {
     it('should generate PKCE parameters correctly', () => {
-      // Test PKCE parameter generation logic directly
-      const crypto = require('crypto');
-      
-      // Mock the random generation
-      crypto.randomBytes.mockReturnValue(Buffer.alloc(64, 'a'));
-      crypto.createHash.mockReturnValue({
-        update: vi.fn().mockReturnThis(),
-        digest: vi.fn(() => Buffer.from('mocked-challenge'))
-      });
-
       // Create manager manually to avoid initialization issues
       const manager = new OAuthManager();
       
@@ -233,9 +232,9 @@ describe('GoogleOAuthProvider', () => {
 
       expect(url).toContain('accounts.google.com/o/oauth2/v2/auth');
       expect(url).toContain('client_id=test-client-id');
-      expect(url).toContain('redirect_uri=https%3A//example.com/callback');
+      expect(url).toContain('redirect_uri=https%3A%2F%2Fexample.com%2Fcallback');
       expect(url).toContain('response_type=code');
-      expect(url).toContain('scope=https%3A//www.googleapis.com/auth/gmail.readonly');
+      expect(url).toContain('scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.readonly');
       expect(url).toContain('state=test-state');
       expect(url).toContain('code_challenge=test-challenge');
       expect(url).toContain('code_challenge_method=S256');
@@ -427,8 +426,6 @@ describe('GoogleOAuthProvider', () => {
 
 describe('Type Guards', () => {
   it('should identify OAuth errors correctly', () => {
-    const { isOAuthError } = require('./types');
-    
     expect(isOAuthError({ error: 'invalid_grant' })).toBe(true);
     expect(isOAuthError({ error: 'test', description: 'desc' })).toBe(true);
     expect(isOAuthError({ message: 'error' })).toBe(false);
@@ -437,8 +434,6 @@ describe('Type Guards', () => {
   });
 
   it('should identify OAuth token responses correctly', () => {
-    const { isOAuthTokenResponse } = require('./types');
-    
     const validToken = {
       accessToken: 'token',
       expiresIn: 3600,
@@ -451,8 +446,6 @@ describe('Type Guards', () => {
   });
 
   it('should validate OAuth providers correctly', () => {
-    const { isValidOAuthProvider } = require('./types');
-    
     expect(isValidOAuthProvider('google')).toBe(true);
     expect(isValidOAuthProvider('facebook')).toBe(false);
     expect(isValidOAuthProvider('')).toBe(false);

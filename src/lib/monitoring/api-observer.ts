@@ -683,21 +683,31 @@ export class HealthCheckMonitor {
    * Register health check
    */
   registerCheck(name: string, checkFn: () => Promise<HealthCheck>): void {
+    // Execute immediately on registration
+    this.executeHealthCheck(name, checkFn);
+    
     // Store check function for periodic execution
     setInterval(async () => {
-      try {
-        const result = await checkFn();
-        this.checks.set(name, result);
-      } catch (error) {
-        this.checks.set(name, {
-          name,
-          status: 'unhealthy',
-          message: error instanceof Error ? error.message : 'Health check failed',
-          duration: 0,
-          timestamp: new Date().toISOString()
-        });
-      }
+      await this.executeHealthCheck(name, checkFn);
     }, 30000); // Run every 30 seconds
+  }
+
+  /**
+   * Execute health check
+   */
+  private async executeHealthCheck(name: string, checkFn: () => Promise<HealthCheck>): Promise<void> {
+    try {
+      const result = await checkFn();
+      this.checks.set(name, result);
+    } catch (error) {
+      this.checks.set(name, {
+        name,
+        status: 'unhealthy',
+        message: error instanceof Error ? error.message : 'Health check failed',
+        duration: 0,
+        timestamp: new Date().toISOString()
+      });
+    }
   }
 
   /**
