@@ -7,7 +7,7 @@
 
 import { createClient } from '@supabase/supabase-js';
 import crypto from 'crypto';
-import type {
+import {
   IOAuthProvider,
   OAuthProvider,
   OAuthInitiateRequest,
@@ -86,11 +86,17 @@ export class OAuthManager {
    */
   private cleanupExpiredPKCE(): void {
     const now = new Date();
+    const entriesToDelete: string[] = [];
+    
     for (const [key, params] of this.pkceStorage.entries()) {
       if (params.expiresAt < now) {
-        this.pkceStorage.delete(key);
+        entriesToDelete.push(key);
       }
     }
+    
+    entriesToDelete.forEach(key => {
+      this.pkceStorage.delete(key);
+    });
   }
 
   // ============================================================================
