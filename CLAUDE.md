@@ -107,6 +107,38 @@ Success means:
 
 "It works" or "quick commit" is FAILURE
 
+## 📋 Self-Check Reporting Rules
+
+**MANDATORY**: Include this format in all work completion reports
+
+```text
+## ✅ Self-Check Results
+- TypeScript: ✅ 0 errors / ❌ X errors
+- Tests: ✅ All passed (coverage: X% - target: 80%) / ❌ X failed
+- Documentation: ✅ 0 errors / ❌ X errors
+```
+
+### Rule Details
+
+1. **Required Commands**:
+   - TypeScript: `npx tsc --noEmit`
+   - Tests: `npm run test`
+   - Documentation: `yarn check:docs`
+
+2. **Reporting Obligation**:
+   - **No report = Self-check not performed**
+   - Execute all 3 items and report results
+   - Continue work until all errors are fixed
+
+3. **Completion Criteria**:
+   - Do not report "work complete" until all 3 items show ✅
+   - Re-run self-check after fixing errors
+
+4. **Transparency Assurance**:
+   - Quality status visualization
+   - Reduced human verification workload
+   - Consistent quality standards maintenance
+
 ## Build, Lint, and Test Commands
 
 ### Documentation Commands
@@ -183,31 +215,66 @@ splitting the feature/PBI before splitting the code.
 - First heading must be level 1
 - Only allow `<kbd>` HTML tags in markdown
 
-## 🧪 Testing Requirements
+## 🧪 Testing Strategy
+
+### Test Architecture: Unit + E2E
+
+This project follows a **two-tier testing strategy** optimized for individual development with AI assistance:
+
+#### **Unit Tests** - Function/Component Level
+
+- **Location**: Co-located with source files (`src/lib/auth.ts` → `src/lib/auth.test.ts`)
+- **Scope**: Individual functions, components, utilities in isolation
+- **Framework**: Vitest + Testing Library
+- **Coverage**: Business logic, edge cases, error handling
+
+#### **E2E Tests** - Complete User Workflows
+
+- **Location**: Dedicated `e2e/` directory
+- **Scope**: Full application workflows from user perspective
+- **Framework**: Playwright
+- **Coverage**: Critical user journeys, integration points
+
+#### **Rationale for Unit + E2E Strategy**
+
+- **Project Scale**: Small-to-medium individual automation system
+- **Development Model**: AI-assisted development requires simple, maintainable test structure
+- **External Dependencies**: Heavy reliance on external APIs (Supabase, freee, OCR) makes integration testing less
+  valuable
+- **Quality vs Efficiency**: Appropriate quality assurance without over-engineering
 
 ### Mandatory Testing Standards
 
 **ALL code changes MUST include appropriate tests:**
 
 1. **New Functions/Methods** → Unit tests required
-2. **New Components** → Component tests required  
-3. **API Routes/Endpoints** → Integration tests required
-4. **Bug Fixes** → Regression tests required
-5. **Database Changes** → Type safety tests required
+2. **New Components** → Unit tests required
+3. **API Routes/Endpoints** → Unit tests + E2E coverage
+4. **Bug Fixes** → Unit tests for regression prevention
+5. **Database Changes** → Unit tests for type safety
 
-### Test Categories Required
+### Testing Guidelines
 
-- **Unit Tests**: Individual function/method testing
-- **Integration Tests**: Component interaction testing
-- **Type Tests**: TypeScript interface validation
-- **Mock Tests**: External dependency mocking
+#### **Unit Testing Best Practices**
+
+- **Co-location**: Place test files next to source files
+- **Naming**: `filename.test.ts` convention
+- **Mocking**: Use MSW for API calls, vi.mock for modules
+- **Coverage**: Focus on critical business logic, not percentage targets
+
+#### **E2E Testing Best Practices**
+
+- **Real Environment**: Test against actual external services when possible
+- **User Perspective**: Write tests from user's point of view
+- **Critical Paths**: Focus on essential user workflows
+- **Playwright Config**: Use standard Playwright setup
 
 ### Testing Framework Standards
 
-- **Framework**: Vitest + Testing Library + MSW
-- **Coverage**: Aim for >80% code coverage
-- **Mocking**: Use MSW for API mocking, vi.mock for modules
-- **Environment**: Isolated test environment with mock data
+- **Unit Framework**: Vitest + Testing Library + MSW
+- **E2E Framework**: Playwright
+- **File Organization**: Co-located unit tests, dedicated E2E directory
+- **Environment**: Isolated test environment with realistic mock data
 
 ### Test Execution Requirements
 

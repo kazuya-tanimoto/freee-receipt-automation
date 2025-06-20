@@ -17,11 +17,11 @@ vi.mock('@/lib/supabase/client', () => ({
 
 describe('Auth Functions', () => {
   // Import after mocking
-  let authModule: typeof import('../index')
+  let authModule: typeof import('./index')
 
   beforeEach(async () => {
     vi.clearAllMocks()
-    authModule = await import('../index')
+    authModule = await import('./index')
   })
 
   describe('signUp', () => {

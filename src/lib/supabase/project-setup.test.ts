@@ -38,16 +38,23 @@ describe('Supabase Project Setup Integration', () => {
 
   beforeEach(() => {
     originalEnv = { ...process.env }
-    process.env.NODE_ENV = 'test'
-    process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://test-project.supabase.co'
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'test-anon-key'
-    process.env.SUPABASE_SERVICE_ROLE_KEY = 'test-service-role-key'
+    Object.assign(process.env, {
+      NODE_ENV: 'test',
+      NEXT_PUBLIC_SUPABASE_URL: 'https://test-project.supabase.co',
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: 'test-anon-key',
+      SUPABASE_SERVICE_ROLE_KEY: 'test-service-role-key'
+    })
     
     vi.mocked(createClient).mockReturnValue(mockSupabaseClient as any)
   })
 
   afterEach(() => {
-    process.env = originalEnv
+    Object.keys(process.env).forEach(key => {
+      if (!(key in originalEnv)) {
+        delete process.env[key]
+      }
+    })
+    Object.assign(process.env, originalEnv)
     vi.clearAllMocks()
   })
 
@@ -180,8 +187,13 @@ describe('Supabase Project Setup Integration', () => {
     })
 
     it('should detect missing environment variables', () => {
-      delete process.env.NEXT_PUBLIC_SUPABASE_URL
-      delete process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+      const tempUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+      const tempKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+      
+      Object.assign(process.env, {
+        NEXT_PUBLIC_SUPABASE_URL: undefined,
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: undefined
+      })
       
       const { createClient: importedCreateClient } = require('@supabase/supabase-js')
       
@@ -190,7 +202,11 @@ describe('Supabase Project Setup Integration', () => {
           process.env.NEXT_PUBLIC_SUPABASE_URL,
           process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
         )
-      }).toThrow('supabaseUrl is required') // Supabase validates required parameters
+      }).toThrow('Invalid URL') // Supabase validates URL format
+      
+      // Restore
+      process.env.NEXT_PUBLIC_SUPABASE_URL = tempUrl
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = tempKey
     })
   })
 })

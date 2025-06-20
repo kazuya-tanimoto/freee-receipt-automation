@@ -357,7 +357,7 @@ describe('Environment Configuration Management Tests', () => {
 
         // Client config should be subset of server config
         Object.keys(clientConfig).forEach(key => {
-          expect(serverConfig[key]).toBe(clientConfig[key])
+          expect(serverConfig[key as keyof typeof serverConfig]).toBe(clientConfig[key as keyof typeof clientConfig])
         })
 
         // Server config should have additional keys

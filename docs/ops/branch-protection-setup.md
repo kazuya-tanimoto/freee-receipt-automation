@@ -2,7 +2,8 @@
 
 ## Overview
 
-This document provides instructions for setting up GitHub branch protection rules to enforce quality gates for the main branch.
+This document provides instructions for setting up GitHub branch protection rules to enforce quality gates for the main
+branch.
 
 ## Required Branch Protection Rules
 
@@ -13,11 +14,13 @@ Navigate to: `Settings > Branches > Add rule` for branch `main`
 #### Basic Settings
 
 - ✅ **Require a pull request before merging**
+
   - ✅ Require approvals: `1`
   - ✅ Dismiss stale PR approvals when new commits are pushed
   - ✅ Require review from code owners (if CODEOWNERS file exists)
 
 - ✅ **Require status checks to pass before merging**
+
   - ✅ Require branches to be up to date before merging
   - **Required status checks:**
     - `lint-gate / Documentation Quality Check`
@@ -44,6 +47,7 @@ Navigate to: `Settings > Branches > Add rule` for branch `main`
 The following GitHub Actions workflows must complete successfully:
 
 1. **Quality Gate** (`.github/workflows/lint-gate.yml`)
+
    - Documentation checks
    - Test suite execution
    - TypeScript compilation

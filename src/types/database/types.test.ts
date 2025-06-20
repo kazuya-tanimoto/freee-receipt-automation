@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import type { UserSettings, Receipt, ReceiptStatus } from '../core'
-import type { Transaction, ProcessingLog, MatchingStatus, ProcessType } from '../transactions'
+import type { UserSettings, Receipt, ReceiptStatus } from './core'
+import type { Transaction, ProcessingLog, MatchingStatus, ProcessType } from './transactions'
 
 describe('Database Types', () => {
   describe('Core Types', () => {
@@ -85,16 +85,17 @@ describe('Database Types', () => {
       const log: ProcessingLog = {
         id: 'log-uuid',
         user_id: 'user-uuid',
-        process_type: 'ocr_processing' as ProcessType,
+        process_type: 'ocr' as ProcessType,
         status: 'completed',
         details: { pages: 1, confidence: 0.8 },
         error_message: null,
         duration_ms: 1500,
         related_receipt_id: 'receipt-uuid',
+        related_transaction_id: null,
         created_at: '2023-01-01T00:00:00Z'
       }
 
-      expect(log.process_type).toBe('ocr_processing')
+      expect(log.process_type).toBe('ocr')
       expect(log.duration_ms).toBe(1500)
       expect(typeof log.details).toBe('object')
     })
@@ -119,10 +120,11 @@ describe('Database Types', () => {
 
     it('should enforce process type values', () => {
       const validTypes: ProcessType[] = [
-        'ocr_processing',
+        'ocr',
         'freee_sync',
-        'receipt_matching',
-        'data_validation'
+        'matching',
+        'notification',
+        'cleanup'
       ]
 
       validTypes.forEach(type => {

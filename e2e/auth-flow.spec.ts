@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { createClient } from '@supabase/supabase-js'
-import type { Database } from '../../../types/database/types'
+import type { Database } from '../src/types/database/types'
 
 // Mock complete authentication flow
 const createMockAuthFlow = () => {
@@ -138,12 +138,17 @@ const createMockAuthFlow = () => {
         error: { message: 'Unauthorized' }
       }
     }),
-    select: vi.fn(() => ({
-      eq: vi.fn(async () => ({
+    select: vi.fn((columns?: string) => {
+      const baseResult = {
         data: currentSession ? [{ id: '1', user_id: currentSession.user.id }] : [],
         error: currentSession ? null : { message: 'Unauthorized' }
-      }))
-    }))
+      }
+      
+      // Return object with both promise and chainable methods
+      return Object.assign(Promise.resolve(baseResult), {
+        eq: vi.fn(async () => baseResult)
+      })
+    })
   }))
 
   return {
@@ -371,14 +376,14 @@ describe('Authentication Flow End-to-End Tests', () => {
 
       it('should prevent database access after logout', async () => {
         // Access data while authenticated
-        const beforeLogout = await mockClient.from('user_settings').select('*').eq('user_id', 'test')
+        const beforeLogout = await mockClient.from('user_settings').select('*')
         expect(beforeLogout.error).toBeNull()
 
         // Logout
         await mockClient.auth.signOut()
 
         // Try to access data after logout
-        const afterLogout = await mockClient.from('user_settings').select('*').eq('user_id', 'test')
+        const afterLogout = await mockClient.from('user_settings').select('*')
         expect(afterLogout.error).toBeDefined()
         expect(afterLogout.error?.message).toBe('Unauthorized')
       })
@@ -403,7 +408,7 @@ describe('Authentication Flow End-to-End Tests', () => {
         expect(isAuthenticated).toBe(true)
 
         // Simulate accessing protected resource
-        const protectedData = await mockClient.from('user_settings').select('*').eq('user_id', 'test')
+        const protectedData = await mockClient.from('user_settings').select('*')
         expect(protectedData.error).toBeNull()
       })
 
@@ -418,7 +423,7 @@ describe('Authentication Flow End-to-End Tests', () => {
         expect(isAuthenticated).toBe(false)
 
         // Try to access protected resource
-        const protectedData = await mockClient.from('user_settings').select('*').eq('user_id', 'test')
+        const protectedData = await mockClient.from('user_settings').select('*')
         expect(protectedData.error).toBeDefined()
       })
     })

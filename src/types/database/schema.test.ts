@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import type { Database } from '../types'
+import type { Database } from './types'
 
 // Mock Supabase client for schema operations
 const mockSupabaseClient = {
@@ -38,18 +38,16 @@ describe('Core Tables Schema Functional Tests', () => {
         
         const mockUserSettings: UserSettings = {
           id: '123e4567-e89b-12d3-a456-426614174000',
-          user_id: '123e4567-e89b-12d3-a456-426614174001',
-          auto_process_receipts: true,
           notification_email: 'test@example.com',
           freee_company_id: 'company-123',
+          notification_preferences: {},
           created_at: '2024-01-01T00:00:00Z',
           updated_at: '2024-01-01T00:00:00Z'
         }
 
         // Verify all required fields are present
         expect(mockUserSettings.id).toBeDefined()
-        expect(mockUserSettings.user_id).toBeDefined()
-        expect(mockUserSettings.auto_process_receipts).toBeDefined()
+        expect(mockUserSettings.notification_preferences).toBeDefined()
         expect(mockUserSettings.notification_email).toBeDefined()
         expect(mockUserSettings.freee_company_id).toBeDefined()
         expect(mockUserSettings.created_at).toBeDefined()
@@ -78,15 +76,13 @@ describe('Core Tables Schema Functional Tests', () => {
         type UserSettingsInsert = Database['public']['Tables']['user_settings']['Insert']
         
         const validSettings: UserSettingsInsert = {
-          user_id: '123e4567-e89b-12d3-a456-426614174001',
-          notification_email: 'valid@example.com',
-          auto_process_receipts: true
+          id: '123e4567-e89b-12d3-a456-426614174001',
+          notification_email: 'valid@example.com'
         }
 
         const invalidSettings: UserSettingsInsert = {
-          user_id: '123e4567-e89b-12d3-a456-426614174001',
-          notification_email: 'invalid-email', // Invalid format
-          auto_process_receipts: true
+          id: '123e4567-e89b-12d3-a456-426614174001',
+          notification_email: 'invalid-email' // Invalid format
         }
 
         // TypeScript should catch type errors, but we test runtime validation
@@ -103,16 +99,17 @@ describe('Core Tables Schema Functional Tests', () => {
           id: '123e4567-e89b-12d3-a456-426614174000',
           user_id: '123e4567-e89b-12d3-a456-426614174001',
           file_name: 'receipt_2024_01_01.pdf',
-          file_url: 'https://storage.example.com/receipts/receipt_2024_01_01.pdf',
+          file_path: 'receipts/receipt_2024_01_01.pdf',
           file_size: 1024576,
           mime_type: 'application/pdf',
           status: 'pending',
-          extracted_data: {
+          ocr_data: {
             amount: 1500,
             date: '2024-01-01',
             vendor: 'Test Vendor'
           },
-          processing_error: null,
+          ocr_text: 'Receipt text content',
+          processed_at: null,
           created_at: '2024-01-01T00:00:00Z',
           updated_at: '2024-01-01T00:00:00Z'
         }
@@ -121,7 +118,7 @@ describe('Core Tables Schema Functional Tests', () => {
         expect(mockReceipt.id).toBeDefined()
         expect(mockReceipt.user_id).toBeDefined()
         expect(mockReceipt.file_name).toBeDefined()
-        expect(mockReceipt.file_url).toBeDefined()
+        expect(mockReceipt.file_path).toBeDefined()
         expect(mockReceipt.file_size).toBeDefined()
         expect(mockReceipt.mime_type).toBeDefined()
         expect(mockReceipt.status).toBeDefined()
@@ -130,7 +127,7 @@ describe('Core Tables Schema Functional Tests', () => {
       })
 
       it('should validate status field enum values', () => {
-        type ReceiptStatus = Database['public']['Enums']['receipt_status']
+        type ReceiptStatus = Database['public']['Tables']['receipts']['Row']['status']
         
         // Valid status values
         const validStatuses: ReceiptStatus[] = ['pending', 'processing', 'completed', 'failed']
@@ -139,7 +136,7 @@ describe('Core Tables Schema Functional Tests', () => {
           const receipt = {
             user_id: '123e4567-e89b-12d3-a456-426614174001',
             file_name: 'test.pdf',
-            file_url: 'https://example.com/test.pdf',
+            file_path: 'https://example.com/test.pdf',
             file_size: 1024,
             mime_type: 'application/pdf',
             status: status
@@ -149,10 +146,10 @@ describe('Core Tables Schema Functional Tests', () => {
         })
       })
 
-      it('should validate extracted_data JSONB field structure', () => {
-        type ExtractedData = Database['public']['Tables']['receipts']['Row']['extracted_data']
+      it('should validate ocr_data JSONB field structure', () => {
+        type OCRData = Database['public']['Tables']['receipts']['Row']['ocr_data']
         
-        const validExtractedData: ExtractedData = {
+        const validOCRData: OCRData = {
           amount: 1500.50,
           date: '2024-01-01',
           vendor: 'Test Vendor',
@@ -161,10 +158,10 @@ describe('Core Tables Schema Functional Tests', () => {
         }
 
         // JSONB should accept structured data
-        expect(typeof validExtractedData).toBe('object')
-        expect(validExtractedData.amount).toBeTypeOf('number')
-        expect(validExtractedData.date).toBeTypeOf('string')
-        expect(validExtractedData.vendor).toBeTypeOf('string')
+        expect(typeof validOCRData).toBe('object')
+        expect(validOCRData?.amount).toBeTypeOf('number')
+        expect(validOCRData?.date).toBeTypeOf('string')
+        expect(validOCRData?.vendor).toBeTypeOf('string')
       })
 
       it('should enforce foreign key constraints with user table', async () => {
@@ -194,26 +191,27 @@ describe('Core Tables Schema Functional Tests', () => {
         
         const mockTransaction: Transaction = {
           id: '123e4567-e89b-12d3-a456-426614174000',
-          receipt_id: '123e4567-e89b-12d3-a456-426614174001',
+          user_id: '123e4567-e89b-12d3-a456-426614174001',
+          matched_receipt_id: '123e4567-e89b-12d3-a456-426614174001',
           freee_transaction_id: 'freee_123456',
           amount: 1500.50,
-          tax_amount: 150.05,
-          transaction_date: '2024-01-01',
+          date: '2024-01-01',
           description: 'Business expense',
-          account_id: 'account_123',
-          partner_id: 'partner_456',
-          status: 'pending',
+          category: 'Transportation',
+          account_item_id: 123,
+          matching_status: 'auto_matched',
           matching_confidence: 0.95,
+          freee_data: {},
           created_at: '2024-01-01T00:00:00Z',
           updated_at: '2024-01-01T00:00:00Z'
         }
 
         // Verify all required fields are present
         expect(mockTransaction.id).toBeDefined()
-        expect(mockTransaction.receipt_id).toBeDefined()
+        expect(mockTransaction.matched_receipt_id).toBeDefined()
         expect(mockTransaction.amount).toBeDefined()
-        expect(mockTransaction.transaction_date).toBeDefined()
-        expect(mockTransaction.status).toBeDefined()
+        expect(mockTransaction.date).toBeDefined()
+        expect(mockTransaction.matching_status).toBeDefined()
         expect(mockTransaction.created_at).toBeDefined()
         expect(mockTransaction.updated_at).toBeDefined()
       })
@@ -253,19 +251,23 @@ describe('Core Tables Schema Functional Tests', () => {
         mockSupabaseClient.from = mockFrom
 
         const transaction1 = {
-          receipt_id: '123e4567-e89b-12d3-a456-426614174001',
+          user_id: '123e4567-e89b-12d3-a456-426614174001',
+          matched_receipt_id: '123e4567-e89b-12d3-a456-426614174001',
           freee_transaction_id: 'freee_123456',
           amount: 1500.50,
-          transaction_date: '2024-01-01',
-          status: 'pending' as const
+          date: '2024-01-01',
+          description: 'Transaction 1',
+          matching_status: 'auto_matched' as const
         }
 
         const transaction2 = {
-          receipt_id: '123e4567-e89b-12d3-a456-426614174002',
+          user_id: '123e4567-e89b-12d3-a456-426614174002',
+          matched_receipt_id: '123e4567-e89b-12d3-a456-426614174002',
           freee_transaction_id: 'freee_123456', // Same ID - should be unique
           amount: 2000.00,
-          transaction_date: '2024-01-02',
-          status: 'pending' as const
+          date: '2024-01-02',
+          description: 'Transaction 2',
+          matching_status: 'auto_matched' as const
         }
 
         const table = mockSupabaseClient.from('transactions')
@@ -286,43 +288,47 @@ describe('Core Tables Schema Functional Tests', () => {
         
         const mockLog: ProcessingLog = {
           id: '123e4567-e89b-12d3-a456-426614174000',
-          receipt_id: '123e4567-e89b-12d3-a456-426614174001',
-          step: 'text_extraction',
+          user_id: '123e4567-e89b-12d3-a456-426614174001',
+          related_receipt_id: '123e4567-e89b-12d3-a456-426614174001',
+          related_transaction_id: null,
+          process_type: 'ocr',
           status: 'completed',
           details: {
             extracted_text: 'Receipt content here',
             confidence_score: 0.95
           },
           error_message: null,
-          execution_time_ms: 1500,
+          duration_ms: 1500,
           created_at: '2024-01-01T00:00:00Z'
         }
 
         // Verify all required fields are present
         expect(mockLog.id).toBeDefined()
-        expect(mockLog.receipt_id).toBeDefined()
-        expect(mockLog.step).toBeDefined()
+        expect(mockLog.related_receipt_id).toBeDefined()
+        expect(mockLog.process_type).toBeDefined()
         expect(mockLog.status).toBeDefined()
         expect(mockLog.created_at).toBeDefined()
       })
 
-      it('should validate processing step enum values', () => {
-        type ProcessingStep = Database['public']['Enums']['processing_step']
+      it('should validate process type enum values', () => {
+        type ProcessType = Database['public']['Tables']['processing_logs']['Row']['process_type']
         
-        const validSteps: ProcessingStep[] = [
-          'text_extraction',
-          'data_parsing',
-          'freee_matching',
-          'transaction_creation'
+        const validTypes: ProcessType[] = [
+          'ocr',
+          'freee_sync',
+          'matching',
+          'notification',
+          'cleanup'
         ]
         
-        validSteps.forEach(step => {
+        validTypes.forEach(type => {
           expect([
-            'text_extraction',
-            'data_parsing', 
-            'freee_matching',
-            'transaction_creation'
-          ]).toContain(step)
+            'ocr',
+            'freee_sync', 
+            'matching',
+            'notification',
+            'cleanup'
+          ]).toContain(type)
         })
       })
 
@@ -351,7 +357,7 @@ describe('Core Tables Schema Functional Tests', () => {
           const operations = createMockTableOperations('receipts')
           // Mock updated_at being set automatically
           operations.update = vi.fn(() => Promise.resolve({ 
-            data: { updated_at: new Date().toISOString() }, 
+            data: { updated_at: new Date().toISOString() } as any, 
             error: null 
           }))
           return operations

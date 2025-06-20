@@ -17,7 +17,7 @@ describe('Supabase Client', () => {
     mockCreateClientComponentClient.mockReturnValue(mockClient)
 
     // Import after mocking to ensure mock is applied
-    const { supabase } = await import('../client')
+    const { supabase } = await import('./client')
 
     expect(mockCreateClientComponentClient).toHaveBeenCalled()
     expect(supabase).toBe(mockClient)
@@ -32,7 +32,7 @@ describe('Supabase Client', () => {
     mockCreateClientComponentClient.mockReturnValue(mockClient)
 
     // Import the client
-    await import('../client')
+    await import('./client')
 
     // Verify that createClientComponentClient was called
     expect(mockCreateClientComponentClient).toHaveBeenCalledTimes(1)

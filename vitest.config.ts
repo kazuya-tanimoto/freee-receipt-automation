@@ -15,6 +15,29 @@ export default defineConfig({
       '**/.next/**',
       '**/dist/**'
     ],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      exclude: [
+        'node_modules/',
+        'test/',
+        '**/*.d.ts',
+        '**/*.config.*',
+        '**/mockData/**',
+        '**/types/**',
+        '**/*.test.*',
+        '**/*.spec.*',
+        '**/testing/**',
+        '**/docs/**',
+        '**/__mocks__/**'
+      ],
+      thresholds: {
+        lines: 80,
+        functions: 80,
+        branches: 75,
+        statements: 80
+      }
+    }
   },
   resolve: {
     alias: {
