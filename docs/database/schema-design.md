@@ -103,12 +103,12 @@ The complete schema documentation is split across several files:
 
 ### Table Summary
 
-| Table | Purpose | Key Features |
-|-------|---------|--------------|
-| `user_settings` | User preferences and freee integration config | One-to-one with auth.users, JSONB preferences |
-| `receipts` | Receipt file metadata and processing status | File storage, OCR results, status tracking |
-| `transactions` | freee transaction data and matching info | Decimal precision, confidence scoring |
-| `processing_logs` | Audit trail for all processing operations | Performance tracking, error capture |
+| Table             | Purpose                                       | Key Features                                  |
+| ----------------- | --------------------------------------------- | --------------------------------------------- |
+| `user_settings`   | User preferences and freee integration config | One-to-one with auth.users, JSONB preferences |
+| `receipts`        | Receipt file metadata and processing status   | File storage, OCR results, status tracking    |
+| `transactions`    | freee transaction data and matching info      | Decimal precision, confidence scoring         |
+| `processing_logs` | Audit trail for all processing operations     | Performance tracking, error capture           |
 
 ### Data Types
 

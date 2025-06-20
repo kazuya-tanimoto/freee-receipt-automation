@@ -174,15 +174,18 @@ npm run format
 
 ### Setup Guides
 
-- [Supabase Setup](docs/setup/supabase-setup.md) ([日本語](docs/setup/supabase-setup-ja.md)) - Complete Supabase configuration
-- [API Documentation](docs/api/authentication.md) ([日本語](docs/api/authentication-ja.md)) - Authentication API reference
+- [Supabase Setup](docs/setup/supabase-setup.md) ([日本語](docs/setup/supabase-setup-ja.md)) - Complete Supabase
+  configuration
+- [API Documentation](docs/api/authentication.md) ([日本語](docs/api/authentication-ja.md)) - Authentication API
+  reference
 
 ### Architecture
 
 - [Database Schema](docs/database/schema-design.md) ([日本語](docs/database/schema-design-ja.md)) - Database design
   overview and relationships
 - [Decision Records](docs/architecture/decisions/) - Key architectural decisions
-  - [ADR-001: Supabase Selection](docs/architecture/decisions/001-supabase-selection.md) ([日本語](docs/architecture/decisions/001-supabase-selection-ja.md))
+  - [ADR-001: Supabase Selection](docs/architecture/decisions/001-supabase-selection.md)
+    ([日本語](docs/architecture/decisions/001-supabase-selection-ja.md))
 
 ### Troubleshooting
 

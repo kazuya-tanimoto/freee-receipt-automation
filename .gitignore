@@ -39,6 +39,10 @@ supabase/.temp/
 coverage/
 *.lcov
 
+# TypeScript build cache
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+
 # macOS
 .DS_Store
 
