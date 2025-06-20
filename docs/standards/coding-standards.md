@@ -54,11 +54,32 @@ This document defines the standards for maintaining code quality in the project.
 
 ## Code Quality
 
-### 1. Testing
+### 1. Testing Strategy
 
-- Unit test coverage: 80% or higher
-- Test file naming: `*.test.ts`
-- Mock usage: Properly mock external dependencies
+#### Test Architecture: Unit + E2E
+
+This project follows a two-tier testing approach optimized for individual development:
+
+#### Unit Tests
+
+- **Location**: Co-located with source files (`src/lib/auth.ts` → `src/lib/auth.test.ts`)
+- **Framework**: Vitest + Testing Library + MSW
+- **Scope**: Individual functions, components, business logic
+- **Coverage**: Focus on critical paths rather than percentage targets
+
+#### E2E Tests
+
+- **Location**: Dedicated `e2e/` directory
+- **Framework**: Playwright
+- **Scope**: Complete user workflows and critical journeys
+- **Coverage**: Essential application functionality
+
+#### Testing Standards
+
+- Test file naming: `*.test.ts` for unit tests, `*.spec.ts` for E2E tests
+- Mock usage: Use MSW for API mocking, avoid over-mocking
+- Test isolation: Each test should be independent
+- Descriptive naming: Test names should describe behavior, not implementation
 
 ### 2. Error Handling
 

@@ -107,12 +107,59 @@ Success means:
 
 "It works" or "quick commit" is FAILURE
 
+## 📋 Self-Check Reporting Rules
+
+**MANDATORY**: Include this format in all work completion reports
+
+```text
+## ✅ Self-Check Results
+- TypeScript: ✅ 0 errors / ❌ X errors
+- Tests: ✅ All passed (coverage: X% - target: 80%) / ❌ X failed
+- Documentation: ✅ 0 errors / ❌ X errors
+```
+
+### Rule Details
+
+1. **Required Commands**:
+   - TypeScript: `npx tsc --noEmit`
+   - Tests: `npm run test`
+   - Documentation: `yarn check:docs`
+
+2. **Reporting Obligation**:
+   - **No report = Self-check not performed**
+   - Execute all 3 items and report results
+   - Continue work until all errors are fixed
+
+3. **Completion Criteria**:
+   - Do not report "work complete" until all 3 items show ✅
+   - Re-run self-check after fixing errors
+
+4. **Transparency Assurance**:
+   - Quality status visualization
+   - Reduced human verification workload
+   - Consistent quality standards maintenance
+
 ## Build, Lint, and Test Commands
+
+### Documentation Commands
 
 - Run documentation checks: `yarn check:docs`
 - Run document size check: `yarn check:docs:size`
 - Lint markdown files: `yarn lint:md`
 - Format markdown files: `yarn format:md`
+
+### Test Commands
+
+- Run all tests: `yarn test:run`
+- Watch mode testing: `yarn test:watch`
+- Test with UI: `yarn test:ui`
+- Test coverage: `yarn test:coverage`
+
+### Development Commands
+
+- Start development: `yarn dev`
+- Build production: `yarn build`
+- Start production: `yarn start`
 
 ## Environment and Tool Guidelines
 
@@ -167,3 +214,95 @@ splitting the feature/PBI before splitting the code.
 - Markdown line length: 120 characters max
 - First heading must be level 1
 - Only allow `<kbd>` HTML tags in markdown
+
+## 🧪 Testing Strategy
+
+### Test Architecture: Unit + E2E
+
+This project follows a **two-tier testing strategy** optimized for individual development with AI assistance:
+
+#### **Unit Tests** - Function/Component Level
+
+- **Location**: Co-located with source files (`src/lib/auth.ts` → `src/lib/auth.test.ts`)
+- **Scope**: Individual functions, components, utilities in isolation
+- **Framework**: Vitest + Testing Library
+- **Coverage**: Business logic, edge cases, error handling
+
+#### **E2E Tests** - Complete User Workflows
+
+- **Location**: Dedicated `e2e/` directory
+- **Scope**: Full application workflows from user perspective
+- **Framework**: Playwright
+- **Coverage**: Critical user journeys, integration points
+
+#### **Rationale for Unit + E2E Strategy**
+
+- **Project Scale**: Small-to-medium individual automation system
+- **Development Model**: AI-assisted development requires simple, maintainable test structure
+- **External Dependencies**: Heavy reliance on external APIs (Supabase, freee, OCR) makes integration testing less
+  valuable
+- **Quality vs Efficiency**: Appropriate quality assurance without over-engineering
+
+### Mandatory Testing Standards
+
+**ALL code changes MUST include appropriate tests:**
+
+1. **New Functions/Methods** → Unit tests required
+2. **New Components** → Unit tests required
+3. **API Routes/Endpoints** → Unit tests + E2E coverage
+4. **Bug Fixes** → Unit tests for regression prevention
+5. **Database Changes** → Unit tests for type safety
+
+### Testing Guidelines
+
+#### **Unit Testing Best Practices**
+
+- **Co-location**: Place test files next to source files
+- **Naming**: `filename.test.ts` convention
+- **Mocking**: Use MSW for API calls, vi.mock for modules
+- **Coverage**: Focus on critical business logic, not percentage targets
+
+#### **E2E Testing Best Practices**
+
+- **Real Environment**: Test against actual external services when possible
+- **User Perspective**: Write tests from user's point of view
+- **Critical Paths**: Focus on essential user workflows
+- **Playwright Config**: Use standard Playwright setup
+
+### Testing Framework Standards
+
+- **Unit Framework**: Vitest + Testing Library + MSW
+- **E2E Framework**: Playwright
+- **File Organization**: Co-located unit tests, dedicated E2E directory
+- **Environment**: Isolated test environment with realistic mock data
+
+### Test Execution Requirements
+
+**Before ANY commit:**
+
+```bash
+yarn test:run  # Must pass 100%
+```
+
+**During development:**
+
+```bash
+yarn test:watch  # Continuous testing
+```
+
+### CI/CD Integration
+
+- ✅ **ALL PRs require test success**
+- ✅ **Cannot merge with failing tests**
+- ✅ **Automatic test execution on push**
+- ✅ **Test results visible in PR reviews**
+
+### Enforcement
+
+**ABSOLUTE REQUIREMENT**: No code reaches main branch without corresponding tests.
+
+**Violation Consequences**:
+
+1. PR automatically blocked
+2. Must add missing tests before review
+3. No exceptions - quality over speed

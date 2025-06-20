@@ -1,216 +1,238 @@
-# AI-Driven Development Guidelines
+# freee Receipt Automation
 
-## Document Overview
+An automated system for processing receipt images and syncing transaction data with freee accounting software.
 
-### Purpose
+## Overview
 
-Define a "repository map" where human developers and AI agents share the same information source and collaborate
-seamlessly on code, design, and operations.
+This system automates the tedious process of receipt management by:
 
-### Expected Benefits
+- Uploading receipt images through a web interface
+- Extracting transaction data using OCR
+- Automatically matching and syncing data with freee accounting
+- Providing a dashboard for monitoring and manual review
 
-- Reduce participant onboarding time and minimize rework costs
-- Improve LLM response accuracy through RAG utilization
-- Prevent "documentation decay" by CI diff/compatibility checks
+## Quick Start
 
-### Use Cases
+### Prerequisites
 
-- New product launch
-- Refactoring existing repositories/OSS publication prep
-- Audits and security reviews (centralized evidence & ADR)
+- Node.js 18+
+- A Supabase account ([sign up here](https://supabase.com))
+- A freee account and API access
 
-## 1. Structure Tree
+### 1. Clone and Install
 
-```text
-.
-├ README.md
-├ CHANGELOG.md
-├ .devcontainer.json        # ← Optional
-├ .github/
-│   └ workflows/
-├ src/
-├ tests/
-├ docs/
-│   ├ overview.md
-│   ├ requirements/
-│   │   ├ spec/            # "Coarse-grained" requirements
-│   │   └ backlog/         # PBI・GitHub Issue integration
-│   ├ design/
-│   │   ├ architecture/
-│   │   ├ db/
-│   │   └ ui/
-│   ├ api/
-│   ├ standards/
-│   │   └ coding-standards.md  # コーディング規約
-│   ├ test/
-│   ├ ops/
-│   │   └ operational-guidelines.md  # 運用ガイドライン
-│   └ adr/
-└ ai/
-    ├ system_prompt.md
-    ├ glossary.yml
-    ├ config/
-    ├ prompts/
-    ├ tasks/
-    ├ context/
-    │   └ context-optimization.md  # AIコンテキスト最適化
-    ├ examples/            # ← Optional
-    ├ feedback/            # ← Optional
-    └ history/             # ← Optional
+```bash
+git clone https://github.com/your-username/freee-receipt-automation.git
+cd freee-receipt-automation
+npm install
 ```
 
-## 2. File/Directory Quick Reference
+### 2. Configure Environment
 
-| Path                 | Required/Optional    | Purpose                            |
-| -------------------- | -------------------- | ---------------------------------- |
-| `/README.md`         | ✅ Required          | TL;DR / Quick Start                |
-| `/CHANGELOG.md`      | ✅ Required          | Version history (Keep‑a‑Changelog) |
-| `Makefile`           | ✅ Required          | Common command collection          |
-| `.github/workflows/` | ✅ Required          | CI / CD & Security Hardening       |
-| `.devcontainer.json` | ✅ Required          | Reproducible dev environment       |
-| `docs/`              | ✅ Required          | Human & AI shared knowledge base   |
-| `ai/`                | ✅ Required          | AI meta-layer                      |
-| `ai/context/`        | ✅ Required          | AI context optimization            |
-| `ai/examples/`       | ▶︎ Recommended      | Collection of successful patterns  |
-| `ai/feedback/`       | ▶︎ Auto-gen env     | AI Output Review                   |
-| `ai/history/`        | ▶︎ Optional         | Session Log & Summary Storage      |
-| `data-contract/`     | ▶︎ Domain-dependent | Data Contract & Schema             |
-| `benchmarks/`        | ▶︎ Optional         | Performance/Cost Comparison        |
+```bash
+cp .env.example .env.local
+```
 
-| Path (continued)     | Main Contents                   | Maintenance Frequency     |
-| -------------------- | ------------------------------- | ------------------------- |
-| `/README.md`         | 5-minute setup procedure        | Each release              |
-| `/CHANGELOG.md`      | Added / Changed / Fixed         | Each release              |
-| `Makefile`           | setup, test, embed, etc.        | When adding features      |
-| `.github/workflows/` | Lint／Test／Deploy              | Each update               |
-| `.devcontainer.json` | image／extensions               | Environment changes       |
-| `docs/`              | See section 3                   | As needed                 |
-| `ai/`                | See section 4                   | As needed                 |
-| `ai/context/`        | Context management              | When major policy changes |
-| `ai/examples/`       | Best implementations            | When PR is adopted        |
-| `ai/feedback/`       | Evaluation comments             | Each PR                   |
-| `ai/history/`        | Chat history JSON, daily digest | Auto-generation           |
-| `data-contract/`     | AsyncAPI, Avro schema           | Schema changes            |
-| `benchmarks/`        | LLM cost table, execution time  | Regular measurement       |
+Edit `.env.local` with your credentials:
 
-## 3. `docs/` — Human & AI Shared Knowledge Base
+```bash
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 
-### 3.1 `overview.md`
+# Application Configuration
+NEXT_PUBLIC_APP_URL=http://localhost:3000
 
-Business background, goals, constraints. Update when goals change.
+# freee API Configuration
+FREEE_CLIENT_ID=your_freee_client_id
+FREEE_CLIENT_SECRET=your_freee_client_secret
 
-### 3.2 `requirements/` — Two-layer Management
+# OCR Service Configuration
+OCR_API_KEY=your_ocr_service_key
+```
 
-| Subpath    | Purpose                                             | Operation                          |
-| ---------- | --------------------------------------------------- | ---------------------------------- |
-| `spec/`    | Business requirements, non-functional (REQ‑001.md)  | Confirmed changes ➡ Link to ADR   |
-| `backlog/` | PBI / Implementation tasks (GitHub Issue ⇔ MD/YAML) | Auto-generated from Issue template |
+### 3. Set Up Database
 
-> **FAQ: Are coarse-grained requirements and implementation tasks mixed?** Framework specifications are in `spec/`,
-> implementation instructions are in `backlog/`, enabling both static design documents and dynamic backlogs.
+Follow the detailed [Supabase Setup Guide](docs/setup/supabase-setup.md) to:
 
-### 3.3 `standards/` — コーディング規約
+- Create a Supabase project
+- Run database migrations
+- Configure authentication and security
 
-| Subpath               | Usage            | Operation                      |
-| --------------------- | ---------------- | ------------------------------ |
-| `coding-standards.md` | コーディング規約 | コード品質の維持と一貫性の確保 |
+### 4. Start Development Server
 
-**Main Content**: File line limits (basic 150, max 250), naming conventions, code style, AI code generation
+```bash
+npm run dev
+```
 
-### 3.4 `ops/` — 運用ガイドライン
+Open [http://localhost:3000](http://localhost:3000) to access the application.
 
-| Subpath                     | Usage            | Operation                                    |
-| --------------------------- | ---------------- | -------------------------------------------- |
-| `operational-guidelines.md` | 運用ガイドライン | プロジェクトの運用に関する重要なガイドライン |
+## Features
 
-**Main Content**: Deployment process, monitoring policy, incident response, backup and recovery
+### Current (Phase 1)
 
-### 3.5 Other Subdirectories
+- ✅ User authentication and authorization
+- ✅ Secure database with row-level security
+- ✅ Receipt file upload and storage
+- ✅ User settings management
+- ✅ Transaction data modeling
 
-| Path                   | Role                            | Notes                                |
-| ---------------------- | ------------------------------- | ------------------------------------ |
-| `design/architecture/` | C4 diagrams (Mermaid)           | `.mmd`→SVG auto-generated by Actions |
-| `api/`                 | `openapi.yaml` (SemVer)         | MAJOR++ for breaking changes         |
-| `adr/`                 | MADR template (`nadr-2.1.2.md`) | 1 decision = 1 file                  |
+### Planned (Phase 2+)
 
-**`adr/` Operation Rules**: ID assignment (`ADR-0001`, `ADR-0002` format), add new ADR for breaking changes
+- 🚧 OCR text extraction from receipts
+- 🚧 freee API integration for transaction sync
+- 🚧 Automatic transaction matching
+- 🚧 Dashboard for monitoring and review
+- 🚧 Batch processing capabilities
 
-## 4. `ai/` — AI Meta-layer
+## Architecture
 
-| Directory          | Purpose                             | Maintenance Method              |
-| ------------------ | ----------------------------------- | ------------------------------- |
-| `system_prompt.md` | Common assumptions and prohibitions | Weekly review                   |
-| `glossary.yml`     | Domain terms ⇔ Class names          | Add new terms                   |
-| `prompts/`         | Reusable templates                  | Test → Promotion                |
-| `tasks/`           | Autonomous task definitions         | When adding new flows           |
-| `context/`         | Long-form background (for RAG)      | When major policy changes       |
-| `examples/`        | Successful patterns                 | When best practices are adopted |
-| `feedback/`        | AI output reviews                   | Bot saved                       |
-| `history/`         | sessions / summaries / insights     | Nightly organization            |
+### Technology Stack
 
-**`history/` Structure and Operation**:
+- **Frontend**: Next.js 14 with TypeScript
+- **Backend**: Supabase (PostgreSQL + Auth + Storage)
+- **Authentication**: Supabase Auth with email/password
+- **Database**: PostgreSQL with Row Level Security (RLS)
+- **File Storage**: Supabase Storage
+- **Testing**: Vitest + Testing Library + Playwright
 
-| Subdirectory | Purpose                                        | Example                         |
-| ------------ | ---------------------------------------------- | ------------------------------- |
-| `sessions/`  | Raw chat logs (JSON)                           | `2025-05-06T06:00:session.json` |
-| `summaries/` | Markdown summaries of the above                | `2025-05-06T06:00:summary.md`   |
-| `insights/`  | Improvement points extracted by periodic batch | `2025-W19-insights.md`          |
+### Key Design Decisions
 
-**Maintenance Method**: Auto-save to `sessions/` after session ends, daily CRON generates `summaries/`, weekly generate
-`insights/` and transfer to `ai/feedback/`
+- **[ADR-001: Supabase Selection](docs/architecture/decisions/001-supabase-selection.md)** - Why we chose Supabase for
+  backend infrastructure
 
-## 6. CI/Development Environment
+## Development
 
-- **Workflows**: `lint-and-test.yml`, `security-scan.yml`, `build-docker.yml`
-- **Schema diff**: Confluent Registry compatible check
-- **DevContainer**: VS Code extensions, centralized postCreate management
+### Testing Strategy
 
-## 7. Selective Additional Directories
+This project uses a **Unit + E2E testing approach**:
 
-| Path             | Timing          | Use Case                |
-| ---------------- | --------------- | ----------------------- |
-| `docs/test/`     | Test expansion  | Test pyramid management |
-| `docs/ops/`      | SRE dedicated   | SLO/Runbook             |
-| `benchmarks/`    | LLM measurement | OpenAI Evals etc.       |
-| `data-contract/` | Event-driven    | AsyncAPI/Avro           |
+- **Unit Tests**: Co-located with source files (`src/lib/auth.test.ts`)
+- **E2E Tests**: Dedicated `e2e/` directory with Playwright
 
-### `data-contract/` Details
+```bash
+# Run unit tests
+npm run test
 
-**Usage**: Store "contracts" between data producers and consumers as code. Prevent breaking changes similar to API
-contracts.
+# Run unit tests in watch mode
+npm run test:watch
 
-- **Placement**: `customer.avro`, `orders.proto`, `contract.md`, etc.
-- **Maintenance Method**:
-  1. Create PR when schema changes, run backward compatibility tests in CI
-  2. Always include `BREAKING CHANGE` tag in release notes
+# Run E2E tests
+npm run test:e2e
 
-### `benchmarks/` Details
+# Run all tests
+npm run test:all
+```
 
-**Usage**: Monitor LLM inference costs, performance, memory, etc. to provide decision-making material for model/prompt
-changes.
+### Code Quality
 
-- **Placement**: `benchmark_2025-05.csv`, `plots/latency.png`, `README.md`
-- **Maintenance Method**:
-  1. Measure with `make benchmark` → Append to CSV
-  2. Update graphs with Python script, attach to PR
+```bash
+# Type checking
+npm run type-check
 
-## 8. Customization Reference
+# Linting
+npm run lint
 
-- **[Bulletproof React](docs/standards/bulletproof-react/README.md)** — Submodule under `docs/standards/` providing a
-  React large-scale configuration example
-- **[Naming Cheatsheet](docs/standards/naming-cheatsheet/README.md)** — Submodule under `docs/standards/` providing
-  clear naming guidelines
+# Formatting
+npm run format
+```
 
-## 9. Update Flow
+### Database Migrations
 
-1. Decide policy with Issue/ADR
-2. PR: Implementation & documentation update
-3. CI: Lint/Test/schema diff/Secret Scan
-4. Review & Merge: Save summary to `ai/feedback/`
-5. Update CHANGELOG → Tag → Release
+```bash
+# Apply migrations manually through Supabase dashboard
+# Files are located in supabase/migrations/
+```
 
-## 10. Improvement Ideas
+## Deployment
 
-- Monitor latency/cost with `benchmarks/`
-- Automate Mermaid→SVG for zero diagram-source discrepancy
-- Add `version:` field to `ai/prompts/` for history tracking
+### Production Setup
+
+1. **Create Production Supabase Project**
+
+   - Follow the same setup as development
+   - Use production URLs and keys
+
+2. **Deploy to Vercel**
+
+   ```bash
+   vercel deploy
+   ```
+
+3. **Configure Environment Variables**
+   - Add all environment variables in Vercel dashboard
+   - Ensure production Supabase credentials
+
+### Environment Management
+
+- **Development**: `.env.local`
+- **Production**: Vercel environment variables
+- **Testing**: Test-specific environment configuration
+
+## Documentation
+
+### Setup Guides
+
+- [Supabase Setup](docs/setup/supabase-setup.md) ([日本語](docs/setup/supabase-setup-ja.md)) - Complete Supabase configuration
+- [API Documentation](docs/api/authentication.md) ([日本語](docs/api/authentication-ja.md)) - Authentication API reference
+
+### Architecture
+
+- [Database Schema](docs/database/schema-design.md) ([日本語](docs/database/schema-design-ja.md)) - Database design
+  overview and relationships
+- [Decision Records](docs/architecture/decisions/) - Key architectural decisions
+  - [ADR-001: Supabase Selection](docs/architecture/decisions/001-supabase-selection.md) ([日本語](docs/architecture/decisions/001-supabase-selection-ja.md))
+
+### Troubleshooting
+
+- [Supabase Issues](docs/troubleshooting/supabase-issues.md) ([日本語](docs/troubleshooting/supabase-issues-ja.md)) -
+  Common problems and solutions
+
+### Development Guidelines
+
+- [Coding Standards](docs/standards/coding-standards.md) - Code quality and consistency
+- [AI Development Guidelines](CLAUDE.md) - Guidelines for AI-assisted development
+
+## Project Structure
+
+```text
+├── src/
+│   ├── app/                 # Next.js app directory
+│   ├── components/          # React components
+│   ├── lib/                 # Core business logic
+│   ├── types/              # TypeScript type definitions
+│   └── testing/            # Test utilities and setup
+├── supabase/
+│   └── migrations/         # Database schema migrations
+├── e2e/                    # End-to-end tests
+├── docs/                   # Project documentation
+└── ai/                     # AI development context
+```
+
+## Contributing
+
+This is a personal automation project, but feedback and suggestions are welcome through GitHub issues.
+
+### Development Workflow
+
+1. Create feature branch from `main`
+2. Implement changes with appropriate tests
+3. Run quality checks: `npm run type-check && npm run test`
+4. Create pull request with clear description
+5. Merge after review and CI passes
+
+## License
+
+This project is for personal use. See [LICENSE](LICENSE) for details.
+
+## Support
+
+- **Documentation**: Check the [docs/](docs/) directory
+- **Issues**: Report bugs via [GitHub Issues](https://github.com/your-username/freee-receipt-automation/issues)
+- **Troubleshooting**: See [troubleshooting guides](docs/troubleshooting/)
+
+---
+
+**Status**: Phase 1 Complete (Infrastructure) | Phase 2 In Planning (Core Features)  
+**Last Updated**: 2024-06-19

@@ -11,22 +11,22 @@ API統合、レシート-トランザクション照合、システム操作ロ�
 
 freee APIからのトランザクションデータを保存し、レシート照合関係を管理します。
 
-| カラム名             | 型             | 制約                           | 説明                                   |
-| -------------------- | -------------- | ------------------------------ | -------------------------------------- |
+| カラム名             | 型             | 制約                               | 説明                                   |
+| -------------------- | -------------- | ---------------------------------- | -------------------------------------- |
 | id                   | UUID           | PRIMARY KEY, DEFAULT uuid_gen_v4() | 一意のトランザクションID               |
-| user_id              | UUID           | NOT NULL, FK auth.users CASCADE   | このトランザクションを所有するユーザー |
-| freee_transaction_id | TEXT           | UNIQUE                                  | freee APIからの一意識別子              |
-| amount               | DECIMAL(10, 2) | NOT NULL                                | 精度付きトランザクション金額           |
-| date                 | DATE           | NOT NULL                                | トランザクション日付                   |
-| description          | TEXT           | NOT NULL                                | トランザクション説明                   |
-| category             | TEXT           |                                         | トランザクションカテゴリ               |
-| account_item_id      | INTEGER        |                                         | freee勘定項目ID                        |
-| matched_receipt_id   | UUID           | FK receipts(id) SET NULL                | 関連レシート（照合済みの場合）         |
-| matching_confidence  | DECIMAL(3, 2)  | CHECK (0 <= value <= 1)                 | 自動照合信頼度スコア                   |
-| matching_status      | TEXT           | DEFAULT 'unmatched', CHECK              | 現在の照合ステータス                   |
-| freee_data           | JSONB          |                                         | 元のfreee APIレスポンス                |
-| created_at           | TIMESTAMPTZ    | DEFAULT NOW()                           | レコード作成タイムスタンプ             |
-| updated_at           | TIMESTAMPTZ    | DEFAULT NOW()                           | レコード最終更新タイムスタンプ         |
+| user_id              | UUID           | NOT NULL, FK auth.users CASCADE    | このトランザクションを所有するユーザー |
+| freee_transaction_id | TEXT           | UNIQUE                             | freee APIからの一意識別子              |
+| amount               | DECIMAL(10, 2) | NOT NULL                           | 精度付きトランザクション金額           |
+| date                 | DATE           | NOT NULL                           | トランザクション日付                   |
+| description          | TEXT           | NOT NULL                           | トランザクション説明                   |
+| category             | TEXT           |                                    | トランザクションカテゴリ               |
+| account_item_id      | INTEGER        |                                    | freee勘定項目ID                        |
+| matched_receipt_id   | UUID           | FK receipts(id) SET NULL           | 関連レシート（照合済みの場合）         |
+| matching_confidence  | DECIMAL(3, 2)  | CHECK (0 <= value <= 1)            | 自動照合信頼度スコア                   |
+| matching_status      | TEXT           | DEFAULT 'unmatched', CHECK         | 現在の照合ステータス                   |
+| freee_data           | JSONB          |                                    | 元のfreee APIレスポンス                |
+| created_at           | TIMESTAMPTZ    | DEFAULT NOW()                      | レコード作成タイムスタンプ             |
+| updated_at           | TIMESTAMPTZ    | DEFAULT NOW()                      | レコード最終更新タイムスタンプ         |
 
 #### 照合ステータス値
 
