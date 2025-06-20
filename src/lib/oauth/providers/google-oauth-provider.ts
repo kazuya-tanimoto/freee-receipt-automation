@@ -5,7 +5,7 @@
  * with Gmail and Google Drive API integration.
  */
 
-import type {
+import {
   IOAuthProvider,
   GoogleOAuthConfig,
   OAuthTokenResponse,
@@ -97,7 +97,7 @@ export class GoogleOAuthProvider implements IOAuthProvider {
 
       if (!response.ok) {
         throw new OAuthException(
-          data.error || 'token_exchange_failed',
+          data.error || 'server_error',
           data.error_description || 'Failed to exchange authorization code'
         );
       }
@@ -145,7 +145,7 @@ export class GoogleOAuthProvider implements IOAuthProvider {
 
       if (!response.ok) {
         throw new OAuthException(
-          data.error || 'token_refresh_failed',
+          data.error || 'server_error',
           data.error_description || 'Failed to refresh access token'
         );
       }
@@ -183,7 +183,7 @@ export class GoogleOAuthProvider implements IOAuthProvider {
       if (!response.ok) {
         const error = await response.json().catch(() => ({}));
         throw new OAuthException(
-          'invalid_token',
+          'token_expired',
           error.error_description || 'Token validation failed'
         );
       }
@@ -261,7 +261,7 @@ export class GoogleOAuthProvider implements IOAuthProvider {
 
     // Handle common error responses
     if (response.status === 401) {
-      throw new OAuthException('invalid_token', 'Access token is invalid or expired');
+      throw new OAuthException('token_expired', 'Access token is invalid or expired');
     }
     
     if (response.status === 403) {
