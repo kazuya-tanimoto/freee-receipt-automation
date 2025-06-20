@@ -4,7 +4,8 @@
 
 ## 概要
 
-freee レシート自動化システムでは、Gmail メッセージの読み取りとGoogle Drive ファイル操作のために、OAuth 2.0 Authorization Code Flow with PKCE を使用します。
+freee レシート自動化システムでは、Gmail メッセージの読み取りとGoogle Drive ファイル操作のために、OAuth 2.0 Authorization
+Code Flow with PKCE を使用します。
 
 ### 主要機能
 
