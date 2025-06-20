@@ -88,7 +88,8 @@ export class OAuthManager {
     const now = new Date();
     const entriesToDelete: string[] = [];
     
-    for (const [key, params] of this.pkceStorage.entries()) {
+    const entriesArray = Array.from(this.pkceStorage.entries());
+    for (const [key, params] of entriesArray) {
       if (params.expiresAt < now) {
         entriesToDelete.push(key);
       }
