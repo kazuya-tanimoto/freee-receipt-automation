@@ -392,7 +392,8 @@ export class MetricsRegistry {
    * Clean up old metric data
    */
   private cleanup(): void {
-    for (const metric of this.metrics.values()) {
+    const metricsArray = Array.from(this.metrics.values());
+    for (const metric of metricsArray) {
       metric.cleanup(this.retentionMs);
     }
   }
@@ -506,7 +507,8 @@ export class MetricsRegistry {
    * Get all metrics
    */
   getAllMetrics(): Metric[] {
-    return Array.from(this.metrics.values()).map(metric => metric.export());
+    const metricsArray = Array.from(this.metrics.values());
+    return metricsArray.map(metric => metric.export());
   }
 
   /**
@@ -514,7 +516,8 @@ export class MetricsRegistry {
    */
   getMetricsByName(namePattern: string): Metric[] {
     const regex = new RegExp(namePattern);
-    return Array.from(this.metrics.values())
+    const metricsArray = Array.from(this.metrics.values());
+    return metricsArray
       .filter(metric => regex.test(metric.getMetadata().name))
       .map(metric => metric.export());
   }
@@ -523,7 +526,8 @@ export class MetricsRegistry {
    * Get metrics by labels
    */
   getMetricsByLabels(labelFilters: Record<string, string>): Metric[] {
-    return Array.from(this.metrics.values())
+    const metricsArray = Array.from(this.metrics.values());
+    return metricsArray
       .filter(metric => {
         const labels = metric.getMetadata().labels;
         return Object.entries(labelFilters).every(([key, value]) => 
@@ -592,8 +596,9 @@ export class MetricsRegistry {
    */
   exportPrometheus(): string {
     const lines: string[] = [];
+    const metricsArray = Array.from(this.metrics.values());
     
-    for (const metric of this.metrics.values()) {
+    for (const metric of metricsArray) {
       const exported = metric.export();
       const metadata = metric.getMetadata();
       
