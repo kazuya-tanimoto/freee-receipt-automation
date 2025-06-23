@@ -6,23 +6,14 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { DriveClient } from './drive-client';
 import { DriveErrorType } from './types';
 
-// Mock OAuth provider
-vi.mock('../oauth/providers/google-oauth-provider', () => ({
-  GoogleOAuthProvider: vi.fn().mockImplementation(() => ({
-    initialize: vi.fn().mockResolvedValue(undefined),
-    authenticate: vi.fn().mockResolvedValue({
-      access_token: 'mock_token',
-      refresh_token: 'mock_refresh',
-      expires_in: 3600,
-      token_type: 'Bearer'
-    })
-  }))
-}));
-
 describe('DriveClient', () => {
   let driveClient: DriveClient;
 
   beforeEach(() => {
+    // Set required environment variables
+    process.env.GOOGLE_CLIENT_ID = 'test_client_id';
+    process.env.GOOGLE_CLIENT_SECRET = 'test_client_secret';
+    
     // Clear singleton instance
     (DriveClient as any).instance = null;
     driveClient = DriveClient.getInstance();
