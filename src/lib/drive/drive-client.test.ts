@@ -26,6 +26,10 @@ describe('DriveClient', () => {
     // Clear singleton instance
     (DriveClient as any).instance = null;
     driveClient = DriveClient.getInstance();
+    
+    // Mock the auth verification to return true
+    vi.spyOn(driveClient['authManager'], 'verifyAuthentication')
+      .mockResolvedValue(true);
   });
 
   describe('initialization', () => {
@@ -34,7 +38,7 @@ describe('DriveClient', () => {
     });
 
     it('should throw error if auth verification fails', async () => {
-      // Mock auth verification failure
+      // Override mock for this test
       vi.spyOn(driveClient['authManager'], 'verifyAuthentication')
         .mockResolvedValue(false);
 
@@ -49,10 +53,13 @@ describe('DriveClient', () => {
       expect(instance1).toBe(instance2);
     });
 
-    it('should accept configuration on first call', () => {
-      const config = { retryAttempts: 5 };
-      const instance = DriveClient.getInstance(config);
-      expect(instance['config'].retryAttempts).toBe(5);
+    it('should use default configuration for existing instance', () => {
+      // First instance gets default config
+      const instance1 = DriveClient.getInstance();
+      // Second call with config should be ignored for existing instance
+      const instance2 = DriveClient.getInstance({ retryAttempts: 5 });
+      expect(instance1).toBe(instance2);
+      expect(instance1['config'].retryAttempts).toBe(3); // default value
     });
   });
 
@@ -81,13 +88,13 @@ describe('DriveClient', () => {
       expect(result.data!.usage).toBeGreaterThanOrEqual(0);
     });
 
-    it('should handle API errors', async () => {
-      // Mock API error by throwing in the method
-      vi.spyOn(driveClient, 'getStorageInfo').mockImplementation(async () => {
-        throw { code: 500, message: 'Internal server error' };
-      });
-
-      await expect(driveClient.getStorageInfo()).rejects.toThrow();
+    it('should handle API errors gracefully', async () => {
+      // Test the error handling without breaking initialization
+      const error = { code: 500, message: 'Internal server error' };
+      const driveError = driveClient['handleError'](error);
+      
+      expect(driveError.type).toBe(DriveErrorType.UNKNOWN_ERROR);
+      expect(driveError.message).toBe('Internal server error');
     });
   });
 
@@ -176,7 +183,7 @@ describe('DriveClient', () => {
       expect(client['config'].rateLimit).toBe(100);
     });
 
-    it('should use custom configuration', () => {
+    it('should use custom configuration when creating new instance', () => {
       (DriveClient as any).instance = null;
       const config = {
         retryAttempts: 5,
