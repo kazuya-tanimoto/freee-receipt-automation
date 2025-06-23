@@ -128,7 +128,7 @@ describe('DriveFileCategorizer', () => {
 
       const filename = categorizer.generateFileName(file);
 
-      expect(filename).toEndWith('.jpg');
+      expect(filename.endsWith('.jpg')).toBe(true);
     });
   });
 
