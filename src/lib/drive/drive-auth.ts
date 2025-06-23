@@ -4,13 +4,13 @@
  */
 
 import { GoogleOAuthProvider } from '../oauth/providers/google-oauth-provider';
-import type { OAuthTokens } from '../oauth/types';
+import type { OAuthTokenResponse } from '../oauth/types';
 import { DriveError, DriveErrorType } from './types';
 
 export class DriveAuthManager {
   private static instance: DriveAuthManager;
   private oauthProvider: GoogleOAuthProvider | null = null;
-  private tokens: OAuthTokens | null = null;
+  private tokens: OAuthTokenResponse | null = null;
 
   private constructor() {}
 
@@ -26,7 +26,6 @@ export class DriveAuthManager {
       this.oauthProvider = new GoogleOAuthProvider({
         clientId: process.env.GOOGLE_CLIENT_ID!,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-        redirectUri: process.env.GOOGLE_REDIRECT_URI!,
         scopes: ['https://www.googleapis.com/auth/drive.file']
       });
     } catch (error) {
@@ -50,10 +49,10 @@ export class DriveAuthManager {
       // In real implementation, this would handle the OAuth flow
       // For now, we simulate successful authentication
       this.tokens = {
-        access_token: 'mock_access_token',
-        refresh_token: 'mock_refresh_token',
-        expires_in: 3600,
-        token_type: 'Bearer'
+        accessToken: 'mock_access_token',
+        refreshToken: 'mock_refresh_token',
+        expiresIn: 3600,
+        tokenType: 'Bearer'
       };
     } catch (error) {
       throw this.createDriveError(
@@ -78,11 +77,11 @@ export class DriveAuthManager {
   }
 
   public getAccessToken(): string | null {
-    return this.tokens?.access_token || null;
+    return this.tokens?.accessToken || null;
   }
 
   public async refreshTokens(): Promise<void> {
-    if (!this.oauthProvider || !this.tokens?.refresh_token) {
+    if (!this.oauthProvider || !this.tokens?.refreshToken) {
       throw this.createDriveError(
         DriveErrorType.AUTH_ERROR,
         'Cannot refresh tokens: missing provider or refresh token'
@@ -91,7 +90,7 @@ export class DriveAuthManager {
 
     try {
       // In real implementation, would call refresh endpoint
-      this.tokens.access_token = 'new_mock_access_token';
+      this.tokens.accessToken = 'new_mock_access_token';
     } catch (error) {
       throw this.createDriveError(
         DriveErrorType.AUTH_ERROR,
