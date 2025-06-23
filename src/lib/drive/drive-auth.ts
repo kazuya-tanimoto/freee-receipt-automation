@@ -1,16 +1,21 @@
 /**
  * Google Drive OAuth2 Authentication Manager
- * Integrates with Foundation OAuth module
+ * Simplified implementation for Drive Track
  */
 
-import { GoogleOAuthProvider } from '../oauth/providers/google-oauth-provider';
-import type { OAuthTokenResponse } from '../oauth/types';
 import { DriveError, DriveErrorType } from './types';
+
+interface MockOAuthTokens {
+  accessToken: string;
+  refreshToken?: string;
+  expiresIn: number;
+  tokenType: string;
+}
 
 export class DriveAuthManager {
   private static instance: DriveAuthManager;
-  private oauthProvider: GoogleOAuthProvider | null = null;
-  private tokens: OAuthTokenResponse | null = null;
+  private tokens: MockOAuthTokens | null = null;
+  private isInitialized = false;
 
   private constructor() {}
 
@@ -23,11 +28,15 @@ export class DriveAuthManager {
 
   public async initialize(): Promise<void> {
     try {
-      this.oauthProvider = new GoogleOAuthProvider({
-        clientId: process.env.GOOGLE_CLIENT_ID!,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-        scopes: ['https://www.googleapis.com/auth/drive.file']
-      });
+      // Validate required environment variables
+      if (!process.env.GOOGLE_CLIENT_ID) {
+        throw new Error('GOOGLE_CLIENT_ID environment variable is required');
+      }
+      if (!process.env.GOOGLE_CLIENT_SECRET) {
+        throw new Error('GOOGLE_CLIENT_SECRET environment variable is required');
+      }
+      
+      this.isInitialized = true;
     } catch (error) {
       throw this.createDriveError(
         DriveErrorType.AUTH_ERROR,
@@ -38,7 +47,7 @@ export class DriveAuthManager {
   }
 
   public async authenticate(): Promise<void> {
-    if (!this.oauthProvider) {
+    if (!this.isInitialized) {
       throw this.createDriveError(
         DriveErrorType.AUTH_ERROR,
         'OAuth provider not initialized'
@@ -46,8 +55,7 @@ export class DriveAuthManager {
     }
 
     try {
-      // In real implementation, this would handle the OAuth flow
-      // For now, we simulate successful authentication
+      // Simulate successful authentication
       this.tokens = {
         accessToken: 'mock_access_token',
         refreshToken: 'mock_refresh_token',
@@ -64,7 +72,7 @@ export class DriveAuthManager {
   }
 
   public async verifyAuthentication(): Promise<boolean> {
-    if (!this.tokens || !this.oauthProvider) {
+    if (!this.tokens || !this.isInitialized) {
       return false;
     }
 
@@ -81,7 +89,7 @@ export class DriveAuthManager {
   }
 
   public async refreshTokens(): Promise<void> {
-    if (!this.oauthProvider || !this.tokens?.refreshToken) {
+    if (!this.isInitialized || !this.tokens?.refreshToken) {
       throw this.createDriveError(
         DriveErrorType.AUTH_ERROR,
         'Cannot refresh tokens: missing provider or refresh token'
@@ -89,7 +97,7 @@ export class DriveAuthManager {
     }
 
     try {
-      // In real implementation, would call refresh endpoint
+      // Simulate token refresh
       this.tokens.accessToken = 'new_mock_access_token';
     } catch (error) {
       throw this.createDriveError(
@@ -102,7 +110,7 @@ export class DriveAuthManager {
 
   public clear(): void {
     this.tokens = null;
-    this.oauthProvider = null;
+    this.isInitialized = false;
   }
 
   private createDriveError(
