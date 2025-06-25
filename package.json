@@ -15,6 +15,10 @@
     "test:coverage": "vitest run --coverage",
     "check:docs": "bash scripts/check-docs.sh",
     "check:docs:size": "find docs -name '*.md' -exec sh -c 'size=$(wc -c < \\\"$1\\\"); [ $size -gt 10000 ] && echo \\\"$1: $size bytes (exceeds 10KB)\\\"' _ {} \\\\;",
+    "check:env": "bash scripts/check-environment.sh",
+    "predev": "yarn check:env",
+    "prebuild": "yarn check:env",
+    "pretest": "yarn check:env",
     "lint:md": "markdownlint-cli2 '**/*.md' '#node_modules' '#docs/standards/bulletproof-react' '#.yarn' '#docs/standards/naming-cheatsheet' '#.container-use'",
     "format:md": "prettier --write '**/*.md' --ignore-path .prettierignore"
   },
