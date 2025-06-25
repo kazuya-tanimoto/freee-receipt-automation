@@ -10,34 +10,22 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ⚠️ **CRITICAL**: Never sacrifice higher priorities for lower ones
 
-## AI Assistant Persona
+## Core Principles
 
-You are an experienced engineer with the following strengths:
-
-- **Experienced Full-Stack Engineer** with comprehensive technical knowledge
-- **Frontend Expert** - Particularly proficient in React and Next.js
-- **Infrastructure Specialist** - Deep expertise in Supabase and cloud infrastructure
-- **Lead Engineer** - Conducts numerous design and implementation reviews daily with high-precision feedback
-- **Quality-Focused** - Values security, scalability, and single responsibility principle; prefers simple and clean
-  design/implementation
-- **Process-Driven** - Strictly follows established rules and procedures without exception
-
-### Core Engineering Principles
-
-- **Security First** - Always consider security implications in every decision
-- **Simplicity Over Complexity** - Choose the simplest solution that meets requirements
-- **Single Responsibility** - Each module/function should do one thing well
-- **Scalable Architecture** - Design for growth from the beginning
-- **Code Review Mindset** - Approach all code with a critical reviewer's eye
+- **Security First** - Always consider security implications
+- **Simplicity Over Complexity** - Choose the simplest solution
+- **Single Responsibility** - Each module does one thing well
+- **Process-Driven** - Strictly follow established rules without exception
+- **Professional Communication** - Fact-based, honest reporting
 
 ### Absolute Prohibitions
 
 - ❌ **NEVER commit to main branch** - Always create feature branches
 - ❌ **NEVER use `git commit --no-verify`** - All pre-commit checks must pass
 - ❌ **NEVER bypass documentation checks** - Fix ALL errors before proceeding
-- ❌ **NEVER suggest process shortcuts** - Always follow the strictest workflow
-- ❌ **NEVER use `LEFTHOOK=0` or any environment variables to skip hooks**
-- ❌ **NEVER prioritize task completion over rule compliance**
+- ❌ **NEVER use `LEFTHOOK=0` or environment variables to skip hooks**
+- ❌ **NEVER make changes without verification** - Always check before acting
+- ❌ **NEVER report false information** - Verify facts before reporting
 
 ### ⚠️ VIOLATION = IMMEDIATE STOP
 
@@ -55,9 +43,6 @@ If any rule is about to be violated:
 - [ ] **After 3rd error fix attempt** - "Attempted 3 fixes. Stopping for guidance."
 - [ ] **Unexpected situations** - "Unexpected situation. Stopping for guidance."
 
-**Note:** Test execution and git operations proceed automatically if rules are followed. Stop only when human judgment
-or review is essential.
-
 ## Git Commit Workflow
 
 **MANDATORY pre-commit checklist:**
@@ -68,12 +53,6 @@ or review is essential.
 4. **Documentation check** - Run `yarn check:docs` and fix ALL errors
 5. **Commit** - Use standard `git commit` (NEVER use --no-verify)
 
-**If user requests process violations:**
-
-- Politely refuse and explain proper workflow
-- Suggest correct alternative approach
-- Never compromise on quality standards
-
 ## 🚨 ERROR HANDLING PROTOCOL
 
 1. **Error occurs** → Analyze root cause
@@ -83,28 +62,12 @@ or review is essential.
 
 ### FORBIDDEN ERROR PATTERNS
 
-#### Example 1: Bypassing pre-commit
-
-- ❌ **BAD**: `git commit --no-verify`
-- **WHY**: Skips quality checks
+- ❌ **BAD**: `git commit --no-verify` or `LEFTHOOK=0 git commit`
 - ✅ **GOOD**: Fix errors then normal commit
-
-#### Example 2: Environment variable bypass
-
-- ❌ **BAD**: `LEFTHOOK=0 git commit`
-- **WHY**: Disables hooks
-- ✅ **GOOD**: Resolve hook errors
 
 ## ✅ DEFINITION OF SUCCESS
 
-Success means:
-
-- All rules followed
-- Quality standards met
-- Tests pass
-- Documentation checks pass
-- Only then is the task complete
-
+Success means: All rules followed, quality standards met, tests pass, documentation checks pass.
 "It works" or "quick commit" is FAILURE
 
 ## 📋 Self-Check Reporting Rules
@@ -118,194 +81,99 @@ Success means:
 - Documentation: ✅ 0 errors / ❌ X errors
 ```
 
-### Rule Details
+**Required Commands**: `npx tsc --noEmit`, `npm run test`, `yarn check:docs`
 
-1. **Required Commands**:
+## Commands
 
-   - TypeScript: `npx tsc --noEmit`
-   - Tests: `npm run test`
-   - Documentation: `yarn check:docs`
+### Documentation
 
-2. **Reporting Obligation**:
+- `yarn check:docs` - Check documentation
+- `yarn lint:md` - Lint markdown
+- `yarn format:md` - Format markdown
 
-   - **No report = Self-check not performed**
-   - Execute all 3 items and report results
-   - Continue work until all errors are fixed
+### Test
 
-3. **Completion Criteria**:
+- `yarn test:run` - Run all tests
+- `yarn test:watch` - Watch mode
+- `yarn test:coverage` - Test coverage
 
-   - Do not report "work complete" until all 3 items show ✅
-   - Re-run self-check after fixing errors
+### Development
 
-4. **Transparency Assurance**:
-   - Quality status visualization
-   - Reduced human verification workload
-   - Consistent quality standards maintenance
-
-## Build, Lint, and Test Commands
-
-### Documentation Commands
-
-- Run documentation checks: `yarn check:docs`
-- Run document size check: `yarn check:docs:size`
-- Lint markdown files: `yarn lint:md`
-- Format markdown files: `yarn format:md`
-
-### Test Commands
-
-- Run all tests: `yarn test:run`
-- Watch mode testing: `yarn test:watch`
-- Test with UI: `yarn test:ui`
-- Test coverage: `yarn test:coverage`
-
-### Development Commands
-
-- Start development: `yarn dev`
-- Build production: `yarn build`
-- Start production: `yarn start`
-
-## Environment and Tool Guidelines
-
-### Mandatory Tool Usage
-
-- **Environment Tools Only** - Use ONLY environment tools for ALL file, code, or shell operations
-- **No Exceptions** - This applies even for simple or generic requests
-- **Git Operations** - Environment tools handle all Git operations automatically
-
-### Git Client Restrictions
-
-- **Prohibited** - DO NOT install or use git CLI with environment_run_cmd tool
-- **Integrity Protection** - Changing ".git" directly compromises environment integrity
-- **Tool Reliance** - All environment tools handle Git operations properly
-
-### Work Visibility Requirements
-
-- **Branch Communication** - MUST inform users how to view work using `git checkout <branch_name>`
-- **Accessibility** - Failure to provide checkout instructions makes work inaccessible to others
+- `yarn dev` - Start development
+- `yarn build` - Build production
 
 ## Code Style Guidelines
 
 ### Naming Conventions
 
-- Variables/Functions: camelCase (e.g., `userName`, `getUserData`)
-- Classes: PascalCase (e.g., `UserService`)
-- Constants: UPPER_SNAKE_CASE (e.g., `MAX_RETRY_COUNT`)
+- Variables/Functions: camelCase
+- Classes: PascalCase
+- Constants: UPPER_SNAKE_CASE
 
 ### File Structure
 
-- Line limit per file: 150 lines (max 250 lines)
-- Files exceeding 150 lines must be split by functionality
-- Keep AI-generated code within 150 lines per file
+- Line limit: 150 lines (max 250)
+- Split files exceeding 150 lines by functionality
 
-**Note:** If implementation requires >150 lines, this signals the component has too many responsibilities. Consider
-splitting the feature/PBI before splitting the code.
+### Standards
 
-### Comment Standards
-
-- Function descriptions: JSDoc format
-- Complex logic: Inline comments
-- TODO comments: Use format `// TODO (YYYY-MM-DD, @assignee): Task description`
-
-### Error Handling
-
-- Specify concrete exception types
-- Provide user-friendly error messages
-- Use appropriate log levels
-
-### Documentation Standards
-
-- Markdown line length: 120 characters max
-- First heading must be level 1
-- Only allow `<kbd>` HTML tags in markdown
+- JSDoc for functions
+- Markdown: 120 chars/line, level 1 heading first
+- Error handling: Concrete types, user-friendly messages
 
 ## 🧪 Testing Strategy
 
 ### Test Architecture: Unit + E2E
 
-This project follows a **two-tier testing strategy** optimized for individual development with AI assistance:
+**Unit Tests**: Co-located with source (`src/lib/auth.ts` → `src/lib/auth.test.ts`)
 
-#### **Unit Tests** - Function/Component Level
+- Framework: Vitest + Testing Library
+- Scope: Functions, components, business logic
 
-- **Location**: Co-located with source files (`src/lib/auth.ts` → `src/lib/auth.test.ts`)
-- **Scope**: Individual functions, components, utilities in isolation
-- **Framework**: Vitest + Testing Library
-- **Coverage**: Business logic, edge cases, error handling
+**E2E Tests**: Dedicated `e2e/` directory
 
-#### **E2E Tests** - Complete User Workflows
-
-- **Location**: Dedicated `e2e/` directory
-- **Scope**: Full application workflows from user perspective
-- **Framework**: Playwright
-- **Coverage**: Critical user journeys, integration points
-
-#### **Rationale for Unit + E2E Strategy**
-
-- **Project Scale**: Small-to-medium individual automation system
-- **Development Model**: AI-assisted development requires simple, maintainable test structure
-- **External Dependencies**: Heavy reliance on external APIs (Supabase, freee, OCR) makes integration testing less
-  valuable
-- **Quality vs Efficiency**: Appropriate quality assurance without over-engineering
+- Framework: Playwright
+- Scope: User workflows, critical paths
 
 ### Mandatory Testing Standards
 
-**ALL code changes MUST include appropriate tests:**
+**ALL code changes MUST include tests:**
 
-1. **New Functions/Methods** → Unit tests required
-2. **New Components** → Unit tests required
-3. **API Routes/Endpoints** → Unit tests + E2E coverage
-4. **Bug Fixes** → Unit tests for regression prevention
-5. **Database Changes** → Unit tests for type safety
+1. New functions/components → Unit tests
+2. API routes → Unit + E2E tests
+3. Bug fixes → Regression tests
+4. Database changes → Type safety tests
 
-### Testing Guidelines
-
-#### **Unit Testing Best Practices**
-
-- **Co-location**: Place test files next to source files
-- **Naming**: `filename.test.ts` convention
-- **Mocking**: Use MSW for API calls, vi.mock for modules
-- **Coverage**: Focus on critical business logic, not percentage targets
-
-#### **E2E Testing Best Practices**
-
-- **Real Environment**: Test against actual external services when possible
-- **User Perspective**: Write tests from user's point of view
-- **Critical Paths**: Focus on essential user workflows
-- **Playwright Config**: Use standard Playwright setup
-
-### Testing Framework Standards
-
-- **Unit Framework**: Vitest + Testing Library + MSW
-- **E2E Framework**: Playwright
-- **File Organization**: Co-located unit tests, dedicated E2E directory
-- **Environment**: Isolated test environment with realistic mock data
-
-### Test Execution Requirements
-
-**Before ANY commit:**
+### Test Execution
 
 ```bash
-yarn test:run  # Must pass 100%
+yarn test:run    # Before commit (must pass 100%)
+yarn test:watch  # During development
 ```
 
-**During development:**
+**ABSOLUTE**: No code reaches main without tests. PRs blocked until tests pass.
 
-```bash
-yarn test:watch  # Continuous testing
-```
+## 🎯 PROJECT-SPECIFIC APPROACH
 
-### CI/CD Integration
+### freee Receipt Automation Context
 
-- ✅ **ALL PRs require test success**
-- ✅ **Cannot merge with failing tests**
-- ✅ **Automatic test execution on push**
-- ✅ **Test results visible in PR reviews**
+**Domain**: Freelance IT engineer expense automation
 
-### Enforcement
+- Process ~4 receipts/week from Gmail/Drive
+- Integrate with freee API for expense tracking
+- Use OCR for receipt data extraction
+- Budget: $5/year operational cost
 
-**ABSOLUTE REQUIREMENT**: No code reaches main branch without corresponding tests.
+**Tech Stack**: Next.js 14 + TypeScript + Supabase + Edge Functions
 
-**Violation Consequences**:
+**Current Phase**: Phase 2 (API Integrations)
 
-1. PR automatically blocked
-2. Must add missing tests before review
-3. No exceptions - quality over speed
+- Gmail Track, Drive Track, File Management Track
+
+### Professional Communication Standards
+
+1. **Verify Before Reporting** - Check facts before making claims
+2. **Admit Mistakes Immediately** - No excuses or deflection
+3. **Provide Accurate Status** - Report actual state, not assumptions
+4. **Clear Action Plans** - Specific steps for resolution
+5. **No False Promises** - Only commit to what's achievable
