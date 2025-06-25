@@ -1,12 +1,88 @@
 pre-commit:
   parallel: true
   commands:
+    environment-check:
+      run: |
+        echo "🔍 Environment check starting..."
+        echo "Current path: $PWD"
+        echo "Current user: $(whoami)"
+
+        # ローカル環境検出
+        if [[ "$PWD" == "/Users/"* ]]; then
+          echo ""
+          echo "🚨 FATAL ERROR: Local environment detected"
+          echo "Current path: $PWD"
+          echo "Current user: $(whoami)"
+          echo ""
+          echo "❌ ALL COMMITS BLOCKED"
+          echo "Switch to Container Use environment before committing"
+          echo ""
+          echo "Required: Use mcp__container-use__ tools only"
+          exit 1
+        fi
+
+        # Container環境確認
+        if [[ ! -f "/.dockerenv" ]] && [[ ! "$CONTAINER" == "true" ]] && [[ ! "$PWD" == "/workspaces/"* ]] && [[ ! "$PWD" == "/workdir"* ]]; then
+          echo ""
+          echo "🚨 FATAL ERROR: Not in container environment"
+          echo "Current environment indicators:"
+          echo "  - dockerenv: $([ -f /.dockerenv ] && echo 'found' || echo 'missing')"
+          echo "  - CONTAINER var: ${CONTAINER:-'unset'}"
+          echo "  - Workspace path: $PWD"
+          echo ""
+          echo "❌ ALL COMMITS BLOCKED"
+          echo "Use Container Use environment only"
+          exit 1
+        fi
+
+        echo "✅ Container environment verified"
+
+    no-verify-prevention:
+      run: |
+        # --no-verify 使用検出
+        if ps aux | grep -v grep | grep -q "\-\-no-verify"; then
+          echo ""
+          echo "🚨 FATAL ERROR: --no-verify flag detected"
+          echo "❌ BYPASS ATTEMPTS BLOCKED"
+          echo ""
+          echo "All commits must pass quality checks"
+          exit 1
+        fi
+        echo "✅ No bypass attempts detected"
+
     docs-check:
       run: yarn check:docs
       files: git diff --name-only --cached --diff-filter=d | grep '\.md$' || true
       skip: git diff --name-only --cached --diff-filter=d | grep -q '\.md$' || echo "skip"
-    
+
     test-check:
       run: yarn test:run
       files: git diff --name-only --cached --diff-filter=d | grep -E '\.(ts|tsx|js|jsx)$' || true
       skip: git diff --name-only --cached --diff-filter=d | grep -qE '\.(ts|tsx|js|jsx)$' || echo "skip"
+
+    file-size-check:
+      run: |
+        echo "🔍 Checking file sizes..."
+        large_files=()
+
+        # 変更されたファイルのサイズチェック
+        for file in $(git diff --cached --name-only --diff-filter=d); do
+          if [[ -f "$file" && "$file" =~ \.(ts|tsx|js|jsx)$ ]]; then
+            lines=$(wc -l < "$file" 2>/dev/null || echo 0)
+            if [[ $lines -gt 150 ]]; then
+              large_files+=("$file: $lines lines (max: 150)")
+            fi
+          fi
+        done
+
+        if [[ ${#large_files[@]} -gt 0 ]]; then
+          echo ""
+          echo "🚨 FATAL ERROR: Files exceed size limit"
+          printf '%s\n' "${large_files[@]}"
+          echo ""
+          echo "❌ COMMITS BLOCKED"
+          echo "Split large files before committing"
+          exit 1
+        fi
+
+        echo "✅ All files within size limits"
