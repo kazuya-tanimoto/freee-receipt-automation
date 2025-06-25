@@ -297,6 +297,32 @@ mcp__container-use__environment_run_cmd --environment_id phase2-drive-track \
   structure.md;
 ```
 
+### **PBI-2-3-6: Track Coordination Integration (2 SP)**
+
+**目的**: Track間連携機能の実装
+
+**技術要件**:
+
+- Event-driven track coordination using processing_logs table
+- Trigger mechanisms for subsequent track activation
+- Data handoff protocols between tracks
+- Error handling for coordination failures
+- Monitoring track execution chain status
+- Support for both synchronous and asynchronous coordination
+
+**実装ファイル**:
+
+```typescript
+/workdir/src/lib/drive/track-coordinator.ts
+/workdir/src/lib/drive/events/track-events.ts
+/workdir/src/lib/drive/events/event-publisher.ts
+/workdir/src/lib/drive/events/track-trigger.ts
+/workdir/src/lib/drive/processing-log-integration.ts
+/workdir/src/types/track-coordination.ts
+/workdir/supabase/migrations/010_add_track_coordination_columns.sql
+/workdir/docs/architecture/track-coordination.md
+```
+
 ## 🗂️ Drive フォルダ構造設計
 
 ### **標準フォルダ構造**
@@ -438,7 +464,7 @@ mcp__container-use__environment_run_cmd --environment_id phase2-drive-track \
 - Include permission management and access control
 - Ensure >80% test coverage with unit + integration tests
 
-Completes PBI-2-3-1 through PBI-2-3-5
+Completes PBI-2-3-1 through PBI-2-3-6
 
 🤖 Generated with [Claude Code](https://claude.ai/code)
 
@@ -481,6 +507,15 @@ Co-Authored-By: Claude <noreply@anthropic.com>'"
 - ✅ Performance benchmarks満足
 - ✅ Documentation完全整備
 - ✅ Knowledge transfer完了
+
+### **PBI-2-3-6 完了条件**
+
+- ✅ Track coordination events発行確認
+- ✅ processing_logs統合動作確認
+- ✅ Next track trigger機能動作確認
+- ✅ Error handling during coordination確認
+- ✅ Data handoff integrity確認
+- ✅ Monitoring track execution chain確認
 
 ### **Drive Track 完了条件**
 
@@ -546,7 +581,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>'"
 
 ---
 
-**🚀 開始指示**: Foundation完了確認後、container-use環境でPBI-2-3-1から順次開始してください。Google Drive
+**🚀 開始指示**: Foundation完了確認後、container-use環境でPBI-2-3-1から順次開始してください。PBI-2-3-6まで完了してGoogle Drive
 API統合の設計判断と実装理由を明確にしながら進め、全てのコマンド実行はmcp**container-use**environment\_\*ツールを使用してください。完了時にはGmail
 TrackとFile Management Trackとの連携準備状況を詳細に報告してください。
 
