@@ -27,7 +27,7 @@ pre-commit:
           echo "🚨 FATAL ERROR: Not in container environment"
           echo "Current environment indicators:"
           echo "  - dockerenv: $([ -f /.dockerenv ] && echo 'found' || echo 'missing')"
-          echo "  - CONTAINER var: $([ -n "$CONTAINER" ] && echo 'set' || echo 'unset')"
+          echo "  - CONTAINER var: ${CONTAINER:-'unset'}"
           echo "  - Workspace path: $PWD"
           echo ""
           echo "❌ ALL COMMITS BLOCKED"
@@ -39,8 +39,8 @@ pre-commit:
 
     no-verify-prevention:
       run: |
-        # --no-verify 使用検出（改善版：引数チェック）
-        if [[ "$*" == *"--no-verify"* ]] || [[ "$GIT_PARAMS" == *"--no-verify"* ]]; then
+        # --no-verify 使用検出
+        if ps aux | grep -v grep | grep -q "\-\-no-verify"; then
           echo ""
           echo "🚨 FATAL ERROR: --no-verify flag detected"
           echo "❌ BYPASS ATTEMPTS BLOCKED"
