@@ -5,6 +5,7 @@
   "type": "module",
   "packageManager": "yarn@4.0.2",
   "scripts": {
+    "postinstall": "lefthook install",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
