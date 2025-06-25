@@ -6,12 +6,12 @@ set -e
 echo "🔍 Environment Safety Check"
 echo "=========================="
 
-# 現在の環境情報表示
+# 現在の環境情報表示（セキュリティ改善版）
 echo "Current path: $PWD"
 echo "Current user: $(whoami)"
 echo "Container indicators:"
 echo "  - /.dockerenv: $([ -f /.dockerenv ] && echo '✅ found' || echo '❌ missing')"
-echo "  - CONTAINER var: ${CONTAINER:-'❌ unset'}"
+echo "  - CONTAINER var: $([ -n "$CONTAINER" ] && echo '✅ set' || echo '❌ unset')"
 echo "  - Workspace path: $(echo $PWD | grep -E '^/(workspaces|workspace|workdir)/' && echo '✅ container path' || echo '❌ non-container path')"
 
 # ローカル環境チェック
