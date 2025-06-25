@@ -39,8 +39,8 @@ pre-commit:
 
     no-verify-prevention:
       run: |
-        # --no-verify 使用検出（セキュリティ改善版）
-        if pgrep -f "\-\-no-verify" > /dev/null 2>&1; then
+        # --no-verify 使用検出（改善版：引数チェック）
+        if [[ "$*" == *"--no-verify"* ]] || [[ "$GIT_PARAMS" == *"--no-verify"* ]]; then
           echo ""
           echo "🚨 FATAL ERROR: --no-verify flag detected"
           echo "❌ BYPASS ATTEMPTS BLOCKED"
