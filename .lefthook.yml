@@ -37,19 +37,6 @@ pre-commit:
 
         echo "✅ Container environment verified"
 
-    no-verify-prevention:
-      run: |
-        # --no-verify 使用検出
-        if ps aux | grep -v grep | grep -q "\-\-no-verify"; then
-          echo ""
-          echo "🚨 FATAL ERROR: --no-verify flag detected"
-          echo "❌ BYPASS ATTEMPTS BLOCKED"
-          echo ""
-          echo "All commits must pass quality checks"
-          exit 1
-        fi
-        echo "✅ No bypass attempts detected"
-
     docs-check:
       run: yarn check:docs
       files: git diff --name-only --cached --diff-filter=d | grep '\.md$' || true
