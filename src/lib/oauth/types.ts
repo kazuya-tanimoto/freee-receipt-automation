@@ -1,9 +1,17 @@
 /**
  * OAuth2.0 Type Definitions
  * 
- * Comprehensive type definitions for OAuth2.0 authentication flows
+ * Core type definitions for OAuth2.0 authentication flows
  * with PKCE support for Gmail and Google Drive integration.
  */
+
+// Re-export from split files
+export * from './oauth-constants';
+export * from './oauth-guards';
+export * from './oauth-config-types';
+
+// Import types needed in this file
+import { OAuthProviderConfig } from './oauth-config-types';
 
 // ============================================================================
 // Core OAuth Types
@@ -99,76 +107,6 @@ export interface OAuthTokenResponse {
   scope?: string;
 }
 
-// ============================================================================
-// Internal OAuth Storage Types
-// ============================================================================
-
-/**
- * PKCE parameters for temporary storage
- */
-export interface PKCEParams {
-  /** PKCE code verifier */
-  codeVerifier: string;
-  /** PKCE code challenge */
-  codeChallenge: string;
-  /** Code challenge method */
-  codeChallengeMethod: CodeChallengeMethod;
-  /** CSRF state parameter */
-  state: string;
-  /** Expiry timestamp */
-  expiresAt: Date;
-}
-
-/**
- * Stored OAuth tokens
- */
-export interface StoredOAuthTokens {
-  /** Encrypted access token */
-  accessToken: string;
-  /** Encrypted refresh token */
-  refreshToken?: string;
-  /** Token expiry timestamp */
-  expiresAt: Date;
-  /** Granted scopes */
-  scope: string;
-  /** Token type */
-  tokenType: TokenType;
-  /** Provider identifier */
-  provider: OAuthProvider;
-}
-
-// ============================================================================
-// Provider Configuration Types
-// ============================================================================
-
-/**
- * OAuth provider configuration
- */
-export interface OAuthProviderConfig {
-  /** Provider name */
-  name: OAuthProvider;
-  /** Client ID */
-  clientId: string;
-  /** Client secret */
-  clientSecret: string;
-  /** Authorization endpoint */
-  authorizationEndpoint: string;
-  /** Token endpoint */
-  tokenEndpoint: string;
-  /** Default scopes */
-  defaultScopes: string[];
-  /** Supported scopes */
-  supportedScopes: string[];
-}
-
-/**
- * Google OAuth provider configuration
- */
-export interface GoogleOAuthConfig extends OAuthProviderConfig {
-  name: 'google';
-  authorizationEndpoint: 'https://accounts.google.com/o/oauth2/v2/auth';
-  tokenEndpoint: 'https://oauth2.googleapis.com/token';
-}
 
 // ============================================================================
 // OAuth Provider Interface
@@ -287,163 +225,3 @@ export class OAuthException extends Error {
   }
 }
 
-// ============================================================================
-// Rate Limiting Types
-// ============================================================================
-
-/**
- * Rate limit information
- */
-export interface RateLimitInfo {
-  /** Remaining requests in current window */
-  remaining: number;
-  /** Total requests allowed in window */
-  limit: number;
-  /** Window reset timestamp */
-  resetAt: Date;
-  /** Current window duration in seconds */
-  windowDuration: number;
-}
-
-/**
- * API quota information
- */
-export interface QuotaInfo {
-  /** Used quota units */
-  used: number;
-  /** Total quota units */
-  total: number;
-  /** Quota reset timestamp */
-  resetAt: Date;
-  /** Quota user identifier */
-  quotaUser?: string;
-}
-
-// ============================================================================
-// Service Scope Definitions
-// ============================================================================
-
-/**
- * Gmail API scopes
- */
-export const GMAIL_SCOPES = {
-  /** Read Gmail messages and attachments */
-  READONLY: 'https://www.googleapis.com/auth/gmail.readonly',
-  /** Compose and send Gmail messages */
-  COMPOSE: 'https://www.googleapis.com/auth/gmail.compose',
-  /** Modify Gmail messages (labels, etc.) */
-  MODIFY: 'https://www.googleapis.com/auth/gmail.modify',
-  /** Full Gmail access */
-  FULL: 'https://www.googleapis.com/auth/gmail'
-} as const;
-
-/**
- * Google Drive API scopes
- */
-export const DRIVE_SCOPES = {
-  /** Access files created by this app */
-  FILE: 'https://www.googleapis.com/auth/drive.file',
-  /** Read-only access to file metadata */
-  METADATA_READONLY: 'https://www.googleapis.com/auth/drive.metadata.readonly',
-  /** Read-only access to files */
-  READONLY: 'https://www.googleapis.com/auth/drive.readonly',
-  /** Full Drive access */
-  FULL: 'https://www.googleapis.com/auth/drive'
-} as const;
-
-/**
- * Google API scope definitions
- */
-export const GOOGLE_SCOPES = {
-  ...GMAIL_SCOPES,
-  ...DRIVE_SCOPES,
-  /** User profile information */
-  USERINFO_EMAIL: 'https://www.googleapis.com/auth/userinfo.email',
-  USERINFO_PROFILE: 'https://www.googleapis.com/auth/userinfo.profile'
-} as const;
-
-// ============================================================================
-// OAuth Configuration Constants
-// ============================================================================
-
-/**
- * OAuth flow configuration constants
- */
-export const OAUTH_CONFIG = {
-  /** PKCE code verifier length (43-128 characters) */
-  CODE_VERIFIER_LENGTH: 64,
-  /** State parameter length */
-  STATE_LENGTH: 32,
-  /** PKCE parameters storage duration (seconds) */
-  PKCE_STORAGE_DURATION: 600, // 10 minutes
-  /** Token refresh buffer time (seconds) */
-  TOKEN_REFRESH_BUFFER: 300, // 5 minutes
-  /** Maximum retry attempts for token refresh */
-  MAX_REFRESH_RETRIES: 3,
-  /** Default redirect URI */
-  DEFAULT_REDIRECT_URI: '/auth/callback'
-} as const;
-
-/**
- * Google API endpoints
- */
-export const GOOGLE_ENDPOINTS = {
-  /** Authorization endpoint */
-  AUTHORIZATION: 'https://accounts.google.com/o/oauth2/v2/auth',
-  /** Token endpoint */
-  TOKEN: 'https://oauth2.googleapis.com/token',
-  /** Token revocation endpoint */
-  REVOKE: 'https://oauth2.googleapis.com/revoke',
-  /** User info endpoint */
-  USERINFO: 'https://www.googleapis.com/oauth2/v2/userinfo',
-  /** Gmail API base */
-  GMAIL_API: 'https://gmail.googleapis.com/gmail/v1',
-  /** Drive API base */
-  DRIVE_API: 'https://www.googleapis.com/drive/v3'
-} as const;
-
-// ============================================================================
-// Type Guards
-// ============================================================================
-
-/**
- * Type guard for OAuth error response
- */
-export function isOAuthError(value: unknown): value is OAuthError {
-  return (
-    typeof value === 'object' &&
-    value !== null &&
-    'error' in value &&
-    typeof (value as any).error === 'string'
-  );
-}
-
-/**
- * Type guard for OAuth token response
- */
-export function isOAuthTokenResponse(value: unknown): value is OAuthTokenResponse {
-  return (
-    typeof value === 'object' &&
-    value !== null &&
-    'accessToken' in value &&
-    'expiresIn' in value &&
-    'tokenType' in value &&
-    typeof (value as any).accessToken === 'string' &&
-    typeof (value as any).expiresIn === 'number' &&
-    typeof (value as any).tokenType === 'string'
-  );
-}
-
-/**
- * Type guard for valid OAuth provider
- */
-export function isValidOAuthProvider(value: string): value is OAuthProvider {
-  return value === 'google';
-}
-
-/**
- * Type guard for valid OAuth scope
- */
-export function isValidGoogleScope(scope: string): scope is string {
-  return Object.values(GOOGLE_SCOPES).includes(scope as any);
-}
