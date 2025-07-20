@@ -38,11 +38,11 @@ freee Receipt Automation プロジェクトの **Phase 5** 完了までの実行
 
 ### **Step 1: Phase 5A - Production Optimization**
 
-#### **Container Environment Setup**
+#### **ローカル開発環境セットアップ**
 
 ```bash
 # Claude Code で実行
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase5-production-optimization
+cd /Users/kazuya/src/freee-receipt-automation
 ```
 
 #### **Implementation Sequence**
@@ -75,11 +75,11 @@ git add . && git commit -m "feat: implement production optimization with perform
 
 ### **Step 2: Phase 5B - Scaling Infrastructure**
 
-#### **Container Environment Setup**
+#### **ローカル開発環境セットアップ**
 
 ```bash
-# スケーリング専用環境で実行
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase5-scaling-infrastructure
+# スケーリング専用ローカルセッションで実行
+cd /Users/kazuya/src/freee-receipt-automation
 ```
 
 #### **Implementation Sequence**
@@ -112,11 +112,11 @@ git add . && git commit -m "feat: implement global scaling infrastructure with a
 
 ### **Step 3: Phase 5C - Future Roadmap**
 
-#### **Container Environment Setup**
+#### **ローカル開発環境セットアップ**
 
 ```bash
-# 未来技術専用環境で実行
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase5-future-roadmap
+# 未来技術専用ローカルセッションで実行
+cd /Users/kazuya/src/freee-receipt-automation
 ```
 
 #### **Implementation Sequence**

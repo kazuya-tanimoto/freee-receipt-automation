@@ -26,29 +26,28 @@
 - **Zero-Downtime Operations** - 無停止運用とサービス継続性
 - **Autonomous Operations** - 人的介入を最小化した自律運用
 
-## 🐳 Container Environment Setup
+## 🐳 ローカル開発環境セットアップ
 
-**重要**: あなたは container-use 環境で作業します。
+**重要**: あなたはローカル環境で作業します。
 
 ### **Environment Initialization**
 
-#### Step 1: Create Container Environment
+#### Step 1: ローカル環境に移動
 
 ```bash
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase4-advanced-automation
+cd /Users/kazuya/src/freee-receipt-automation
 ```
 
-#### Step 2: Install Advanced Automation Dependencies
+#### Step 2: 高度自動化依存関係のインストール
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase4-advanced-automation \
-  --command "yarn add @temporal/client @temporal/worker ioredis bull pm2 winston-elasticsearch"
+yarn add @temporal/client @temporal/worker ioredis bull pm2 winston-elasticsearch
 ```
 
-#### Step 3: Environment Health Check
+#### Step 3: 環境ヘルスチェック
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase4-advanced-automation --command "yarn check:docs && yarn test:run"
+yarn check:docs && yarn test:run
 ```
 
 ## 🎯 Phase 4-2 Implementation Targets
@@ -484,16 +483,14 @@ interface AdvancedMetrics {
 ### **Quick Start Sequence**
 
 ```bash
-# 1. Environment setup
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase4-advanced-automation
+# 1. Local Session 6 setup
+cd /Users/kazuya/src/freee-receipt-automation
 
 # 2. Install advanced automation dependencies
-mcp__container-use__environment_run_cmd --environment_id phase4-advanced-automation \
-  --command "yarn add @temporal/client @temporal/worker ioredis bull pm2 winston-elasticsearch"
+yarn add @temporal/client @temporal/worker ioredis bull pm2 winston-elasticsearch
 
 # 3. Create directory structure
-mcp__container-use__environment_run_cmd --environment_id phase4-advanced-automation \
-  --command "mkdir -p src/lib/automation/{dynamic,healing,routing,optimization,chaos}"
+mkdir -p src/lib/automation/{dynamic,healing,routing,optimization,chaos}
 
 # 4. Start implementation with PBI-4-2-1
 ```
@@ -502,13 +499,13 @@ mcp__container-use__environment_run_cmd --environment_id phase4-advanced-automat
 
 ```bash
 # Start chaos engineering
-mcp__container-use__environment_run_cmd --environment_id phase4-advanced-automation --command "yarn chaos:run"
+yarn chaos:run
 
 # Monitor system health
-mcp__container-use__environment_run_cmd --environment_id phase4-advanced-automation --command "yarn monitor:health"
+yarn monitor:health
 
 # Test auto-scaling
-mcp__container-use__environment_run_cmd --environment_id phase4-advanced-automation --command "yarn test:scaling"
+yarn test:scaling
 ```
 
 ## 🎯 Ready for Ultimate Automation?

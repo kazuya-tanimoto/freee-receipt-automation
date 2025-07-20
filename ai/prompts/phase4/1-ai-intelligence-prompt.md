@@ -26,29 +26,28 @@
 - **Continuous Learning** - 運用データによるモデル継続改善
 - **Privacy by Design** - プライバシー保護を組み込んだAI設計
 
-## 🐳 Container Environment Setup
+## 🐳 ローカル開発環境セットアップ
 
-**重要**: あなたは container-use 環境で作業します。
+**重要**: あなたはローカル環境で作業します。
 
 ### **Environment Initialization**
 
-#### Step 1: Create Container Environment
+#### Step 1: ローカル環境に移動
 
 ```bash
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase4-ai-intelligence
+cd /Users/kazuya/src/freee-receipt-automation
 ```
 
-#### Step 2: Install AI/ML Dependencies
+#### Step 2: AI/ML依存関係のインストール
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase4-ai-intelligence \
-  --command "yarn add @tensorflow/tfjs @tensorflow/tfjs-node openai natural compromise sentiment"
+yarn add @tensorflow/tfjs @tensorflow/tfjs-node openai natural compromise sentiment
 ```
 
-#### Step 3: Environment Health Check
+#### Step 3: 環境ヘルスチェック
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase4-ai-intelligence --command "yarn check:docs && yarn test:run"
+yarn check:docs && yarn test:run
 ```
 
 ## 🎯 Phase 4-1 Implementation Targets
@@ -426,16 +425,14 @@ interface ModelMonitoring {
 ### **Quick Start Sequence**
 
 ```bash
-# 1. Environment setup
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase4-ai-intelligence
+# 1. Local Session 5 setup
+cd /Users/kazuya/src/freee-receipt-automation
 
 # 2. Install AI/ML dependencies
-mcp__container-use__environment_run_cmd --environment_id phase4-ai-intelligence \
-  --command "yarn add @tensorflow/tfjs @tensorflow/tfjs-node openai natural compromise sentiment"
+yarn add @tensorflow/tfjs @tensorflow/tfjs-node openai natural compromise sentiment
 
 # 3. Create directory structure
-mcp__container-use__environment_run_cmd --environment_id phase4-ai-intelligence \
-  --command "mkdir -p src/lib/ai/{models,classification,analytics,learning}"
+mkdir -p src/lib/ai/{models,classification,analytics,learning}
 
 # 4. Start implementation with PBI-4-1-1
 ```
@@ -444,13 +441,13 @@ mcp__container-use__environment_run_cmd --environment_id phase4-ai-intelligence 
 
 ```bash
 # Train models
-mcp__container-use__environment_run_cmd --environment_id phase4-ai-intelligence --command "yarn ai:train"
+yarn ai:train
 
 # Evaluate models
-mcp__container-use__environment_run_cmd --environment_id phase4-ai-intelligence --command "yarn ai:evaluate"
+yarn ai:evaluate
 
 # Deploy models
-mcp__container-use__environment_run_cmd --environment_id phase4-ai-intelligence --command "yarn ai:deploy"
+yarn ai:deploy
 ```
 
 ## 🎯 Ready to Build AI Intelligence?

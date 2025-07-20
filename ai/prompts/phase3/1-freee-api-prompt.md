@@ -26,34 +26,34 @@
 - **Error Recovery** - 障害時の自動復旧機能
 - **Type Safety** - TypeScript strict mode で型安全性確保
 
-## 🐳 Container Environment Setup
+## 🐳 ローカル開発環境セットアップ
 
-**重要**: あなたは container-use 環境で作業します。
+**重要**: あなたはローカル環境で作業します。
 
 ### **Environment Initialization**
 
-#### Step 1: Create Container Environment
+#### Step 1: ローカル環境に移動
 
 ```bash
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase3-freee-api
+cd /Users/kazuya/src/freee-receipt-automation
 ```
 
-#### Step 2: Verify Working Directory
+#### Step 2: 作業ディレクトリの確認
 
 ```bash
-mcp__container-use__environment_file_list --environment_id phase3-freee-api --path /workdir
+ls -la
 ```
 
-#### Step 3: Install Dependencies
+#### Step 3: 依存関係のインストール
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase3-freee-api --command "yarn install"
+yarn install
 ```
 
-#### Step 4: Environment Health Check
+#### Step 4: 環境ヘルスチェック
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase3-freee-api --command "yarn check:docs && yarn test:run"
+yarn check:docs && yarn test:run
 ```
 
 ## 🎯 Phase 3-1 Implementation Targets
@@ -158,8 +158,7 @@ src/lib/monitoring/
 
 ```bash
 # Install freee API dependencies
-mcp__container-use__environment_run_cmd --environment_id phase3-freee-api \
-  --command "yarn add @freee_jp/freee-accounting-sdk axios rate-limiter-flexible"
+yarn add @freee_jp/freee-accounting-sdk axios rate-limiter-flexible
 ```
 
 #### Implementation Priority
@@ -304,15 +303,14 @@ e2e/freee-integration.spec.ts         # Complete workflow tests
 ### **Quick Start Sequence**
 
 ```bash
-# 1. Environment setup
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase3-freee-api
+# 1. Local Session 1 setup
+cd /Users/kazuya/src/freee-receipt-automation
 
 # 2. Install dependencies
-mcp__container-use__environment_run_cmd --environment_id phase3-freee-api --command "yarn install"
+yarn install
 
 # 3. Create directory structure
-mcp__container-use__environment_run_cmd --environment_id phase3-freee-api \
-  --command "mkdir -p src/lib/freee src/lib/models src/lib/services src/lib/monitoring"
+mkdir -p src/lib/freee src/lib/models src/lib/services src/lib/monitoring
 
 # 4. Start implementation
 # Copy this prompt content and begin PBI-3-1-1
@@ -322,13 +320,13 @@ mcp__container-use__environment_run_cmd --environment_id phase3-freee-api \
 
 ```bash
 # Test execution
-mcp__container-use__environment_run_cmd --environment_id phase3-freee-api --command "yarn test:watch"
+yarn test:watch
 
 # Type checking
-mcp__container-use__environment_run_cmd --environment_id phase3-freee-api --command "npx tsc --noEmit"
+npx tsc --noEmit
 
 # Documentation check
-mcp__container-use__environment_run_cmd --environment_id phase3-freee-api --command "yarn check:docs"
+yarn check:docs
 ```
 
 ## 🎯 Ready to Build freee Integration?

@@ -26,29 +26,28 @@
 - **Performance First** - 高速クエリと応答性能
 - **Privacy by Design** - データプライバシーとセキュリティ
 
-## 🐳 Container Environment Setup
+## 🐳 ローカル開発環境セットアップ
 
-**重要**: あなたは container-use 環境で作業します。
+**重要**: あなたはローカル環境で作業します。
 
 ### **Environment Initialization**
 
-#### Step 1: Create Container Environment
+#### Step 1: ローカル環境に移動
 
 ```bash
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase4-analytics-reporting
+cd /Users/kazuya/src/freee-receipt-automation
 ```
 
-#### Step 2: Install Analytics Dependencies
+#### Step 2: 分析依存関係のインストール
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase4-analytics-reporting \
-  --command "yarn add @observablehq/plot d3 chart.js recharts apache-arrow parquet-wasm sql.js"
+yarn add @observablehq/plot d3 chart.js recharts apache-arrow parquet-wasm sql.js
 ```
 
-#### Step 3: Environment Health Check
+#### Step 3: 環境ヘルスチェック
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase4-analytics-reporting --command "yarn check:docs && yarn test:run"
+yarn check:docs && yarn test:run
 ```
 
 ## 🎯 Phase 4-3 Implementation Targets
@@ -472,16 +471,14 @@ interface DataAccess {
 ### **Quick Start Sequence**
 
 ```bash
-# 1. Environment setup
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase4-analytics-reporting
+# 1. Local Session 7 setup
+cd /Users/kazuya/src/freee-receipt-automation
 
 # 2. Install analytics dependencies
-mcp__container-use__environment_run_cmd --environment_id phase4-analytics-reporting \
-  --command "yarn add @observablehq/plot d3 chart.js recharts apache-arrow parquet-wasm sql.js"
+yarn add @observablehq/plot d3 chart.js recharts apache-arrow parquet-wasm sql.js
 
 # 3. Create directory structure
-mcp__container-use__environment_run_cmd --environment_id phase4-analytics-reporting \
-  --command "mkdir -p src/lib/analytics/{dashboard,predictive,reporting,pipeline}"
+mkdir -p src/lib/analytics/{dashboard,predictive,reporting,pipeline}
 
 # 4. Start implementation with PBI-4-3-1
 ```
@@ -490,13 +487,13 @@ mcp__container-use__environment_run_cmd --environment_id phase4-analytics-report
 
 ```bash
 # Build dashboards
-mcp__container-use__environment_run_cmd --environment_id phase4-analytics-reporting --command "yarn analytics:build"
+yarn analytics:build
 
 # Generate reports
-mcp__container-use__environment_run_cmd --environment_id phase4-analytics-reporting --command "yarn reports:generate"
+yarn reports:generate
 
 # Run data pipeline
-mcp__container-use__environment_run_cmd --environment_id phase4-analytics-reporting --command "yarn pipeline:run"
+yarn pipeline:run
 ```
 
 ## 🎯 Ready for Data-Driven Excellence?

@@ -39,11 +39,11 @@ freee Receipt Automation プロジェクトの **Phase 4** 完了までの実行
 
 ### **Step 1: Phase 4A - AI Intelligence**
 
-#### **Container Environment Setup**
+#### **ローカル開発環境セットアップ**
 
 ```bash
 # Claude Code で実行
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase4-ai-intelligence
+cd /Users/kazuya/src/freee-receipt-automation
 ```
 
 #### **Implementation Sequence**
@@ -76,11 +76,11 @@ git add . && git commit -m "feat: implement AI intelligence system with ML model
 
 ### **Step 2: Phase 4B - Advanced Automation**
 
-#### **Container Environment Setup**
+#### **ローカル開発環境セットアップ**
 
 ```bash
-# 新しい環境で実行
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase4-advanced-automation
+# 新しいローカルセッションで実行
+cd /Users/kazuya/src/freee-receipt-automation
 ```
 
 #### **Implementation Sequence**
@@ -113,11 +113,11 @@ git add . && git commit -m "feat: implement advanced automation with self-healin
 
 ### **Step 3: Phase 4C - Analytics & Reporting**
 
-#### **Container Environment Setup**
+#### **ローカル開発環境セットアップ**
 
 ```bash
-# 分析専用環境で実行
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase4-analytics-reporting
+# 分析専用ローカルセッションで実行
+cd /Users/kazuya/src/freee-receipt-automation
 ```
 
 #### **Implementation Sequence**
@@ -150,11 +150,11 @@ git add . && git commit -m "feat: implement comprehensive analytics and reportin
 
 ### **Step 4: Phase 4D - Enterprise Features**
 
-#### **Container Environment Setup**
+#### **ローカル開発環境セットアップ**
 
 ```bash
-# エンタープライズ専用環境で実行
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase4-enterprise-features
+# エンタープライズ専用ローカルセッションで実行
+cd /Users/kazuya/src/freee-receipt-automation
 ```
 
 #### **Implementation Sequence**
