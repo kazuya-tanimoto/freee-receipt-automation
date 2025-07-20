@@ -26,54 +26,42 @@
 - **Observability-Driven** - 監視可能性を組み込んだ設計
 - **Type Safety** - TypeScript strict mode で型安全性確保
 
-## 🐳 Container Environment Setup
+## 💻 ローカル開発環境セットアップ
 
-**重要**: あなたは container-use 環境で作業します。
+**重要**: ローカル環境で作業を行います。
 
 ### **Environment Initialization**
 
-#### Step 1: Create Container Environment
+#### Step 1: Working Directory確認
 
 ```bash
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase2-foundation
+ls -la
+pwd
 ```
 
-#### Step 2: Verify Working Directory
+#### Step 2: Git Status確認
 
 ```bash
-mcp__container-use__environment_file_list --environment_id phase2-foundation --path /workdir
+git status
+git branch
 ```
 
-#### Step 3: Install Dependencies
+#### Step 3: Dependencies Install
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "yarn install"
+yarn install
 ```
 
-Wait for completion before proceeding
-
-#### Step 4: Check Git Status
-
-```bash
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "git status"
-```
-
-#### Step 5: Verify Current Branch
-
-```bash
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "git branch"
-```
-
-### **必須依存関係確認**
+#### Step 4: Foundation専用依存関係
 
 ```bash
 # Foundation 専用依存関係インストール
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "yarn add @types/uuid uuid"
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "yarn add -D @apidevtools/swagger-parser"
+yarn add @types/uuid uuid
+yarn add -D @apidevtools/swagger-parser
 
 # 品質確認
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "npx tsc --noEmit"
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "yarn check:docs"
+npx tsc --noEmit
+yarn check:docs
 ```
 
 ## 🛡️ 絶対守るべきルール (CLAUDE.md準拠 + Foundation特有)
@@ -88,13 +76,13 @@ mcp__container-use__environment_run_cmd --environment_id phase2-foundation --com
 6. **❌ NEVER prioritize task completion over rule compliance** - ルール > タスク完了
 7. **❌ NEVER skip testing** - 実装と同時にテスト作成必須
 8. **❌ NEVER create files >150 lines** - 分割設計必須
-9. **❌ NEVER use host environment tools** - container-use環境のみ使用
+9. **❌ NEVER create files >150 lines without justification** - 分割設計推奨
 10. **❌ NEVER implement before OpenAPI definition** - Contract-First 厳守
 
 ### **✅ MANDATORY REQUIREMENTS (必須実行)**
 
-1. **✅ ALWAYS use mcp**container-use**environment_run_cmd for bash operations**
-2. **✅ ALWAYS use mcp**container-use**environment*file*\* for file operations**
+1. **✅ ALWAYS use standard development tools** - git, yarn, editor
+2. **✅ ALWAYS work in local development environment**
 3. **✅ ALWAYS follow OpenAPI-first design** - スキーマ定義 → 実装の順序厳守
 4. **✅ ALWAYS ensure TypeScript strict compliance** - エラー 0 を維持
 5. **✅ ALWAYS create comprehensive tests** - Unit + Integration tests

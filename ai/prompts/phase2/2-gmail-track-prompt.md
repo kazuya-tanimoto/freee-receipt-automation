@@ -25,57 +25,45 @@ API 統合によるメール監視、レシート検出、添付ファイル処�
 - **Scalable Architecture** - 大量メール処理に対応した設計
 - **Real-time Processing** - リアルタイム通知、即座のレシート処理
 
-## 🐳 Container Environment Setup
+## 💻 ローカル開発環境セットアップ
 
-**重要**: あなたは container-use 環境で作業します。
+**重要**: ローカル環境でGmail Trackを実装します。
 
 ### **Environment Initialization**
 
-#### Step 1: Create Container Environment
+#### Step 1: Working Directory確認
 
 ```bash
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase2-gmail-track
+pwd
+ls -la
 ```
 
-#### Step 2: Verify Working Directory
+#### Step 2: Git Status確認
 
 ```bash
-mcp__container-use__environment_file_list --environment_id phase2-gmail-track --path /workdir
+git status
+git branch
 ```
 
-#### Step 3: Install Dependencies
+#### Step 3: Foundation完了確認
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "yarn install"
+git log --oneline -5
 ```
 
-Wait for completion before proceeding
-
-#### Step 4: Check Git Status
-
-```bash
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "git status"
-```
-
-#### Step 5: Verify Foundation Completion
-
-```bash
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "git log --oneline -5"
-```
-
-### **Gmail Track専用依存関係**
+#### Step 4: Gmail Track専用依存関係
 
 ```bash
 # Gmail API統合ライブラリ
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "yarn add googleapis @google-cloud/storage"
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "yarn add mailparser mime-types"
+yarn add googleapis @google-cloud/storage
+yarn add mailparser mime-types
 
 # Testing & Development
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "yarn add -D @types/mailparser @types/mime-types"
+yarn add -D @types/mailparser @types/mime-types
 
 # 品質確認
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "npx tsc --noEmit"
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "yarn check:docs"
+npx tsc --noEmit
+yarn check:docs
 ```
 
 ## 🛡️ 絶対守るべきルール (CLAUDE.md準拠 + Gmail Track特有)

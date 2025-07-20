@@ -87,11 +87,11 @@ Target audience: AI Assistants / Reviewers
 
 ### 6. Tool Priority
 
-- When using MCP tools, prioritize the following:
-  - claude_code
-  - filesystem
-  - git
-  - Note: JetBrains tools are not completely prohibited but the above tools should be prioritized
+- Use standard development tools in local environment:
+  - Standard file operations (Read, Write, Edit)
+  - Git commands via Bash
+  - Local development workflow
+  - MCP tools for specific integrations (Playwright, etc.) when needed
 
 ### 7. Documentation Update Flow
 

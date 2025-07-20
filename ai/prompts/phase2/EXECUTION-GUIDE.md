@@ -22,7 +22,7 @@ Processing まで、全 5 Track を効率的に実装するためのガイドで
 ### **Phase 2A: Foundation** (必須先行)
 
 ```bash
-# 1つの環境で順次実行
+# ローカル環境で順次実行
 1-foundation-prompt.md
 → PBI-2-1-1: OpenAPI Definition
 → PBI-2-1-2: Common OAuth Module
@@ -32,17 +32,17 @@ Processing まで、全 5 Track を効率的に実装するためのガイドで
 ### **Phase 2B: 並行開発 Wave 1** (Foundation完了後)
 
 ```bash
-# 2つの環境で同時並行実行
-Container 1: 2-gmail-track-prompt.md     │ PBI-2-2-x (Gmail統合)
-Container 2: 3-drive-track-prompt.md     │ PBI-2-3-x (Drive統合)
+# ローカル環境で順次実行
+Local Session 1: 2-gmail-track-prompt.md     │ PBI-2-2-x (Gmail統合)
+Local Session 2: 3-drive-track-prompt.md     │ PBI-2-3-x (Drive統合)
 ```
 
 ### **Phase 2C: 並行開発 Wave 2** (Wave 1完了後)
 
 ```bash
-# 2つの環境で同時並行実行
-Container 3: 4-file-management-prompt.md       │ PBI-2-4-x (ファイル管理)
-Container 4: 5-background-processing-prompt.md │ PBI-2-5-x (バックグラウンド処理)
+# ローカル環境で順次実行
+Local Session 3: 4-file-management-prompt.md       │ PBI-2-4-x (ファイル管理)
+Local Session 4: 5-background-processing-prompt.md │ PBI-2-5-x (バックグラウンド処理)
 ```
 
 ## 📋 実行手順詳細
@@ -65,10 +65,10 @@ cat ai/prompts/phase2/1-foundation-prompt.md
 
 ### **Step 2: Phase 2B - 並行開発 Wave 1**
 
-#### **Gmail Track (Container 1)**
+#### **Gmail Track (ローカル環境)**
 
 ```bash
-# Claude Code新セッション #1
+# ローカル環境でClaude Code新セッション #1
 cat ai/prompts/phase2/2-gmail-track-prompt.md
 # ↑ 内容をコピー&ペースト
 
@@ -78,10 +78,10 @@ cat ai/prompts/phase2/2-gmail-track-prompt.md
 ✅ Error handling確認
 ```
 
-#### **Drive Track (Container 2)**
+#### **Drive Track (ローカル環境)**
 
 ```bash
-# Claude Code新セッション #2 (並行実行)
+# ローカル環境でClaude Code新セッション #2
 cat ai/prompts/phase2/3-drive-track-prompt.md
 # ↑ 内容をコピー&ペースト
 
@@ -93,10 +93,10 @@ cat ai/prompts/phase2/3-drive-track-prompt.md
 
 ### **Step 3: Phase 2C - 並行開発 Wave 2**
 
-#### **File Management (Container 3)**
+#### **File Management (ローカル環境)**
 
 ```bash
-# Claude Code新セッション #3
+# ローカル環境でClaude Code新セッション #3
 cat ai/prompts/phase2/4-file-management-prompt.md
 # ↑ 内容をコピー&ペースト
 

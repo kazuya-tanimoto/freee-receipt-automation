@@ -25,55 +25,41 @@
 - **Fault Tolerance** - エラー時の適切な処理、データ整合性保証
 - **Business Continuity** - システム障害時の業務継続性確保
 
-## 🐳 Container Environment Setup
+## 💻 ローカル開発環境セットアップ
 
-**重要**: あなたは container-use 環境で作業します。
+**重要**: あなたはローカル環境で作業します。
 
 ### **Environment Initialization**
 
 ```bash
-# 1. Container環境開始
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation \
-  --name phase2-background
+# 1. 作業ディレクトリへ移動
+cd /Users/kazuya/src/freee-receipt-automation
 
-# 2. 作業ディレクトリ確認
-mcp__container-use__environment_file_list --environment_id phase2-background --path /workdir
+# 2. 環境セットアップ
+yarn install
 
-# 3. 環境セットアップ
-mcp__container-use__environment_run_cmd --environment_id phase2-background \
-  --command "yarn install"
-
-# 4. 全Track完了確認
-mcp__container-use__environment_run_cmd --environment_id phase2-background \
-  --command "git status"
-mcp__container-use__environment_run_cmd --environment_id phase2-background \
-  --command "git log --oneline -15"
+# 3. 全Track完了確認
+git status
+git log --oneline -15
 ```
 
 ### **Background Processing専用依存関係**
 
 ```bash
 # Job queue & scheduling
-mcp__container-use__environment_run_cmd --environment_id phase2-background \
-  --command "yarn add node-cron bull"
-mcp__container-use__environment_run_cmd --environment_id phase2-background \
-  --command "yarn add ioredis pg" # Queue backend
+yarn add node-cron bull
+yarn add ioredis pg # Queue backend
 
 # Workflow & monitoring
-mcp__container-use__environment_run_cmd --environment_id phase2-background \
-  --command "yarn add p-queue p-retry"
-mcp__container-use__environment_run_cmd --environment_id phase2-background \
-  --command "yarn add pino pino-pretty" # Enhanced logging
+yarn add p-queue p-retry
+yarn add pino pino-pretty # Enhanced logging
 
 # Testing & Development
-mcp__container-use__environment_run_cmd --environment_id phase2-background \
-  --command "yarn add -D @types/node-cron @types/bull"
+yarn add -D @types/node-cron @types/bull
 
 # 品質確認
-mcp__container-use__environment_run_cmd --environment_id phase2-background \
-  --command "npx tsc --noEmit"
-mcp__container-use__environment_run_cmd --environment_id phase2-background \
-  --command "yarn check:docs"
+npx tsc --noEmit
+yarn check:docs
 ```
 
 ## 🛡️ 絶対守るべきルール (CLAUDE.md準拠 + Background Processing特有)
@@ -124,7 +110,7 @@ mcp__container-use__environment_run_cmd --environment_id phase2-background \
 7. **Test failures exceed limit** - "More than 5 test failures detected. Requires human intervention."
 8. **Implementation complete** - "PBI [X] implementation complete. Please review and provide next instructions."
 9. **Job execution failures** - "Multiple job execution failures detected. Stopping for workflow review."
-10. **Container environment issues** - "Container environment unstable. Stopping for environment review."
+10. **Local environment issues** - "Local environment unstable. Stopping for environment review."
 
 **Maximum Attempt Limits:**
 
@@ -153,11 +139,10 @@ mcp__container-use__environment_run_cmd --environment_id phase2-background \
 
 ```bash
 # Create backup before major changes
-mcp__container-use__environment_run_cmd --environment_id phase2-background \
-  --command "git checkout -b backup/background-$(date +%Y%m%d-%H%M%S)"
+git checkout -b backup/background-$(date +%Y%m%d-%H%M%S)
 
 # Verify database state
-mcp__container-use__environment_run_cmd --environment_id phase2-background --command "git status --porcelain"
+git status --porcelain
 ```
 
 **Database Safety:**
@@ -207,10 +192,10 @@ mcp__container-use__environment_run_cmd --environment_id phase2-background --com
 **実装ファイル**:
 
 ```text
-/workdir/supabase/migrations/20240620000001_pg_cron_setup.sql
-/workdir/src/lib/background/scheduling/cron-manager.ts
-/workdir/src/lib/background/scheduling/schedule-types.ts
-/workdir/src/lib/background/scheduling/cron-setup.test.ts
+/Users/kazuya/src/freee-receipt-automation/supabase/migrations/20240620000001_pg_cron_setup.sql
+/Users/kazuya/src/freee-receipt-automation/src/lib/background/scheduling/cron-manager.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/background/scheduling/schedule-types.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/background/scheduling/cron-setup.test.ts
 ```
 
 **Database Schema**:
@@ -254,10 +239,10 @@ CREATE TABLE job_executions (
 **実装ファイル**:
 
 ```text
-/workdir/src/lib/background/queue/job-queue.ts
-/workdir/src/lib/background/queue/job-processor.ts
-/workdir/src/lib/background/queue/retry-strategies.ts
-/workdir/src/lib/background/queue/queue.test.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/background/queue/job-queue.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/background/queue/job-processor.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/background/queue/retry-strategies.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/background/queue/queue.test.ts
 ```
 
 ## 🔄 Background Processing Architecture
@@ -302,14 +287,10 @@ const STANDARD_SCHEDULES = {
 
 ```bash
 # Foundation + Gmail + Drive + File Management完了確認
-mcp__container-use__environment_file_read --environment_id phase2-background \
-  --target_file /workdir/src/lib/oauth/common-oauth.ts --should_read_entire_file true
-mcp__container-use__environment_file_read --environment_id phase2-background \
-  --target_file /workdir/src/lib/gmail/gmail-client.ts --should_read_entire_file true
-mcp__container-use__environment_file_read --environment_id phase2-background \
-  --target_file /workdir/src/lib/drive/drive-client.ts --should_read_entire_file true
-mcp__container-use__environment_file_read --environment_id phase2-background \
-  --target_file /workdir/src/lib/file-management/naming/file-namer.ts --should_read_entire_file true
+cat src/lib/oauth/common-oauth.ts
+cat src/lib/gmail/gmail-client.ts
+cat src/lib/drive/drive-client.ts
+cat src/lib/file-management/naming/file-namer.ts
 ```
 
 ### **Phase 2: pg_cron Setup**
@@ -360,44 +341,41 @@ mcp__container-use__environment_file_read --environment_id phase2-background \
 6. Knowledge transfer
 ```
 
-## 🔍 品質確認フロー (Container環境で実行)
+## 🔍 品質確認フロー (Local Session 1/2/3/4)
 
 ### **🔍 Technical Validation**
 
 ```bash
-# Container環境でのチェック実行
-mcp__container-use__environment_run_cmd --environment_id phase2-background --command "npx tsc --noEmit"
-mcp__container-use__environment_run_cmd --environment_id phase2-background --command "yarn test:run"
-mcp__container-use__environment_run_cmd --environment_id phase2-background --command "yarn test:coverage"
-mcp__container-use__environment_run_cmd --environment_id phase2-background --command "yarn check:docs"
+# ローカル環境でのチェック実行
+npx tsc --noEmit
+yarn test:run
+yarn test:coverage
+yarn check:docs
 ```
 
 ### **🔒 Background Processing Validation**
 
 ```bash
 # pg_cron setup tests
-mcp__container-use__environment_run_cmd --environment_id phase2-background --command "yarn test:cron"
+yarn test:cron
 
 # Job queue tests
-mcp__container-use__environment_run_cmd --environment_id phase2-background --command "yarn test:queue"
+yarn test:queue
 
 # Performance tests
-mcp__container-use__environment_run_cmd --environment_id phase2-background --command "yarn test:performance"
+yarn test:performance
 
 # End-to-end workflow tests
-mcp__container-use__environment_run_cmd --environment_id phase2-background --command "yarn test:workflows"
+yarn test:workflows
 ```
 
 ### **🛡️ Git Operations**
 
 ```bash
-# Git操作（Container環境で実行）
-mcp__container-use__environment_run_cmd --environment_id phase2-background \
-  --command "git checkout -b feature/pbi-2-5-background-processing"
-mcp__container-use__environment_run_cmd --environment_id phase2-background \
-  --command "git add ."
-mcp__container-use__environment_run_cmd --environment_id phase2-background \
-  --command "git commit -m 'feat(background): implement background processing foundation
+# Git操作（ローカル環境で実行）
+git checkout -b feature/pbi-2-5-background-processing
+git add .
+git commit -m 'feat(background): implement background processing foundation
 
 - Add pg_cron setup with job scheduling infrastructure
 - Implement background job queue system with retry logic
@@ -483,13 +461,13 @@ Co-Authored-By: Claude <noreply@anthropic.com>'"
 
 ```bash
 # 全Track統合テスト
-mcp__container-use__environment_run_cmd --environment_id phase2-background --command "yarn test:integration:phase2"
+yarn test:integration:phase2
 
 # End-to-end workflow test
-mcp__container-use__environment_run_cmd --environment_id phase2-background --command "yarn test:e2e:complete-workflow"
+yarn test:e2e:complete-workflow
 
 # Performance benchmarks
-mcp__container-use__environment_run_cmd --environment_id phase2-background --command "yarn test:performance:phase2"
+yarn test:performance:phase2
 ```
 
 ### **Production Readiness**
@@ -502,8 +480,8 @@ mcp__container-use__environment_run_cmd --environment_id phase2-background --com
 
 ---
 
-**🚀 開始指示**: 全Track完了確認後、container-use環境でPBI-2-5-1から順次開始してください。Background Processing
-Foundationの設計判断と実装理由を明確にしながら進め、全てのコマンド実行はmcp**container-use**environment\_\*ツールを使用してください。完了時には**Phase
+**🚀 開始指示**: 全Track完了確認後、ローカル環境でPBI-2-5-1から順次開始してください。Background Processing
+Foundationの設計判断と実装理由を明確にしながら進め、全てのコマンド実行は通常のbashコマンドを使用してください。完了時には**Phase
 2完全完了**と本番環境準備状況を詳細に報告してください。
 
 ## 🔧 Comprehensive Error Recovery Procedures
@@ -531,21 +509,21 @@ Foundationの設計判断と実装理由を明確にしながら進め、全て�
 
 ```bash
 # Test job recovery mechanisms
-mcp__container-use__environment_run_cmd --environment_id phase2-background --command "yarn test:job-recovery"
+yarn test:job-recovery
 
 # Test system failover
-mcp__container-use__environment_run_cmd --environment_id phase2-background --command "yarn test:system-failover"
+yarn test:system-failover
 ```
 
 **Rollback Procedures:**
 
 ```bash
 # Background processing rollback
-mcp__container-use__environment_run_cmd --environment_id phase2-background --command "git checkout -- src/lib/background/"
-mcp__container-use__environment_run_cmd --environment_id phase2-background --command "yarn install"
+git checkout -- src/lib/background/
+yarn install
 
 # Reset job queues if needed
-mcp__container-use__environment_run_cmd --environment_id phase2-background --command "yarn run:clear-queues"
+yarn run:clear-queues
 ```
 
 ### **pg_cron Errors**
@@ -684,21 +662,21 @@ Q: Jobs are processed multiple times A: Implement idempotency checks. Use proper
 ```bash
 # Enable background processing debug logging
 export DEBUG=background:*
-mcp__container-use__environment_run_cmd --environment_id phase2-background --command "yarn test:jobs --verbose"
+yarn test:jobs --verbose
 ```
 
 **Debug pg_cron Issues:**
 
 ```bash
 # Check pg_cron status and logs
-mcp__container-use__environment_run_cmd --environment_id phase2-background --command "yarn debug:cron-status"
+yarn debug:cron-status
 ```
 
 **Debug Queue Performance:**
 
 ```bash
 # Monitor queue performance
-mcp__container-use__environment_run_cmd --environment_id phase2-background --command "yarn test:queue-performance --profile"
+yarn test:queue-performance --profile
 ```
 
 ❗

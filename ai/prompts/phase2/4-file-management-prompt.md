@@ -25,55 +25,41 @@
 - **Searchable Structure** - 検索しやすいメタデータ・フォルダ構造
 - **Business Compliance** - 会計基準、税務要件への準拠
 
-## 🐳 Container Environment Setup
+## 💻 ローカル開発環境セットアップ
 
-**重要**: あなたは container-use 環境で作業します。
+**重要**: あなたはローカル環境で作業します。
 
 ### **Environment Initialization**
 
 ```bash
-# 1. Container環境開始
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation \
-  --name phase2-file-mgmt
+# 1. 作業ディレクトリへ移動
+cd /Users/kazuya/src/freee-receipt-automation
 
-# 2. 作業ディレクトリ確認
-mcp__container-use__environment_file_list --environment_id phase2-file-mgmt --path /workdir
+# 2. 環境セットアップ
+yarn install
 
-# 3. 環境セットアップ
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt \
-  --command "yarn install"
-
-# 4. 前Trackの完了確認
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt \
-  --command "git status"
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt \
-  --command "git log --oneline -10"
+# 3. 前Trackの完了確認
+git status
+git log --oneline -10
 ```
 
 ### **File Management専用依存関係**
 
 ```bash
 # File processing & utilities
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt \
-  --command "yarn add sharp exifr" # 画像処理・メタデータ
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt \
-  --command "yarn add mime-types file-type fast-csv"
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt \
-  --command "yarn add crypto-js fuzzy-search"
+yarn add sharp exifr # 画像処理・メタデータ
+yarn add mime-types file-type fast-csv
+yarn add crypto-js fuzzy-search
 
 # Date & text processing
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt \
-  --command "yarn add date-fns natural"
+yarn add date-fns natural
 
 # Testing & Development
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt \
-  --command "yarn add -D @types/mime-types @types/crypto-js @types/natural"
+yarn add -D @types/mime-types @types/crypto-js @types/natural
 
 # 品質確認
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt \
-  --command "npx tsc --noEmit"
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt \
-  --command "yarn check:docs"
+npx tsc --noEmit
+yarn check:docs
 ```
 
 ## 🛡️ 絶対守るべきルール (CLAUDE.md準拠 + File Management特有)
@@ -124,7 +110,7 @@ mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt \
 7. **Test failures exceed limit** - "More than 5 test failures detected. Requires human intervention."
 8. **Implementation complete** - "PBI [X] implementation complete. Please review and provide next instructions."
 9. **File naming conflicts** - "Multiple naming conflicts detected. Stopping for resolution strategy."
-10. **Container environment issues** - "Container environment unstable. Stopping for environment review."
+10. **Local environment issues** - "Local environment unstable. Stopping for environment review."
 
 **Maximum Attempt Limits:**
 
@@ -153,11 +139,10 @@ mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt \
 
 ```bash
 # Create backup before file operations
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt \
-  --command "git checkout -b backup/file-mgmt-$(date +%Y%m%d-%H%M%S)"
+git checkout -b backup/file-mgmt-$(date +%Y%m%d-%H%M%S)
 
 # Verify clean state
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt --command "git status --porcelain"
+git status --porcelain
 ```
 
 **OCR Data Protection:**
@@ -200,10 +185,10 @@ mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt --comm
 **実装ファイル**:
 
 ```text
-/workdir/src/lib/file-management/naming/file-namer.ts
-/workdir/src/lib/file-management/naming/metadata-extractor.ts
-/workdir/src/lib/file-management/naming/naming-rules.ts
-/workdir/src/lib/file-management/naming/naming.test.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/file-management/naming/file-namer.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/file-management/naming/metadata-extractor.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/file-management/naming/naming-rules.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/file-management/naming/naming.test.ts
 ```
 
 **命名規則仕様**:
@@ -229,10 +214,10 @@ Pattern: /^(\d{4}-\d{2}-\d{2})_([a-z]+)_([a-z0-9-]+)_(\d+)_?([a-z0-9-]*)?\.([a-z
 **実装ファイル**:
 
 ```text
-/workdir/src/lib/file-management/folders/folder-manager.ts
-/workdir/src/lib/file-management/folders/category-mapper.ts
-/workdir/src/lib/file-management/folders/archive-manager.ts
-/workdir/src/lib/file-management/folders/folders.test.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/file-management/folders/folder-manager.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/file-management/folders/category-mapper.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/file-management/folders/archive-manager.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/file-management/folders/folders.test.ts
 ```
 
 ### **PBI-2-4-3: Duplicate Handling Logic (1 SP)**
@@ -250,10 +235,10 @@ Pattern: /^(\d{4}-\d{2}-\d{2})_([a-z]+)_([a-z0-9-]+)_(\d+)_?([a-z0-9-]*)?\.([a-z
 **実装ファイル**:
 
 ```text
-/workdir/src/lib/file-management/duplicates/duplicate-detector.ts
-/workdir/src/lib/file-management/duplicates/similarity-engine.ts
-/workdir/src/lib/file-management/duplicates/resolution-strategies.ts
-/workdir/src/lib/file-management/duplicates/duplicates.test.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/file-management/duplicates/duplicate-detector.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/file-management/duplicates/similarity-engine.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/file-management/duplicates/resolution-strategies.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/file-management/duplicates/duplicates.test.ts
 ```
 
 ### **PBI-2-4-4: File Management Testing & Documentation (1 SP)**
@@ -271,10 +256,10 @@ Pattern: /^(\d{4}-\d{2}-\d{2})_([a-z]+)_([a-z0-9-]+)_(\d+)_?([a-z0-9-]*)?\.([a-z
 **実装ファイル**:
 
 ```text
-/workdir/src/lib/file-management/__tests__/integration.test.ts
-/workdir/src/lib/file-management/__tests__/performance.test.ts
-/workdir/docs/file-management-guide.md
-/workdir/docs/naming-conventions.md
+/Users/kazuya/src/freee-receipt-automation/src/lib/file-management/__tests__/integration.test.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/file-management/__tests__/performance.test.ts
+/Users/kazuya/src/freee-receipt-automation/docs/file-management-guide.md
+/Users/kazuya/src/freee-receipt-automation/docs/naming-conventions.md
 ```
 
 ## 📁 File Management Architecture
@@ -319,12 +304,9 @@ enum ExpenseCategory {
 
 ```bash
 # Gmail/Drive Track完了確認
-mcp__container-use__environment_file_read --environment_id phase2-file-mgmt \
-  --target_file /workdir/src/lib/gmail/gmail-client.ts --should_read_entire_file true
-mcp__container-use__environment_file_read --environment_id phase2-file-mgmt \
-  --target_file /workdir/src/lib/drive/drive-client.ts --should_read_entire_file true
-mcp__container-use__environment_file_read --environment_id phase2-file-mgmt \
-  --target_file /workdir/src/lib/monitoring/api-observer.ts --should_read_entire_file true
+cat src/lib/gmail/gmail-client.ts
+cat src/lib/drive/drive-client.ts
+cat src/lib/monitoring/api-observer.ts
 ```
 
 ### **Phase 2: File Naming System**
@@ -375,41 +357,38 @@ mcp__container-use__environment_file_read --environment_id phase2-file-mgmt \
 6. Knowledge transfer materials
 ```
 
-## 🔍 品質確認フロー (Container環境で実行)
+## 🔍 品質確認フロー (Local Session 1/2/3/4)
 
 ### **🔍 Technical Validation**
 
 ```bash
-# Container環境でのチェック実行
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt --command "npx tsc --noEmit"
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt --command "yarn test:run"
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt --command "yarn test:coverage"
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt --command "yarn check:docs"
+# ローカル環境でのチェック実行
+npx tsc --noEmit
+yarn test:run
+yarn test:coverage
+yarn check:docs
 ```
 
 ### **🔒 File Management Validation**
 
 ```bash
 # Naming convention tests
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt --command "yarn test:naming"
+yarn test:naming
 
 # Duplicate detection tests
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt --command "yarn test:duplicates"
+yarn test:duplicates
 
 # Performance benchmarks
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt --command "yarn test:performance"
+yarn test:performance
 ```
 
 ### **🛡️ Git Operations**
 
 ```bash
-# Git操作（Container環境で実行）
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt \
-  --command "git checkout -b feature/pbi-2-4-file-management"
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt \
-  --command "git add ."
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt \
-  --command "git commit -m 'feat(file-mgmt): implement file management system
+# Git操作（ローカル環境で実行）
+git checkout -b feature/pbi-2-4-file-management
+git add .
+git commit -m 'feat(file-mgmt): implement file management system
 
 - Add standardized file naming system with OCR metadata extraction
 - Implement automated folder structure management
@@ -520,8 +499,8 @@ Co-Authored-By: Claude <noreply@anthropic.com>'"
 
 ---
 
-**🚀 開始指示**: Gmail/Drive Track完了確認後、container-use環境でPBI-2-4-1から順次開始してください。File Management
-Systemの設計判断と実装理由を明確にしながら進め、全てのコマンド実行はmcp**container-use**environment\_\*ツールを使用してください。完了時にはBackground
+**🚀 開始指示**: Gmail/Drive Track完了確認後、ローカル環境でPBI-2-4-1から順次開始してください。File Management
+Systemの設計判断と実装理由を明確にしながら進め、全てのコマンド実行は通常のbashコマンドを使用してください。完了時にはBackground
 Processing Trackとの連携準備状況を詳細に報告してください。
 
 ## 🔧 Comprehensive Error Recovery Procedures
@@ -548,18 +527,18 @@ Processing Trackとの連携準備状況を詳細に報告してください。
 
 ```bash
 # Test file naming recovery
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt --command "yarn test:naming-recovery"
+yarn test:naming-recovery
 
 # Test OCR fallback mechanisms
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt --command "yarn test:ocr-fallback"
+yarn test:ocr-fallback
 ```
 
 **Rollback Procedures:**
 
 ```bash
 # File management rollback
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt --command "git checkout -- src/lib/file-management/"
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt --command "yarn install"
+git checkout -- src/lib/file-management/
+yarn install
 ```
 
 ### **Duplicate Detection Errors**
@@ -690,21 +669,21 @@ Q: OCR processing times out frequently A: Optimize image preprocessing. Implemen
 ```bash
 # Enable file management debug logging
 export DEBUG=file-mgmt:*
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt --command "yarn test:naming --verbose"
+yarn test:naming --verbose
 ```
 
 **Debug Duplicate Detection:**
 
 ```bash
 # Test duplicate detection with debug output
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt --command "yarn test:duplicates --debug"
+yarn test:duplicates --debug
 ```
 
 **Debug OCR Processing:**
 
 ```bash
 # Monitor OCR processing performance
-mcp__container-use__environment_run_cmd --environment_id phase2-file-mgmt --command "yarn test:ocr --profile"
+yarn test:ocr --profile
 ```
 
 ❗ **CRITICAL**:
