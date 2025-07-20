@@ -26,29 +26,28 @@
 - **Error Recovery** - OCR失敗時の代替手段
 - **Continuous Learning** - 精度改善のフィードバックループ
 
-## 🐳 Container Environment Setup
+## 🐳 ローカル開発環境セットアップ
 
-**重要**: あなたは container-use 環境で作業します。
+**重要**: あなたはローカル環境で作業します。
 
 ### **Environment Initialization**
 
-#### Step 1: Create Container Environment
+#### Step 1: ローカル環境に移動
 
 ```bash
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase3-ocr-integration
+cd /Users/kazuya/src/freee-receipt-automation
 ```
 
-#### Step 2: Install OCR Dependencies
+#### Step 2: OCR依存関係のインストール
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase3-ocr-integration \
-  --command "yarn add @google-cloud/vision tesseract.js aws-sdk @azure/cognitiveservices-computervision"
+yarn add @google-cloud/vision tesseract.js aws-sdk @azure/cognitiveservices-computervision
 ```
 
-#### Step 3: Environment Health Check
+#### Step 3: 環境ヘルスチェック
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase3-ocr-integration --command "yarn check:docs && yarn test:run"
+yarn check:docs && yarn test:run
 ```
 
 ## 🎯 Phase 3-3 Implementation Targets
@@ -374,16 +373,14 @@ src/lib/ocr/__tests__/
 ### **Quick Start Sequence**
 
 ```bash
-# 1. Environment setup
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase3-ocr-integration
+# 1. Local Session 3 setup
+cd /Users/kazuya/src/freee-receipt-automation
 
 # 2. Install OCR dependencies
-mcp__container-use__environment_run_cmd --environment_id phase3-ocr-integration \
-  --command "yarn add @google-cloud/vision tesseract.js aws-sdk @azure/cognitiveservices-computervision"
+yarn add @google-cloud/vision tesseract.js aws-sdk @azure/cognitiveservices-computervision
 
 # 3. Create directory structure
-mcp__container-use__environment_run_cmd --environment_id phase3-ocr-integration \
-  --command "mkdir -p src/lib/ocr/{google,engines,enhancement,optimization}"
+mkdir -p src/lib/ocr/{google,engines,enhancement,optimization}
 
 # 4. Start implementation with PBI-3-3-1
 ```
@@ -392,13 +389,13 @@ mcp__container-use__environment_run_cmd --environment_id phase3-ocr-integration 
 
 ```bash
 # OCR accuracy testing
-mcp__container-use__environment_run_cmd --environment_id phase3-ocr-integration --command "yarn test:ocr"
+yarn test:ocr
 
 # Performance benchmarking
-mcp__container-use__environment_run_cmd --environment_id phase3-ocr-integration --command "yarn test:performance"
+yarn test:performance
 
 # Cost analysis
-mcp__container-use__environment_run_cmd --environment_id phase3-ocr-integration --command "yarn analyze:cost"
+yarn analyze:cost
 ```
 
 ## 🎯 Ready to Extract Text Like Magic?

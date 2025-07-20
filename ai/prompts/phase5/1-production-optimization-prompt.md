@@ -26,30 +26,28 @@
 - **Operational Automation** - 人的作業の最小化と自動化推進
 - **Continuous Improvement** - 継続的な最適化とイテレーション
 
-## 🐳 Container Environment Setup
+## 🐳 ローカル開発環境セットアップ
 
-**重要**: あなたは container-use 環境で作業します。
+**重要**: あなたはローカル環境で作業します。
 
 ### **Environment Initialization**
 
-#### Step 1: Create Container Environment
+#### Step 1: ローカル環境に移動
 
 ```bash
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase5-production-optimization
+cd /Users/kazuya/src/freee-receipt-automation
 ```
 
-#### Step 2: Install Optimization Dependencies
+#### Step 2: 最適化依存関係のインストール
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase5-production-optimization \
-  --command "yarn add clinic autocannon lighthouse web-vitals @sentry/node newrelic"
+yarn add clinic autocannon lighthouse web-vitals @sentry/node newrelic
 ```
 
-#### Step 3: Environment Health Check
+#### Step 3: 環境ヘルスチェック
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase5-production-optimization \
-  --command "yarn check:docs && yarn test:run"
+yarn check:docs && yarn test:run
 ```
 
 ## 🎯 Phase 5-1 Implementation Targets
@@ -460,16 +458,14 @@ interface SecurityHardening {
 ### **Quick Start Sequence**
 
 ```bash
-# 1. Environment setup
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase5-production-optimization
+# 1. Local Session 9 setup
+cd /Users/kazuya/src/freee-receipt-automation
 
 # 2. Install optimization dependencies
-mcp__container-use__environment_run_cmd --environment_id phase5-production-optimization \
-  --command "yarn add clinic autocannon lighthouse web-vitals @sentry/node newrelic"
+yarn add clinic autocannon lighthouse web-vitals @sentry/node newrelic
 
 # 3. Create directory structure
-mcp__container-use__environment_run_cmd --environment_id phase5-production-optimization \
-  --command "mkdir -p src/lib/optimization/{performance,cost,reliability,operations}"
+mkdir -p src/lib/optimization/{performance,cost,reliability,operations}
 
 # 4. Start implementation with PBI-5-1-1
 ```
@@ -478,13 +474,13 @@ mcp__container-use__environment_run_cmd --environment_id phase5-production-optim
 
 ```bash
 # Performance profiling
-mcp__container-use__environment_run_cmd --environment_id phase5-production-optimization --command "yarn perf:profile"
+yarn perf:profile
 
 # Cost analysis
-mcp__container-use__environment_run_cmd --environment_id phase5-production-optimization --command "yarn cost:analyze"
+yarn cost:analyze
 
 # Reliability testing
-mcp__container-use__environment_run_cmd --environment_id phase5-production-optimization --command "yarn test:reliability"
+yarn test:reliability
 ```
 
 ## 🎯 Ready for Production Excellence?

@@ -110,7 +110,7 @@ Phase 1 Complete → Foundation → Gmail/Drive (並行) → File Mgmt/Backgroun
 
 ### **リソース競合回避**
 
-- **Container環境**: 完全分離 (environment_id別)
+- **ローカル環境**: 複数セッションで並行開発
 - **Database Schema**: Foundation で事前定義
 - **Git Branch**: Track別 feature branch
 
@@ -152,7 +152,7 @@ Day 7: ✅ Production Deployment Prep
 ### **Technical Issues**
 
 - **3回エラー**: 作業停止、ガイダンス要求
-- **Container問題**: 新環境作成で解決
+- **開発環境問題**: 依存関係再インストールで解決
 - **Dependency Missing**: 前Track完了確認
 
 ## 🎖️ Phase 2 Success Criteria
@@ -183,7 +183,7 @@ Day 7: ✅ Production Deployment Prep
 ### **Design Principles**
 
 - **Persona-Driven**: Track専用エキスパート人格
-- **Container-First**: container-use環境完全対応
+- **Local-First**: ローカル開発環境最適化
 - **Security-Focused**: セキュリティルール厳格遵守
 - **Quality-Obsessed**: 品質基準妥協なし
 - **Business-Aligned**: 実用性・コスト効率重視
@@ -192,7 +192,7 @@ Day 7: ✅ Production Deployment Prep
 
 1. **Mission Overview** - 目的・スコープ明確化
 1. **AI Engineer Persona** - Track専用専門性
-1. **Container Environment Setup** - 実行環境・依存関係
+1. **ローカル開発環境セットアップ** - 実行環境・依存関係
 1. **Absolute Rules** - CLAUDE.md準拠ルール
 1. **Implementation Scope** - PBI詳細・技術要件
 1. **Quality Assurance** - 品質確認・テスト戦略

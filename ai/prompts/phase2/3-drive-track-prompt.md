@@ -25,43 +25,40 @@ API 統合によるファイル整理、保存、フォルダ管理の完全な�
 - **Backup & Recovery** - データ保護、版管理、災害復旧
 - **Business Compliance** - 会計基準、税務要件への準拠
 
-## 🐳 Container Environment Setup
+## 💻 ローカル開発環境セットアップ
 
-**重要**: あなたは container-use 環境で作業します。
+**重要**: あなたはローカル環境で作業します。
 
 ### **Environment Initialization**
 
 ```bash
-# 1. Container環境開始
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase2-drive-track
+# 1. 作業ディレクトリへ移動
+cd /Users/kazuya/src/freee-receipt-automation
 
-# 2. 作業ディレクトリ確認
-mcp__container-use__environment_file_list --environment_id phase2-drive-track --path /workdir
+# 2. 環境セットアップ
+yarn install
 
-# 3. 環境セットアップ
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "yarn install"
-
-# 4. Foundation完了確認
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "git status"
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "git log --oneline -5"
+# 3. Foundation完了確認
+git status
+git log --oneline -5
 ```
 
 ### **Drive Track専用依存関係**
 
 ```bash
 # Google Drive API統合ライブラリ
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "yarn add googleapis @google-cloud/storage"
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "yarn add sharp exifr" # 画像処理・メタデータ
+yarn add googleapis @google-cloud/storage
+yarn add sharp exifr # 画像処理・メタデータ
 
 # File operations & utilities
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "yarn add mime-types file-type archiver"
+yarn add mime-types file-type archiver
 
 # Testing & Development
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "yarn add -D @types/mime-types @types/archiver"
+yarn add -D @types/mime-types @types/archiver
 
 # 品質確認
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "npx tsc --noEmit"
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "yarn check:docs"
+npx tsc --noEmit
+yarn check:docs
 ```
 
 ## 🛡️ 絶対守るべきルール (CLAUDE.md準拠 + Drive Track特有)
@@ -112,7 +109,7 @@ mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --co
 7. **Test failures exceed limit** - "More than 5 test failures detected. Requires human intervention."
 8. **Implementation complete** - "PBI [X] implementation complete. Please review and provide next instructions."
 9. **Large file operation detected** - "Large file operation (>100MB) detected. Stopping for confirmation."
-10. **Container environment issues** - "Container environment unstable. Stopping for environment review."
+10. **Local environment issues** - "Local environment unstable. Stopping for environment review."
 
 **Maximum Attempt Limits:**
 
@@ -141,11 +138,10 @@ mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --co
 
 ```bash
 # Verify Drive folder exists before operations
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "git status --porcelain"
+git status --porcelain
 
 # Create backup branch
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track \
-  --command "git checkout -b backup/drive-$(date +%Y%m%d-%H%M%S)"
+git checkout -b backup/drive-$(date +%Y%m%d-%H%M%S)
 ```
 
 **File Operation Confirmation:**
@@ -188,10 +184,10 @@ mcp__container-use__environment_run_cmd --environment_id phase2-drive-track \
 **実装ファイル**:
 
 ```typescript
-/workdir/crs / lib / drive / drive -
-  client.ts / workdir / src / lib / drive / types.ts / workdir / src / lib / drive / drive -
-  auth.ts / workdir / src / lib / drive / drive -
-  client.test.ts;
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/drive-client.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/types.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/drive-auth.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/drive-client.test.ts
 ```
 
 ### **PBI-2-3-2: Drive File Operations (1 SP)**
@@ -209,11 +205,11 @@ mcp__container-use__environment_run_cmd --environment_id phase2-drive-track \
 **実装ファイル**:
 
 ```typescript
-/workdir/crs / lib / drive / operations / file -
-  create.ts / workdir / src / lib / drive / operations / file -
-  list.ts / workdir / src / lib / drive / operations / file -
-  get.ts / workdir / src / lib / drive / operations / folder -
-  manager.ts / workdir / src / lib / drive / operations / operations.test.ts;
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/operations/file-create.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/operations/file-list.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/operations/file-get.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/operations/folder-manager.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/operations/operations.test.ts
 ```
 
 ### **PBI-2-3-3: Drive Business Logic (1 SP)**
@@ -231,10 +227,10 @@ mcp__container-use__environment_run_cmd --environment_id phase2-drive-track \
 **実装ファイル**:
 
 ```typescript
-/workdir/crs / lib / drive / processors / folder -
-  organizer.ts / workdir / src / lib / drive / processors / file -
-  categorizer.ts / workdir / src / lib / drive / processors / permission -
-  manager.ts / workdir / src / lib / drive / processors / processors.test.ts;
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/processors/folder-organizer.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/processors/file-categorizer.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/processors/permission-manager.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/processors/processors.test.ts
 ```
 
 ### **PBI-2-3-4: Drive Error Handling & Monitoring (1 SP)**
@@ -252,14 +248,10 @@ mcp__container-use__environment_run_cmd --environment_id phase2-drive-track \
 **実装ファイル**:
 
 ```typescript
-/workdir/crs / lib / drive / error -
-  handling / drive -
-  errors.ts / workdir / src / lib / drive / error -
-  handling / retry -
-  logic.ts / workdir / src / lib / drive / error -
-  handling / monitoring.ts / workdir / src / lib / drive / error -
-  handling / error -
-  handling.test.ts;
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/error-handling/drive-errors.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/error-handling/retry-logic.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/error-handling/monitoring.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/error-handling/error-handling.test.ts
 ```
 
 ### **PBI-2-3-5: Drive Integration Testing (1 SP)**
@@ -277,24 +269,10 @@ mcp__container-use__environment_run_cmd --environment_id phase2-drive-track \
 **実装ファイル**:
 
 ```typescript
-/workdir/crs /
-  lib /
-  drive /
-  __tests__ /
-  integration.test.ts /
-  workdir /
-  src /
-  lib /
-  drive /
-  __tests__ /
-  e2e.test.ts /
-  workdir /
-  docs /
-  drive -
-  integration -
-  guide.md / workdir / docs / drive -
-  folder -
-  structure.md;
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/__tests__/integration.test.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/__tests__/e2e.test.ts
+/Users/kazuya/src/freee-receipt-automation/docs/drive-integration-guide.md
+/Users/kazuya/src/freee-receipt-automation/docs/drive-folder-structure.md
 ```
 
 ### **PBI-2-3-6: Track Coordination Integration (2 SP)**
@@ -313,14 +291,14 @@ mcp__container-use__environment_run_cmd --environment_id phase2-drive-track \
 **実装ファイル**:
 
 ```typescript
-/workdir/src/lib/drive/track-coordinator.ts
-/workdir/src/lib/drive/events/track-events.ts
-/workdir/src/lib/drive/events/event-publisher.ts
-/workdir/src/lib/drive/events/track-trigger.ts
-/workdir/src/lib/drive/processing-log-integration.ts
-/workdir/src/types/track-coordination.ts
-/workdir/supabase/migrations/010_add_track_coordination_columns.sql
-/workdir/docs/architecture/track-coordination.md
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/track-coordinator.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/events/track-events.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/events/event-publisher.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/events/track-trigger.ts
+/Users/kazuya/src/freee-receipt-automation/src/lib/drive/processing-log-integration.ts
+/Users/kazuya/src/freee-receipt-automation/src/types/track-coordination.ts
+/Users/kazuya/src/freee-receipt-automation/supabase/migrations/010_add_track_coordination_columns.sql
+/Users/kazuya/src/freee-receipt-automation/docs/architecture/track-coordination.md
 ```
 
 ## 🗂️ Drive フォルダ構造設計
@@ -355,12 +333,9 @@ Example: 2024-06-20_office_amazon_15480_printer-paper.pdf
 
 ```bash
 # Foundation完了確認
-mcp__container-use__environment_file_read --environment_id phase2-drive-track \
-  --target_file /workdir/src/lib/oauth/common-oauth.ts --should_read_entire_file true
-mcp__container-use__environment_file_read --environment_id phase2-drive-track \
-  --target_file /workdir/docs/api/phase2-openapi.yaml --should_read_entire_file true
-mcp__container-use__environment_file_read --environment_id phase2-drive-track \
-  --target_file /workdir/src/lib/monitoring/api-observer.ts --should_read_entire_file true
+cat src/lib/oauth/common-oauth.ts
+cat docs/api/phase2-openapi.yaml
+cat src/lib/monitoring/api-observer.ts
 ```
 
 ### **Phase 2: Drive API Client Setup**
@@ -423,39 +398,38 @@ mcp__container-use__environment_file_read --environment_id phase2-drive-track \
 6. Knowledge transfer materials
 ```
 
-## 🔍 品質確認フロー (Container環境で実行)
+## 🔍 品質確認フロー (Local Session 1/2/3/4)
 
 ### **🔍 Technical Validation**
 
 ```bash
-# Container環境でのチェック実行
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "npx tsc --noEmit"
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "yarn test:run"
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "yarn test:coverage"
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "yarn check:docs"
+# ローカル環境でのチェック実行
+npx tsc --noEmit
+yarn test:run
+yarn test:coverage
+yarn check:docs
 ```
 
 ### **🔒 Drive-Specific Validation**
 
 ```bash
 # Drive API quota確認
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "yarn test:drive-quota"
+yarn test:drive-quota
 
 # Permission tests
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "yarn test:permissions"
+yarn test:permissions
 
 # Storage usage check
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "yarn test:storage-usage"
+yarn test:storage-usage
 ```
 
 ### **🛡️ Git Operations**
 
 ```bash
-# Git操作（Container環境で実行）
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "git checkout -b feature/pbi-2-3-drive-track"
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "git add ."
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track \
-  --command "git commit -m 'feat(drive): implement Google Drive API integration track
+# Git操作（ローカル環境で実行）
+git checkout -b feature/pbi-2-3-drive-track
+git add .
+git commit -m 'feat(drive): implement Google Drive API integration track
 
 - Add Drive API client with OAuth2 integration
 - Implement file operations (create, list, get, update)
@@ -581,8 +555,8 @@ Co-Authored-By: Claude <noreply@anthropic.com>'"
 
 ---
 
-**🚀 開始指示**: Foundation完了確認後、container-use環境でPBI-2-3-1から順次開始してください。PBI-2-3-6まで完了してGoogle Drive
-API統合の設計判断と実装理由を明確にしながら進め、全てのコマンド実行はmcp**container-use**environment\_\*ツールを使用してください。完了時にはGmail
+**🚀 開始指示**: Foundation完了確認後、ローカル環境でPBI-2-3-1から順次開始してください。PBI-2-3-6まで完了してGoogle Drive
+API統合の設計判断と実装理由を明確にしながら進め、全てのコマンド実行は通常のbashコマンドを使用してください。完了時にはGmail
 TrackとFile Management Trackとの連携準備状況を詳細に報告してください。
 
 ## 🔧 Comprehensive Error Recovery Procedures
@@ -611,18 +585,18 @@ TrackとFile Management Trackとの連携準備状況を詳細に報告してく
 
 ```bash
 # Test Drive error recovery
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "yarn test:drive-recovery"
+yarn test:drive-recovery
 
 # Test storage management
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "yarn test:storage-management"
+yarn test:storage-management
 ```
 
 **Rollback Procedures:**
 
 ```bash
 # Drive integration rollback
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "git checkout -- src/lib/drive/"
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "yarn install"
+git checkout -- src/lib/drive/
+yarn install
 ```
 
 ### **File Operation Errors**
@@ -737,21 +711,21 @@ Q: API quota gets exhausted quickly A: Optimize API calls. Use batch requests fo
 ```bash
 # Enable Drive API debug logging
 export DEBUG=drive:*
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "yarn test:drive --verbose"
+yarn test:drive --verbose
 ```
 
 **Debug File Operations:**
 
 ```bash
 # Test file operations with debug output
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "yarn test:file-operations --debug"
+yarn test:file-operations --debug
 ```
 
 **Debug Storage Issues:**
 
 ```bash
 # Monitor storage usage
-mcp__container-use__environment_run_cmd --environment_id phase2-drive-track --command "yarn test:storage-monitor --verbose"
+yarn test:storage-monitor --verbose
 ```
 
 ❗ **CRITICAL**: Google

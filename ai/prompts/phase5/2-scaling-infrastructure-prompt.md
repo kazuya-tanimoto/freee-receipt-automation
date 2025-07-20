@@ -26,30 +26,28 @@
 - **Cost Efficiency** - スケールに伴うコスト最適化
 - **Resilience by Design** - 障害に強いインフラアーキテクチャ
 
-## 🐳 Container Environment Setup
+## 🐳 ローカル開発環境セットアップ
 
-**重要**: あなたは container-use 環境で作業します。
+**重要**: あなたはローカル環境で作業します。
 
 ### **Environment Initialization**
 
-#### Step 1: Create Container Environment
+#### Step 1: ローカル環境に移動
 
 ```bash
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase5-scaling-infrastructure
+cd /Users/kazuya/src/freee-receipt-automation
 ```
 
-#### Step 2: Install Infrastructure Dependencies
+#### Step 2: インフラ依存関係のインストール
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase5-scaling-infrastructure \
-  --command "yarn add @pulumi/pulumi @pulumi/aws @pulumi/gcp kubernetes-client prometheus-query"
+yarn add @pulumi/pulumi @pulumi/aws @pulumi/gcp kubernetes-client prometheus-query
 ```
 
-#### Step 3: Environment Health Check
+#### Step 3: 環境ヘルスチェック
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase5-scaling-infrastructure \
-  --command "yarn check:docs && yarn test:run"
+yarn check:docs && yarn test:run
 ```
 
 ## 🎯 Phase 5-2 Implementation Targets
@@ -452,16 +450,14 @@ interface EnvironmentConfig {
 ### **Quick Start Sequence**
 
 ```bash
-# 1. Environment setup
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase5-scaling-infrastructure
+# 1. Local Session 10 setup
+cd /Users/kazuya/src/freee-receipt-automation
 
 # 2. Install infrastructure dependencies
-mcp__container-use__environment_run_cmd --environment_id phase5-scaling-infrastructure \
-  --command "yarn add @pulumi/pulumi @pulumi/aws @pulumi/gcp kubernetes-client prometheus-query"
+yarn add @pulumi/pulumi @pulumi/aws @pulumi/gcp kubernetes-client prometheus-query
 
 # 3. Create directory structure
-mcp__container-use__environment_run_cmd --environment_id phase5-scaling-infrastructure \
-  --command "mkdir -p src/lib/scaling/{autoscaling,global} infrastructure/iac"
+mkdir -p src/lib/scaling/{autoscaling,global} infrastructure/iac
 
 # 4. Start implementation with PBI-5-2-1
 ```
@@ -470,13 +466,13 @@ mcp__container-use__environment_run_cmd --environment_id phase5-scaling-infrastr
 
 ```bash
 # Infrastructure deployment
-mcp__container-use__environment_run_cmd --environment_id phase5-scaling-infrastructure --command "yarn infra:deploy"
+yarn infra:deploy
 
 # Scaling simulation
-mcp__container-use__environment_run_cmd --environment_id phase5-scaling-infrastructure --command "yarn scaling:simulate"
+yarn scaling:simulate
 
 # Global performance test
-mcp__container-use__environment_run_cmd --environment_id phase5-scaling-infrastructure --command "yarn test:global"
+yarn test:global
 ```
 
 ## 🎯 Ready for Unlimited Scale?

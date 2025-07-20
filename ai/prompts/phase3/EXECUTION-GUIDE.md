@@ -39,11 +39,11 @@ freee Receipt Automation プロジェクトの **Phase 3** 完了までの実行
 
 ### **Step 1: Phase 3A - freee API Integration**
 
-#### **Container Environment Setup**
+#### **ローカル開発環境セットアップ**
 
 ```bash
 # Claude Code で実行
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase3-freee-api
+cd /Users/kazuya/src/freee-receipt-automation
 ```
 
 #### **Implementation Sequence**
@@ -73,11 +73,11 @@ git add . && git commit -m "feat: implement freee API integration"
 
 ### **Step 2: Phase 3B - Receipt Processing**
 
-#### **Container Environment Setup**
+#### **ローカル開発環境セットアップ**
 
 ```bash
-# 新しい環境で実行
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase3-receipt-processing
+# 新しいローカルセッションで実行
+cd /Users/kazuya/src/freee-receipt-automation
 ```
 
 #### **Implementation Sequence**
@@ -104,11 +104,11 @@ git add . && git commit -m "feat: implement receipt processing pipeline"
 
 ### **Step 3: Phase 3C - OCR Integration**
 
-#### **Container Environment Setup**
+#### **ローカル開発環境セットアップ**
 
 ```bash
-# OCR専用環境で実行
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase3-ocr-integration
+# OCR専用ローカルセッションで実行
+cd /Users/kazuya/src/freee-receipt-automation
 ```
 
 #### **Implementation Sequence**
@@ -138,11 +138,11 @@ git add . && git commit -m "feat: implement multi-engine OCR integration"
 
 ### **Step 4: Phase 3D - Workflow Automation**
 
-#### **Container Environment Setup**
+#### **ローカル開発環境セットアップ**
 
 ```bash
-# ワークフロー専用環境で実行
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase3-workflow-automation
+# ワークフロー専用ローカルセッションで実行
+cd /Users/kazuya/src/freee-receipt-automation
 ```
 
 #### **Implementation Sequence**

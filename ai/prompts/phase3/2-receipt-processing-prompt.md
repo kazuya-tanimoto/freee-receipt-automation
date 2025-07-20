@@ -26,29 +26,28 @@
 - **Error Recovery** - 処理失敗時の自動復旧機能
 - **Scalability** - 処理量増加に対応可能な設計
 
-## 🐳 Container Environment Setup
+## 🐳 ローカル開発環境セットアップ
 
-**重要**: あなたは container-use 環境で作業します。
+**重要**: あなたはローカル環境で作業します。
 
 ### **Environment Initialization**
 
-#### Step 1: Create Container Environment
+#### Step 1: ローカル環境に移動
 
 ```bash
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase3-receipt-processing
+cd /Users/kazuya/src/freee-receipt-automation
 ```
 
-#### Step 2: Install Image Processing Dependencies
+#### Step 2: 画像処理依存関係のインストール
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase3-receipt-processing \
-  --command "yarn add sharp canvas pdf-parse tesseract.js @types/sharp"
+yarn add sharp canvas pdf-parse tesseract.js @types/sharp
 ```
 
-#### Step 3: Environment Health Check
+#### Step 3: 環境ヘルスチェック
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase3-receipt-processing --command "yarn check:docs && yarn test:run"
+yarn check:docs && yarn test:run
 ```
 
 ## 🎯 Phase 3-2 Implementation Targets
@@ -369,16 +368,14 @@ src/lib/processing/__tests__/
 ### **Quick Start Sequence**
 
 ```bash
-# 1. Environment setup
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase3-receipt-processing
+# 1. Local Session 2 setup
+cd /Users/kazuya/src/freee-receipt-automation
 
 # 2. Install dependencies
-mcp__container-use__environment_run_cmd --environment_id phase3-receipt-processing \
-  --command "yarn add sharp canvas pdf-parse tesseract.js @types/sharp"
+yarn add sharp canvas pdf-parse tesseract.js @types/sharp
 
 # 3. Create directory structure
-mcp__container-use__environment_run_cmd --environment_id phase3-receipt-processing \
-  --command "mkdir -p src/lib/processing/{image,text,validation,pipeline,quality}"
+mkdir -p src/lib/processing/{image,text,validation,pipeline,quality}
 
 # 4. Start implementation with PBI-3-2-1
 ```

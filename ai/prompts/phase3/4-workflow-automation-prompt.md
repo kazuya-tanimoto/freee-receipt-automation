@@ -26,29 +26,28 @@
 - **Observability** - 包括的な監視と運用可視性
 - **Automation Excellence** - 完全自動化による人的エラー排除
 
-## 🐳 Container Environment Setup
+## 🐳 ローカル開発環境セットアップ
 
-**重要**: あなたは container-use 環境で作業します。
+**重要**: あなたはローカル環境で作業します。
 
 ### **Environment Initialization**
 
-#### Step 1: Create Container Environment
+#### Step 1: ローカル環境に移動
 
 ```bash
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase3-workflow-automation
+cd /Users/kazuya/src/freee-receipt-automation
 ```
 
-#### Step 2: Install Workflow Dependencies
+#### Step 2: ワークフロー依存関係のインストール
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase3-workflow-automation \
-  --command "yarn add @temporal/client @temporal/worker bull redis ioredis"
+yarn add @temporal/client @temporal/worker bull redis ioredis
 ```
 
-#### Step 3: Environment Health Check
+#### Step 3: 環境ヘルスチェック
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase3-workflow-automation --command "yarn check:docs && yarn test:run"
+yarn check:docs && yarn test:run
 ```
 
 ## 🎯 Phase 3-4 Implementation Targets
@@ -379,16 +378,14 @@ slos:
 ### **Quick Start Sequence**
 
 ```bash
-# 1. Environment setup
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase3-workflow-automation
+# 1. Local Session 4 setup
+cd /Users/kazuya/src/freee-receipt-automation
 
 # 2. Install workflow dependencies
-mcp__container-use__environment_run_cmd --environment_id phase3-workflow-automation \
-  --command "yarn add @temporal/client @temporal/worker bull redis ioredis"
+yarn add @temporal/client @temporal/worker bull redis ioredis
 
 # 3. Create directory structure
-mcp__container-use__environment_run_cmd --environment_id phase3-workflow-automation \
-  --command "mkdir -p src/lib/workflow/{engine,pipelines,monitoring}"
+mkdir -p src/lib/workflow/{engine,pipelines,monitoring}
 
 # 4. Start implementation with PBI-3-4-1
 ```
@@ -397,13 +394,13 @@ mcp__container-use__environment_run_cmd --environment_id phase3-workflow-automat
 
 ```bash
 # Start workflow development server
-mcp__container-use__environment_run_cmd --environment_id phase3-workflow-automation --command "yarn dev:workflow"
+yarn dev:workflow
 
 # Run workflow tests
-mcp__container-use__environment_run_cmd --environment_id phase3-workflow-automation --command "yarn test:workflow"
+yarn test:workflow
 
 # Monitor workflow performance
-mcp__container-use__environment_run_cmd --environment_id phase3-workflow-automation --command "yarn monitor:workflow"
+yarn monitor:workflow
 ```
 
 ## 🎯 Ready to Automate Everything?

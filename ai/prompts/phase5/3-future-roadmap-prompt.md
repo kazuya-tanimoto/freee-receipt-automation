@@ -26,30 +26,28 @@
 - **Strategic Investment** - 長期ROIを考慮した技術投資
 - **Sustainable Growth** - 持続可能な成長と発展
 
-## 🐳 Container Environment Setup
+## 🐳 ローカル開発環境セットアップ
 
-**重要**: あなたは container-use 環境で作業します。
+**重要**: あなたはローカル環境で作業します。
 
 ### **Environment Initialization**
 
-#### Step 1: Create Container Environment
+#### Step 1: ローカル環境に移動
 
 ```bash
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase5-future-roadmap
+cd /Users/kazuya/src/freee-receipt-automation
 ```
 
-#### Step 2: Install Future Tech Dependencies
+#### Step 2: 未来技術依存関係のインストール
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase5-future-roadmap \
-  --command "yarn add @web3-react/core ethers web3 @tensorflow/tfjs-node openai langchain"
+yarn add @web3-react/core ethers web3 @tensorflow/tfjs-node openai langchain
 ```
 
-#### Step 3: Environment Health Check
+#### Step 3: 環境ヘルスチェック
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase5-future-roadmap \
-  --command "yarn check:docs && yarn test:run"
+yarn check:docs && yarn test:run
 ```
 
 ## 🎯 Phase 5-3 Implementation Targets
@@ -493,16 +491,14 @@ interface TechEvaluation {
 ### **Quick Start Sequence**
 
 ```bash
-# 1. Environment setup
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase5-future-roadmap
+# 1. Local Session 11 setup
+cd /Users/kazuya/src/freee-receipt-automation
 
 # 2. Install future tech dependencies
-mcp__container-use__environment_run_cmd --environment_id phase5-future-roadmap \
-  --command "yarn add @web3-react/core ethers web3 @tensorflow/tfjs-node openai langchain"
+yarn add @web3-react/core ethers web3 @tensorflow/tfjs-node openai langchain
 
 # 3. Create directory structure
-mcp__container-use__environment_run_cmd --environment_id phase5-future-roadmap \
-  --command "mkdir -p src/lib/future/nextgen docs/roadmap/{technology,features,strategy} labs/experimental"
+mkdir -p src/lib/future/nextgen docs/roadmap/{technology,features,strategy} labs/experimental
 
 # 4. Start implementation with PBI-5-3-1
 ```
@@ -511,13 +507,13 @@ mcp__container-use__environment_run_cmd --environment_id phase5-future-roadmap \
 
 ```bash
 # Future tech experiments
-mcp__container-use__environment_run_cmd --environment_id phase5-future-roadmap --command "yarn future:experiment"
+yarn future:experiment
 
 # Roadmap generation
-mcp__container-use__environment_run_cmd --environment_id phase5-future-roadmap --command "yarn roadmap:generate"
+yarn roadmap:generate
 
 # Technology evaluation
-mcp__container-use__environment_run_cmd --environment_id phase5-future-roadmap --command "yarn tech:evaluate"
+yarn tech:evaluate
 ```
 
 ## 🎯 Ready for the Future?

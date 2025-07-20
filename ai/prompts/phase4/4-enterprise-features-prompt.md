@@ -26,29 +26,28 @@
 - **Maintainability** - 長期運用・保守性を考慮した設計
 - **Reliability** - 99.99%可用性を目指す高信頼性システム
 
-## 🐳 Container Environment Setup
+## 🐳 ローカル開発環境セットアップ
 
-**重要**: あなたは container-use 環境で作業します。
+**重要**: あなたはローカル環境で作業します。
 
 ### **Environment Initialization**
 
-#### Step 1: Create Container Environment
+#### Step 1: ローカル環境に移動
 
 ```bash
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase4-enterprise-features
+cd /Users/kazuya/src/freee-receipt-automation
 ```
 
-#### Step 2: Install Enterprise Dependencies
+#### Step 2: エンタープライズ依存関係のインストール
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase4-enterprise-features \
-  --command "yarn add @supabase/supabase-js passport passport-saml express-rate-limit helmet compression"
+yarn add @supabase/supabase-js passport passport-saml express-rate-limit helmet compression
 ```
 
-#### Step 3: Environment Health Check
+#### Step 3: 環境ヘルスチェック
 
 ```bash
-mcp__container-use__environment_run_cmd --environment_id phase4-enterprise-features --command "yarn check:docs && yarn test:run"
+yarn check:docs && yarn test:run
 ```
 
 ## 🎯 Phase 4-4 Implementation Targets
@@ -441,16 +440,14 @@ interface SecurityTestSuite {
 ### **Quick Start Sequence**
 
 ```bash
-# 1. Environment setup
-mcp__container-use__environment_open --source /Users/kazuya/src/freee-receipt-automation --name phase4-enterprise-features
+# 1. Local Session 8 setup
+cd /Users/kazuya/src/freee-receipt-automation
 
 # 2. Install enterprise dependencies
-mcp__container-use__environment_run_cmd --environment_id phase4-enterprise-features \
-  --command "yarn add @supabase/supabase-js passport passport-saml express-rate-limit helmet compression"
+yarn add @supabase/supabase-js passport passport-saml express-rate-limit helmet compression
 
 # 3. Create directory structure
-mcp__container-use__environment_run_cmd --environment_id phase4-enterprise-features \
-  --command "mkdir -p src/lib/enterprise/{multitenancy,rbac,api}"
+mkdir -p src/lib/enterprise/{multitenancy,rbac,api}
 
 # 4. Start implementation with PBI-4-4-1
 ```
@@ -459,13 +456,13 @@ mcp__container-use__environment_run_cmd --environment_id phase4-enterprise-featu
 
 ```bash
 # Security scan
-mcp__container-use__environment_run_cmd --environment_id phase4-enterprise-features --command "yarn security:scan"
+yarn security:scan
 
 # Compliance check
-mcp__container-use__environment_run_cmd --environment_id phase4-enterprise-features --command "yarn compliance:check"
+yarn compliance:check
 
 # Load testing
-mcp__container-use__environment_run_cmd --environment_id phase4-enterprise-features --command "yarn test:load"
+yarn test:load
 ```
 
 ## 🎯 Ready for Enterprise Excellence?
