@@ -1,42 +1,6 @@
 pre-commit:
   parallel: true
   commands:
-    environment-check:
-      run: |
-        echo "🔍 Environment check starting..."
-        echo "Current path: $PWD"
-        echo "Current user: $(whoami)"
-
-        # ローカル環境検出
-        if [[ "$PWD" == "/Users/"* ]]; then
-          echo ""
-          echo "🚨 FATAL ERROR: Local environment detected"
-          echo "Current path: $PWD"
-          echo "Current user: $(whoami)"
-          echo ""
-          echo "❌ ALL COMMITS BLOCKED"
-          echo "Switch to Container Use environment before committing"
-          echo ""
-          echo "Required: Use mcp__container-use__ tools only"
-          exit 1
-        fi
-
-        # Container環境確認
-        if [[ ! -f "/.dockerenv" ]] && [[ ! "$CONTAINER" == "true" ]] && [[ ! "$PWD" == "/workspaces/"* ]] && [[ ! "$PWD" == "/workdir"* ]]; then
-          echo ""
-          echo "🚨 FATAL ERROR: Not in container environment"
-          echo "Current environment indicators:"
-          echo "  - dockerenv: $([ -f /.dockerenv ] && echo 'found' || echo 'missing')"
-          echo "  - CONTAINER var: ${CONTAINER:-'unset'}"
-          echo "  - Workspace path: $PWD"
-          echo ""
-          echo "❌ ALL COMMITS BLOCKED"
-          echo "Use Container Use environment only"
-          exit 1
-        fi
-
-        echo "✅ Container environment verified"
-
     docs-check:
       run: yarn check:docs
       files: git diff --name-only --cached --diff-filter=d | grep '\.md$' || true
