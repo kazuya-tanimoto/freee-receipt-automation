@@ -5,7 +5,7 @@
  * Combines core and advanced functionality.
  */
 
-import { GoogleOAuthProvider } from '../../oauth/providers/google-oauth-provider';
+import { GoogleOAuth } from '../../oauth/google-oauth';
 import {
   DriveFile,
   FileListParams,
@@ -21,7 +21,7 @@ import { DriveFileListAdvanced } from './file-list-advanced';
 
 export class DriveFileListService extends DriveFileListAdvanced {
   constructor(
-    provider: GoogleOAuthProvider,
+    provider: GoogleOAuth,
     options: {
       receiptCriteria?: Partial<ReceiptSearchCriteria>;
       batchOptions?: Partial<BatchProcessingOptions>;

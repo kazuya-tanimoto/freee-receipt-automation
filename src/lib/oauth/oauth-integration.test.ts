@@ -43,7 +43,8 @@ describe('OAuth Mock Integration', () => {
       accessToken: 'mock-access-token',
       refreshToken: 'mock-refresh-token',
       expiresIn: 3600,
-      tokenType: 'Bearer'
+      tokenType: 'Bearer',
+      scope: 'https://www.googleapis.com/auth/gmail.readonly'
     };
 
     expect(mockTokenResponse.accessToken).toBe('mock-access-token');

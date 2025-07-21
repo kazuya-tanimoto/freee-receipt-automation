@@ -5,7 +5,7 @@
  * with comprehensive error handling and retry mechanisms.
  */
 
-import { GoogleOAuthProvider } from '../../oauth/providers/google-oauth-provider';
+import { GoogleOAuth } from '../../oauth/google-oauth';
 import { OAuthException } from '../../oauth/types';
 import {
   GmailMessage,
@@ -32,13 +32,13 @@ import {
 // ============================================================================
 
 export class MessageListService {
-  private readonly provider: GoogleOAuthProvider;
+  private readonly provider: GoogleOAuth;
   private readonly receiptCriteria: ReceiptDetectionCriteria;
   private readonly batchOptions: BatchProcessingOptions;
   private readonly retryOptions: RetryOptions;
 
   constructor(
-    provider: GoogleOAuthProvider,
+    provider: GoogleOAuth,
     options: {
       receiptCriteria?: Partial<ReceiptDetectionCriteria>;
       batchOptions?: Partial<BatchProcessingOptions>;
@@ -68,7 +68,7 @@ export class MessageListService {
     params: MessageListParams = {}
   ): Promise<MessageListResponse> {
     return this.withRetry(async () => {
-      const gmailClient = this.provider.getGmailApiClient(accessToken);
+      const gmailClient = this.provider.getGmailClient(accessToken);
       
       // Build query with filters
       const query = buildQuery(params);
@@ -179,7 +179,7 @@ export class MessageListService {
     accessToken: string,
     messageIds: string[]
   ): Promise<GmailMessage[]> {
-    const gmailClient = this.provider.getGmailApiClient(accessToken);
+    const gmailClient = this.provider.getGmailClient(accessToken);
     const batches = createBatches(messageIds, this.batchOptions.batchSize);
     const allMessages: GmailMessage[] = [];
 

@@ -7,7 +7,7 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { MessageListService } from './message-list-service';
 import {
-  mockGoogleOAuthProvider,
+  mockGoogleOAuth,
   mockGmailClient,
   setupBasicMocks,
   setupEmptyMocks,
@@ -22,7 +22,7 @@ describe('MessageListService - Core Functionality', () => {
   let service: MessageListService;
 
   beforeEach(() => {
-    service = new MessageListService(mockGoogleOAuthProvider);
+    service = new MessageListService(mockGoogleOAuth);
   });
 
   afterEach(() => {
@@ -35,7 +35,7 @@ describe('MessageListService - Core Functionality', () => {
 
   describe('Constructor', () => {
     it('should initialize with default options', () => {
-      const defaultService = new MessageListService(mockGoogleOAuthProvider);
+      const defaultService = new MessageListService(mockGoogleOAuth);
       expect(defaultService).toBeInstanceOf(MessageListService);
     });
 
@@ -45,7 +45,7 @@ describe('MessageListService - Core Functionality', () => {
         subjectPatterns: [/custom/i]
       };
       
-      const customService = new MessageListService(mockGoogleOAuthProvider, {
+      const customService = new MessageListService(mockGoogleOAuth, {
         receiptCriteria: customCriteria
       });
       
@@ -59,7 +59,7 @@ describe('MessageListService - Core Functionality', () => {
         delayMs: 200
       };
       
-      const customService = new MessageListService(mockGoogleOAuthProvider, {
+      const customService = new MessageListService(mockGoogleOAuth, {
         batchOptions: customBatchOptions
       });
       

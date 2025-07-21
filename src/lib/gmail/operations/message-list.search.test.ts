@@ -7,7 +7,7 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { MessageListService } from './message-list-service';
 import {
-  mockGoogleOAuthProvider,
+  mockGoogleOAuth,
   mockGmailClient,
   setupBasicMocks,
   TEST_ACCESS_TOKEN
@@ -21,7 +21,7 @@ describe('MessageListService - Search Functionality', () => {
   let service: MessageListService;
 
   beforeEach(() => {
-    service = new MessageListService(mockGoogleOAuthProvider);
+    service = new MessageListService(mockGoogleOAuth);
   });
 
   afterEach(() => {

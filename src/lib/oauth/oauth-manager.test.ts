@@ -5,7 +5,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { OAuthManager } from './common-oauth';
+import { OAuthManager } from './oauth-manager';
 import { OAuthException } from './types';
 import type {
   OAuthInitiateRequest,

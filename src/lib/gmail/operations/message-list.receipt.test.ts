@@ -7,7 +7,7 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { MessageListService } from './message-list-service';
 import {
-  mockGoogleOAuthProvider,
+  mockGoogleOAuth,
   mockGmailClient,
   receiptMessageFromSender,
   receiptMessageFromSubject,
@@ -27,7 +27,7 @@ describe('MessageListService - Receipt Detection', () => {
   let service: MessageListService;
 
   beforeEach(() => {
-    service = new MessageListService(mockGoogleOAuthProvider);
+    service = new MessageListService(mockGoogleOAuth);
   });
 
   afterEach(() => {
@@ -112,7 +112,7 @@ describe('MessageListService - Receipt Detection', () => {
 
     it('should preserve pagination info', async () => {
       vi.clearAllMocks();
-      mockGoogleOAuthProvider.getGmailApiClient = vi.fn().mockReturnValue(mockGmailClient);
+      mockGoogleOAuth.getGmailClient = vi.fn().mockReturnValue(mockGmailClient);
       mockGmailClient.listMessages.mockResolvedValue({
         messages: [{ id: 'msg1', threadId: 'thread1' }],
         nextPageToken: 'next-token',
@@ -141,7 +141,7 @@ describe('MessageListService - Receipt Detection', () => {
 
   describe('Custom Receipt Criteria', () => {
     it('should use custom sender patterns', async () => {
-      const customService = new MessageListService(mockGoogleOAuthProvider, {
+      const customService = new MessageListService(mockGoogleOAuth, {
         receiptCriteria: {
           senderPatterns: [/test-sender@/i]
         }
@@ -166,7 +166,7 @@ describe('MessageListService - Receipt Detection', () => {
     });
 
     it('should use custom subject patterns', async () => {
-      const customService = new MessageListService(mockGoogleOAuthProvider, {
+      const customService = new MessageListService(mockGoogleOAuth, {
         receiptCriteria: {
           subjectPatterns: [/custom-receipt/i]
         }
@@ -191,7 +191,7 @@ describe('MessageListService - Receipt Detection', () => {
     });
 
     it('should use custom body patterns', async () => {
-      const customService = new MessageListService(mockGoogleOAuthProvider, {
+      const customService = new MessageListService(mockGoogleOAuth, {
         receiptCriteria: {
           bodyPatterns: [/custom-total[:\s]*\$\d+/i]
         }

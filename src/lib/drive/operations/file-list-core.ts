@@ -4,7 +4,7 @@
  * Core file listing functionality for Google Drive
  */
 
-import { GoogleOAuthProvider } from '../../oauth/providers/google-oauth-provider';
+import { GoogleOAuth } from '../../oauth/google-oauth';
 import { OAuthException } from '../../oauth/types';
 import {
   DriveFile,
@@ -26,12 +26,12 @@ import {
 // ============================================================================
 
 export class DriveFileListCore {
-  protected readonly provider: GoogleOAuthProvider;
+  protected readonly provider: GoogleOAuth;
   protected readonly receiptCriteria: ReceiptSearchCriteria;
   protected readonly batchOptions: BatchProcessingOptions;
 
   constructor(
-    provider: GoogleOAuthProvider,
+    provider: GoogleOAuth,
     options: {
       receiptCriteria?: Partial<ReceiptSearchCriteria>;
       batchOptions?: Partial<BatchProcessingOptions>;
@@ -56,7 +56,7 @@ export class DriveFileListCore {
     params: FileListParams = {}
   ): Promise<FileListResponse> {
     return this.withRetry(async () => {
-      const driveClient = this.provider.getDriveApiClient(accessToken);
+      const driveClient = this.provider.getDriveClient(accessToken);
 
       // Build query with default fields
       const fields = params.fields || DEFAULT_FIELDS;

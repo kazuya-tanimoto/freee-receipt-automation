@@ -5,21 +5,21 @@
  */
 
 import { vi } from 'vitest';
-import { GoogleOAuthProvider } from '../../oauth/providers/google-oauth-provider';
+import { GoogleOAuth } from '../../oauth/google-oauth';
 
 // ============================================================================
 // Test Mocks
 // ============================================================================
 
-export const mockGoogleOAuthProvider = {
-  getGmailApiClient: vi.fn(),
+export const mockGoogleOAuth = {
+  getGmailClient: vi.fn(),
   config: {
     clientId: 'test-client-id',
     clientSecret: 'test-client-secret',
     authorizationEndpoint: 'https://accounts.google.com/o/oauth2/v2/auth',
     tokenEndpoint: 'https://oauth2.googleapis.com/token'
   }
-} as unknown as GoogleOAuthProvider;
+} as unknown as GoogleOAuth;
 
 export const mockGmailClient = {
   listMessages: vi.fn(),
@@ -141,7 +141,7 @@ export const japaneseReceipt = {
 
 export function setupBasicMocks() {
   vi.clearAllMocks();
-  mockGoogleOAuthProvider.getGmailApiClient = vi.fn().mockReturnValue(mockGmailClient);
+  mockGoogleOAuth.getGmailClient = vi.fn().mockReturnValue(mockGmailClient);
   mockGmailClient.listMessages.mockResolvedValue({
     messages: sampleMessages,
     resultSizeEstimate: 2
@@ -153,7 +153,7 @@ export function setupBasicMocks() {
 
 export function setupEmptyMocks() {
   vi.clearAllMocks();
-  mockGoogleOAuthProvider.getGmailApiClient = vi.fn().mockReturnValue(mockGmailClient);
+  mockGoogleOAuth.getGmailClient = vi.fn().mockReturnValue(mockGmailClient);
   mockGmailClient.listMessages.mockResolvedValue({
     messages: null,
     resultSizeEstimate: 0
@@ -162,7 +162,7 @@ export function setupEmptyMocks() {
 
 export function setupReceiptMocks(receiptMessage: any) {
   vi.clearAllMocks();
-  mockGoogleOAuthProvider.getGmailApiClient = vi.fn().mockReturnValue(mockGmailClient);
+  mockGoogleOAuth.getGmailClient = vi.fn().mockReturnValue(mockGmailClient);
   mockGmailClient.listMessages.mockResolvedValue({
     messages: [{ id: 'msg1', threadId: 'thread1' }],
     resultSizeEstimate: 1
@@ -172,7 +172,7 @@ export function setupReceiptMocks(receiptMessage: any) {
 
 export function setupErrorMocks(error: Error) {
   vi.clearAllMocks();
-  mockGoogleOAuthProvider.getGmailApiClient = vi.fn().mockReturnValue(mockGmailClient);
+  mockGoogleOAuth.getGmailClient = vi.fn().mockReturnValue(mockGmailClient);
   mockGmailClient.listMessages.mockRejectedValue(error);
 }
 

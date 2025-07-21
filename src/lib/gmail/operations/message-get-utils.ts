@@ -4,7 +4,7 @@
  * Helper functions for message processing, attachment handling, and receipt extraction
  */
 
-import { GoogleOAuthProvider } from '../../oauth/providers/google-oauth-provider';
+import { GoogleOAuth } from '../../oauth/google-oauth';
 import {
   MessageDetails,
   MessageAttachment,
@@ -79,7 +79,7 @@ export async function processAttachments(
   accessToken: string,
   messageId: string,
   message: any,
-  provider: GoogleOAuthProvider,
+  provider: GoogleOAuth,
   options: MessageProcessingOptions
 ): Promise<MessageAttachment[]> {
   const attachments: MessageAttachment[] = [];
@@ -93,7 +93,7 @@ export async function processAttachments(
       if (size <= options.maxAttachmentSize &&
           options.supportedMimeTypes.includes(mimeType)) {
         
-        const gmailClient = provider.getGmailApiClient(accessToken);
+        const gmailClient = provider.getGmailClient(accessToken);
         
         try {
           const attachment = await gmailClient.getAttachment(messageId, part.body.attachmentId);
@@ -104,7 +104,7 @@ export async function processAttachments(
               filename: part.filename,
               mimeType,
               size,
-              data: size <= 1024 * 1024 ? attachment.data : undefined, // Only download if < 1MB
+              data: size <= 1024 * 1024 ? (attachment.data || undefined) : undefined, // Only download if < 1MB
               isReceiptCandidate: isReceiptAttachment(part.filename, mimeType)
             });
           }

@@ -7,7 +7,7 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { MessageListService } from './message-list-service';
 import {
-  mockGoogleOAuthProvider,
+  mockGoogleOAuth,
   mockGmailClient,
   nonReceiptMessage,
   TEST_ACCESS_TOKEN
@@ -21,7 +21,7 @@ describe('MessageListService - Batch Processing', () => {
   let service: MessageListService;
 
   beforeEach(() => {
-    service = new MessageListService(mockGoogleOAuthProvider);
+    service = new MessageListService(mockGoogleOAuth);
   });
 
   afterEach(() => {
@@ -39,7 +39,7 @@ describe('MessageListService - Batch Processing', () => {
         threadId: `thread${i}`
       }));
       
-      mockGoogleOAuthProvider.getGmailApiClient = vi.fn().mockReturnValue(mockGmailClient);
+      mockGoogleOAuth.getGmailClient = vi.fn().mockReturnValue(mockGmailClient);
       mockGmailClient.listMessages.mockResolvedValue({
         messages: largeBatch,
         resultSizeEstimate: 50
@@ -47,7 +47,7 @@ describe('MessageListService - Batch Processing', () => {
       
       mockGmailClient.getMessage.mockResolvedValue(nonReceiptMessage);
       
-      const customService = new MessageListService(mockGoogleOAuthProvider, {
+      const customService = new MessageListService(mockGoogleOAuth, {
         batchOptions: { batchSize: 25, concurrency: 2, delayMs: 1 }
       });
       
@@ -58,7 +58,7 @@ describe('MessageListService - Batch Processing', () => {
     });
 
     it('should respect batch size limits', async () => {
-      const customService = new MessageListService(mockGoogleOAuthProvider, {
+      const customService = new MessageListService(mockGoogleOAuth, {
         batchOptions: { batchSize: 10, concurrency: 1, delayMs: 1 }
       });
       
@@ -67,7 +67,7 @@ describe('MessageListService - Batch Processing', () => {
         threadId: `thread${i}`
       }));
       
-      mockGoogleOAuthProvider.getGmailApiClient = vi.fn().mockReturnValue(mockGmailClient);
+      mockGoogleOAuth.getGmailClient = vi.fn().mockReturnValue(mockGmailClient);
       mockGmailClient.listMessages.mockResolvedValue({
         messages,
         resultSizeEstimate: 10
@@ -86,7 +86,7 @@ describe('MessageListService - Batch Processing', () => {
         threadId: `thread${i}`
       }));
       
-      mockGoogleOAuthProvider.getGmailApiClient = vi.fn().mockReturnValue(mockGmailClient);
+      mockGoogleOAuth.getGmailClient = vi.fn().mockReturnValue(mockGmailClient);
       mockGmailClient.listMessages.mockResolvedValue({
         messages,
         resultSizeEstimate: 5
@@ -106,7 +106,7 @@ describe('MessageListService - Batch Processing', () => {
     }, 10000); // 10 second timeout
 
     it('should handle null or undefined message details', async () => {
-      mockGoogleOAuthProvider.getGmailApiClient = vi.fn().mockReturnValue(mockGmailClient);
+      mockGoogleOAuth.getGmailClient = vi.fn().mockReturnValue(mockGmailClient);
       mockGmailClient.listMessages.mockResolvedValue({
         messages: [{ id: 'msg1', threadId: 'thread1' }],
         resultSizeEstimate: 1
@@ -125,7 +125,7 @@ describe('MessageListService - Batch Processing', () => {
         // Missing required fields
       };
       
-      mockGoogleOAuthProvider.getGmailApiClient = vi.fn().mockReturnValue(mockGmailClient);
+      mockGoogleOAuth.getGmailClient = vi.fn().mockReturnValue(mockGmailClient);
       mockGmailClient.listMessages.mockResolvedValue({
         messages: [{ id: 'msg1', threadId: 'thread1' }],
         resultSizeEstimate: 1

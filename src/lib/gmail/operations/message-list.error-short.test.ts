@@ -8,7 +8,7 @@ import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { MessageListService } from './message-list-service';
 import { OAuthException } from '../../oauth/types';
 import {
-  mockGoogleOAuthProvider,
+  mockGoogleOAuth,
   mockGmailClient,
   sampleMessages,
   sampleMessageDetails,
@@ -25,7 +25,7 @@ describe('MessageListService - Error Handling', () => {
   let service: MessageListService;
 
   beforeEach(() => {
-    service = new MessageListService(mockGoogleOAuthProvider);
+    service = new MessageListService(mockGoogleOAuth);
   });
 
   afterEach(() => {
@@ -49,7 +49,7 @@ describe('MessageListService - Error Handling', () => {
 
     it('should retry on transient errors', async () => {
       const networkError = new Error('Network error');
-      mockGoogleOAuthProvider.getGmailApiClient = vi.fn().mockReturnValue(mockGmailClient);
+      mockGoogleOAuth.getGmailClient = vi.fn().mockReturnValue(mockGmailClient);
       mockGmailClient.listMessages
         .mockRejectedValueOnce(networkError)
         .mockRejectedValueOnce(networkError)
@@ -79,7 +79,7 @@ describe('MessageListService - Error Handling', () => {
     }, 10000); // 10 second timeout
 
     it('should handle individual message fetch failures gracefully', async () => {
-      mockGoogleOAuthProvider.getGmailApiClient = vi.fn().mockReturnValue(mockGmailClient);
+      mockGoogleOAuth.getGmailClient = vi.fn().mockReturnValue(mockGmailClient);
       mockGmailClient.listMessages.mockResolvedValue({
         messages: [
           { id: 'msg1', threadId: 'thread1' },
@@ -107,7 +107,7 @@ describe('MessageListService - Error Handling', () => {
 
   describe('Custom Configuration', () => {
     it('should use custom retry options', async () => {
-      const customService = new MessageListService(mockGoogleOAuthProvider, {
+      const customService = new MessageListService(mockGoogleOAuth, {
         retryOptions: {
           maxRetries: 1,
           initialDelayMs: 100,
@@ -117,7 +117,7 @@ describe('MessageListService - Error Handling', () => {
       });
 
       const persistentError = new Error('Persistent error');
-      mockGoogleOAuthProvider.getGmailApiClient = vi.fn().mockReturnValue(mockGmailClient);
+      mockGoogleOAuth.getGmailClient = vi.fn().mockReturnValue(mockGmailClient);
       mockGmailClient.listMessages.mockRejectedValue(persistentError);
       
       await expect(customService.listMessages(TEST_ACCESS_TOKEN))

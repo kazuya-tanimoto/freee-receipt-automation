@@ -4,7 +4,7 @@
  * High-level service for retrieving Gmail message details with receipt processing
  */
 
-import { GoogleOAuthProvider } from '../../oauth/providers/google-oauth-provider';
+import { GoogleOAuth } from '../../oauth/google-oauth';
 import { OAuthException } from '../../oauth/types';
 import {
   MessageDetails,
@@ -27,11 +27,11 @@ import {
 // ============================================================================
 
 export class MessageGetService {
-  private readonly provider: GoogleOAuthProvider;
+  private readonly provider: GoogleOAuth;
   private readonly processingOptions: MessageProcessingOptions;
 
   constructor(
-    provider: GoogleOAuthProvider,
+    provider: GoogleOAuth,
     options: Partial<MessageProcessingOptions> = {}
   ) {
     this.provider = provider;
@@ -52,7 +52,7 @@ export class MessageGetService {
     const mergedOptions = { ...this.processingOptions, ...options };
     
     return this.withRetry(async () => {
-      const gmailClient = this.provider.getGmailApiClient(accessToken);
+      const gmailClient = this.provider.getGmailClient(accessToken);
       
       // Get full message data
       const rawMessage = await gmailClient.getMessage(messageId, 'full');
@@ -145,7 +145,7 @@ export class MessageGetService {
     }
   ): Promise<MessageAttachment | null> {
     return this.withRetry(async () => {
-      const gmailClient = this.provider.getGmailApiClient(accessToken);
+      const gmailClient = this.provider.getGmailClient(accessToken);
       
       try {
         const attachment = await gmailClient.getAttachment(messageId, attachmentId);
