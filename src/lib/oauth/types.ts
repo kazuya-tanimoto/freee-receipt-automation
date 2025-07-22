@@ -4,9 +4,51 @@
  * Unified type definitions for OAuth2.0 authentication flows.
  */
 
-// Re-export from remaining files
-export * from './oauth-constants';
-export * from './oauth-guards';
+// ============================================================================
+// OAuth Configuration Constants
+// ============================================================================
+
+/**
+ * Gmail API scopes
+ */
+export const GMAIL_SCOPES = {
+  /** Read Gmail messages and attachments */
+  READONLY: 'https://www.googleapis.com/auth/gmail.readonly',
+} as const;
+
+/**
+ * Google Drive API scopes  
+ */
+export const DRIVE_SCOPES = {
+  /** Read-only access to files */
+  READONLY: 'https://www.googleapis.com/auth/drive.readonly',
+} as const;
+
+/**
+ * OAuth flow configuration constants
+ */
+export const OAUTH_CONFIG = {
+  /** PKCE code verifier length (43-128 characters) */
+  CODE_VERIFIER_LENGTH: 64,
+  /** State parameter length */
+  STATE_LENGTH: 32,
+  /** PKCE parameters storage duration (seconds) */
+  PKCE_STORAGE_DURATION: 600, // 10 minutes
+  /** Token refresh buffer time (seconds) */
+  TOKEN_REFRESH_BUFFER: 300, // 5 minutes
+} as const;
+
+/**
+ * Google API endpoints
+ */
+export const GOOGLE_ENDPOINTS = {
+  /** Authorization endpoint */
+  AUTHORIZATION: 'https://accounts.google.com/o/oauth2/v2/auth',
+  /** Token endpoint */
+  TOKEN: 'https://oauth2.googleapis.com/token',
+  /** Token revocation endpoint */
+  REVOKE: 'https://oauth2.googleapis.com/revoke',
+} as const;
 
 // ============================================================================
 // Core OAuth Types

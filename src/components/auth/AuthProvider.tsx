@@ -1,10 +1,14 @@
 'use client'
 
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { sessionManager, type SessionData } from '@/lib/auth/session'
 import type { AuthUser, AuthSession } from '@/lib/auth'
+import { supabase } from '@/lib/supabase/client'
 
-interface AuthContextType extends SessionData {
+interface AuthContextType {
+  user: AuthUser | null
+  session: AuthSession | null
+  isLoading: boolean
+  isAuthenticated: boolean
   signIn: (email: string, password: string) => Promise<{ error?: string }>
   signUp: (email: string, password: string, name?: string) => Promise<{ error?: string }>
   signOut: () => Promise<void>
@@ -29,16 +33,29 @@ interface AuthProviderProps {
 const authModule = import('@/lib/auth')
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [sessionData, setSessionData] = useState<SessionData>(() => 
-    sessionManager.getSessionData()
-  )
+  const [user, setUser] = useState<AuthUser | null>(null)
+  const [session, setSession] = useState<AuthSession | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   useEffect(() => {
-    const unsubscribe = sessionManager.subscribe((data) => {
-      setSessionData(data)
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+      setUser(session?.user || null)
+      setIsAuthenticated(!!session)
+      setIsLoading(false)
     })
 
-    return unsubscribe
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setSession(session)
+      setUser(session?.user || null)
+      setIsAuthenticated(!!session)
+      setIsLoading(false)
+    })
+
+    return () => subscription.unsubscribe()
   }, [])
 
   const signIn = async (email: string, password: string): Promise<{ error?: string }> => {
@@ -83,17 +100,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
         throw new Error(error.message)
       }
       
-      await sessionManager.clearSession()
     } catch (error) {
       console.error('Sign out failed:', error)
-      await sessionManager.clearSession()
       throw error
     }
   }
 
   const refreshSession = async (): Promise<void> => {
     try {
-      await sessionManager.refreshSession()
+      const { data, error } = await supabase.auth.refreshSession()
+      if (error) throw error
     } catch (error) {
       console.error('Session refresh failed:', error)
       throw error
@@ -101,7 +117,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   const contextValue: AuthContextType = {
-    ...sessionData,
+    user,
+    session,
+    isLoading,
+    isAuthenticated,
     signIn,
     signUp,
     signOut,
