@@ -101,16 +101,16 @@ yarn check:docs
 
 **MUST STOP** and seek human input in these scenarios:
 
-1. **After 3 consecutive error attempts** - "Attempted 3 fixes for [specific issue]. Requires human guidance."
-2. **Infinite job loop detected** - "Background job infinite loop detected. Stopping for safety."
-3. **Database corruption risk** - "pg_cron operations risk data corruption. Stopping for safety."
-4. **Resource exhaustion** - "System resources (CPU/Memory) critically low. Stopping for review."
-5. **All Tracks dependency missing** - "Required Track components not found. Cannot proceed safely."
-6. **TypeScript errors persist** - "TypeScript errors remain after 3 fix attempts. Stopping for review."
-7. **Test failures exceed limit** - "More than 5 test failures detected. Requires human intervention."
-8. **Implementation complete** - "PBI [X] implementation complete. Please review and provide next instructions."
-9. **Job execution failures** - "Multiple job execution failures detected. Stopping for workflow review."
-10. **Local environment issues** - "Local environment unstable. Stopping for environment review."
+1. **After 3 consecutive error attempts** - "Attempted 3 fixes for [specific issue]. Requires human guidance.
+2. **Infinite job loop detected** - "Background job infinite loop detected. Stopping for safety.
+3. **Database corruption risk** - "pg_cron operations risk data corruption. Stopping for safety.
+4. **Resource exhaustion** - "System resources (CPU/Memory) critically low. Stopping for review.
+5. **All Tracks dependency missing** - "Required Track components not found. Cannot proceed safely.
+6. **TypeScript errors persist** - "TypeScript errors remain after 3 fix attempts. Stopping for review.
+7. **Test failures exceed limit** - "More than 5 test failures detected. Requires human intervention.
+8. **Implementation complete** - "PBI [X] implementation complete. Please review and provide next instructions.
+9. **Job execution failures** - "Multiple job execution failures detected. Stopping for workflow review.
+10. **Local environment issues** - "Local environment unstable. Stopping for environment review.
 
 **Maximum Attempt Limits:**
 
@@ -389,7 +389,7 @@ Finalizes Phase 2 Foundation + All Tracks
 
 🤖 Generated with [Claude Code](https://claude.ai/code)
 
-Co-Authored-By: Claude <noreply@anthropic.com>'"
+Co-Authored-By: Claude <noreply@anthropic.com>'
 ```
 
 ## 🎖️ 完了条件
@@ -503,7 +503,7 @@ Foundationの設計判断と実装理由を明確にしながら進め、全て�
 2. Preserve job queue state and processing history
 3. Create system health snapshot
 4. Stop processing after 5 consecutive job failures
-5. Report: "Background processing error [type] exceeds failure threshold. System intervention required."
+5. Report: "Background processing error [type] exceeds failure threshold. System intervention required.
 
 **Recovery Testing:**
 

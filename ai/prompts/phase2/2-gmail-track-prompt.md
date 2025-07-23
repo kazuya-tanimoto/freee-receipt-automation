@@ -105,16 +105,16 @@ yarn check:docs
 
 **MUST STOP** and seek human input in these scenarios:
 
-1. **After 3 consecutive error attempts** - "Attempted 3 fixes for [specific issue]. Requires human guidance."
-2. **Gmail API quota exceeded** - "Gmail API quota limit reached. Stopping for quota review."
-3. **OAuth authentication fails** - "Gmail OAuth authentication failing. Stopping for security review."
-4. **Email privacy violation risk** - "Potential privacy violation detected. Stopping for compliance review."
-5. **Foundation dependency missing** - "Required Foundation component not found. Cannot proceed safely."
-6. **TypeScript errors persist** - "TypeScript errors remain after 3 fix attempts. Stopping for review."
-7. **Test failures exceed limit** - "More than 5 test failures detected. Requires human intervention."
-8. **Implementation complete** - "PBI [X] implementation complete. Please review and provide next instructions."
-9. **Rate limiting issues** - "Gmail API rate limits causing failures. Stopping for configuration review."
-10. **Container environment issues** - "Container environment unstable. Stopping for environment review."
+1. **After 3 consecutive error attempts** - "Attempted 3 fixes for [specific issue]. Requires human guidance.
+2. **Gmail API quota exceeded** - "Gmail API quota limit reached. Stopping for quota review.
+3. **OAuth authentication fails** - "Gmail OAuth authentication failing. Stopping for security review.
+4. **Email privacy violation risk** - "Potential privacy violation detected. Stopping for compliance review.
+5. **Foundation dependency missing** - "Required Foundation component not found. Cannot proceed safely.
+6. **TypeScript errors persist** - "TypeScript errors remain after 3 fix attempts. Stopping for review.
+7. **Test failures exceed limit** - "More than 5 test failures detected. Requires human intervention.
+8. **Implementation complete** - "PBI [X] implementation complete. Please review and provide next instructions.
+9. **Rate limiting issues** - "Gmail API rate limits causing failures. Stopping for configuration review.
+10. **Container environment issues** - "Container environment unstable. Stopping for environment review.
 
 **Maximum Attempt Limits:**
 
@@ -143,11 +143,10 @@ yarn check:docs
 
 ```bash
 # Create backup before major changes
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track \
-  --command "git checkout -b backup/gmail-$(date +%Y%m%d-%H%M%S)"
+
 
 # Verify clean state
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "git status --porcelain"
+git status --porcelain
 ```
 
 ### **🚫 INFINITE LOOP PREVENTION**
@@ -279,12 +278,9 @@ mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --co
 
 ```bash
 # Foundation完了確認
-mcp__container-use__environment_file_read --environment_id phase2-gmail-track \
-  --target_file /workdir/src/lib/oauth/common-oauth.ts --should_read_entire_file true
-mcp__container-use__environment_file_read --environment_id phase2-gmail-track \
-  --target_file /workdir/docs/api/phase2-openapi.yaml --should_read_entire_file true
-mcp__container-use__environment_file_read --environment_id phase2-gmail-track \
-  --target_file /workdir/src/lib/monitoring/api-observer.ts --should_read_entire_file true
+  cat 
+  cat 
+  cat 
 ```
 
 ### **Phase 2: Gmail API Client Setup**
@@ -353,33 +349,32 @@ mcp__container-use__environment_file_read --environment_id phase2-gmail-track \
 
 ```bash
 # Container環境でのチェック実行
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "npx tsc --noEmit"
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "yarn test:run"
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "yarn test:coverage"
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "yarn check:docs"
+npx tsc --noEmit
+yarn test:run
+yarn test:coverage
+yarn check:docs
 ```
 
 ### **🔒 Gmail-Specific Validation**
 
 ```bash
 # Gmail API quota確認
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "yarn test:gmail-quota"
+yarn test:gmail-quota
 
 # セキュリティチェック
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "npm audit"
+npm audit
 
 # Performance benchmarks
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "yarn test:performance"
+yarn test:performance
 ```
 
 ### **🛡️ Git Operations**
 
 ```bash
 # Git操作（Container環境で実行）
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "git checkout -b feature/pbi-2-2-gmail-track"
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "git add ."
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track \
-  --command "git commit -m 'feat(gmail): implement Gmail API integration track
+git checkout -b feature/pbi-2-2-gmail-track
+git add .
+
 
 - Add Gmail API client with OAuth2 integration
 - Implement message operations (list, get, attachments)
@@ -392,7 +387,7 @@ Completes PBI-2-2-1 through PBI-2-2-5
 
 🤖 Generated with [Claude Code](https://claude.ai/code)
 
-Co-Authored-By: Claude <noreply@anthropic.com>'"
+Co-Authored-By: Claude <noreply@anthropic.com>'
 ```
 
 ## 🎖️ 完了条件
@@ -495,8 +490,8 @@ Co-Authored-By: Claude <noreply@anthropic.com>'"
 
 ---
 
-**🚀 開始指示**: Foundation完了確認後、container-use環境でPBI-2-2-1から順次開始してください。Gmail
-API統合の設計判断と実装理由を明確にしながら進め、全てのコマンド実行はmcp**container-use**environment\_\*ツールを使用してください。完了時にはDrive
+**🚀 開始指示**: Foundation完了確認後、ローカル環境でPBI-2-2-1から順次開始してください。Gmail
+API統合の設計判断と実装理由を明確にしながら進めてください。完了時にはDrive
 Trackとの連携準備状況を詳細に報告してください。
 
 ## 🔧 Comprehensive Error Recovery Procedures
@@ -517,24 +512,24 @@ Trackとの連携準備状況を詳細に報告してください。
 1. Log detailed error with Gmail API context
 2. Preserve email processing state
 3. Stop execution after 3 consecutive failures
-4. Report: "Gmail API error [type] persists after 3 attempts. Manual intervention required."
+4. Report: "Gmail API error [type] persists after 3 attempts. Manual intervention required.
 
 **Recovery Testing:**
 
 ```bash
 # Test Gmail error recovery
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "yarn test:gmail-recovery"
+yarn test:gmail-recovery
 
 # Test quota handling
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "yarn test:quota-management"
+yarn test:quota-management
 ```
 
 **Rollback Procedures:**
 
 ```bash
 # Gmail integration rollback
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "git checkout -- src/lib/gmail/"
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "yarn install"
+git checkout -- src/lib/gmail/
+yarn install
 ```
 
 ### **Email Processing Errors**
@@ -652,21 +647,21 @@ caching.
 ```bash
 # Enable Gmail API debug logging
 export DEBUG=gmail:*
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "yarn test:gmail --verbose"
+yarn test:gmail --verbose
 ```
 
 **Debug Email Processing:**
 
 ```bash
 # Test email processing with sample data
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "yarn test:email-processing --debug"
+yarn test:email-processing --debug
 ```
 
 **Debug Performance Issues:**
 
 ```bash
 # Run performance profiling
-mcp__container-use__environment_run_cmd --environment_id phase2-gmail-track --command "yarn test:performance --profile"
+yarn test:performance --profile
 ```
 
 ❗ **CRITICAL**: Gmail

@@ -191,10 +191,11 @@ Day 7: ✅ Production Deployment Prep
 
 ```bash
 # Environment reset
-mcp__container-use__environment_open --source /path --name new-name
+git reset --hard HEAD
+git clean -fd
 
 # Dependencies reinstall
-mcp__container-use__environment_run_cmd --command "yarn install"
+yarn install
 ```
 
 ### **Common Issues**
@@ -258,7 +259,7 @@ mcp__container-use__environment_run_cmd --command "yarn install"
 - [ ] Phase 1 完了確認
 - [ ] Claude Code 準備完了
 - [ ] Git repository 最新状態
-- [ ] Container-use 環境利用可能
+- [ ] ローカル開発環境準備完了
 
 **開始コマンド:**
 

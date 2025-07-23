@@ -32,8 +32,6 @@ build/
 # Supabase
 supabase/.temp/
 
-# Container development environment
-.container-use/
 
 # Test coverage
 coverage/

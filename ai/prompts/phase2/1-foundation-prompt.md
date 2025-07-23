@@ -103,16 +103,16 @@ yarn check:docs
 
 **MUST STOP** and seek human input in these scenarios:
 
-1. **After 3 consecutive error attempts** - "Attempted 3 fixes for [specific issue]. Requires human guidance."
-2. **Rule violation detected** - "Cannot proceed: [specific rule] violation would occur. Stopping for approval."
-3. **Missing dependencies** - "Required dependency [name] not found. Cannot proceed safely."
-4. **TypeScript errors persist** - "TypeScript errors remain after 3 fix attempts. Stopping for review."
-5. **Test failures exceed limit** - "More than 5 test failures detected. Requires human intervention."
-6. **Documentation check failures** - "Documentation errors persist after 2 fix attempts. Stopping for guidance."
-7. **Implementation complete** - "PBI [X] implementation complete. Please review and provide next instructions."
-8. **Unexpected OAuth behavior** - "OAuth flow behaving unexpectedly. Stopping for security review."
-9. **OpenAPI validation fails** - "OpenAPI schema validation failing. Requires specification review."
-10. **Container environment issues** - "Container environment unstable. Stopping for environment review."
+1. **After 3 consecutive error attempts** - "Attempted 3 fixes for [specific issue]. Requires human guidance.
+2. **Rule violation detected** - "Cannot proceed: [specific rule] violation would occur. Stopping for approval.
+3. **Missing dependencies** - "Required dependency [name] not found. Cannot proceed safely.
+4. **TypeScript errors persist** - "TypeScript errors remain after 3 fix attempts. Stopping for review.
+5. **Test failures exceed limit** - "More than 5 test failures detected. Requires human intervention.
+6. **Documentation check failures** - "Documentation errors persist after 2 fix attempts. Stopping for guidance.
+7. **Implementation complete** - "PBI [X] implementation complete. Please review and provide next instructions.
+8. **Unexpected OAuth behavior** - "OAuth flow behaving unexpectedly. Stopping for security review.
+9. **OpenAPI validation fails** - "OpenAPI schema validation failing. Requires specification review.
+10. **Container environment issues** - "Container environment unstable. Stopping for environment review.
 
 **Maximum Attempt Limits:**
 
@@ -135,7 +135,7 @@ yarn check:docs
 
 ```bash
 # Verify git working tree is clean
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "git status --porcelain"
+git status --porcelain
 # Expected: Empty output (clean tree)
 ```
 
@@ -143,10 +143,9 @@ mcp__container-use__environment_run_cmd --environment_id phase2-foundation --com
 
 ```bash
 # Create backup branch
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation \
-  --command "git checkout -b backup/foundation-$(date +%Y%m%d-%H%M%S)"
+
 # Return to working branch
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "git checkout feature/pbi-2-1-foundation"
+git checkout feature/pbi-2-1-foundation
 ```
 
 **Rollback Procedures:**
@@ -155,18 +154,18 @@ mcp__container-use__environment_run_cmd --environment_id phase2-foundation --com
 
 ```bash
 # Reset to last known good state
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "git reset --hard HEAD"
+git reset --hard HEAD
 # Or restore from backup branch
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "git checkout backup/foundation-[timestamp]"
+git checkout backup/foundation-[timestamp]
 ```
 
 1. **Environment restoration:**
 
 ```bash
 # Clean workspace
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "git clean -fd"
+git clean -fd
 # Reinstall dependencies
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "yarn install"
+yarn install
 ```
 
 **Confirmation Prompts for Destructive Operations:**
@@ -273,13 +272,10 @@ mcp__container-use__environment_run_cmd --environment_id phase2-foundation --com
 
 ```bash
 # Container環境で現状分析
-mcp__container-use__environment_file_read --environment_id phase2-foundation --target_file CLAUDE.md \
   --should_read_entire_file true
-mcp__container-use__environment_file_read --environment_id phase2-foundation --target_file README.md \
   --should_read_entire_file true
-mcp__container-use__environment_file_read --environment_id phase2-foundation --target_file package.json \
   --should_read_entire_file true
-mcp__container-use__environment_file_list --environment_id phase2-foundation --path /workdir/supabase/migrations
+ls -la
 ```
 
 **分析ポイント**:
@@ -331,23 +327,22 @@ mcp__container-use__environment_file_list --environment_id phase2-foundation --p
 
 ```bash
 # Container環境でのチェック実行
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "npx tsc --noEmit"
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "yarn test"
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "yarn test:coverage"
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "yarn check:docs"
+npx tsc --noEmit
+yarn test
+yarn test:coverage
+yarn check:docs
 ```
 
 ### **🛡️ Security & Git Operations**
 
 ```bash
 # セキュリティチェック
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "npm audit"
+npm audit
 
 # Git操作（Container環境で実行）
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "git checkout -b feature/pbi-2-1-foundation"
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "git add ."
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation \
-  --command "git commit -m 'feat(foundation): implement Phase 2 foundation infrastructure
+git checkout -b feature/pbi-2-1-foundation
+git add .
+
 
 - Add OpenAPI 3.0.3 specifications for Gmail/Drive APIs
 - Implement OAuth2.0 + PKCE common authentication module
@@ -356,7 +351,7 @@ mcp__container-use__environment_run_cmd --environment_id phase2-foundation \
 
 🤖 Generated with [Claude Code](https://claude.ai/code)
 
-Co-Authored-By: Claude <noreply@anthropic.com>'"
+Co-Authored-By: Claude <noreply@anthropic.com>'
 ```
 
 ## 🎖️ 完了条件
@@ -434,7 +429,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>'"
 ---
 
 **🚀 開始指示**:
-container-use環境でPBI-2-1-1から順次開始し、各段階での設計判断と実装理由を明確にしながら進めてください。全てのコマンド実行はmcp**container-use**environment\_\*ツールを使用し、完了時には次の並行開発フェーズの準備状況を詳細に報告してください。
+ローカル環境でPBI-2-1-1から順次開始し、各段階での設計判断と実装理由を明確にしながら進めてください。完了時には次の並行開発フェーズの準備状況を詳細に報告してください。
 
 ## 🔧 Comprehensive Error Recovery Procedures
 
@@ -452,24 +447,24 @@ container-use環境でPBI-2-1-1から順次開始し、各段階での設計判�
 1. Log detailed error context
 2. Create backup of current state
 3. Stop execution after 3 attempts
-4. Report: "OAuth error [type] persists after 3 attempts. Manual intervention required."
+4. Report: "OAuth error [type] persists after 3 attempts. Manual intervention required.
 
 **Recovery Testing:**
 
 ```bash
 # Verify OAuth recovery
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "yarn test:oauth-recovery"
+yarn test:oauth-recovery
 
 # Test token refresh mechanism
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "yarn test:token-refresh"
+yarn test:token-refresh
 ```
 
 **Rollback Procedures:**
 
 ```bash
 # OAuth rollback
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "git checkout -- src/lib/oauth/"
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "yarn install"
+git checkout -- src/lib/oauth/
+yarn install
 ```
 
 ### **OpenAPI Validation Errors**
@@ -485,7 +480,7 @@ mcp__container-use__environment_run_cmd --environment_id phase2-foundation --com
 
 ```bash
 # Validate OpenAPI schema
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "yarn test:openapi-validation"
+yarn test:openapi-validation
 ```
 
 ### **Monitoring Setup Errors**
@@ -544,13 +539,13 @@ test_schemas:
 
 ```bash
 # Setup test environment
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "yarn test:setup"
+yarn test:setup
 
 # Run integration tests
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "yarn test:integration"
+yarn test:integration
 
 # Performance benchmarks
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "yarn test:performance"
+yarn test:performance
 ```
 
 ### **Integration Testing Scenarios**
@@ -616,21 +611,21 @@ Q: Endpoint documentation incomplete A: Review Gmail/Drive API documentation. Ad
 ```bash
 # Enable OAuth debug logging
 export DEBUG=oauth:*
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "yarn test:oauth --verbose"
+yarn test:oauth --verbose
 ```
 
 **Debug OpenAPI Issues:**
 
 ```bash
 # Validate OpenAPI schema with detailed output
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "npx swagger-parser validate docs/api/phase2-openapi.yaml"
+npx swagger-parser validate docs/api/phase2-openapi.yaml
 ```
 
 **Debug Monitoring Issues:**
 
 ```bash
 # Check monitoring infrastructure
-mcp__container-use__environment_run_cmd --environment_id phase2-foundation --command "yarn test:monitoring --debug"
+yarn test:monitoring --debug
 ```
 
 ❗ **CRITICAL**:
