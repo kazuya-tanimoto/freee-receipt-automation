@@ -25,5 +25,4 @@ docs/standards/naming-cheatsheet/
 
 # Other
 *.log
-.container-use/
 tsconfig.tsbuildinfo
