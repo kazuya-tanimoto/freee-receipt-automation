@@ -101,16 +101,16 @@ yarn check:docs
 
 **MUST STOP** and seek human input in these scenarios:
 
-1. **After 3 consecutive error attempts** - "Attempted 3 fixes for [specific issue]. Requires human guidance.
-2. **OCR data unavailable** - "Required OCR data not found. Cannot proceed with file naming.
-3. **Duplicate detection fails** - "Duplicate detection system failing. Stopping to prevent data corruption.
-4. **Sensitive data detected** - "Potential sensitive/personal data found. Stopping for privacy review.
-5. **Gmail/Drive dependency missing** - "Required Track components not found. Cannot proceed safely.
-6. **TypeScript errors persist** - "TypeScript errors remain after 3 fix attempts. Stopping for review.
-7. **Test failures exceed limit** - "More than 5 test failures detected. Requires human intervention.
-8. **Implementation complete** - "PBI [X] implementation complete. Please review and provide next instructions.
-9. **File naming conflicts** - "Multiple naming conflicts detected. Stopping for resolution strategy.
-10. **Local environment issues** - "Local environment unstable. Stopping for environment review.
+1. **After 3 consecutive error attempts** - "Attempted 3 fixes for [specific issue]. Requires human guidance."
+2. **OCR data unavailable** - "Required OCR data not found. Cannot proceed with file naming."
+3. **Duplicate detection fails** - "Duplicate detection system failing. Stopping to prevent data corruption."
+4. **Sensitive data detected** - "Potential sensitive/personal data found. Stopping for privacy review."
+5. **Gmail/Drive dependency missing** - "Required Track components not found. Cannot proceed safely."
+6. **TypeScript errors persist** - "TypeScript errors remain after 3 fix attempts. Stopping for review."
+7. **Test failures exceed limit** - "More than 5 test failures detected. Requires human intervention."
+8. **Implementation complete** - "PBI [X] implementation complete. Please review and provide next instructions."
+9. **File naming conflicts** - "Multiple naming conflicts detected. Stopping for resolution strategy."
+10. **Local environment issues** - "Local environment unstable. Stopping for environment review."
 
 **Maximum Attempt Limits:**
 
@@ -401,7 +401,7 @@ Completes PBI-2-4-1 through PBI-2-4-4
 
 🤖 Generated with [Claude Code](https://claude.ai/code)
 
-Co-Authored-By: Claude <noreply@anthropic.com>'
+Co-Authored-By: Claude <noreply@anthropic.com>'"
 ```
 
 ## 🎖️ 完了条件
@@ -521,7 +521,7 @@ Processing Trackとの連携準備状況を詳細に報告してください。
 2. Preserve original file and metadata
 3. Create backup of naming rules
 4. Stop batch processing after 10 consecutive failures
-5. Report: "File naming error [type] exceeds failure threshold. Manual intervention required.
+5. Report: "File naming error [type] exceeds failure threshold. Manual intervention required."
 
 **Recovery Testing:**
 
