@@ -1,211 +1,208 @@
-# freee Expense Management Automation System - Revised Requirements and Architecture
+# freee経費管理自動化システム - 改訂要件とアーキテクチャ
 
-## Purpose
+## 目的
 
-Build a system to automate freelance expense management and receipt association, significantly improving tax filing and
-bookkeeping efficiency.
+フリーランスの経費管理と領収書紐付けを自動化し、確定申告と経理作業の効率を大幅に向上させるシステムを構築します。
 
-## Requirements
+## 要件
 
-### 1. Basic Features
+### 1. 基本機能
 
-- Automatically associate expenses managed in freee with receipts (PDF files)
-- Automatically attach appropriate supporting documents to transactions (expenses)
-- Management interface for confirming processing results and manual adjustments
-- Automatic creation of monthly receipt folders and PDF management
+- freeeで管理している経費と領収書（PDFファイル）の自動紐付け
+- 取引（経費）への適切な添付書類の自動付与
+- 処理結果の確認と手動調整のための管理インターフェース
+- 月次領収書フォルダの自動作成とPDF管理
 
-### 2. User Manual Operations
+### 2. ユーザー手動作業
 
-- **Receipt Preparation**:
-  - Rakuten/Amazon: Users download PDFs from member pages and save to specified folders
-  - Paper receipts (gas, etc.): Users scan using scanning app for OCR-friendly PDFs and save to specified folders
-- **Result Verification**:
-  - Check notification emails
-  - Detailed verification and manual correction in management interface as needed
+- **領収書準備**:
+  - 楽天/Amazon: ユーザーが会員ページからPDFをダウンロードして指定フォルダに保存
+  - 紙の領収書（ガソリンなど）: ユーザーがスキャンアプリでOCR対応のPDFに変換して指定フォルダに保存
+- **結果確認**:
+  - 通知メールの確認
+  - 必要に応じて管理インターフェースでの詳細確認と手動修正
 
-### 3. Automation Targets
+### 3. 自動化対象
 
-- **Receipt Processing**:
-  - Process receipt PDFs stored in designated directories
-  - Email receipts (PDF receipts like Apple subscriptions): Retrieve and process via Gmail API
-  - Automatic creation of monthly folder structure and appropriate PDF storage
-- **Transaction Processing**:
-  - Information extraction from receipts via OCR
-  - Rule-based matching process (automatic improvement from correction history)
-  - Association, comment addition, and item setting via freee API
-- **Notifications**:
-  - Send processing results to user-specified email address
+- **領収書処理**:
+  - 指定ディレクトリに保存された領収書PDFの処理
+  - メール領収書（AppleサブスクリプションなどのPDF領収書）: Gmail APIを使用して取得・処理
+  - 月次フォルダ構造の自動作成と適切なPDF保存
+- **取引処理**:
+  - OCRによる領収書からの情報抽出
+  - ルールベースの照合処理（修正履歴からの自動改善）
+  - freee APIを使用した紐付け、コメント追加、項目設定
+- **通知**:
+  - 処理結果をユーザー指定のメールアドレスに送信
 
-### 4. PDF File Management Requirements
+### 4. PDFファイル管理要件
 
-- Short filenames (mainly product names only)
-- Numbered suffixes for duplicates (e.g., "\_2.pdf")
-- Storage format following existing folder structure (e.g., `/01.領収書/MM/filename.pdf`)
-- Storage in Google Drive (recommended for API accessibility and authentication)
+- 短いファイル名（主に商品名のみ）
+- 重複時の番号付与（例："\_2.pdf"）
+- 既存のフォルダ構造に従った保存形式（例：`/01.領収書/MM/filename.pdf`）
+- Google Driveへの保存（APIアクセス性と認証の観点から推奨）
 
-### 5. Periodic Execution Requirements
+### 5. 定期実行要件
 
-- Weekly automatic background processing
-- Log storage and error notifications
-- Minimal cost operation
+- 週次の自動バックグラウンド処理
+- ログ保存とエラー通知
+- 最小コストでの運用
 
-## System Architecture
+## システムアーキテクチャ
 
-### 1. Technology Stack
+### 1. 技術スタック
 
-- **Backend**: Supabase (PostgreSQL + Edge Functions)
-- **Frontend**: NextJS (advantageous for server-side processing)
-- **Storage**: Supabase Storage + Google Drive integration
-- **Scheduled Execution**: Supabase pg_cron
-- **OCR Processing**: Google Cloud Vision API
-- **Notifications**: Email service (SendGrid, etc., utilizing Supabase features if possible)
+- **バックエンド**: Supabase（PostgreSQL + Edge Functions）
+- **フロントエンド**: NextJS（サーバーサイド処理に有利）
+- **ストレージ**: Supabase Storage + Google Drive連携
+- **定期実行**: Supabase pg_cron
+- **OCR処理**: Google Cloud Vision API
+- **通知**: メールサービス（SendGridなど、可能な限りSupabase機能を活用）
 
-### 2. System Architecture
+### 2. システム構成
 
 ```text
-[User Side]
-  ├── Download receipt PDFs → Save to specified folder
-  ├── Scan paper receipts → Convert to PDF → Save to specified folder
-  └── Verify results (email/management interface) and manual correction
+[ユーザー側]
+  ├── 領収書PDFのダウンロード → 指定フォルダに保存
+  ├── 紙の領収書のスキャン → PDF変換 → 指定フォルダに保存
+  └── 結果の確認（メール/管理画面）と手動修正
   ↓
-[Supabase Storage (Temporary Storage)]
-  PDF file processing
+[Supabase Storage（一時保存）]
+  PDFファイル処理
   ↓
 [Edge Functions + pg_cron]
-  ├── PDF detection → OCR processing → Information extraction
-  ├── Email retrieval via Gmail API → PDF conversion → Information extraction
-  ├── Rule-based matching process
-  ├── freee API integration (transaction retrieval, matching, updates)
+  ├── PDF検出 → OCR処理 → 情報抽出
+  ├── Gmail API経由のメール取得 → PDF変換 → 情報抽出
+  ├── ルールベースの照合処理
+  ├── freee API連携（取引取得、照合、更新）
   ├── Google Driveへの整理されたファイル保存
-  └── Processing result email notifications
+  └── 処理結果のメール通知
   ↓
 [PostgreSQL]
-  ├── Store processing results and matching information
-  ├── Matching rules database
-  └── Accumulate user correction data and automatic rule generation
+  ├── 処理結果と照合情報の保存
+  ├── 照合ルールデータベース
+  └── ユーザー修正データの蓄積と自動ルール生成
   ↓
-[NextJS Management Interface]
-  ├── Processing status verification
-  ├── Manual adjustments and corrections
-  └── Matching result feedback
+[NextJS管理画面]
+  ├── 処理状況の確認
+  ├── 手動調整と修正
+  └── 照合結果のフィードバック
 ```
 
-### 3. User Flow
+### 3. ユーザーフロー
 
-1. **Initial Setup**:
+1. **初期設定**:
 
-   - freee API authentication settings
-   - Gmail API integration settings
-   - Google Drive integration settings
-   - Notification email address settings
+   - freee API認証設定
+   - Gmail API連携設定
+   - Google Drive連携設定
+   - 通知メールアドレス設定
 
-2. **Daily Usage**:
-   - Rakuten/Amazon receipts: Download from member pages and save to specified folder
-   - Paper receipts: Convert to PDF using scanning app and save to specified folder
-   - Automatic processing: System processes weekly
-   - Notifications: Processing results sent via email
-   - Verification/Correction: Detailed verification and manual adjustment in management interface as needed
+2. **日常利用**:
+   - 楽天/Amazon領収書: 会員ページからダウンロードして指定フォルダに保存
+   - 紙の領収書: スキャンアプリでPDFに変換して指定フォルダに保存
+   - 自動処理: システムが週次で処理
+   - 通知: 処理結果をメールで送信
+   - 確認/修正: 管理画面で詳細確認と手動調整
 
-## Implementation Details
+## 実装詳細
 
-### 1. OCR Processing
+### 1. OCR処理
 
-- Text extraction from PDF documents
-- Conversion to structured data (date, amount, store name, items, etc.)
-- Custom processing for specific patterns (Apple, Amazon, etc.)
+- PDF文書からのテキスト抽出
+- 構造化データへの変換（日付、金額、店舗名、項目など）
+- 特定パターン（Apple、Amazonなど）のカスタム処理
 
-### 2. Rule-based Matching Logic
+### 2. ルールベースの照合ロジック
 
-- Date matching (with tolerance of ± several days)
-- Amount matching (exact or approximate)
-- Supplementary matching by store name and content
-- **Correction History-based Rule Application**:
-  - Accumulate user correction patterns in database
-  - "Store X" → "freee item Y" mapping rules
-  - "Specific keyword" → "Specific category" classification rules
-  - Automatic adjustment of rule application priority (frequency-based)
-- Priority setting for multiple candidates
+- 日付照合（±数日の許容範囲）
+- 金額照合（完全一致または近似）
+- 店舗名と内容による補助照合
+- **修正履歴ベースのルール適用**:
+  - ユーザー修正パターンをデータベースに蓄積
+  - 「店舗X」→「freee項目Y」のマッピングルール
+  - 「特定キーワード」→「特定カテゴリ」の分類ルール
+  - ルール適用優先度の自動調整（頻度ベース）
+- 複数候補の優先順位設定
 
-### 3. Folder Management
+### 3. フォルダ管理
 
-- Follow existing structure (`/01.領収書/MM/filename.pdf`)
-- Assign short filenames (mainly product names only)
-- Automatic numbering for duplicate filenames (\_2.pdf, \_3.pdf, etc.)
-- Appropriate placement in Google Drive
+- 既存構造の維持（`/01.領収書/MM/filename.pdf`）
+- 短いファイル名の割り当て（主に商品名のみ）
+- 重複ファイル名の自動番号付与（\_2.pdf、\_3.pdfなど）
+- Google Driveへの適切な配置
 
-### 4. Management Interface
+### 4. 管理画面
 
-- Dashboard: Processing status overview
-- List view: Receipt and transaction matching status
-- Detail view: Individual transaction/receipt viewing
-- Correction features: Manual matching, reprocessing, exception handling
-- **Rule Management**: Verification and editing of generated rules
+- ダッシュボード: 処理状況の概要
+- リスト表示: 領収書と取引の照合状況
+- 詳細表示: 個別の取引/領収書の閲覧
+- 修正機能: 手動照合、再処理、例外処理
+- **ルール管理**: 生成されたルールの確認と編集
 
-### 5. Notification Features
+### 5. 通知機能
 
-- Summary email upon processing completion
-- Detailed notifications for errors
-- Listing of unprocessed items
+- 処理完了時のサマリーメール
+- エラー時の詳細通知
+- 未処理項目の一覧
 
-## Development Plan
+## 開発計画
 
-### Phase 1: Basic Feature Implementation
+### フェーズ1: 基本機能実装
 
-- Supabase project setup
-- Storage integration and OCR processing implementation
-- Basic freee API integration
+- Supabaseプロジェクト設定
+- ストレージ連携とOCR処理の実装
+- 基本freee API連携
 
-### Phase 2: Automation Feature Implementation
+### フェーズ2: 自動化機能実装
 
-- Gmail API integration
-- Google Drive integration
-- Folder/file management features
-- Scheduled execution setup
+- Gmail API連携
+- Google Drive連携
+- フォルダ/ファイル管理機能
+- 定期実行の設定
 
-### Phase 3: Management UI Implementation
+### フェーズ3: 管理UI実装
 
-- NextJS-based management interface
-- Matching status verification features
-- Manual adjustment features
+- NextJSベースの管理画面
+- 照合状況確認機能
+- 手動調整機能
 
-### Phase 4: Notifications and Basic Matching Improvement
+### フェーズ4: 通知と基本照合改善
 
-- Email notification features
-- OCR accuracy improvement
-- Basic matching algorithm refinement
+- メール通知機能
+- OCR精度の向上
+- 基本照合アルゴリズムの改善
 
-### Phase 5: Rule-based Learning Features (Later Phase)
+### フェーズ5: ルールベース学習機能（後期）
 
-- User correction data collection features
-- Automatic rule generation from correction history
-- Rule-based matching engine implementation
+- ユーザー修正データ収集機能
+- 修正履歴からの自動ルール生成
+- ルールベース照合エンジンの実装
 
-## Required External Services
+## 必要な外部サービス
 
-- Supabase: Backend/storage infrastructure (operate within free tier)
-- Google Cloud (Vision API, Gmail API, Drive API)
-- Email service like SendGrid (use Supabase features if possible)
+- Supabase: バックエンド/ストレージ基盤（無料枠内で運用）
+- Google Cloud（Vision API、Gmail API、Drive API）
+- SendGridなどのメールサービス（可能な限りSupabase機能を活用）
 
-## Cost Estimate (Annual)
+## コスト見積もり（年間）
 
-### Estimated Annual Costs for Weekly Processing of ~4 Items
+### 週4件程度の処理に対する年間コスト見積もり
 
-- **Google Cloud Vision API**: Almost free (within free tier)
-- **Supabase**: Within free tier (due to small data volume)
-- **Google APIs (Gmail/Drive)**: Within free tier
-- **SendGrid**: Free up to 25,000 emails/month
+- **Google Cloud Vision API**: ほぼ無料（無料枠内）
+- **Supabase**: 無料枠内（データ量が少ないため）
+- **Google APIs（Gmail/Drive）**: 無料枠内
+- **SendGrid**: 月25,000通まで無料
 
-### Total Cost Estimate
+### 総コスト見積もり
 
-**Basic Implementation**: **Almost free** to **$5/year** (due to minimal usage)
+**基本実装**: **ほぼ無料**から**年間$5**程度（使用量が少ないため）
 
-## Important Notes
+## 重要な注意点
 
-- Prioritize cost efficiency, focusing on free tiers and low-cost options
-- Minimize resource consumption based on weekly processing requirements
-- Consider data protection and privacy (handling personal receipt information)
-- Build self-evolving mechanism through rule-based automatic improvement
+- コスト効率を重視し、無料枠と低コストオプションに焦点
+- 週次処理要件に基づくリソース消費の最小化
+- データ保護とプライバシーへの配慮（個人の領収書情報の取り扱い）
+- ルールベースの自動改善による自己進化メカニズムの構築
 
-This architecture enables significant automation from receipt management to transaction association, improving tax
-filing and bookkeeping efficiency. Additionally, by automatically generating and accumulating rules from user
-corrections, the system achieves improved accuracy over time while maintaining low costs.
+このアーキテクチャにより、領収書管理から取引紐付けまでを大幅に自動化し、確定申告と経理作業の効率を向上させることができます。また、ユーザーの修正から自動的にルールを生成・蓄積することで、低コストを維持しながら時間の経過とともに精度を向上させることができます。

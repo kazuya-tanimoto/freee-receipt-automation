@@ -1,74 +1,72 @@
-# Freelance Expense Management Automation Requirements
+# フリーランス経費管理自動化要件
 
-## Background
+## 背景
 
-As a freelance IT engineer using freee for expense and revenue management, I currently perform the following tasks
-manually and would like to automate them.
+freeeで経費・収入管理を行っているフリーランスITエンジニアとして、現在手動で行っている以下の作業を自動化したいと考えています。
 
-## Current Workflow
+## 現行のワークフロー
 
-1. **Expense Registration**
+1. **経費登録**
 
-   - Register expenses in freee
-   - Obtain receipt PDFs from Rakuten, Amazon, etc.
-   - Save emails (PDF receipts like Apple subscriptions)
-   - Save all PDFs in iCloudDrive folders by year/month
+   - freeeに経費を登録
+   - 楽天、Amazonなどから領収書PDFを取得
+   - メール（AppleサブスクリプションなどのPDF領収書）を保存
+   - すべてのPDFをiCloudDriveの年/月フォルダに保存
 
-2. **Expense and Receipt Association**
-   - Match PDF files with freee transactions by purchase date and amount
-   - Associate with pending transactions in freee and register them
+2. **経費と領収書の紐付け**
+   - 購入日と金額でPDFファイルとfreeeの取引を照合
+   - freeeの未処理取引と紐付けて登録
 
-## Automation Targets
+## 自動化対象
 
-- Processing receipts stored in designated directories
+- 指定ディレクトリに保存された領収書の処理
 
-- Extracting receipts from emails (Apple subscriptions, etc.)
-- Matching PDFs with transaction information
-- Registering and associating transactions in freee
+- メールからの領収書抽出（Appleサブスクリプションなど）
+- PDFと取引情報の照合
+- freeeへの取引登録と紐付け
 
-- Creating receipt directories (monthly) and storing PDFs
+- 領収書ディレクトリ（月次）の作成とPDFの保存
 
-## Requirements
+## 要件
 
-### Daily Manual Operations
+### 日次手動作業
 
-- For Rakuten and Amazon receipts with API limitations, users will download from their member pages and save to
-  specified folders
+- API制限のある楽天・Amazonの領収書は、ユーザーが会員ページからダウンロードして指定フォルダに保存
 
-- For gas and other receipts, users will scan using a scanning app and save to designated folders
-  - Use scanning app instead of simple photo capture to improve OCR accuracy
+- ガソリンなどの領収書は、ユーザーがスキャンアプリでスキャンして指定フォルダに保存
+  - OCR精度向上のため、単純な写真撮影ではなくスキャンアプリを使用
 
-### Automation Requirements
+### 自動化要件
 
-- Full automation except for the above manual operations
-- Use Gmail API to obtain receipts for Apple subscriptions, etc.
+- 上記手動作業以外は完全自動化
+- Gmail APIを使用してAppleサブスクリプションなどの領収書を取得
 
-- Run in background (cron, etc.) and process periodically
+- バックグラウンド（cronなど）で定期的に処理
 
-  - Weekly frequency is acceptable
+  - 週次での実行で可
 
-- Send processing results to user's specific email address
+- 処理結果をユーザーの指定メールアドレスに送信
 
-- Store final receipt PDFs in cloud storage for access from multiple PCs
-  - Currently stored in iCloudDrive, but can switch to Google Drive
-  - Maintain current iCloudDrive folder structure (see below)
-- Automatically add comments to transactions in freee for identification
+- 最終的な領収書PDFを複数PCからアクセス可能なクラウドストレージに保存
+  - 現在はiCloudDriveに保存していますが、Google Driveに変更可能
+  - 現在のiCloudDriveフォルダ構造を維持（下記参照）
+- freeeの取引に識別用のコメントを自動追加
 
-- Keep PDF filenames as short as possible (product name is sufficient)
-  - Add numbers like "\_2.pdf" for duplicates
+- PDFファイル名は可能な限り短く（商品名で十分）
+  - 重複時は"\_2.pdf"のように番号を追加
 
-### User Verification
+### ユーザー確認
 
-- Build a processing result confirmation screen for necessary checks
-  - Simple UI to confirm processing status
+- 必要な確認のための処理結果確認画面を構築
+  - 処理状況を確認するシンプルなUI
 
-### Additional Requirements
+### 追加要件
 
-- Focus on cost-effectiveness for freelancers
-- Adopt Supabase as backend infrastructure
-  - Minimize costs in configuration
+- フリーランス向けのコスト効率を重視
+- バックエンドインフラとしてSupabaseを採用
+  - 設定でコストを最小化
 
-## Reference: Current Receipt Folder Structure
+## 参考：現在の領収書フォルダ構造
 
 ```bash
 ~/iCloudDrive/Private/final_tax_return_確定申告/2025年分

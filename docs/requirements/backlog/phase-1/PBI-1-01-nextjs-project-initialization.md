@@ -1,20 +1,21 @@
-# PBI-A-01: Next.js プロジェクト初期化
+# PBI-1-01: Next.js プロジェクト初期化
 
 ## 説明
 
-freeeレシート自動化システム用のNext.js 14プロジェクトを初期化し、基本的な設定とディレクトリ構造を作成します。TypeScript、ESLint、基本的な依存関係を含む最小限の構成で開始します。
+freeeレシート自動化システム用のNext.js 15.4プロジェクトを初期化し、基本的な設定とディレクトリ構造を作成します。React 19、TypeScript、Turbopack、ESLint、基本的な依存関係を含む最小限の構成で開始します。
 
 ## 実装詳細
 
 ### 作成/修正するファイル
 
-1. `package.json` - Next.js 14プロジェクト依存関係とスクリプト（50行以内）
-2. `next.config.js` - 基本設定（20行以内）
+1. `package.json` - Next.js 15.4プロジェクト依存関係とスクリプト（50行以内）
+2. `next.config.ts` - TypeScript基本設定（20行以内）
 3. `tsconfig.json` - TypeScript設定（30行以内）
 
 ### 技術要件
 
-- Next.js 14.0 App Router
+- Next.js 15.4 App Router + Turbopack
+- React 19 with React Server Components (RSC)
 - TypeScript strict mode
 - 必要最小限の依存関係のみ
 - @/ パスエイリアス設定
@@ -59,7 +60,7 @@ interface ProjectConfig {
 
 ## 受け入れ基準
 
-- [ ] Next.js 14プロジェクトが正常に起動する
+- [ ] Next.js 15.4プロジェクトが正常に起動する
 - [ ] TypeScriptコンパイルがエラーなしで通る
 - [ ] localhost:3000でアクセス可能
 - [ ] `npm run build`が成功する
@@ -105,7 +106,7 @@ npm run build
 
 ### 実装サマリー
 - **達成した価値**: freeeレシート自動化システムの開発基盤が整った
-- **主要な実装**: Next.js 14 + TypeScript基本プロジェクト構造
+- **主要な実装**: Next.js 15.4 + React 19 + Turbopack + TypeScript基本プロジェクト構造
 - **残課題**: なし
 - **次PBIへの引き継ぎ**: Supabaseプロジェクト設定で使用する基本構造が準備完了
 

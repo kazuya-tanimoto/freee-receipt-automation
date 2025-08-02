@@ -1,4 +1,4 @@
-# PBI-A-09: freee OAuth認証
+# PBI-1-09: freee OAuth認証
 
 ## 説明
 
@@ -21,7 +21,7 @@ freee API アクセス用のOAuth 2.0認証フローを実装します。経費�
 ### 環境変数
 
 ```bash
-# PBI-A-03で設定済み
+# PBI-1-03で設定済み
 FREEE_CLIENT_ID=your_freee_client_id
 FREEE_CLIENT_SECRET=your_freee_client_secret
 FREEE_REDIRECT_URI=http://localhost:3000/api/auth/freee/callback
@@ -46,8 +46,8 @@ interface FreeeTokens {
 
 ## 🎯 実装前チェックリスト（影響範囲分析）
 
-- [x] **影響範囲確認**: PBI-A-08完了後に実施、他への影響なし
-- [x] **依存関係確認**: PBI-A-03（環境変数設定）完了が前提
+- [x] **影響範囲確認**: PBI-1-08完了後に実施、他への影響なし
+- [x] **依存関係確認**: PBI-1-03（環境変数設定）完了が前提
 - [x] **spec要件確認**: freee連携がspec必須要件
 - [x] **リソース確認**: freee アプリケーション登録済み
 

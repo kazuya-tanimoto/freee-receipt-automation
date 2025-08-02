@@ -1,4 +1,4 @@
-# PBI-B-06: Google Drive保存
+# PBI-2-06: Google Drive保存
 
 ## 説明
 
@@ -20,7 +20,7 @@
 ### 環境変数
 
 ```bash
-# PBI-A-03で設定済み
+# PBI-1-03で設定済み
 GOOGLE_DRIVE_API_KEY=your_drive_api_key
 DRIVE_FOLDER_ID=your_base_folder_id
 ```
@@ -52,8 +52,8 @@ interface FolderStructure {
 
 ## 🎯 実装前チェックリスト（影響範囲分析）
 
-- [x] **影響範囲確認**: PBI-B-05完了後に実施、他への影響なし
-- [x] **依存関係確認**: PBI-B-05（通知機能）完了が前提
+- [x] **影響範囲確認**: PBI-2-05完了後に実施、他への影響なし
+- [x] **依存関係確認**: PBI-2-05（通知機能）完了が前提
 - [x] **spec要件確認**: Drive保存がspec必須要件
 - [x] **リソース確認**: Google Drive APIが利用可能
 

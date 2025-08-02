@@ -1,4 +1,4 @@
-# PBI-A-07: Google Vision API OCRセットアップ
+# PBI-1-07: Google Vision API OCRセットアップ
 
 ## 説明
 
@@ -20,7 +20,7 @@ Google Vision APIを使用してPDFファイルからテキストを抽出する
 ### 環境変数
 
 ```bash
-# PBI-A-03で設定済み
+# PBI-1-03で設定済み
 GOOGLE_VISION_API_KEY=your_vision_api_key
 ```
 
@@ -48,8 +48,8 @@ interface VisionOCR {
 
 ## 🎯 実装前チェックリスト（影響範囲分析）
 
-- [x] **影響範囲確認**: PBI-A-06完了後に実施、他への影響なし
-- [x] **依存関係確認**: PBI-A-06（PDF抽出）完了が前提
+- [x] **影響範囲確認**: PBI-1-06完了後に実施、他への影響なし
+- [x] **依存関係確認**: PBI-1-06（PDF抽出）完了が前提
 - [x] **spec要件確認**: OCR処理がspec必須要件
 - [x] **リソース確認**: Google Vision API設定済み
 
