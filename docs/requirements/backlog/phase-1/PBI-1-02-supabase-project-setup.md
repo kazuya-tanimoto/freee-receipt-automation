@@ -88,6 +88,29 @@ yarn dev
 # ブラウザコンソールでエラーがないことを確認
 ```
 
+### Git ワークフロー
+
+**必須手順:**
+1. **フィーチャーブランチ作成**: `git checkout -b feature/pbi-1-02-supabase-setup`
+2. **実装・テスト・コミット**: 通常のコミット（`--no-verify`禁止）
+3. **プッシュ**: `git push -u origin feature/pbi-1-02-supabase-setup`
+4. **PR作成**: GitHub UIまたは`gh pr create`
+5. **レビュー・マージ**: コンフリクトなしの場合は自動マージ可
+
+**禁止事項:**
+- ❌ **mainブランチへの直接コミット** - 必ずフィーチャーブランチを使用
+- ❌ **`--no-verify`フラグ使用** - pre-commitチェックは必須
+- ❌ **コンフリクト状態でのマージ** - 解決後に再実行
+
+**コミットメッセージ規約:**
+```
+feat: PBI-1-02 Supabase project setup
+
+- Configure Supabase client initialization
+- Set up environment variables
+- Add database connection testing
+```
+
 ## ✅ プロフェッショナルセルフレビュー
 
 ### 実装完了時必須チェック

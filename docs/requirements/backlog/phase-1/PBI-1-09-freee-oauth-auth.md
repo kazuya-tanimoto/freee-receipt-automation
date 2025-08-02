@@ -87,6 +87,29 @@ yarn dev
 # /api/auth/freee にアクセスして認証フロー確認
 ```
 
+### Git ワークフロー
+
+**必須手順:**
+1. **フィーチャーブランチ作成**: `git checkout -b feature/pbi-1-09-freee-oauth`
+2. **実装・テスト・コミット**: 通常のコミット（`--no-verify`禁止）
+3. **プッシュ**: `git push -u origin feature/pbi-1-09-freee-oauth`
+4. **PR作成**: GitHub UIまたは`gh pr create`
+5. **レビュー・マージ**: コンフリクトなしの場合は自動マージ可
+
+**禁止事項:**
+- ❌ **mainブランチへの直接コミット** - 必ずフィーチャーブランチを使用
+- ❌ **`--no-verify`フラグ使用** - pre-commitチェックは必須
+- ❌ **コンフリクト状態でのマージ** - 解決後に再実行
+
+**コミットメッセージ規約:**
+```
+feat: PBI-1-09 freee OAuth authentication
+
+- Implement freee OAuth 2.0 flow
+- Add company-specific token management
+- Set up secure expense API authentication
+```
+
 ## ✅ プロフェッショナルセルフレビュー
 
 ### 実装完了時必須チェック
