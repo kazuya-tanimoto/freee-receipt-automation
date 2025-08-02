@@ -1,8 +1,0 @@
-[submodule "docs/standards/bulletproof-react"]
-	path = docs/standards/bulletproof-react
-	url = https://github.com/alan2207/bulletproof-react
-	branch = master
-[submodule "docs/standards/naming-cheatsheet"]
-	path = docs/standards/naming-cheatsheet
-	url = https://github.com/kettanaito/naming-cheatsheet
-	branch = main

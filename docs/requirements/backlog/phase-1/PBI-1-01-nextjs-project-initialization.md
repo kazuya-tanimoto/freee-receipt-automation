@@ -1,8 +1,15 @@
 # PBI-1-01: Next.js プロジェクト初期化
 
+## ⚠️ 重要: 完全リセット前提での新規構築
+
+**現状認識**: 
+- 既存の設定ファイル（package.json等）は過去の失敗実装の残骸
+- 本PBIは**完全なゼロからの新規構築**を実行
+- 古いライブラリ・設定は全て破棄済み、新しい技術スタックで構築
+
 ## 説明
 
-freeeレシート自動化システム用のNext.js 15.4プロジェクトを初期化し、基本的な設定とディレクトリ構造を作成します。React 19、TypeScript、Turbopack、Biome（Linter/Formatter）、Lefthook（pre-commit）、Vitest（テスト）、基本的な依存関係を含む最小限の構成で開始します。
+freeeレシート自動化システム用のNext.js 15.4プロジェクトを**ゼロから**初期化し、基本的な設定とディレクトリ構造を作成します。React 19、TypeScript、Turbopack、Biome（Linter/Formatter）、Lefthook（pre-commit）、Vitest（テスト）、基本的な依存関係を含む最小限の構成で開始します。
 
 ## 実装詳細
 
@@ -11,6 +18,7 @@ freeeレシート自動化システム用のNext.js 15.4プロジェクトを初
 1. `package.json` - Next.js 15.4プロジェクト依存関係とスクリプト（50行以内）
 2. `next.config.ts` - TypeScript基本設定（20行以内）
 3. `tsconfig.json` - TypeScript設定（30行以内）
+4. `.lefthook.yml` - ミニマムpre-commit設定（15行以内）
 
 ### 技術要件
 
@@ -18,10 +26,11 @@ freeeレシート自動化システム用のNext.js 15.4プロジェクトを初
 - React 19 with React Server Components (RSC)
 - TypeScript strict mode
 - Biome（Linter/Formatter）
-- Lefthook（pre-commit hooks）
+- Lefthook（pre-commit: TypeScript型チェック・Biome・テスト実行）
 - Vitest + React Testing Library（テスト）
 - 必要最小限の依存関係のみ
 - @/ パスエイリアス設定
+- TooMuch回避原則に基づく設定
 
 ### 環境変数
 
@@ -67,6 +76,7 @@ interface ProjectConfig {
 - [ ] TypeScriptコンパイルがエラーなしで通る
 - [ ] localhost:3000でアクセス可能
 - [ ] `yarn build`が成功する
+- [ ] Lefthook pre-commitが正常動作する
 
 ### 検証コマンド
 
@@ -91,6 +101,9 @@ yarn test
 
 # ビルド確認
 yarn build
+
+# pre-commit動作確認
+git add . && git commit --dry-run
 ```
 
 ## ✅ プロフェッショナルセルフレビュー

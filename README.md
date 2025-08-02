@@ -1,241 +1,174 @@
-# freee Receipt Automation
+# freee レシート自動化システム
 
-An automated system for processing receipt images and syncing transaction data with freee accounting software.
+フリーランサー向けの週4枚のレシート処理を自動化するMinimalな経費管理システム
 
-## Overview
+## 🎯 概要
 
-This system automates the tedious process of receipt management by:
+このシステムは、フリーランスITエンジニアの経費管理を自動化します：
 
-- Uploading receipt images through a web interface
-- Extracting transaction data using OCR
-- Automatically matching and syncing data with freee accounting
-- Providing a dashboard for monitoring and manual review
+- **週4枚のレシート処理**：Gmailから自動取得、手動配置PDFの処理
+- **OCR自動処理**：Google Vision APIによるデータ抽出
+- **freee連携**：取引データとの自動マッチング・経費登録
+- **年間$5以下の運用コスト**：Supabase + Edge Functionsによる低コスト運用
 
-## Quick Start
+## 🚀 クイックスタート
 
-### Prerequisites
+### 前提条件
 
-- Node.js 18+
-- A Supabase account ([sign up here](https://supabase.com))
-- A freee account and API access
+- Node.js 20+
+- Supabaseアカウント ([新規登録](https://supabase.com))
+- freeeアカウントとAPI利用許可
+- Google Cloud Platform アカウント（Vision API用）
 
-### 1. Clone and Install
+### 1. プロジェクト準備
 
 ```bash
 git clone https://github.com/your-username/freee-receipt-automation.git
 cd freee-receipt-automation
-npm install
 ```
 
-### 2. Configure Environment
+**重要**: 本プロジェクトはPBI駆動開発により段階的に構築されます。
+実装は `docs/requirements/backlog/phase-1/PBI-1-01-nextjs-project-initialization.md` から開始してください。
+
+### 2. 開発開始
 
 ```bash
-cp .env.example .env.local
+# PBI-1-01: Next.js 15.4プロジェクト初期化から開始
+# docs/requirements/backlog/phase-1/ の順番で実装
 ```
 
-Edit `.env.local` with your credentials:
+## 🏗 技術アーキテクチャ
+
+### モダン技術スタック (2025年基準)
+
+- **Frontend**: Next.js 15.4 + React 19 + TypeScript
+- **Backend**: Supabase (PostgreSQL + Edge Functions)
+- **OCR**: Google Vision API
+- **API連携**: freee API v1, Gmail API, Google Drive API
+- **開発ツール**: Biome (Lint/Format), Vitest (Test), Lefthook (pre-commit)
+- **パッケージ管理**: Yarn 4.x
+
+### パフォーマンス特性
+
+- **ビルド速度**: Turbopack により76.7%高速化
+- **開発体験**: React 19 Server Componentsによる最適化
+- **運用コスト**: 年間$5以下の制約下で設計
+
+## 📋 実装計画
+
+### Phase 1: 基盤構築 (12 PBI)
+- **PBI-1-01~03**: プロジェクト初期化・環境構築
+- **PBI-1-04~06**: Gmail連携・PDF処理
+- **PBI-1-07~08**: OCR機能
+- **PBI-1-09~12**: freee API連携
+
+### Phase 2: UI・自動化 (8 PBI)
+- **PBI-2-01~03**: 管理UI
+- **PBI-2-04~06**: 自動実行システム
+- **PBI-2-07~08**: 通知・ファイル管理
+
+### 実装スケジュール
+- **Week 1-2**: Phase 1 (基盤構築)
+- **Week 3**: Phase 2 (UI・自動化)
+- **合計**: 3週間で完了予定
+
+## 💻 開発
+
+### 品質基準
+
+すべてのコードは以下の基準を満たす必要があります：
 
 ```bash
-# Supabase Configuration
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+# TypeScript検証
+yarn tsc --noEmit
 
-# Application Configuration
-NEXT_PUBLIC_APP_URL=http://localhost:3000
+# Lintチェック (Biome)
+yarn lint
 
-# freee API Configuration
-FREEE_CLIENT_ID=your_freee_client_id
-FREEE_CLIENT_SECRET=your_freee_client_secret
+# テスト実行 (Vitest)
+yarn test
 
-# OCR Service Configuration
-OCR_API_KEY=your_ocr_service_key
+# ドキュメントチェック
+yarn check:docs
 ```
 
-### 3. Set Up Database
+### TooMuch回避原則
 
-Follow the detailed [Supabase Setup Guide](docs/setup/supabase-setup.md) to:
+- **ファイル行数制限**: 60-120行 (PBIごとに個別調整)
+- **単一責任原則**: 1PBI = 1つの明確な価値提供
+- **ミニマム実装**: 必要最小限の機能のみ
 
-- Create a Supabase project
-- Run database migrations
-- Configure authentication and security
+### PBI駆動開発
 
-### 4. Start Development Server
+各機能は `docs/requirements/backlog/` のPBI（Product Backlog Item）に基づいて実装：
 
-```bash
-npm run dev
+1. PBI文書の要件確認
+2. 受け入れ基準の実装
+3. セルフレビューの実施
+4. 次PBIへ進行
+
+## 📁 プロジェクト構造
+
+```
+├── docs/
+│   ├── requirements/backlog/     # PBI仕様書
+│   ├── architecture/            # アーキテクチャ文書
+│   └── refactor/               # プロジェクト計画
+├── src/                        # 実装コード (PBI実装後に作成)
+├── supabase/                   # DB設定・Edge Functions
+└── CLAUDE.md                   # AI開発指針
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to access the application.
+## 🎯 目標システム動作
 
-## Features
+### 週次自動処理フロー
 
-### Current (Phase 1)
+1. **月曜9時**: pg_cronによる自動実行開始
+2. **Gmail監視**: Apple課金等のレシートメール検索
+3. **OCR処理**: PDF添付ファイルからデータ抽出
+4. **freee連携**: 取引データとのマッチング・経費登録
+5. **結果通知**: 処理結果のメール送信
+6. **Drive保存**: 月別フォルダへの整理保存
 
-- ✅ User authentication and authorization
-- ✅ Secure database with row-level security
-- ✅ Receipt file upload and storage
-- ✅ User settings management
-- ✅ Transaction data modeling
+### 管理UI機能
 
-### Planned (Phase 2+)
+- **ダッシュボード**: 処理状況の一覧表示
+- **手動修正**: OCR結果の編集・取引選択
+- **履歴確認**: 過去の処理結果参照
 
-- 🚧 OCR text extraction from receipts
-- 🚧 freee API integration for transaction sync
-- 🚧 Automatic transaction matching
-- 🚧 Dashboard for monitoring and review
-- 🚧 Batch processing capabilities
+## 📖 ドキュメント
 
-## Architecture
+### 実装ガイド
+- [プロジェクト計画](docs/refactor/post-reset-plan.md) - 実装戦略とスケジュール
+- [PBIテンプレート](docs/requirements/backlog/PBI-template-enhanced.md) - 開発標準
 
-### Technology Stack
+### アーキテクチャ
+- [モダン技術推奨](docs/architecture/2025-modern-stack-recommendations.md) - 2025年技術選択指針
+- [要件仕様](docs/requirements/spec/) - システム要件定義
 
-- **Frontend**: Next.js 14 with TypeScript
-- **Backend**: Supabase (PostgreSQL + Auth + Storage)
-- **Authentication**: Supabase Auth with email/password
-- **Database**: PostgreSQL with Row Level Security (RLS)
-- **File Storage**: Supabase Storage
-- **Testing**: Vitest + Testing Library + Playwright
+### AI開発指針
+- [CLAUDE.md](CLAUDE.md) - AI開発の8原則とガイドライン
 
-### Key Design Decisions
+## 🛠 トラブルシューティング
 
-- **[ADR-001: Supabase Selection](docs/architecture/decisions/001-supabase-selection.md)** - Why we chose Supabase for
-  backend infrastructure
+### よくある問題
 
-## Development
+1. **PBI実装順序**: 必ず依存関係に従って順次実装
+2. **行数制限超過**: PBI仕様の制限内でファイル分割
+3. **型エラー**: TypeScript strict mode準拠の実装
 
-### Testing Strategy
+### サポート
 
-This project uses a **Unit + E2E testing approach**:
+- **PBI仕様**: `docs/requirements/backlog/` 参照
+- **実装指針**: `CLAUDE.md` 8原則に従った開発
+- **品質確認**: 各PBIの受け入れ基準を満たすこと
 
-- **Unit Tests**: Co-located with source files (`src/lib/auth.test.ts`)
-- **E2E Tests**: Dedicated `e2e/` directory with Playwright
+## 📄 ライセンス
 
-```bash
-# Run unit tests
-npm run test
-
-# Run unit tests in watch mode
-npm run test:watch
-
-# Run E2E tests
-npm run test:e2e
-
-# Run all tests
-npm run test:all
-```
-
-### Code Quality
-
-```bash
-# Type checking
-npm run type-check
-
-# Linting
-npm run lint
-
-# Formatting
-npm run format
-```
-
-### Database Migrations
-
-```bash
-# Apply migrations manually through Supabase dashboard
-# Files are located in supabase/migrations/
-```
-
-## Deployment
-
-### Production Setup
-
-1. **Create Production Supabase Project**
-
-   - Follow the same setup as development
-   - Use production URLs and keys
-
-2. **Deploy to Vercel**
-
-   ```bash
-   vercel deploy
-   ```
-
-3. **Configure Environment Variables**
-   - Add all environment variables in Vercel dashboard
-   - Ensure production Supabase credentials
-
-### Environment Management
-
-- **Development**: `.env.local`
-- **Production**: Vercel environment variables
-- **Testing**: Test-specific environment configuration
-
-## Documentation
-
-### Setup Guides
-
-- [Supabase Setup](docs/setup/supabase-setup.md) ([日本語](docs/setup/supabase-setup-ja.md)) - Complete Supabase
-  configuration
-- [API Documentation](docs/api/authentication.md) ([日本語](docs/api/authentication-ja.md)) - Authentication API
-  reference
-
-### Architecture
-
-- [Database Schema](docs/database/schema-design.md) ([日本語](docs/database/schema-design-ja.md)) - Database design
-  overview and relationships
-- [Decision Records](docs/architecture/decisions/) - Key architectural decisions
-  - [ADR-001: Supabase Selection](docs/architecture/decisions/001-supabase-selection.md)
-    ([日本語](docs/architecture/decisions/001-supabase-selection-ja.md))
-
-### Troubleshooting
-
-- [Supabase Issues](docs/troubleshooting/supabase-issues.md) ([日本語](docs/troubleshooting/supabase-issues-ja.md)) -
-  Common problems and solutions
-
-### Development Guidelines
-
-- [Coding Standards](docs/standards/coding-standards.md) - Code quality and consistency
-- [AI Development Guidelines](CLAUDE.md) - Guidelines for AI-assisted development
-
-## Project Structure
-
-```text
-├── src/
-│   ├── app/                 # Next.js app directory
-│   ├── components/          # React components
-│   ├── lib/                 # Core business logic
-│   ├── types/              # TypeScript type definitions
-│   └── testing/            # Test utilities and setup
-├── supabase/
-│   └── migrations/         # Database schema migrations
-├── e2e/                    # End-to-end tests
-├── docs/                   # Project documentation
-└── ai/                     # AI development context
-```
-
-## Contributing
-
-This is a personal automation project, but feedback and suggestions are welcome through GitHub issues.
-
-### Development Workflow
-
-1. Create feature branch from `main`
-2. Implement changes with appropriate tests
-3. Run quality checks: `npm run type-check && npm run test`
-4. Create pull request with clear description
-5. Merge after review and CI passes
-
-## License
-
-This project is for personal use. See [LICENSE](LICENSE) for details.
-
-## Support
-
-- **Documentation**: Check the [docs/](docs/) directory
-- **Issues**: Report bugs via [GitHub Issues](https://github.com/your-username/freee-receipt-automation/issues)
-- **Troubleshooting**: See [troubleshooting guides](docs/troubleshooting/)
+個人利用プロジェクト。詳細は [LICENSE](LICENSE) を参照。
 
 ---
 
-**Status**: Phase 1 Complete (Infrastructure) | Phase 2 In Planning (Core Features)  
-**Last Updated**: 2024-06-19
+**現在の状況**: プロジェクトリセット完了 | Phase 1実装準備完了  
+**最終更新**: 2025-08-02  
+**次のアクション**: PBI-1-01 (Next.js プロジェクト初期化) の実行
