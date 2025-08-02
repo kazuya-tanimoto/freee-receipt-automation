@@ -106,6 +106,29 @@ yarn build
 git add . && git commit --dry-run
 ```
 
+### Git ワークフロー
+
+**必須手順:**
+1. **フィーチャーブランチ作成**: `git checkout -b feature/pbi-1-01-nextjs-initialization`
+2. **実装・テスト・コミット**: 通常のコミット（`--no-verify`禁止）
+3. **プッシュ**: `git push -u origin feature/pbi-1-01-nextjs-initialization`
+4. **PR作成**: GitHub UIまたは`gh pr create`
+5. **レビュー・マージ**: コンフリクトなしの場合は自動マージ可
+
+**禁止事項:**
+- ❌ **mainブランチへの直接コミット** - 必ずフィーチャーブランチを使用
+- ❌ **`--no-verify`フラグ使用** - pre-commitチェックは必須
+- ❌ **コンフリクト状態でのマージ** - 解決後に再実行
+
+**コミットメッセージ規約:**
+```
+feat: PBI-1-01 Next.js project initialization
+
+- Add Next.js 15.4 + React 19 + TypeScript setup
+- Configure Biome, Lefthook, Vitest
+- Establish basic project structure
+```
+
 ## ✅ プロフェッショナルセルフレビュー
 
 ### 実装完了時必須チェック
