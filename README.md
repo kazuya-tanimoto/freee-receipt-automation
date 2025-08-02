@@ -88,8 +88,6 @@ yarn lint
 # テスト実行 (Vitest)
 yarn test
 
-# ドキュメントチェック
-yarn check:docs
 ```
 
 ### TooMuch回避原則
