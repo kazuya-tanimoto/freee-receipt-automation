@@ -85,8 +85,6 @@ yarn tsc --noEmit
 # テスト実行
 yarn test
 
-# ドキュメントチェック
-yarn check:docs
 ```
 
 ## ✅ プロフェッショナルセルフレビュー

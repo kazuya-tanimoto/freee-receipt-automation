@@ -1,0 +1,15 @@
+# Lefthook pre-commit configuration for freee Receipt Automation
+pre-commit:
+  commands:
+    typecheck:
+      run: yarn tsc
+      fail_text: "TypeScript type checking failed. Fix type errors before committing."
+    lint:
+      run: yarn lint
+      fail_text: "Biome linting failed. Run 'yarn lint:fix' to auto-fix issues."
+    format-check:
+      run: yarn format:check
+      fail_text: "Code formatting issues found. Run 'yarn format' to fix."
+    test:
+      run: yarn test:run
+      fail_text: "Tests failed. Fix failing tests before committing."
