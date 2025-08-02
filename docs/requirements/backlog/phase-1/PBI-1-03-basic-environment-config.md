@@ -92,16 +92,16 @@ interface ConfigManager {
 
 ```bash
 # TypeScript検証
-npx tsc --noEmit
+yarn tsc --noEmit
 
 # Lintチェック（Biome）
-npm run lint
+yarn lint
 
 # テスト実行（Vitest）
-npm run test
+yarn test
 
 # 設定テスト
-npm run dev
+yarn dev
 # 設定値が正しく読み込まれることを確認
 ```
 

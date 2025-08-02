@@ -66,31 +66,31 @@ interface ProjectConfig {
 - [ ] Next.js 15.4プロジェクトが正常に起動する
 - [ ] TypeScriptコンパイルがエラーなしで通る
 - [ ] localhost:3000でアクセス可能
-- [ ] `npm run build`が成功する
+- [ ] `yarn build`が成功する
 
 ### 検証コマンド
 
 ```bash
 # 依存関係インストール
-npm install
+yarn install
 
 # 開発サーバー起動
-npm run dev
+yarn dev
 
 # TypeScript検証
-npx tsc --noEmit
+yarn tsc --noEmit
 
 # Lintチェック（Biome）
-npm run lint
+yarn lint
 
 # フォーマットチェック（Biome）
-npm run format:check
+yarn format:check
 
 # テスト実行（Vitest）
-npm run test
+yarn test
 
 # ビルド確認
-npm run build
+yarn build
 ```
 
 ## ✅ プロフェッショナルセルフレビュー

@@ -8,7 +8,7 @@
 
 ### 作成/修正するファイル
 
-1. `src/lib/drive-storage.ts` - Google Drive保存処理（90行以内）
+1. `src/lib/drive-storage.ts` - Google Drive保存処理（120行以内）
 
 ### 技術要件
 
@@ -60,7 +60,7 @@ interface FolderStructure {
 ## 🔧 実装ガイドライン
 
 ### TooMuch回避指針
-- **行数制限**: Drive保存処理90行以内
+- **行数制限**: Drive保存処理120行以内
 - **単一責任**: ファイル保存のみ、複雑な同期機能は含まない
 - **直接実装**: 複雑なファイル管理ライブラリは使用しない
 
@@ -80,16 +80,16 @@ interface FolderStructure {
 
 ```bash
 # TypeScript検証
-npx tsc --noEmit
+yarn tsc --noEmit
 
 # Lintチェック（Biome）
-npm run lint
+yarn lint
 
 # テスト実行（Vitest）
-npm run test
+yarn test
 
 # Drive保存テスト
-npm run dev
+yarn dev
 # テストファイルでDrive保存処理確認
 ```
 

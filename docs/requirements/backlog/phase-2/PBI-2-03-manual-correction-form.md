@@ -8,7 +8,7 @@ OCR・マッチング結果の手動修正機能を実装します。金額、�
 
 ### 作成/修正するファイル
 
-1. `src/components/Receipt/CorrectionForm.tsx` - 修正フォーム（95行以内）
+1. `src/components/Receipt/CorrectionForm.tsx` - 修正フォーム（140行以内）
 2. `pages/api/receipt/correct.ts` - 修正保存API（25行以内）
 
 ### 技術要件
@@ -52,7 +52,7 @@ interface CorrectionAPI {
 ## 🔧 実装ガイドライン
 
 ### TooMuch回避指針
-- **行数制限**: 修正フォーム95行、API 25行以内
+- **行数制限**: 修正フォーム140行、API 25行以内
 - **単一責任**: 修正機能のみ、複雑なワークフローは含まない
 - **直接実装**: 重いフォームライブラリは使用しない
 
@@ -72,16 +72,16 @@ interface CorrectionAPI {
 
 ```bash
 # TypeScript検証
-npx tsc --noEmit
+yarn tsc --noEmit
 
 # Lintチェック（Biome）
-npm run lint
+yarn lint
 
 # テスト実行（Vitest）
-npm run test
+yarn test
 
 # 修正フォームテスト
-npm run dev
+yarn dev
 # 修正フォームで編集・保存操作確認
 ```
 

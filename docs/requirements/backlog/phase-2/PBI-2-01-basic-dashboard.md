@@ -72,16 +72,16 @@ interface ProcessedReceipt {
 
 ```bash
 # TypeScript検証
-npx tsc --noEmit
+yarn tsc --noEmit
 
 # Lintチェック（Biome）
-npm run lint
+yarn lint
 
 # テスト実行（Vitest）
-npm run test
+yarn test
 
 # ダッシュボードテスト
-npm run dev
+yarn dev
 # /dashboard にアクセスして表示確認
 ```
 

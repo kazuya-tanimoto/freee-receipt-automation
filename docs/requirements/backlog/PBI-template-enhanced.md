@@ -80,10 +80,10 @@ interface OutputData {
 
 ```bash
 # TypeScript検証
-npx tsc --noEmit
+yarn tsc --noEmit
 
 # テスト実行
-npm run test
+yarn test
 
 # ドキュメントチェック
 yarn check:docs

@@ -72,16 +72,16 @@ interface GmailTokens {
 
 ```bash
 # TypeScript検証
-npx tsc --noEmit
+yarn tsc --noEmit
 
 # Lintチェック（Biome）
-npm run lint
+yarn lint
 
 # テスト実行（Vitest）
-npm run test
+yarn test
 
 # 認証テスト
-npm run dev
+yarn dev
 # /api/auth/gmail にアクセスして認証フロー確認
 ```
 

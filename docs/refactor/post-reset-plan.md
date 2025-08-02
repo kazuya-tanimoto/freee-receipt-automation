@@ -80,9 +80,9 @@ PBI-2-08: Google Drive保存
 
 ### 技術方針
 - **ライブラリ**: googleapis、@supabase/supabase-js のみ
-- **ファイル制限**: 各PBI 40-80行以内（安全マージン込み）
+- **ファイル制限**: 各PBI 60-120行以内（安全マージン込み）
 - **依存関係**: 最小限（Next.js 15.4 + Supabase）
-- **開発ツール**: Biome（Lint/Format）、Vitest（テスト）、Lefthook（pre-commit）
+- **開発ツール**: Biome（Lint/Format）、Vitest（テスト）、Lefthook（pre-commit）、Yarn 4.x（パッケージマネージャー）
 - **テスト**: Vitest + RTLで重要な関数のみ
 
 ### 3回の失敗を避ける設計
@@ -138,7 +138,7 @@ Day 23: 週次実行テスト
 - 週次自動実行
 
 ### 品質基準
-- 各ファイル40-80行以内（リスク緩和）
+- 各ファイル60-120行以内（リスク緩和）
 - 単一責務の徹底（TooMuch回避）
 - エラー時の停止（フェイルファスト）
 - spec要件100%準拠
@@ -161,7 +161,7 @@ Day 23: 週次実行テスト
 ```bash
 # 必須チェック
 find src -name "*.ts" -exec wc -l {} + | sort -n
-# 100行超過ファイルがあったら即座に分割
+# 120行超過ファイルがあったら即座に分割
 ```
 
 ---

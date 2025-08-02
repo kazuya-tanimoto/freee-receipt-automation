@@ -75,16 +75,16 @@ interface SupabaseConfig {
 
 ```bash
 # TypeScript検証
-npx tsc --noEmit
+yarn tsc --noEmit
 
 # Lintチェック（Biome）
-npm run lint
+yarn lint
 
 # テスト実行（Vitest）
-npm run test
+yarn test
 
 # 接続テスト（開発時）
-npm run dev
+yarn dev
 # ブラウザコンソールでエラーがないことを確認
 ```
 

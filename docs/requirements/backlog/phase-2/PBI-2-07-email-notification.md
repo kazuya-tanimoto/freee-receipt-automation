@@ -80,16 +80,16 @@ interface NotificationService {
 
 ```bash
 # TypeScript検証
-npx tsc --noEmit
+yarn tsc --noEmit
 
 # Lintチェック（Biome）
-npm run lint
+yarn lint
 
 # テスト実行（Vitest）
-npm run test
+yarn test
 
 # メール通知テスト
-npm run dev
+yarn dev
 # テスト用データでメール送信確認
 ```
 

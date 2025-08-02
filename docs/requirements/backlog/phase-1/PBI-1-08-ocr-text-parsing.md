@@ -8,7 +8,7 @@ OCRで抽出されたテキストから金額、日付、店舗名など構造�
 
 ### 作成/修正するファイル
 
-1. `src/lib/text-parser.ts` - テキスト解析・データ抽出（90行以内）
+1. `src/lib/text-parser.ts` - テキスト解析・データ抽出（120行以内）
 
 ### 技術要件
 
@@ -46,7 +46,7 @@ interface TextParser {
 ## 🔧 実装ガイドライン
 
 ### TooMuch回避指針
-- **行数制限**: テキスト解析90行以内
+- **行数制限**: テキスト解析120行以内
 - **単一責任**: データ抽出のみ、freee連携は含まない
 - **直接実装**: 複雑なNLP処理は行わない
 
@@ -66,16 +66,16 @@ interface TextParser {
 
 ```bash
 # TypeScript検証
-npx tsc --noEmit
+yarn tsc --noEmit
 
 # Lintチェック（Biome）
-npm run lint
+yarn lint
 
 # テスト実行（Vitest）
-npm run test
+yarn test
 
 # パーステスト
-npm run dev
+yarn dev
 # テスト用OCRテキストで解析処理確認
 ```
 

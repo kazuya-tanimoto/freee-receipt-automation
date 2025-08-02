@@ -64,16 +64,16 @@ interface PDFProcessor {
 
 ```bash
 # TypeScript検証
-npx tsc --noEmit
+yarn tsc --noEmit
 
 # Lintチェック（Biome）
-npm run lint
+yarn lint
 
 # テスト実行（Vitest）
-npm run test
+yarn test
 
 # PDF処理テスト
-npm run dev
+yarn dev
 # テスト用PDFファイルで抽出処理確認
 ```
 

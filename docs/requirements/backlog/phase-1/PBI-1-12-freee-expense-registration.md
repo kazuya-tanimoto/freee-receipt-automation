@@ -71,16 +71,16 @@ interface FreeeExpenseAPI {
 
 ```bash
 # TypeScript検証
-npx tsc --noEmit
+yarn tsc --noEmit
 
 # Lintチェック（Biome）
-npm run lint
+yarn lint
 
 # テスト実行（Vitest）
-npm run test
+yarn test
 
 # 経費登録テスト
-npm run dev
+yarn dev
 # テストデータで経費登録処理確認
 ```
 

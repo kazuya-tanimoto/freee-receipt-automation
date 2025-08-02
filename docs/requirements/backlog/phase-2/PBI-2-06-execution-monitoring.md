@@ -69,16 +69,16 @@ interface ExecutionMonitor {
 
 ```bash
 # TypeScript検証
-npx tsc --noEmit
+yarn tsc --noEmit
 
 # Lintチェック（Biome）
-npm run lint
+yarn lint
 
 # テスト実行（Vitest）
-npm run test
+yarn test
 
 # モニタリングテスト
-npm run test -- monitoring.test.ts
+yarn test -- monitoring.test.ts
 ```
 
 ## ✅ プロフェッショナルセルフレビュー

@@ -8,7 +8,7 @@ OCRで抽出されたレシートデータとfreee取引データを照合する
 
 ### 作成/修正するファイル
 
-1. `src/lib/receipt-matcher.ts` - レシート・取引マッチング処理（95行以内）
+1. `src/lib/receipt-matcher.ts` - レシート・取引マッチング処理（150行以内）
 
 ### 技術要件
 
@@ -49,7 +49,7 @@ interface ReceiptMatcher {
 ## 🔧 実装ガイドライン
 
 ### TooMuch回避指針
-- **行数制限**: マッチング処理95行以内
+- **行数制限**: マッチング処理150行以内
 - **単一責任**: マッチングのみ、登録処理は含まない
 - **直接実装**: 複雑なML/AI マッチングは使用しない
 
@@ -69,16 +69,16 @@ interface ReceiptMatcher {
 
 ```bash
 # TypeScript検証
-npx tsc --noEmit
+yarn tsc --noEmit
 
 # Lintチェック（Biome）
-npm run lint
+yarn lint
 
 # テスト実行（Vitest）
-npm run test
+yarn test
 
 # マッチングテスト
-npm run dev
+yarn dev
 # テストデータでマッチング処理確認
 ```
 

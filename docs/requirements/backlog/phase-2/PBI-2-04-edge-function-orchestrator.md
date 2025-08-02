@@ -63,13 +63,13 @@ interface EdgeFunctionOrchestrator {
 
 ```bash
 # TypeScript検証
-npx tsc --noEmit
+yarn tsc --noEmit
 
 # Lintチェック（Biome）
-npm run lint
+yarn lint
 
 # テスト実行（Vitest）
-npm run test
+yarn test
 
 # Edge Function テスト
 supabase functions serve
