@@ -77,6 +77,29 @@ yarn dev
 # テスト用PDFファイルで抽出処理確認
 ```
 
+### Git ワークフロー
+
+**必須手順:**
+1. **フィーチャーブランチ作成**: `git checkout -b feature/pbi-1-06-pdf-extraction`
+2. **実装・テスト・コミット**: 通常のコミット（`--no-verify`禁止）
+3. **プッシュ**: `git push -u origin feature/pbi-1-06-pdf-extraction`
+4. **PR作成**: GitHub UIまたは`gh pr create`
+5. **レビュー・マージ**: コンフリクトなしの場合は自動マージ可
+
+**禁止事項:**
+- ❌ **mainブランチへの直接コミット** - 必ずフィーチャーブランチを使用
+- ❌ **`--no-verify`フラグ使用** - pre-commitチェックは必須
+- ❌ **コンフリクト状態でのマージ** - 解決後に再実行
+
+**コミットメッセージ規約:**
+```
+feat: PBI-1-06 PDF attachment extraction
+
+- Implement PDF file extraction from Gmail attachments
+- Add file validation and temporary storage
+- Handle Base64 decoding and file operations
+```
+
 ## ✅ プロフェッショナルセルフレビュー
 
 ### 実装完了時必須チェック

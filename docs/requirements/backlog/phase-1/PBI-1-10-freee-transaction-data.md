@@ -85,6 +85,29 @@ yarn dev
 # freee取引APIを呼び出してレスポンス確認
 ```
 
+### Git ワークフロー
+
+**必須手順:**
+1. **フィーチャーブランチ作成**: `git checkout -b feature/pbi-1-10-freee-transactions`
+2. **実装・テスト・コミット**: 通常のコミット（`--no-verify`禁止）
+3. **プッシュ**: `git push -u origin feature/pbi-1-10-freee-transactions`
+4. **PR作成**: GitHub UIまたは`gh pr create`
+5. **レビュー・マージ**: コンフリクトなしの場合は自動マージ可
+
+**禁止事項:**
+- ❌ **mainブランチへの直接コミット** - 必ずフィーチャーブランチを使用
+- ❌ **`--no-verify`フラグ使用** - pre-commitチェックは必須
+- ❌ **コンフリクト状態でのマージ** - 解決後に再実行
+
+**コミットメッセージ規約:**
+```
+feat: PBI-1-10 freee transaction data retrieval
+
+- Implement freee transaction API integration
+- Add unprocessed transaction filtering
+- Set up data preparation for receipt matching
+```
+
 ## ✅ プロフェッショナルセルフレビュー
 
 ### 実装完了時必須チェック
