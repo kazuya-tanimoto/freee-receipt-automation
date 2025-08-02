@@ -66,6 +66,12 @@ interface PDFProcessor {
 # TypeScript検証
 npx tsc --noEmit
 
+# Lintチェック（Biome）
+npm run lint
+
+# テスト実行（Vitest）
+npm run test
+
 # PDF処理テスト
 npm run dev
 # テスト用PDFファイルで抽出処理確認

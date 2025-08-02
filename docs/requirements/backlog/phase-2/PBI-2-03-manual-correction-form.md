@@ -74,6 +74,12 @@ interface CorrectionAPI {
 # TypeScript検証
 npx tsc --noEmit
 
+# Lintチェック（Biome）
+npm run lint
+
+# テスト実行（Vitest）
+npm run test
+
 # 修正フォームテスト
 npm run dev
 # 修正フォームで編集・保存操作確認

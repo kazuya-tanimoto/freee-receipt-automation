@@ -94,6 +94,12 @@ interface ConfigManager {
 # TypeScript検証
 npx tsc --noEmit
 
+# Lintチェック（Biome）
+npm run lint
+
+# テスト実行（Vitest）
+npm run test
+
 # 設定テスト
 npm run dev
 # 設定値が正しく読み込まれることを確認

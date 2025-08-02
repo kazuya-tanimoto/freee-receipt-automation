@@ -78,6 +78,12 @@ interface VisionOCR {
 # TypeScript検証
 npx tsc --noEmit
 
+# Lintチェック（Biome）
+npm run lint
+
+# テスト実行（Vitest）
+npm run test
+
 # OCRテスト
 npm run dev
 # テスト用PDFファイルでOCR処理確認

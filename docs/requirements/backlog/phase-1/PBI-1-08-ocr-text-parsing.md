@@ -68,6 +68,12 @@ interface TextParser {
 # TypeScript検証
 npx tsc --noEmit
 
+# Lintチェック（Biome）
+npm run lint
+
+# テスト実行（Vitest）
+npm run test
+
 # パーステスト
 npm run dev
 # テスト用OCRテキストで解析処理確認

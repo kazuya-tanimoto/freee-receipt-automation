@@ -70,6 +70,12 @@ interface ReceiptProcessingData {
 # TypeScript検証
 npx tsc --noEmit
 
+# Lintチェック（Biome）
+npm run lint
+
+# テスト実行（Vitest）
+npm run test
+
 # 状況表示テスト
 npm run dev
 # /receipt/[id] にアクセスして表示確認

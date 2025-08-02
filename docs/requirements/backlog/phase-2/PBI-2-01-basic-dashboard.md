@@ -74,6 +74,12 @@ interface ProcessedReceipt {
 # TypeScript検証
 npx tsc --noEmit
 
+# Lintチェック（Biome）
+npm run lint
+
+# テスト実行（Vitest）
+npm run test
+
 # ダッシュボードテスト
 npm run dev
 # /dashboard にアクセスして表示確認

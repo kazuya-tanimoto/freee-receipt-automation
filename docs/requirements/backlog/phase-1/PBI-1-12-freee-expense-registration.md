@@ -73,6 +73,12 @@ interface FreeeExpenseAPI {
 # TypeScript検証
 npx tsc --noEmit
 
+# Lintチェック（Biome）
+npm run lint
+
+# テスト実行（Vitest）
+npm run test
+
 # 経費登録テスト
 npm run dev
 # テストデータで経費登録処理確認

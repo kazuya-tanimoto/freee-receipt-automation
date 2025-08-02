@@ -77,6 +77,12 @@ interface SupabaseConfig {
 # TypeScript検証
 npx tsc --noEmit
 
+# Lintチェック（Biome）
+npm run lint
+
+# テスト実行（Vitest）
+npm run test
+
 # 接続テスト（開発時）
 npm run dev
 # ブラウザコンソールでエラーがないことを確認

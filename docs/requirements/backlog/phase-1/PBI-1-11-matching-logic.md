@@ -71,6 +71,12 @@ interface ReceiptMatcher {
 # TypeScript検証
 npx tsc --noEmit
 
+# Lintチェック（Biome）
+npm run lint
+
+# テスト実行（Vitest）
+npm run test
+
 # マッチングテスト
 npm run dev
 # テストデータでマッチング処理確認

@@ -74,6 +74,12 @@ interface FreeeTransactionAPI {
 # TypeScript検証
 npx tsc --noEmit
 
+# Lintチェック（Biome）
+npm run lint
+
+# テスト実行（Vitest）
+npm run test
+
 # 取引取得テスト
 npm run dev
 # freee取引APIを呼び出してレスポンス確認

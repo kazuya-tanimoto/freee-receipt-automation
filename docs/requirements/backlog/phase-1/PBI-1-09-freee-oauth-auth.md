@@ -76,6 +76,12 @@ interface FreeeTokens {
 # TypeScript検証
 npx tsc --noEmit
 
+# Lintチェック（Biome）
+npm run lint
+
+# テスト実行（Vitest）
+npm run test
+
 # 認証テスト
 npm run dev
 # /api/auth/freee にアクセスして認証フロー確認

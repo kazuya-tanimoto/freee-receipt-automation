@@ -1,4 +1,4 @@
-# PBI-2-05: メール通知機能
+# PBI-2-07: メール通知機能
 
 ## 説明
 
@@ -52,7 +52,7 @@ interface NotificationService {
 
 ## 🎯 実装前チェックリスト（影響範囲分析）
 
-- [x] **影響範囲確認**: PBI-2-04完了後に実施、他への影響なし
+- [x] **影響範囲確認**: PBI-2-06完了後に実施、他への影響なし
 - [x] **依存関係確認**: PBI-2-04（自動実行）完了が前提
 - [x] **spec要件確認**: メール通知がspec必須要件
 - [x] **リソース確認**: メール送信APIが利用可能
@@ -81,6 +81,12 @@ interface NotificationService {
 ```bash
 # TypeScript検証
 npx tsc --noEmit
+
+# Lintチェック（Biome）
+npm run lint
+
+# テスト実行（Vitest）
+npm run test
 
 # メール通知テスト
 npm run dev

@@ -41,70 +41,49 @@
    - 月別フォルダ構成
    - 短縮ファイル名
 
-## ミニマムPBI構造（6個のPBI）
+## ミニマムPBI構造（20個のPBI）
 
-### MVP-PBI-1: 基本セットアップ（50行）
-```
-期間: 1日
-成果物:
-├── package.json (Next.js minimal)
-├── .env.example
-├── src/lib/config.ts
-└── pages/index.tsx (hello world)
-```
+### 理由
+- AIの作業品質維持のため、1PBIの責務を最小化
+- 小さいPBIは問題なし、大きいPBIはTooMuchリスク
+- 94%のPBIが単一責務で適切、1個のPBIのみ分割推奨
 
-### MVP-PBI-2: Gmail連携（100行）
+### Phase 1: 基盤構築（12個のPBI）
 ```
-期間: 1日
-成果物:
-├── src/lib/gmail.ts (OAuth + 検索)
-├── pages/api/gmail/auth.ts
-└── 1ファイル完結実装
-```
-
-### MVP-PBI-3: OCR処理（80行）
-```
-期間: 1日
-成果物:
-├── src/lib/ocr.ts (Vision API)
-├── 金額・日付抽出ロジック
-└── エラーハンドリング
+PBI-1-01: Next.js 15.4 + React 19プロジェクト初期化
+PBI-1-02: Supabaseプロジェクト設定
+PBI-1-03: 基本環境変数・設定ファイル
+PBI-1-04: Gmail OAuth認証
+PBI-1-05: Gmail メール検索・取得
+PBI-1-06: PDF添付ファイル抽出
+PBI-1-07: Google Vision API OCRセットアップ
+PBI-1-08: OCRテキスト解析・パース
+PBI-1-09: freee OAuth認証
+PBI-1-10: freee 取引データ取得
+PBI-1-11: マッチングロジック（金額・日付）
+PBI-1-12: freee 経費登録API
 ```
 
-### MVP-PBI-4: freee連携（100行）
+### Phase 2: UI・自動化（8個のPBI）
 ```
-期間: 1日
-成果物:
-├── src/lib/freee.ts (OAuth + API)
-├── 取引マッチング
-└── 経費登録処理
-```
-
-### MVP-PBI-5: 管理UI（100行）
-```
-期間: 1日
-成果物:
-├── pages/dashboard.tsx
-├── 処理状況表示
-└── 手動修正フォーム
-```
-
-### MVP-PBI-6: 自動実行（50行）
-```
-期間: 1日
-成果物:
-├── supabase/functions/weekly-process/index.ts
-├── pg_cron設定
-└── メール通知
+PBI-2-01: 基本ダッシュボードページ
+PBI-2-02: 処理状況表示コンポーネント
+PBI-2-03: 手動修正フォーム
+PBI-2-04: Edge Function実装（処理オーケストレーション）
+PBI-2-05: スケジューリング基盤（pg_cron設定）
+PBI-2-06: 実行監視（ログ・エラー追跡）
+PBI-2-07: メール通知機能
+PBI-2-08: Google Drive保存
 ```
 
 ## 実装戦略
 
 ### 技術方針
 - **ライブラリ**: googleapis、@supabase/supabase-js のみ
-- **ファイル制限**: 各PBI 100行以内
-- **依存関係**: 最小限（Next.js + Supabase）
-- **テスト**: 重要な関数のみ
+- **ファイル制限**: 各PBI 40-80行以内（安全マージン込み）
+- **依存関係**: 最小限（Next.js 15.4 + Supabase）
+- **開発ツール**: Biome（Lint/Format）、Vitest（テスト）、Lefthook（pre-commit）
+- **テスト**: Vitest + RTLで重要な関数のみ
 
 ### 3回の失敗を避ける設計
 1. **小さなコンテキスト**: 1PBI = 1日 = 1人で理解可能
@@ -127,21 +106,26 @@ CREATE TABLE processing_logs (
 
 ## 実装スケジュール
 
-### Week 1: MVP構築（6日）
+### Week 1: Phase 1基盤構築（12日）
 ```
-Day 1: PBI-1 基本セットアップ
-Day 2: PBI-2 Gmail連携
-Day 3: PBI-3 OCR処理
-Day 4: PBI-4 freee連携
-Day 5: PBI-5 管理UI
-Day 6: PBI-6 自動実行
+Day 1-3: 基本セットアップ（PBI-1-01〜03）
+Day 4-6: Gmail連携（PBI-1-04〜06）
+Day 7-8: OCR処理（PBI-1-07〜08）
+Day 9-12: freee連携（PBI-1-09〜12）
 ```
 
-### Week 2: 動作確認（3日）
+### Week 2: Phase 2 UI・自動化（8日）
 ```
-Day 7: 実際のレシート1件で動作確認
-Day 8: エラー修正・調整
-Day 9: 週次実行テスト
+Day 13-15: 管理UI（PBI-2-01〜03）
+Day 16-18: 自動実行（PBI-2-04〜06）
+Day 19-20: 通知・保存（PBI-2-07〜08）
+```
+
+### Week 3: 動作確認（3日）
+```
+Day 21: 実際のレシート1件で動作確認
+Day 22: エラー修正・調整
+Day 23: 週次実行テスト
 ```
 
 ## 成功の定義
@@ -154,9 +138,11 @@ Day 9: 週次実行テスト
 - 週次自動実行
 
 ### 品質基準
-- 各ファイル100行以内
+- 各ファイル40-80行以内（リスク緩和）
+- 単一責務の徹底（TooMuch回避）
 - エラー時の停止（フェイルファスト）
 - spec要件100%準拠
+- 現代的開発ツールの活用
 
 ## AIチャット引き継ぎ指針
 
@@ -180,4 +166,4 @@ find src -name "*.ts" -exec wc -l {} + | sort -n
 
 ---
 
-**重要**: このプランは3回の失敗を踏まえ、「AIが混乱しない小さなコンテキスト」を最優先に設計している。新機能追加時も必ずこの原則を維持すること。
+**重要**: このプランは3回の失敗を踏まえ、「AIの作業品質維持」を最優先に設計している。20個の小さなPBIにより、各PBIが単一責務でAIが混乱しないコンテキストを維持。新機能追加時も必ずこの原則を維持すること。

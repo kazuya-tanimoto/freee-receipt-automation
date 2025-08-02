@@ -78,6 +78,12 @@ interface GmailAttachment {
 # TypeScript検証
 npx tsc --noEmit
 
+# Lintチェック（Biome）
+npm run lint
+
+# テスト実行（Vitest）
+npm run test
+
 # 検索テスト
 npm run dev
 # Gmail検索APIを呼び出してレスポンス確認
