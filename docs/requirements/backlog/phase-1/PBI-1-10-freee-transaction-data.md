@@ -273,11 +273,11 @@ yarn dev
 
 **コミットメッセージ規約:**
 ```
-feat: PBI-1-03 basic environment configuration
+feat: PBI-1-10 freee transaction data retrieval
 
-- Add type-safe environment variable management
-- Implement configuration validation
-- Set up API keys management system
+- Implement freee transaction API integration
+- Add unprocessed transaction filtering
+- Set up data preparation for receipt matching
 ```
 
 ## ✅ プロフェッショナルセルフレビュー

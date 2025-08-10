@@ -277,11 +277,11 @@ yarn dev
 
 **コミットメッセージ規約:**
 ```
-feat: PBI-1-03 basic environment configuration
+feat: PBI-1-07 Google Vision API OCR setup
 
-- Add type-safe environment variable management
-- Implement configuration validation
-- Set up API keys management system
+- Implement Google Vision API integration
+- Add PDF text extraction functionality
+- Set up OCR processing with error handling
 ```
 
 ## ✅ プロフェッショナルセルフレビュー

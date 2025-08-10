@@ -267,11 +267,11 @@ yarn dev
 
 **コミットメッセージ規約:**
 ```
-feat: PBI-1-03 basic environment configuration
+feat: PBI-1-08 OCR text analysis and parsing
 
-- Add type-safe environment variable management
-- Implement configuration validation
-- Set up API keys management system
+- Implement receipt data extraction from OCR text
+- Add pattern matching for amounts, dates, vendors
+- Set up structured data parsing functionality
 ```
 
 ## ✅ プロフェッショナルセルフレビュー

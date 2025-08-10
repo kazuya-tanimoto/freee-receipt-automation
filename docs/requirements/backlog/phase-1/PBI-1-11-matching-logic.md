@@ -270,11 +270,11 @@ yarn dev
 
 **コミットメッセージ規約:**
 ```
-feat: PBI-1-03 basic environment configuration
+feat: PBI-1-11 receipt-transaction matching logic
 
-- Add type-safe environment variable management
-- Implement configuration validation
-- Set up API keys management system
+- Implement amount and date-based matching
+- Add confidence score calculation
+- Set up multi-candidate ranking system
 ```
 
 ## ✅ プロフェッショナルセルフレビュー

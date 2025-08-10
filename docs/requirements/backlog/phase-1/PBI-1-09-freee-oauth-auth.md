@@ -275,11 +275,11 @@ yarn dev
 
 **コミットメッセージ規約:**
 ```
-feat: PBI-1-03 basic environment configuration
+feat: PBI-1-09 freee OAuth authentication
 
-- Add type-safe environment variable management
-- Implement configuration validation
-- Set up API keys management system
+- Implement freee OAuth 2.0 flow
+- Add company-specific token management
+- Set up secure expense API authentication
 ```
 
 ## ✅ プロフェッショナルセルフレビュー

@@ -272,11 +272,11 @@ yarn dev
 
 **コミットメッセージ規約:**
 ```
-feat: PBI-1-03 basic environment configuration
+feat: PBI-1-12 freee expense registration API
 
-- Add type-safe environment variable management
-- Implement configuration validation
-- Set up API keys management system
+- Implement freee expense registration
+- Add receipt file attachment functionality
+- Complete end-to-end automation flow
 ```
 
 ## ✅ プロフェッショナルセルフレビュー

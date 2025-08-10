@@ -265,11 +265,11 @@ yarn dev
 
 **コミットメッセージ規約:**
 ```
-feat: PBI-1-03 basic environment configuration
+feat: PBI-1-06 PDF attachment extraction
 
-- Add type-safe environment variable management
-- Implement configuration validation
-- Set up API keys management system
+- Implement PDF file extraction from Gmail attachments
+- Add file validation and temporary storage
+- Handle Base64 decoding and file operations
 ```
 
 ## ✅ プロフェッショナルセルフレビュー
