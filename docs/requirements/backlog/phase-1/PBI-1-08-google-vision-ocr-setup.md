@@ -1,71 +1,75 @@
-# PBI-1-10: freee 取引データ取得
+# PBI-1-08: Google Vision API OCRセットアップ
 
 ## 説明
 
-認証済みfreee APIを使用して取引データを取得します。未処理の経費取引を検索し、レシートマッチング用のデータを準備する機能を実装します。
+Google Vision APIを使用してPDFファイルからテキストを抽出するOCR機能をセットアップします。API認証、基本的なOCR呼び出し、テキスト抽出の最小限の機能を実装します。
 
 ## 実装詳細
 
 ### 作成/修正するファイル
 
-1. `src/lib/freee-transactions.ts` - freee取引データ取得（85行以内）
+1. `src/lib/vision-ocr.ts` - Google Vision API OCR処理（80行以内）
 
 ### 技術要件
 
-- freee API v1使用
-- 取引一覧取得
-- 日付・金額による絞り込み
-- ページネーション対応
+- Google Vision API v1使用
+- PDFファイルからテキスト抽出
+- API認証とエラーハンドリング
+- レート制限対応
+
+### 環境変数
+
+```bash
+# PBI-1-03で設定済み
+GOOGLE_VISION_API_KEY=your_vision_api_key
+```
 
 ### インターフェース仕様
 
 ```typescript
-interface FreeeTransaction {
-  id: number;
-  date: string;
-  amount: number;
-  description: string;
-  status: 'pending' | 'settled' | 'transferred';
-  receipt_ids: number[];
+interface OCRResult {
+  text: string;
+  confidence: number;
+  boundingBoxes?: BoundingBox[];
 }
 
-interface TransactionQuery {
-  startDate?: Date;
-  endDate?: Date;
-  minAmount?: number;
-  maxAmount?: number;
+interface BoundingBox {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
 }
 
-interface FreeeTransactionAPI {
-  getTransactions(query?: TransactionQuery): Promise<FreeeTransaction[]>;
-  getUnprocessedTransactions(): Promise<FreeeTransaction[]>;
+interface VisionOCR {
+  extractText(filePath: string): Promise<OCRResult>;
+  processDocument(buffer: Buffer): Promise<string>;
 }
 ```
 
 ## 🎯 実装前チェックリスト（影響範囲分析）
 
-- [x] **影響範囲確認**: PBI-1-09完了後に実施、他への影響なし
-- [x] **依存関係確認**: PBI-1-09（freee認証）完了が前提
-- [x] **spec要件確認**: 取引データ取得がマッチング処理に必要
-- [x] **リソース確認**: freee API認証が利用可能
+- [x] **影響範囲確認**: PBI-1-06完了後に実施、他への影響なし
+- [x] **依存関係確認**: PBI-1-06（PDF抽出）完了が前提
+- [x] **spec要件確認**: OCR処理がspec必須要件
+- [x] **リソース確認**: Google Vision API設定済み
 
 ## 🔧 実装ガイドライン
 
 ### TooMuch回避指針
-- **行数制限**: 取引取得処理85行以内
-- **単一責任**: データ取得のみ、マッチング処理は含まない
-- **直接実装**: 複雑なクエリビルダーは使用しない
+- **行数制限**: OCR処理80行以内
+- **単一責任**: テキスト抽出のみ、データ解析は含まない
+- **直接実装**: 複雑な画像前処理は行わない
 
 ### コード品質基準
 - **TypeScript**: 型安全なAPI応答処理
-- **エラーハンドリング**: freee API エラーの適切な処理
-- **JSDoc**: 取引取得関数の説明記載
+- **エラーハンドリング**: Vision API エラーの適切な処理
+- **JSDoc**: OCR関数の説明記載
 
 ## 受け入れ基準
 
-- [ ] freee取引データが正しく取得される
-- [ ] 未処理取引の絞り込みができる
-- [ ] API制限に適切に対応している
+- [ ] PDFファイルからテキストが抽出される
+- [ ] Vision API認証が正常に動作する
+- [ ] OCR結果が適切な形式で返される
 - [ ] TypeScriptエラーがない
 
 ### 検証コマンド
@@ -80,9 +84,9 @@ yarn lint
 # テスト実行（Vitest）
 yarn test
 
-# 取引取得テスト
+# OCRテスト
 yarn dev
-# freee取引APIを呼び出してレスポンス確認
+# テスト用PDFファイルでOCR処理確認
 ```
 
 ## 🚀 プロフェッショナル作業プロセス
@@ -112,7 +116,7 @@ yarn dev
 
 **Step 1-1: 人間 → PBI提示**
 ```
-例: "PBI-1-10の作業をお願いします。まずは作業計画を立てて報告してください。"
+例: "PBI-1-08の作業をお願いします。まずは作業計画を立てて報告してください。"
 ```
 
 **Step 1-2: 実装AI → 作業計画立案・提示**
@@ -134,7 +138,7 @@ yarn dev
 
 **Step 2-1: 実装AI → フィーチャーブランチ作成**
 ```bash
-git checkout -b feature/pbi-1-10-freee-transactions
+git checkout -b feature/pbi-1-08-vision-ocr-setup
 ```
 
 **Step 2-2: 実装AI → 技術実装**
@@ -162,11 +166,11 @@ git diff
 ```bash
 # コミット・プッシュ
 git add .
-git commit -m "feat: PBI-1-10 freee transaction data retrieval"
-git push -u origin feature/pbi-1-10-freee-transactions
+git commit -m "feat: PBI-1-08 Google Vision API OCR setup"
+git push -u origin feature/pbi-1-08-vision-ocr-setup
 
 # PR作成
-gh pr create --title "feat: PBI-1-10 freee transaction data retrieval" --body "[structured body]"
+gh pr create --title "feat: PBI-1-08 Google Vision API OCR setup" --body "[structured body]"
 ```
 
 **Step 2-5: 実装AI → セルフレビューチェックボックス記入**
@@ -220,8 +224,8 @@ gh pr create --title "feat: PBI-1-10 freee transaction data retrieval" --body "[
 
 ### レビュー対象
 - **プロジェクト**: freeeレシート自動化システム
-- **PBI**: PBI-1-10 freee 取引データ取得
-- **実装内容**: freee APIから未処理取引データの取得機能
+- **PBI**: PBI-1-08 Google Vision API OCRセットアップ
+- **実装内容**: Google Vision APIを活用したPDFファイルOCR機能
 - **PRリンク**: [GitHub PR URL]
 
 ### レビュー観点
@@ -250,12 +254,12 @@ gh pr create --title "feat: PBI-1-10 freee transaction data retrieval" --body "[
 
 ### 確認対象ファイル
 ```
-src/lib/freee-transactions.ts
+src/lib/vision-ocr.ts
 ```
 
 ### 検証手順
 ```bash
-git checkout feature/pbi-1-10-freee-transactions
+git checkout feature/pbi-1-08-vision-ocr-setup
 yarn tsc --noEmit
 yarn test:run
 yarn dev
@@ -273,41 +277,41 @@ yarn dev
 
 **コミットメッセージ規約:**
 ```
-feat: PBI-1-10 freee transaction data retrieval
+feat: PBI-1-08 Google Vision API OCR setup
 
-- Implement freee transaction API integration
-- Add unprocessed transaction filtering
-- Set up data preparation for receipt matching
+- Implement Google Vision API integration
+- Add PDF text extraction functionality
+- Set up OCR processing with error handling
 ```
 
 ## ✅ プロフェッショナルセルフレビュー
 
 ### 実装完了時必須チェック
 - [ ] **影響範囲**: 既存PBIへの悪影響なし
-- [ ] **要件達成**: freee取引データ取得が完了している
-- [ ] **シンプル化**: 必要最小限の取得機能のみ
-- [ ] **テスト**: 取引取得テストがパスしている
+- [ ] **要件達成**: OCR機能が完了している
+- [ ] **シンプル化**: 必要最小限のOCR機能のみ
+- [ ] **テスト**: OCR処理テストがパスしている
 - [ ] **型安全性**: TypeScript型チェックが正しく動作している
 
 ### 第三者視点コードレビュー観点
-- [ ] **可読性**: 取引取得コードが理解しやすい
-- [ ] **保守性**: クエリ条件が修正しやすい設計
-- [ ] **セキュリティ**: freee API使用が安全に実装されている
-- [ ] **パフォーマンス**: 適切なページネーション対応
+- [ ] **可読性**: OCR処理コードが理解しやすい
+- [ ] **保守性**: API呼び出しが適切に設計されている
+- [ ] **セキュリティ**: API キーが安全に管理されている
+- [ ] **パフォーマンス**: 効率的なOCR処理
 
 ## 📋 完了報告テンプレート
 
 ### ✅ セルフチェック結果
 - TypeScript: ✅ 0エラー / ❌ Xエラー
-- テスト: ✅ 取引取得テストパス / ❌ X失敗  
-- ドキュメント: ✅ 取引取得機能説明完備 / ❌ 不足
+- テスト: ✅ OCR処理テストパス / ❌ X失敗  
+- ドキュメント: ✅ OCR機能説明完備 / ❌ 不足
 - 影響範囲: ✅ 他PBI機能に悪影響なし
 
 ### 実装サマリー
-- **達成した価値**: freee取引データとのマッチング準備が完了した
-- **主要な実装**: freee取引API活用とデータ取得機能
+- **達成した価値**: PDFレシートからテキスト情報が自動抽出可能になった
+- **主要な実装**: Google Vision API活用OCR機能
 - **残課題**: なし
-- **次PBIへの引き継ぎ**: 取得した取引データがマッチング処理で使用可能
+- **次PBIへの引き継ぎ**: 抽出されたテキストがデータパース処理で使用可能
 
 ## メタデータ
 ### 進捗記入欄

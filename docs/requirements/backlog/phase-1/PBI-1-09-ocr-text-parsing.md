@@ -1,75 +1,65 @@
-# PBI-1-07: Google Vision API OCRセットアップ
+# PBI-1-09: OCRテキスト解析・パース
 
 ## 説明
 
-Google Vision APIを使用してPDFファイルからテキストを抽出するOCR機能をセットアップします。API認証、基本的なOCR呼び出し、テキスト抽出の最小限の機能を実装します。
+OCRで抽出されたテキストから金額、日付、店舗名など構造化データを抽出します。正規表現パターンマッチングによる基本的な情報抽出機能を実装します。
 
 ## 実装詳細
 
 ### 作成/修正するファイル
 
-1. `src/lib/vision-ocr.ts` - Google Vision API OCR処理（80行以内）
+1. `src/lib/text-parser.ts` - テキスト解析・データ抽出（120行以内）
 
 ### 技術要件
 
-- Google Vision API v1使用
-- PDFファイルからテキスト抽出
-- API認証とエラーハンドリング
-- レート制限対応
-
-### 環境変数
-
-```bash
-# PBI-1-03で設定済み
-GOOGLE_VISION_API_KEY=your_vision_api_key
-```
+- 金額抽出（¥記号、カンマ区切り対応）
+- 日付抽出（複数フォーマット対応）
+- 店舗名・商品名抽出
+- 正規表現パターンマッチング
 
 ### インターフェース仕様
 
 ```typescript
-interface OCRResult {
-  text: string;
-  confidence: number;
-  boundingBoxes?: BoundingBox[];
+interface ParsedReceiptData {
+  amount?: number;
+  date?: Date;
+  vendor?: string;
+  description?: string;
+  rawText: string;
 }
 
-interface BoundingBox {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
-
-interface VisionOCR {
-  extractText(filePath: string): Promise<OCRResult>;
-  processDocument(buffer: Buffer): Promise<string>;
+interface TextParser {
+  parseReceiptText(text: string): ParsedReceiptData;
+  extractAmount(text: string): number | null;
+  extractDate(text: string): Date | null;
+  extractVendor(text: string): string | null;
 }
 ```
 
 ## 🎯 実装前チェックリスト（影響範囲分析）
 
-- [x] **影響範囲確認**: PBI-1-06完了後に実施、他への影響なし
-- [x] **依存関係確認**: PBI-1-06（PDF抽出）完了が前提
-- [x] **spec要件確認**: OCR処理がspec必須要件
-- [x] **リソース確認**: Google Vision API設定済み
+- [x] **影響範囲確認**: PBI-1-08完了後に実施、他への影響なし
+- [x] **依存関係確認**: PBI-1-08（OCR機能）完了が前提
+- [x] **spec要件確認**: データ抽出がfreee連携に必要
+- [x] **リソース確認**: OCR結果テキストが利用可能
 
 ## 🔧 実装ガイドライン
 
 ### TooMuch回避指針
-- **行数制限**: OCR処理80行以内
-- **単一責任**: テキスト抽出のみ、データ解析は含まない
-- **直接実装**: 複雑な画像前処理は行わない
+- **行数制限**: テキスト解析120行以内
+- **単一責任**: データ抽出のみ、freee連携は含まない
+- **直接実装**: 複雑なNLP処理は行わない
 
 ### コード品質基準
-- **TypeScript**: 型安全なAPI応答処理
-- **エラーハンドリング**: Vision API エラーの適切な処理
-- **JSDoc**: OCR関数の説明記載
+- **TypeScript**: 型安全なデータ抽出
+- **エラーハンドリング**: 抽出失敗時の適切な処理
+- **JSDoc**: 解析関数の説明記載
 
 ## 受け入れ基準
 
-- [ ] PDFファイルからテキストが抽出される
-- [ ] Vision API認証が正常に動作する
-- [ ] OCR結果が適切な形式で返される
+- [ ] OCRテキストから金額が正しく抽出される
+- [ ] 日付情報が適切にパースされる
+- [ ] 店舗名・説明が取得される
 - [ ] TypeScriptエラーがない
 
 ### 検証コマンド
@@ -84,9 +74,9 @@ yarn lint
 # テスト実行（Vitest）
 yarn test
 
-# OCRテスト
+# パーステスト
 yarn dev
-# テスト用PDFファイルでOCR処理確認
+# テスト用OCRテキストで解析処理確認
 ```
 
 ## 🚀 プロフェッショナル作業プロセス
@@ -116,7 +106,7 @@ yarn dev
 
 **Step 1-1: 人間 → PBI提示**
 ```
-例: "PBI-1-07の作業をお願いします。まずは作業計画を立てて報告してください。"
+例: "PBI-1-09の作業をお願いします。まずは作業計画を立てて報告してください。"
 ```
 
 **Step 1-2: 実装AI → 作業計画立案・提示**
@@ -138,7 +128,7 @@ yarn dev
 
 **Step 2-1: 実装AI → フィーチャーブランチ作成**
 ```bash
-git checkout -b feature/pbi-1-07-vision-ocr-setup
+git checkout -b feature/pbi-1-09-ocr-text-parsing
 ```
 
 **Step 2-2: 実装AI → 技術実装**
@@ -166,11 +156,11 @@ git diff
 ```bash
 # コミット・プッシュ
 git add .
-git commit -m "feat: PBI-1-07 Google Vision API OCR setup"
-git push -u origin feature/pbi-1-07-vision-ocr-setup
+git commit -m "feat: PBI-1-09 OCR text analysis and parsing"
+git push -u origin feature/pbi-1-09-ocr-text-parsing
 
 # PR作成
-gh pr create --title "feat: PBI-1-07 Google Vision API OCR setup" --body "[structured body]"
+gh pr create --title "feat: PBI-1-09 OCR text analysis and parsing" --body "[structured body]"
 ```
 
 **Step 2-5: 実装AI → セルフレビューチェックボックス記入**
@@ -224,8 +214,8 @@ gh pr create --title "feat: PBI-1-07 Google Vision API OCR setup" --body "[struc
 
 ### レビュー対象
 - **プロジェクト**: freeeレシート自動化システム
-- **PBI**: PBI-1-07 Google Vision API OCRセットアップ
-- **実装内容**: Google Vision APIを活用したPDFファイルOCR機能
+- **PBI**: PBI-1-09 OCRテキスト解析・パース
+- **実装内容**: OCRテキストから構造化データを抽出する解析機能
 - **PRリンク**: [GitHub PR URL]
 
 ### レビュー観点
@@ -254,12 +244,12 @@ gh pr create --title "feat: PBI-1-07 Google Vision API OCR setup" --body "[struc
 
 ### 確認対象ファイル
 ```
-src/lib/vision-ocr.ts
+src/lib/text-parser.ts
 ```
 
 ### 検証手順
 ```bash
-git checkout feature/pbi-1-07-vision-ocr-setup
+git checkout feature/pbi-1-09-ocr-text-parsing
 yarn tsc --noEmit
 yarn test:run
 yarn dev
@@ -277,41 +267,41 @@ yarn dev
 
 **コミットメッセージ規約:**
 ```
-feat: PBI-1-07 Google Vision API OCR setup
+feat: PBI-1-09 OCR text analysis and parsing
 
-- Implement Google Vision API integration
-- Add PDF text extraction functionality
-- Set up OCR processing with error handling
+- Implement receipt data extraction from OCR text
+- Add pattern matching for amounts, dates, vendors
+- Set up structured data parsing functionality
 ```
 
 ## ✅ プロフェッショナルセルフレビュー
 
 ### 実装完了時必須チェック
 - [ ] **影響範囲**: 既存PBIへの悪影響なし
-- [ ] **要件達成**: OCR機能が完了している
-- [ ] **シンプル化**: 必要最小限のOCR機能のみ
-- [ ] **テスト**: OCR処理テストがパスしている
+- [ ] **要件達成**: テキスト解析機能が完了している
+- [ ] **シンプル化**: 必要最小限の解析機能のみ
+- [ ] **テスト**: 解析処理テストがパスしている
 - [ ] **型安全性**: TypeScript型チェックが正しく動作している
 
 ### 第三者視点コードレビュー観点
-- [ ] **可読性**: OCR処理コードが理解しやすい
-- [ ] **保守性**: API呼び出しが適切に設計されている
-- [ ] **セキュリティ**: API キーが安全に管理されている
-- [ ] **パフォーマンス**: 効率的なOCR処理
+- [ ] **可読性**: 解析コードが理解しやすい
+- [ ] **保守性**: パターン追加が容易な設計
+- [ ] **セキュリティ**: 入力値検証が適切
+- [ ] **パフォーマンス**: 効率的なテキスト処理
 
 ## 📋 完了報告テンプレート
 
 ### ✅ セルフチェック結果
 - TypeScript: ✅ 0エラー / ❌ Xエラー
-- テスト: ✅ OCR処理テストパス / ❌ X失敗  
-- ドキュメント: ✅ OCR機能説明完備 / ❌ 不足
+- テスト: ✅ 解析処理テストパス / ❌ X失敗  
+- ドキュメント: ✅ 解析機能説明完備 / ❌ 不足
 - 影響範囲: ✅ 他PBI機能に悪影響なし
 
 ### 実装サマリー
-- **達成した価値**: PDFレシートからテキスト情報が自動抽出可能になった
-- **主要な実装**: Google Vision API活用OCR機能
+- **達成した価値**: レシートから構造化データが自動抽出可能になった
+- **主要な実装**: 正規表現ベースのテキスト解析機能
 - **残課題**: なし
-- **次PBIへの引き継ぎ**: 抽出されたテキストがデータパース処理で使用可能
+- **次PBIへの引き継ぎ**: 抽出データがfreee連携で使用可能
 
 ## メタデータ
 ### 進捗記入欄
