@@ -1,70 +1,71 @@
-# PBI-1-12: freee 経費登録API
+# PBI-1-11: freee 取引データ取得
 
 ## 説明
 
-マッチングされたレシートデータをfreee APIを使用して経費として登録します。領収書添付、取引更新、基本的な経費登録機能を実装します。
+認証済みfreee APIを使用して取引データを取得します。未処理の経費取引を検索し、レシートマッチング用のデータを準備する機能を実装します。
 
 ## 実装詳細
 
 ### 作成/修正するファイル
 
-1. `src/lib/freee-expense.ts` - freee経費登録処理（90行以内）
+1. `src/lib/freee-transactions.ts` - freee取引データ取得（85行以内）
 
 ### 技術要件
 
-- freee API経費登録
-- 領収書ファイル添付
-- 取引データ更新
-- エラーハンドリング
+- freee API v1使用
+- 取引一覧取得
+- 日付・金額による絞り込み
+- ページネーション対応
 
 ### インターフェース仕様
 
 ```typescript
-interface ExpenseRegistration {
-  transactionId: number;
+interface FreeeTransaction {
+  id: number;
+  date: string;
   amount: number;
-  date: Date;
   description: string;
-  receiptFile?: Buffer;
+  status: 'pending' | 'settled' | 'transferred';
+  receipt_ids: number[];
 }
 
-interface RegistrationResult {
-  success: boolean;
-  expenseId?: number;
-  receiptId?: number;
-  error?: string;
+interface TransactionQuery {
+  startDate?: Date;
+  endDate?: Date;
+  minAmount?: number;
+  maxAmount?: number;
 }
 
-interface FreeeExpenseAPI {
-  registerExpense(data: ExpenseRegistration): Promise<RegistrationResult>;
-  uploadReceipt(expenseId: number, file: Buffer, filename: string): Promise<number>;
+interface FreeeTransactionAPI {
+  getTransactions(query?: TransactionQuery): Promise<FreeeTransaction[]>;
+  getUnprocessedTransactions(): Promise<FreeeTransaction[]>;
 }
 ```
 
 ## 🎯 実装前チェックリスト（影響範囲分析）
 
-- [x] **影響範囲確認**: PBI-1-11完了後に実施、他への影響なし
-- [x] **依存関係確認**: PBI-1-09, PBI-1-11完了が前提
-- [x] **spec要件確認**: 経費登録がspec必須要件
-- [x] **リソース確認**: freee API認証とマッチング結果が利用可能
+- [x] **影響範囲確認**: PBI-1-09完了後に実施、他への影響なし
+- [x] **依存関係確認**: PBI-1-09（freee認証）完了が前提
+- [x] **spec要件確認**: 取引データ取得がマッチング処理に必要
+- [x] **リソース確認**: freee API認証が利用可能
 
 ## 🔧 実装ガイドライン
 
 ### TooMuch回避指針
-- **行数制限**: 経費登録処理90行以内
-- **単一責任**: 経費登録のみ、UI更新は含まない
-- **直接実装**: 複雑なバッチ登録は行わない
+- **行数制限**: 取引取得処理85行以内
+- **単一責任**: データ取得のみ、マッチング処理は含まない
+- **直接実装**: 複雑なクエリビルダーは使用しない
 
 ### コード品質基準
-- **TypeScript**: 型安全なAPI登録処理
-- **エラーハンドリング**: 登録失敗時の適切な処理
-- **JSDoc**: 登録関数の説明記載
+- **TypeScript**: 型安全なAPI応答処理
+- **エラーハンドリング**: freee API エラーの適切な処理
+- **JSDoc**: 取引取得関数の説明記載
 
 ## 受け入れ基準
 
-- [ ] freee経費登録が正常に動作する
-- [ ] 領収書ファイル添付が成功する
-- [ ] 登録結果が適切に返される
+- [ ] freee取引データが正しく取得される
+- [ ] 未処理取引の絞り込みができる
+- [ ] API制限に適切に対応している
 - [ ] TypeScriptエラーがない
 
 ### 検証コマンド
@@ -79,9 +80,9 @@ yarn lint
 # テスト実行（Vitest）
 yarn test
 
-# 経費登録テスト
+# 取引取得テスト
 yarn dev
-# テストデータで経費登録処理確認
+# freee取引APIを呼び出してレスポンス確認
 ```
 
 ## 🚀 プロフェッショナル作業プロセス
@@ -111,7 +112,7 @@ yarn dev
 
 **Step 1-1: 人間 → PBI提示**
 ```
-例: "PBI-1-12の作業をお願いします。まずは作業計画を立てて報告してください。"
+例: "PBI-1-11の作業をお願いします。まずは作業計画を立てて報告してください。"
 ```
 
 **Step 1-2: 実装AI → 作業計画立案・提示**
@@ -133,7 +134,7 @@ yarn dev
 
 **Step 2-1: 実装AI → フィーチャーブランチ作成**
 ```bash
-git checkout -b feature/pbi-1-12-freee-expense-api
+git checkout -b feature/pbi-1-11-freee-transactions
 ```
 
 **Step 2-2: 実装AI → 技術実装**
@@ -161,11 +162,11 @@ git diff
 ```bash
 # コミット・プッシュ
 git add .
-git commit -m "feat: PBI-1-12 freee expense registration API"
-git push -u origin feature/pbi-1-12-freee-expense-api
+git commit -m "feat: PBI-1-11 freee transaction data retrieval"
+git push -u origin feature/pbi-1-11-freee-transactions
 
 # PR作成
-gh pr create --title "feat: PBI-1-12 freee expense registration API" --body "[structured body]"
+gh pr create --title "feat: PBI-1-11 freee transaction data retrieval" --body "[structured body]"
 ```
 
 **Step 2-5: 実装AI → セルフレビューチェックボックス記入**
@@ -219,8 +220,8 @@ gh pr create --title "feat: PBI-1-12 freee expense registration API" --body "[st
 
 ### レビュー対象
 - **プロジェクト**: freeeレシート自動化システム
-- **PBI**: PBI-1-12 freee 経費登録API
-- **実装内容**: freee APIを活用した経費自動登録機能
+- **PBI**: PBI-1-11 freee 取引データ取得
+- **実装内容**: freee APIから未処理取引データの取得機能
 - **PRリンク**: [GitHub PR URL]
 
 ### レビュー観点
@@ -249,12 +250,12 @@ gh pr create --title "feat: PBI-1-12 freee expense registration API" --body "[st
 
 ### 確認対象ファイル
 ```
-src/lib/freee-expense.ts
+src/lib/freee-transactions.ts
 ```
 
 ### 検証手順
 ```bash
-git checkout feature/pbi-1-12-freee-expense-api
+git checkout feature/pbi-1-11-freee-transactions
 yarn tsc --noEmit
 yarn test:run
 yarn dev
@@ -272,41 +273,41 @@ yarn dev
 
 **コミットメッセージ規約:**
 ```
-feat: PBI-1-12 freee expense registration API
+feat: PBI-1-10 freee transaction data retrieval
 
-- Implement freee expense registration
-- Add receipt file attachment functionality
-- Complete end-to-end automation flow
+- Implement freee transaction API integration
+- Add unprocessed transaction filtering
+- Set up data preparation for receipt matching
 ```
 
 ## ✅ プロフェッショナルセルフレビュー
 
 ### 実装完了時必須チェック
 - [ ] **影響範囲**: 既存PBIへの悪影響なし
-- [ ] **要件達成**: freee経費登録が完了している
-- [ ] **シンプル化**: 必要最小限の登録機能のみ
-- [ ] **テスト**: 経費登録テストがパスしている
+- [ ] **要件達成**: freee取引データ取得が完了している
+- [ ] **シンプル化**: 必要最小限の取得機能のみ
+- [ ] **テスト**: 取引取得テストがパスしている
 - [ ] **型安全性**: TypeScript型チェックが正しく動作している
 
 ### 第三者視点コードレビュー観点
-- [ ] **可読性**: 登録処理コードが理解しやすい
-- [ ] **保守性**: API呼び出しが適切に設計されている
+- [ ] **可読性**: 取引取得コードが理解しやすい
+- [ ] **保守性**: クエリ条件が修正しやすい設計
 - [ ] **セキュリティ**: freee API使用が安全に実装されている
-- [ ] **パフォーマンス**: 効率的な登録処理
+- [ ] **パフォーマンス**: 適切なページネーション対応
 
 ## 📋 完了報告テンプレート
 
 ### ✅ セルフチェック結果
 - TypeScript: ✅ 0エラー / ❌ Xエラー
-- テスト: ✅ 経費登録テストパス / ❌ X失敗  
-- ドキュメント: ✅ 登録機能説明完備 / ❌ 不足
+- テスト: ✅ 取引取得テストパス / ❌ X失敗  
+- ドキュメント: ✅ 取引取得機能説明完備 / ❌ 不足
 - 影響範囲: ✅ 他PBI機能に悪影響なし
 
 ### 実装サマリー
-- **達成した価値**: レシートからfreee経費への自動登録が完了した
-- **主要な実装**: freee経費登録API活用と領収書添付機能
+- **達成した価値**: freee取引データとのマッチング準備が完了した
+- **主要な実装**: freee取引API活用とデータ取得機能
 - **残課題**: なし
-- **次PBIへの引き継ぎ**: 基本的なエンドツーエンド処理が完成
+- **次PBIへの引き継ぎ**: 取得した取引データがマッチング処理で使用可能
 
 ## メタデータ
 ### 進捗記入欄

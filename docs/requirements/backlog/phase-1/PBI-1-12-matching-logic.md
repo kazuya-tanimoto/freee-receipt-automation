@@ -1,4 +1,4 @@
-# PBI-1-11: マッチングロジック（金額・日付）
+# PBI-1-12: マッチングロジック（金額・日付）
 
 ## 説明
 
@@ -41,8 +41,8 @@ interface ReceiptMatcher {
 
 ## 🎯 実装前チェックリスト（影響範囲分析）
 
-- [x] **影響範囲確認**: PBI-1-10完了後に実施、他への影響なし
-- [x] **依存関係確認**: PBI-1-08, PBI-1-10完了が前提
+- [x] **影響範囲確認**: PBI-1-11完了後に実施、他への影響なし
+- [x] **依存関係確認**: PBI-1-09, PBI-1-11完了が前提
 - [x] **spec要件確認**: マッチング処理がspec必須要件
 - [x] **リソース確認**: レシートデータと取引データが利用可能
 
@@ -109,7 +109,7 @@ yarn dev
 
 **Step 1-1: 人間 → PBI提示**
 ```
-例: "PBI-1-11の作業をお願いします。まずは作業計画を立てて報告してください。"
+例: "PBI-1-12の作業をお願いします。まずは作業計画を立てて報告してください。"
 ```
 
 **Step 1-2: 実装AI → 作業計画立案・提示**
@@ -131,7 +131,7 @@ yarn dev
 
 **Step 2-1: 実装AI → フィーチャーブランチ作成**
 ```bash
-git checkout -b feature/pbi-1-11-matching-logic
+git checkout -b feature/pbi-1-12-matching-logic
 ```
 
 **Step 2-2: 実装AI → 技術実装**
@@ -159,11 +159,11 @@ git diff
 ```bash
 # コミット・プッシュ
 git add .
-git commit -m "feat: PBI-1-11 receipt-transaction matching logic"
-git push -u origin feature/pbi-1-11-matching-logic
+git commit -m "feat: PBI-1-12 receipt-transaction matching logic"
+git push -u origin feature/pbi-1-12-matching-logic
 
 # PR作成
-gh pr create --title "feat: PBI-1-11 receipt-transaction matching logic" --body "[structured body]"
+gh pr create --title "feat: PBI-1-12 receipt-transaction matching logic" --body "[structured body]"
 ```
 
 **Step 2-5: 実装AI → セルフレビューチェックボックス記入**
@@ -217,7 +217,7 @@ gh pr create --title "feat: PBI-1-11 receipt-transaction matching logic" --body 
 
 ### レビュー対象
 - **プロジェクト**: freeeレシート自動化システム
-- **PBI**: PBI-1-11 マッチングロジック（金額・日付）
+- **PBI**: PBI-1-12 マッチングロジック（金額・日付）
 - **実装内容**: OCRデータとfreee取引データの金額・日付ベースマッチング機能
 - **PRリンク**: [GitHub PR URL]
 
@@ -252,7 +252,7 @@ src/lib/receipt-matcher.ts
 
 ### 検証手順
 ```bash
-git checkout feature/pbi-1-11-matching-logic
+git checkout feature/pbi-1-12-matching-logic
 yarn tsc --noEmit
 yarn test:run
 yarn dev
@@ -270,7 +270,7 @@ yarn dev
 
 **コミットメッセージ規約:**
 ```
-feat: PBI-1-11 receipt-transaction matching logic
+feat: PBI-1-12 receipt-transaction matching logic
 
 - Implement amount and date-based matching
 - Add confidence score calculation

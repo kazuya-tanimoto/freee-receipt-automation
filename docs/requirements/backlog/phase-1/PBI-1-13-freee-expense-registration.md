@@ -1,73 +1,70 @@
-# PBI-1-09: freee OAuth認証
+# PBI-1-13: freee 経費登録API
 
 ## 説明
 
-freee API アクセス用のOAuth 2.0認証フローを実装します。経費データアクセスに必要な最小限のスコープでfreee APIへの認証を行い、トークン管理を含む基本的な認証機能を提供します。
+マッチングされたレシートデータをfreee APIを使用して経費として登録します。領収書添付、取引更新、基本的な経費登録機能を実装します。
 
 ## 実装詳細
 
 ### 作成/修正するファイル
 
-1. `src/lib/freee-auth.ts` - freee OAuth認証処理（80行以内）
-2. `pages/api/auth/freee.ts` - freee認証APIエンドポイント（20行以内）
+1. `src/lib/freee-expense.ts` - freee経費登録処理（90行以内）
 
 ### 技術要件
 
-- freee OAuth 2.0 フロー
-- read_write スコープ設定
-- トークンのセキュアな保存
-- リフレッシュトークン対応
-
-### 環境変数
-
-```bash
-# PBI-1-03で設定済み
-FREEE_CLIENT_ID=your_freee_client_id
-FREEE_CLIENT_SECRET=your_freee_client_secret
-FREEE_REDIRECT_URI=http://localhost:3000/api/auth/freee/callback
-```
+- freee API経費登録
+- 領収書ファイル添付
+- 取引データ更新
+- エラーハンドリング
 
 ### インターフェース仕様
 
 ```typescript
-interface FreeeAuthConfig {
-  clientId: string;
-  clientSecret: string;
-  redirectUri: string;
+interface ExpenseRegistration {
+  transactionId: number;
+  amount: number;
+  date: Date;
+  description: string;
+  receiptFile?: Buffer;
 }
 
-interface FreeeTokens {
-  access_token: string;
-  refresh_token?: string;
-  expires_in: number;
-  company_id: number;
+interface RegistrationResult {
+  success: boolean;
+  expenseId?: number;
+  receiptId?: number;
+  error?: string;
+}
+
+interface FreeeExpenseAPI {
+  registerExpense(data: ExpenseRegistration): Promise<RegistrationResult>;
+  uploadReceipt(expenseId: number, file: Buffer, filename: string): Promise<number>;
 }
 ```
 
 ## 🎯 実装前チェックリスト（影響範囲分析）
 
-- [x] **影響範囲確認**: PBI-1-08完了後に実施、他への影響なし
-- [x] **依存関係確認**: PBI-1-03（環境変数設定）完了が前提
-- [x] **spec要件確認**: freee連携がspec必須要件
-- [x] **リソース確認**: freee アプリケーション登録済み
+- [x] **影響範囲確認**: PBI-1-12完了後に実施、他への影響なし
+- [x] **依存関係確認**: PBI-1-10, PBI-1-12完了が前提
+- [x] **spec要件確認**: 経費登録がspec必須要件
+- [x] **リソース確認**: freee API認証とマッチング結果が利用可能
 
 ## 🔧 実装ガイドライン
 
 ### TooMuch回避指針
-- **行数制限**: 認証処理80行以内
-- **単一責任**: freee認証のみ、データ取得は含まない
-- **直接実装**: 認証ライブラリの複雑な機能は使用しない
+- **行数制限**: 経費登録処理90行以内
+- **単一責任**: 経費登録のみ、UI更新は含まない
+- **直接実装**: 複雑なバッチ登録は行わない
 
 ### コード品質基準
-- **TypeScript**: 型安全な認証フロー
-- **エラーハンドリング**: 認証失敗時の明確なエラー
-- **JSDoc**: OAuth関数の説明記載
+- **TypeScript**: 型安全なAPI登録処理
+- **エラーハンドリング**: 登録失敗時の適切な処理
+- **JSDoc**: 登録関数の説明記載
 
 ## 受け入れ基準
 
-- [ ] freee OAuth認証フローが正常に動作する
-- [ ] アクセストークンが正しく取得される
-- [ ] 会社IDが適切に管理される
+- [ ] freee経費登録が正常に動作する
+- [ ] 領収書ファイル添付が成功する
+- [ ] 登録結果が適切に返される
 - [ ] TypeScriptエラーがない
 
 ### 検証コマンド
@@ -82,9 +79,9 @@ yarn lint
 # テスト実行（Vitest）
 yarn test
 
-# 認証テスト
+# 経費登録テスト
 yarn dev
-# /api/auth/freee にアクセスして認証フロー確認
+# テストデータで経費登録処理確認
 ```
 
 ## 🚀 プロフェッショナル作業プロセス
@@ -114,7 +111,7 @@ yarn dev
 
 **Step 1-1: 人間 → PBI提示**
 ```
-例: "PBI-1-09の作業をお願いします。まずは作業計画を立てて報告してください。"
+例: "PBI-1-13の作業をお願いします。まずは作業計画を立てて報告してください。"
 ```
 
 **Step 1-2: 実装AI → 作業計画立案・提示**
@@ -136,7 +133,7 @@ yarn dev
 
 **Step 2-1: 実装AI → フィーチャーブランチ作成**
 ```bash
-git checkout -b feature/pbi-1-09-freee-oauth
+git checkout -b feature/pbi-1-13-freee-expense-api
 ```
 
 **Step 2-2: 実装AI → 技術実装**
@@ -164,11 +161,11 @@ git diff
 ```bash
 # コミット・プッシュ
 git add .
-git commit -m "feat: PBI-1-09 freee OAuth authentication"
-git push -u origin feature/pbi-1-09-freee-oauth
+git commit -m "feat: PBI-1-13 freee expense registration API"
+git push -u origin feature/pbi-1-13-freee-expense-api
 
 # PR作成
-gh pr create --title "feat: PBI-1-09 freee OAuth authentication" --body "[structured body]"
+gh pr create --title "feat: PBI-1-13 freee expense registration API" --body "[structured body]"
 ```
 
 **Step 2-5: 実装AI → セルフレビューチェックボックス記入**
@@ -222,8 +219,8 @@ gh pr create --title "feat: PBI-1-09 freee OAuth authentication" --body "[struct
 
 ### レビュー対象
 - **プロジェクト**: freeeレシート自動化システム
-- **PBI**: PBI-1-09 freee OAuth認証
-- **実装内容**: freee OAuth 2.0認証フローとトークン管理機能
+- **PBI**: PBI-1-13 freee 経費登録API
+- **実装内容**: freee APIを活用した経費自動登録機能
 - **PRリンク**: [GitHub PR URL]
 
 ### レビュー観点
@@ -252,12 +249,12 @@ gh pr create --title "feat: PBI-1-09 freee OAuth authentication" --body "[struct
 
 ### 確認対象ファイル
 ```
-src/lib/freee-auth.ts
+src/lib/freee-expense.ts
 ```
 
 ### 検証手順
 ```bash
-git checkout feature/pbi-1-09-freee-oauth
+git checkout feature/pbi-1-13-freee-expense-api
 yarn tsc --noEmit
 yarn test:run
 yarn dev
@@ -275,41 +272,41 @@ yarn dev
 
 **コミットメッセージ規約:**
 ```
-feat: PBI-1-09 freee OAuth authentication
+feat: PBI-1-13 freee expense registration API
 
-- Implement freee OAuth 2.0 flow
-- Add company-specific token management
-- Set up secure expense API authentication
+- Implement freee expense registration
+- Add receipt file attachment functionality
+- Complete end-to-end automation flow
 ```
 
 ## ✅ プロフェッショナルセルフレビュー
 
 ### 実装完了時必須チェック
 - [ ] **影響範囲**: 既存PBIへの悪影響なし
-- [ ] **要件達成**: freee OAuth認証が完了している
-- [ ] **シンプル化**: 必要最小限の認証機能のみ
-- [ ] **テスト**: 認証フローテストがパスしている
+- [ ] **要件達成**: freee経費登録が完了している
+- [ ] **シンプル化**: 必要最小限の登録機能のみ
+- [ ] **テスト**: 経費登録テストがパスしている
 - [ ] **型安全性**: TypeScript型チェックが正しく動作している
 
 ### 第三者視点コードレビュー観点
-- [ ] **可読性**: 認証コードが理解しやすい
-- [ ] **保守性**: トークン管理が適切に設計されている
-- [ ] **セキュリティ**: OAuth フローが安全に実装されている
-- [ ] **パフォーマンス**: 不要な認証処理がない
+- [ ] **可読性**: 登録処理コードが理解しやすい
+- [ ] **保守性**: API呼び出しが適切に設計されている
+- [ ] **セキュリティ**: freee API使用が安全に実装されている
+- [ ] **パフォーマンス**: 効率的な登録処理
 
 ## 📋 完了報告テンプレート
 
 ### ✅ セルフチェック結果
 - TypeScript: ✅ 0エラー / ❌ Xエラー
-- テスト: ✅ 認証フローテストパス / ❌ X失敗  
-- ドキュメント: ✅ OAuth設定説明完備 / ❌ 不足
+- テスト: ✅ 経費登録テストパス / ❌ X失敗  
+- ドキュメント: ✅ 登録機能説明完備 / ❌ 不足
 - 影響範囲: ✅ 他PBI機能に悪影響なし
 
 ### 実装サマリー
-- **達成した価値**: freee経費データアクセスへの認証基盤が確立された
-- **主要な実装**: freee OAuth 2.0認証フローとトークン管理
+- **達成した価値**: レシートからfreee経費への自動登録が完了した
+- **主要な実装**: freee経費登録API活用と領収書添付機能
 - **残課題**: なし
-- **次PBIへの引き継ぎ**: freee APIアクセス用認証が他PBIで使用可能
+- **次PBIへの引き継ぎ**: 基本的なエンドツーエンド処理が完成
 
 ## メタデータ
 ### 進捗記入欄
