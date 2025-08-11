@@ -102,15 +102,6 @@ yarn dev
 # /dashboard にアクセスして表示確認
 ```
 
-### Git ワークフロー
-
-**必須手順:**
-1. **フィーチャーブランチ作成**: `git checkout -b feature/pbi-2-01-basic-dashboard`
-2. **実装・テスト・コミット**: 通常のコミット（`--no-verify`禁止）
-3. **プッシュ**: `git push -u origin feature/pbi-2-01-basic-dashboard`
-4. **PR作成**: GitHub UIまたは`gh pr create`
-5. **レビュー・マージ**: コンフリクトなしの場合は自動マージ可
-
 ## 🚀 プロフェッショナル作業プロセス
 
 ### 👥 役割分担
@@ -291,8 +282,6 @@ yarn dev
 
 
 ---
-
-```
 
 ## ⚠️ 禁止事項・注意事項
 
