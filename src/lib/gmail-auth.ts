@@ -15,14 +15,19 @@ class GmailAuthService {
   private getClient(): OAuth2Client {
     if (this.oauth2Client) return this.oauth2Client
     const { gmail } = getConfig()
-    const redirectUri = process.env.NEXT_PUBLIC_APP_URL ? `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/gmail/callback` : 'http://localhost:3000/api/auth/gmail/callback'
+    const redirectUri = process.env.NEXT_PUBLIC_APP_URL
+      ? `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/gmail/callback`
+      : 'http://localhost:3000/api/auth/gmail/callback'
     this.oauth2Client = new OAuth2Client(gmail.clientId, gmail.clientSecret, redirectUri)
     return this.oauth2Client
   }
 
   private generatePKCE(): { codeVerifier: string; codeChallenge: string } {
     const codeVerifier = randomBytes(32).toString('base64url')
-    return { codeVerifier, codeChallenge: createHash('sha256').update(codeVerifier).digest('base64url') }
+    return {
+      codeVerifier,
+      codeChallenge: createHash('sha256').update(codeVerifier).digest('base64url'),
+    }
   }
 
   generateAuthUrl(): string {
@@ -45,10 +50,14 @@ class GmailAuthService {
       return {
         access_token: tokens.access_token,
         refresh_token: tokens.refresh_token || undefined,
-        expires_in: tokens.expiry_date ? Math.max(0, Math.floor((tokens.expiry_date - Date.now()) / 1000)) : 3600,
+        expires_in: tokens.expiry_date
+          ? Math.max(0, Math.floor((tokens.expiry_date - Date.now()) / 1000))
+          : 3600,
       }
     } catch (error) {
-      throw new Error(`Token exchange failed: ${error instanceof Error ? error.message : 'Unknown error'}`)
+      throw new Error(
+        `Token exchange failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+      )
     } finally {
       this.codeVerifier = null
     }
@@ -63,10 +72,14 @@ class GmailAuthService {
       return {
         access_token: credentials.access_token,
         refresh_token: credentials.refresh_token || refreshToken,
-        expires_in: credentials.expiry_date ? Math.max(0, Math.floor((credentials.expiry_date - Date.now()) / 1000)) : 3600,
+        expires_in: credentials.expiry_date
+          ? Math.max(0, Math.floor((credentials.expiry_date - Date.now()) / 1000))
+          : 3600,
       }
     } catch (error) {
-      throw new Error(`Token refresh failed: ${error instanceof Error ? error.message : 'Unknown error'}`)
+      throw new Error(
+        `Token refresh failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+      )
     }
   }
 }

@@ -28,7 +28,7 @@ vi.mock('google-auth-library', () => ({
 
 // Mock crypto
 vi.mock('node:crypto', async (importOriginal) => {
-  const actual = await importOriginal()
+  const actual = (await importOriginal()) as Record<string, unknown>
   return {
     ...actual,
     randomBytes: vi.fn().mockReturnValue({
