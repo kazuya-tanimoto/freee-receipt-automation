@@ -21,7 +21,9 @@ export interface PDFProcessor {
  */
 export class PDFExtractorService implements PDFProcessor {
   /**
-   * Extract PDF from Gmail attachment
+   * Extract PDF from Gmail attachment with validation and temp file creation
+   * @param attachment - Gmail attachment containing PDF data
+   * @returns PDFExtraction with validation status and file path
    */
   async extractPDF(attachment: GmailAttachment): Promise<PDFExtraction> {
     const isValid = this.validatePDF(attachment.data)
@@ -43,7 +45,9 @@ export class PDFExtractorService implements PDFProcessor {
   }
 
   /**
-   * Validate if buffer contains valid PDF data
+   * Validate if buffer contains valid PDF data by checking magic number
+   * @param buffer - Buffer data to validate
+   * @returns true if valid PDF format, false otherwise
    */
   validatePDF(buffer: Buffer): boolean {
     if (!buffer || buffer.length < 4) return false
@@ -52,7 +56,10 @@ export class PDFExtractorService implements PDFProcessor {
   }
 
   /**
-   * Save PDF buffer to temporary file
+   * Save PDF buffer to temporary file with timestamp prefix
+   * @param buffer - PDF buffer data to save
+   * @param filename - Original filename
+   * @returns Path to saved temporary file
    */
   async saveTempFile(buffer: Buffer, filename: string): Promise<string> {
     const tempDir = join(tmpdir(), 'freee-receipts')
