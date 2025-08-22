@@ -94,6 +94,8 @@ class ConfigService implements ConfigManager {
    */
   private getDriveConfig() {
     const apiKey = process.env.GOOGLE_DRIVE_API_KEY
+    const inputFolderId = process.env.GOOGLE_DRIVE_INPUT_FOLDER_ID
+    const apiScopes = process.env.GOOGLE_DRIVE_API_SCOPES
 
     if (!apiKey) {
       throw new Error(
@@ -101,7 +103,19 @@ class ConfigService implements ConfigManager {
       )
     }
 
-    return { apiKey }
+    if (!inputFolderId) {
+      throw new Error(
+        'Missing Google Drive input folder ID. Please set GOOGLE_DRIVE_INPUT_FOLDER_ID environment variable'
+      )
+    }
+
+    if (!apiScopes) {
+      throw new Error(
+        'Missing Google Drive API scopes. Please set GOOGLE_DRIVE_API_SCOPES environment variable'
+      )
+    }
+
+    return { apiKey, inputFolderId, apiScopes }
   }
 }
 
