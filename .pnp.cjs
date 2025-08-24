@@ -43,6 +43,7 @@ const RAW_RUNTIME_STATE =
           ["next", "virtual:5ea6dfebd1527ff17222a01b5234b2ec78a56e1c237125bef792c0f2f38a49507d0bef568712f322c49386922d2d9b9beb2d4f9256c429ac46179f54c048679b#npm:15.4.5"],\
           ["react", "npm:19.1.1"],\
           ["react-dom", "virtual:5ea6dfebd1527ff17222a01b5234b2ec78a56e1c237125bef792c0f2f38a49507d0bef568712f322c49386922d2d9b9beb2d4f9256c429ac46179f54c048679b#npm:19.1.1"],\
+          ["resend", "virtual:5ea6dfebd1527ff17222a01b5234b2ec78a56e1c237125bef792c0f2f38a49507d0bef568712f322c49386922d2d9b9beb2d4f9256c429ac46179f54c048679b#npm:6.0.1"],\
           ["typescript", "patch:typescript@npm%3A5.9.2#optional!builtin<compat/typescript>::version=5.9.2&hash=5786d5"],\
           ["vite", "virtual:5ea6dfebd1527ff17222a01b5234b2ec78a56e1c237125bef792c0f2f38a49507d0bef568712f322c49386922d2d9b9beb2d4f9256c429ac46179f54c048679b#npm:7.0.6"],\
           ["vitest", "virtual:5ea6dfebd1527ff17222a01b5234b2ec78a56e1c237125bef792c0f2f38a49507d0bef568712f322c49386922d2d9b9beb2d4f9256c429ac46179f54c048679b#npm:2.1.9"]\
@@ -2736,6 +2737,7 @@ const RAW_RUNTIME_STATE =
           ["next", "virtual:5ea6dfebd1527ff17222a01b5234b2ec78a56e1c237125bef792c0f2f38a49507d0bef568712f322c49386922d2d9b9beb2d4f9256c429ac46179f54c048679b#npm:15.4.5"],\
           ["react", "npm:19.1.1"],\
           ["react-dom", "virtual:5ea6dfebd1527ff17222a01b5234b2ec78a56e1c237125bef792c0f2f38a49507d0bef568712f322c49386922d2d9b9beb2d4f9256c429ac46179f54c048679b#npm:19.1.1"],\
+          ["resend", "virtual:5ea6dfebd1527ff17222a01b5234b2ec78a56e1c237125bef792c0f2f38a49507d0bef568712f322c49386922d2d9b9beb2d4f9256c429ac46179f54c048679b#npm:6.0.1"],\
           ["typescript", "patch:typescript@npm%3A5.9.2#optional!builtin<compat/typescript>::version=5.9.2&hash=5786d5"],\
           ["vite", "virtual:5ea6dfebd1527ff17222a01b5234b2ec78a56e1c237125bef792c0f2f38a49507d0bef568712f322c49386922d2d9b9beb2d4f9256c429ac46179f54c048679b#npm:7.0.6"],\
           ["vitest", "virtual:5ea6dfebd1527ff17222a01b5234b2ec78a56e1c237125bef792c0f2f38a49507d0bef568712f322c49386922d2d9b9beb2d4f9256c429ac46179f54c048679b#npm:2.1.9"]\
@@ -3919,6 +3921,28 @@ const RAW_RUNTIME_STATE =
           ["redent", "npm:3.0.0"],\
           ["indent-string", "npm:4.0.0"],\
           ["strip-indent", "npm:3.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["resend", [\
+      ["npm:6.0.1", {\
+        "packageLocation": "../../.yarn/berry/cache/resend-npm-6.0.1-24ae322510-10c0.zip/node_modules/resend/",\
+        "packageDependencies": [\
+          ["resend", "npm:6.0.1"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:5ea6dfebd1527ff17222a01b5234b2ec78a56e1c237125bef792c0f2f38a49507d0bef568712f322c49386922d2d9b9beb2d4f9256c429ac46179f54c048679b#npm:6.0.1", {\
+        "packageLocation": "./.yarn/__virtual__/resend-virtual-2a4bf250ba/3/.yarn/berry/cache/resend-npm-6.0.1-24ae322510-10c0.zip/node_modules/resend/",\
+        "packageDependencies": [\
+          ["resend", "virtual:5ea6dfebd1527ff17222a01b5234b2ec78a56e1c237125bef792c0f2f38a49507d0bef568712f322c49386922d2d9b9beb2d4f9256c429ac46179f54c048679b#npm:6.0.1"],\
+          ["@react-email/render", null],\
+          ["@types/react-email__render", null]\
+        ],\
+        "packagePeers": [\
+          "@react-email/render",\
+          "@types/react-email__render"\
         ],\
         "linkType": "HARD"\
       }]\

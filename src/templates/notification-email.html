@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: 'Hiragino Sans', sans-serif; margin: 0; padding: 20px; background-color: #f7f7f7; }
+    .container { max-width: 600px; margin: 0 auto; background-color: white; border-radius: 8px; padding: 30px; }
+    h2 { color: #333; border-bottom: 2px solid #4285f4; padding-bottom: 10px; }
+    .stats { display: flex; justify-content: space-around; margin: 20px 0; }
+    .stat { text-align: center; padding: 15px; }
+    .stat-number { font-size: 24px; font-weight: bold; }
+    .success { color: #0f9d58; }
+    .failed { color: #ea4335; }
+    .errors { background-color: #fef1f0; border-left: 4px solid #ea4335; padding: 10px; margin-top: 20px; }
+    .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0; font-size: 12px; color: #666; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>📊 週次処理レポート</h2>
+    <p>処理日時: {{processedAt}}</p>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-number">{{processedCount}}</div>
+        <div>処理件数</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number success">{{successCount}}</div>
+        <div>成功</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number failed">{{failedCount}}</div>
+        <div>失敗</div>
+      </div>
+    </div>
+    <div class="errors" style="display: {{failedCount}} > 0 ? 'block' : 'none';">
+      <strong>エラー詳細:</strong>
+      <ul>{{errors}}</ul>
+    </div>
+    <div class="footer">
+      freeeレシート自動化システム - 週次処理通知
+    </div>
+  </div>
+</body>
+</html>
