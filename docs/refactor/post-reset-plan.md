@@ -54,14 +54,14 @@
    - 月別フォルダ構成
    - 短縮ファイル名
 
-## ミニマムPBI構造（20個のPBI）
+## ミニマムPBI構造（21個のPBI）
 
 ### 理由
 - AIの作業品質維持のため、1PBIの責務を最小化
 - 小さいPBIは問題なし、大きいPBIはTooMuchリスク
 - 94%のPBIが単一責務で適切、1個のPBIのみ分割推奨
 
-### Phase 1: 基盤構築（12個のPBI）
+### Phase 1: 基盤構築（13個のPBI）✅完了済み
 ```
 PBI-1-01: Next.js 15.4 + React 19プロジェクト初期化
 PBI-1-02: Supabaseプロジェクト設定
@@ -69,12 +69,13 @@ PBI-1-03: 基本環境変数・設定ファイル
 PBI-1-04: Gmail OAuth認証
 PBI-1-05: Gmail メール検索・取得
 PBI-1-06: PDF添付ファイル抽出
-PBI-1-07: Google Vision API OCRセットアップ
-PBI-1-08: OCRテキスト解析・パース
-PBI-1-09: freee OAuth認証
-PBI-1-10: freee 取引データ取得
-PBI-1-11: マッチングロジック（金額・日付）
-PBI-1-12: freee 経費登録API
+PBI-1-07: Google Drive フォルダ監視
+PBI-1-08: Google Vision API OCRセットアップ
+PBI-1-09: OCRテキスト解析・パース
+PBI-1-10: freee OAuth認証
+PBI-1-11: freee 取引データ取得
+PBI-1-12: マッチングロジック（金額・日付）
+PBI-1-13: freee 経費登録API
 ```
 
 ### Phase 2: UI・自動化（8個のPBI）
@@ -119,12 +120,13 @@ CREATE TABLE processing_logs (
 
 ## 実装スケジュール
 
-### Week 1: Phase 1基盤構築（12日）
+### Week 1: Phase 1基盤構築（13日）✅完了済み
 ```
 Day 1-3: 基本セットアップ（PBI-1-01〜03）
 Day 4-6: Gmail連携（PBI-1-04〜06）
-Day 7-8: OCR処理（PBI-1-07〜08）
-Day 9-12: freee連携（PBI-1-09〜12）
+Day 7: Google Drive監視（PBI-1-07）
+Day 8-9: OCR処理（PBI-1-08〜09）
+Day 10-13: freee連携（PBI-1-10〜13）
 ```
 
 ### Week 2: Phase 2 UI・自動化（8日）
