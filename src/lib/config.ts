@@ -63,6 +63,8 @@ class ConfigService implements ConfigManager {
   private getFreeeConfig() {
     const clientId = process.env.FREEE_CLIENT_ID
     const clientSecret = process.env.FREEE_CLIENT_SECRET
+    const redirectUri =
+      process.env.FREEE_REDIRECT_URI || 'http://localhost:3000/api/auth/freee/callback'
 
     if (!clientId || !clientSecret) {
       throw new Error(
@@ -70,7 +72,7 @@ class ConfigService implements ConfigManager {
       )
     }
 
-    return { clientId, clientSecret }
+    return { clientId, clientSecret, redirectUri }
   }
 
   /**

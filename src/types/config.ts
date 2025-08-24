@@ -9,6 +9,7 @@ export interface AppConfig {
   freee: {
     clientId: string
     clientSecret: string
+    redirectUri: string
   }
   gmail: {
     clientId: string
@@ -51,4 +52,23 @@ export interface DetectedFile {
 export interface DriveMonitorAPI {
   detectNewPDFs(config: DriveFileDetection): Promise<DetectedFile[]>
   downloadFile(fileId: string): Promise<Buffer>
+}
+
+/**
+ * freee OAuth configuration
+ */
+export interface FreeeAuthConfig {
+  clientId: string
+  clientSecret: string
+  redirectUri: string
+}
+
+/**
+ * freee OAuth tokens
+ */
+export interface FreeeTokens {
+  access_token: string
+  refresh_token?: string
+  expires_in: number
+  company_id: number
 }
