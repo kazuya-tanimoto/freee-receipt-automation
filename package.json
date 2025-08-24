@@ -21,7 +21,8 @@
     "googleapis": "^156.0.0",
     "next": "^15.4.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "resend": "^6.0.1"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
