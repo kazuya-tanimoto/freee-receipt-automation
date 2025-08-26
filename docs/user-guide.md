@@ -38,16 +38,128 @@ pg_cron   PDFメール   Vision API  取引照合   メール送信  月別整�
 
 ## 初期セットアップ
 
-### 前提条件
+### 共通準備
 
-以下のアカウントが必要です：
+全ての構成で以下のアカウント準備が必要です：
 
-- **Node.js 20+**（開発環境）
 - **Supabaseアカウント** ([新規登録](https://supabase.com))
+- **Vercelアカウント** ([新規登録](https://vercel.com))
 - **freeeアカウント**とAPI利用許可
 - **Google Cloud Platform アカウント**（Vision API用）
+- **GitHubアカウント**（コード管理・自動デプロイ用）
 
-### 1. プロジェクト準備
+### 本番環境構築（推奨）
+
+**コスト**: 完全無料（$0/月）で運用可能
+
+フリーランサーが最短で本番運用を開始する構成です。ローカル開発環境なしでも十分運用できます。
+
+#### 1. GitHubリポジトリ準備
+
+```bash
+# 自分のGitHubアカウントにフォーク
+# または新規リポジトリ作成してコードをプッシュ
+```
+
+#### 2. Supabaseプロジェクト作成（クラウド版）
+
+1. [Supabase Dashboard](https://supabase.com/dashboard) でプロジェクト作成
+2. **Settings → API** からURL・APIキーを取得
+3. **SQL Editor** で以下の初期テーブルを作成：
+
+```sql
+-- 必要なテーブルが自動作成される
+-- データベーススキーマは supabase/migrations/ 配下に定義済み
+```
+
+#### 3. Vercelデプロイ（Next.js）
+
+1. [Vercel Dashboard](https://vercel.com/dashboard) でプロジェクト作成
+2. GitHubリポジトリを連携
+3. 自動ビルド・デプロイが実行される
+
+#### 4. 環境変数設定（Vercel）
+
+Vercel Dashboard の **Settings → Environment Variables** で設定：
+
+```env
+# Supabase設定
+NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1...
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1...
+
+# Gmail API設定
+GMAIL_CLIENT_ID=xxx.apps.googleusercontent.com
+GMAIL_CLIENT_SECRET=GOCSPX-xxx
+
+# freee API設定
+FREEE_CLIENT_ID=xxx
+FREEE_CLIENT_SECRET=xxx
+
+# Google Cloud設定
+GOOGLE_CLOUD_PROJECT_ID=your-project-id
+GOOGLE_APPLICATION_CREDENTIALS_JSON={"type":"service_account"...}
+
+# 通知設定
+RESEND_API_KEY=re_xxx
+NOTIFICATION_EMAIL=your-email@example.com
+```
+
+#### 5. API認証設定
+
+**Gmail API**
+1. [Google Cloud Console](https://console.cloud.google.com/) でプロジェクト作成
+2. Gmail API を有効化
+3. OAuth 2.0 認証情報作成（リダイレクトURI: `https://your-app.vercel.app/api/auth/callback/gmail`）
+4. `https://your-app.vercel.app/auth/gmail` でOAuth認証実行
+
+**freee API**
+1. [freee developers](https://developer.freee.co.jp/) でアプリ登録
+2. リダイレクトURI: `https://your-app.vercel.app/api/auth/callback/freee`
+3. `https://your-app.vercel.app/auth/freee` でOAuth認証実行
+
+**Google Vision API**
+1. Google Cloud Console で Vision API を有効化
+2. サービスアカウント作成・JSONキー取得
+3. JSON全体を `GOOGLE_APPLICATION_CREDENTIALS_JSON` に設定
+
+#### 6. Edge Functions デプロイ（Supabase）
+
+```bash
+# ローカルでSupabase CLI使用（一回限り）
+npm install -g supabase
+supabase link --project-ref your-project-ref
+supabase functions deploy weekly-process
+
+# pg_cron スケジュール設定
+# Supabase SQL Editor で実行：
+SELECT cron.schedule('weekly-receipt-process', '0 9 * * 1', 
+  $$SELECT net.http_post(
+    'https://xxx.supabase.co/functions/v1/weekly-process',
+    '{}',
+    'application/json',
+    '{"Authorization": "Bearer YOUR_SERVICE_ROLE_KEY"}'
+  )$$
+);
+```
+
+#### 7. 本番動作確認
+
+1. `https://your-app.vercel.app/dashboard` にアクセス
+2. Gmail・freee認証を完了
+3. 手動処理テストの実行
+4. 通知メール受信確認
+
+### ローカル開発環境構築（オプション）
+
+コードカスタマイズや開発が必要な場合のみ構築してください。
+
+#### 前提条件
+
+- **Node.js 20+**
+- **Docker Desktop**（Supabaseローカル実行用）
+
+#### 1. プロジェクトセットアップ
 
 ```bash
 # リポジトリのクローン
@@ -58,122 +170,36 @@ cd freee-receipt-automation
 yarn install
 ```
 
-### 2. Supabaseセットアップ
+#### 2. Supabaseローカル環境
 
 ```bash
 # Supabase CLI インストール
 npm install -g supabase
 
-# プロジェクト作成
-supabase init
+# ローカル環境起動
 supabase start
 
 # マイグレーション実行
-supabase db push
+supabase db reset
 ```
 
-#### データベース設定
-
-必要なテーブルが自動作成されます：
-
-- `receipts` - レシート処理データ
-- `transactions` - freee取引データ
-- `processing_logs` - 処理ログ
-- `user_settings` - ユーザー設定
-
-### 3. 環境変数設定
+#### 3. ローカル環境変数
 
 `.env.local` ファイルを作成：
 
 ```env
-# Supabase設定
-NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+# Supabaseローカル設定
+NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1...
 
-# Gmail API設定
-GMAIL_CLIENT_ID=your-gmail-client-id
-GMAIL_CLIENT_SECRET=your-gmail-client-secret
-
-# freee API設定
-FREEE_CLIENT_ID=your-freee-client-id
-FREEE_CLIENT_SECRET=your-freee-client-secret
-
-# Google Cloud設定
-GOOGLE_CLOUD_PROJECT_ID=your-project-id
-GOOGLE_APPLICATION_CREDENTIALS=path/to/service-account.json
-
-# 通知設定
-RESEND_API_KEY=your-resend-api-key
-NOTIFICATION_EMAIL=your-email@example.com
+# その他設定は本番環境と同様
 ```
 
-### 4. API認証設定
-
-#### Gmail API認証
-
-1. [Google Cloud Console](https://console.cloud.google.com/) でプロジェクト作成
-2. Gmail API を有効化
-3. OAuth 2.0 認証情報を作成
-4. システムにアクセスして認証完了
+#### 4. 開発サーバー起動
 
 ```bash
-# 開発サーバー起動
-yarn dev
-
-# ブラウザで http://localhost:3000 にアクセス
-# Gmail認証フローを完了
-```
-
-#### freee API認証
-
-1. [freee developers](https://developer.freee.co.jp/) でアプリ登録
-2. OAuth認証フローを実行
-3. アクセストークンを取得
-
-#### Google Vision API設定
-
-1. Google Cloud Console で Vision API を有効化
-2. サービスアカウント作成
-3. 認証JSONファイルをダウンロード
-
-### 5. デプロイ
-
-#### Vercel デプロイ
-
-```bash
-# Vercel CLI インストール
-npm install -g vercel
-
-# デプロイ実行
-vercel --prod
-
-# 環境変数をVercelに設定
-vercel env add SUPABASE_URL
-# 他の環境変数も同様に設定
-```
-
-#### Edge Functions デプロイ
-
-```bash
-# Supabase Edge Functions デプロイ
-supabase functions deploy weekly-process
-
-# pg_cron スケジュール設定（週次実行）
-# Supabase Dashboard で以下を実行：
-SELECT cron.schedule('weekly-receipt-process', '0 9 * * 1', 'SELECT net.http_post(...)');
-```
-
-### 6. 初期設定確認
-
-システムが正常にセットアップされたかを確認：
-
-```bash
-# TypeScript検証
-yarn tsc --noEmit
-
-# Lint チェック
-yarn lint
+# TypeScript・Lint検証
+yarn tsc --noEmit && yarn lint
 
 # テスト実行
 yarn test
@@ -182,7 +208,16 @@ yarn test
 yarn dev
 ```
 
-ブラウザで `http://localhost:3000/dashboard` にアクセスしてダッシュボードが表示されることを確認してください。
+`http://localhost:3000/dashboard` でダッシュボードにアクセス可能
+
+### 初期設定完了確認
+
+システムが正常に動作することを確認：
+
+1. **認証テスト**: Gmail・freee OAuth認証の完了
+2. **処理テスト**: 手動レシート処理の実行
+3. **通知テスト**: メール通知の受信確認
+4. **自動実行テスト**: pg_cronスケジュールの確認
 
 ## 日常的な使い方
 
