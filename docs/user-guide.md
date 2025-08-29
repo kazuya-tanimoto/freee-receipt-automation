@@ -34,7 +34,9 @@ pg_cron   PDFメール   Vision API  取引照合   メール送信  月別整�
 
 - **Supabase**: 無料枠内（データ量少）
 - **Google Cloud APIs**: 無料枠内（Vision/Gmail/Drive）
-- **合計**: 年間$5以下で運用可能
+- **Resend**: 無料枠内（月100通まで）
+- **Vercel**: 無料枠内
+- **合計**: **完全無料（$0/月）**で運用可能
 
 ## 初期セットアップ
 
@@ -47,10 +49,11 @@ pg_cron   PDFメール   Vision API  取引照合   メール送信  月別整�
 - **freeeアカウント**とAPI利用許可
 - **Google Cloud Platform アカウント**（Vision API用）
 - **GitHubアカウント**（コード管理・自動デプロイ用）
+- **Resendアカウント** ([新規登録](https://resend.com))（メール通知用・無料枠月100通）
 
 ### 本番環境構築（推奨）
 
-**コスト**: 完全無料（$0/月）で運用可能
+**コスト**: **完全無料（$0/月）**で運用可能
 
 フリーランサーが最短で本番運用を開始する構成です。ローカル開発環境なしでも十分運用できます。
 
@@ -80,48 +83,146 @@ pg_cron   PDFメール   Vision API  取引照合   メール送信  月別整�
 
 #### 4. 環境変数設定（Vercel）
 
-Vercel Dashboard の **Settings → Environment Variables** で設定：
+Vercel Dashboard の **Settings → Environment Variables** で以下を設定：
 
+##### Supabase設定
 ```env
-# Supabase設定
-NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1...
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1...
+# Supabase Dashboard の Settings → API から取得
+NEXT_PUBLIC_SUPABASE_URL=https://abcdefghijklmnop.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI...
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI...
+```
 
-# Gmail API設定
-GMAIL_CLIENT_ID=xxx.apps.googleusercontent.com
-GMAIL_CLIENT_SECRET=GOCSPX-xxx
+##### Gmail API設定
+```env
+# Google Cloud Console の OAuth認証情報から取得
+GMAIL_CLIENT_ID=123456789012-abcdefghijklmnopqrstuvwxyz123456.apps.googleusercontent.com
+GMAIL_CLIENT_SECRET=GOCSPX-AbCdEfGhIjKlMnOpQrStUvWx
+```
 
-# freee API設定
-FREEE_CLIENT_ID=xxx
-FREEE_CLIENT_SECRET=xxx
+##### freee API設定
+```env
+# freee developers のアプリケーション詳細から取得
+FREEE_CLIENT_ID=a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6
+FREEE_CLIENT_SECRET=q7r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2
+```
 
-# Google Cloud設定
-GOOGLE_CLOUD_PROJECT_ID=your-project-id
-GOOGLE_APPLICATION_CREDENTIALS_JSON={"type":"service_account"...}
+##### Google Cloud設定
+```env
+# Google Cloud Console のプロジェクト情報から取得
+GOOGLE_CLOUD_PROJECT_ID=freee-receipt-automation-123456
 
-# 通知設定
-RESEND_API_KEY=re_xxx
+# ダウンロードしたJSONファイルの内容全体（改行なし）
+GOOGLE_APPLICATION_CREDENTIALS_JSON={"type":"service_account","project_id":"freee-receipt-automation-123456","private_key_id":"abcd1234","private_key":"-----BEGIN PRIVATE KEY-----\nMIIEvQ...\n-----END PRIVATE KEY-----\n","client_email":"vision-api-service@freee-receipt-automation-123456.iam.gserviceaccount.com","client_id":"123456789012345678901","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token"}
+```
+
+##### Resend通知設定
+```env
+# Resend Dashboard の API Keys から取得
+RESEND_API_KEY=re_AbCdEfGh_IjKlMnOpQrStUvWxYz123456789
+
+# 通知を受信するメールアドレス
 NOTIFICATION_EMAIL=your-email@example.com
 ```
 
+##### 設定時の注意点
+
+- **JSON値の設定**: `GOOGLE_APPLICATION_CREDENTIALS_JSON` は改行を `\n` に置換
+- **特殊文字**: パスワード等に `${}` が含まれる場合はエスケープ必要
+- **環境別設定**: 本番・プレビュー・開発で同じ値を設定
+- **セキュリティ**: 秘密情報のため GitHub 等には commit しない
+
 #### 5. API認証設定
 
-**Gmail API**
-1. [Google Cloud Console](https://console.cloud.google.com/) でプロジェクト作成
-2. Gmail API を有効化
-3. OAuth 2.0 認証情報作成（リダイレクトURI: `https://your-app.vercel.app/api/auth/callback/gmail`）
-4. `https://your-app.vercel.app/auth/gmail` でOAuth認証実行
+各APIの認証情報取得には以下の詳細手順に従ってください：
 
-**freee API**
-1. [freee developers](https://developer.freee.co.jp/) でアプリ登録
-2. リダイレクトURI: `https://your-app.vercel.app/api/auth/callback/freee`
-3. `https://your-app.vercel.app/auth/freee` でOAuth認証実行
+##### Gmail API認証の詳細手順
 
-**Google Vision API**
-1. Google Cloud Console で Vision API を有効化
-2. サービスアカウント作成・JSONキー取得
-3. JSON全体を `GOOGLE_APPLICATION_CREDENTIALS_JSON` に設定
+1. **Google Cloud Consoleでプロジェクト作成**
+   - [Google Cloud Console](https://console.cloud.google.com/) にアクセス
+   - 新しいプロジェクトを作成（例: `freee-receipt-automation`）
+   - プロジェクトを選択
+
+2. **Gmail API有効化**
+   - ナビゲーション → 「APIとサービス」 → 「ライブラリ」
+   - 「Gmail API」を検索して選択
+   - 「有効にする」をクリック
+
+3. **OAuth認証情報作成**
+   - 「APIとサービス」 → 「認証情報」
+   - 「認証情報を作成」 → 「OAuth クライアント ID」
+   - アプリケーションの種類: 「ウェブ アプリケーション」
+   - 名前: `freee-receipt-app`
+   - **承認済みのリダイレクトURI**:
+     ```
+     https://your-app.vercel.app/api/auth/callback/gmail
+     http://localhost:3000/api/auth/callback/gmail (開発用)
+     ```
+   - 作成後、**クライアントID**と**クライアントシークレット**を取得
+
+4. **OAuth認証の実行**
+   - デプロイ後: `https://your-app.vercel.app/auth/gmail`
+   - ローカル: `http://localhost:3000/auth/gmail`
+
+##### freee API認証の詳細手順
+
+1. **freee Developers登録**
+   - [freee developers](https://developer.freee.co.jp/) にアクセス
+   - freeeアカウントでログイン
+   - 開発者登録を完了
+
+2. **アプリケーション作成**
+   - 「マイアプリケーション」 → 「新しいアプリケーションを作成」
+   - アプリケーション名: `freee-receipt-automation`
+   - 概要: `レシート自動処理システム`
+
+3. **コールバックURI設定**
+   - **リダイレクトURI**:
+     ```
+     https://your-app.vercel.app/api/auth/callback/freee
+     http://localhost:3000/api/auth/callback/freee (開発用)
+     ```
+   - 作成後、**アプリケーションID**と**シークレット**を取得
+
+4. **OAuth認証の実行**
+   - デプロイ後: `https://your-app.vercel.app/auth/freee`
+   - ローカル: `http://localhost:3000/auth/freee`
+
+##### Google Vision API設定の詳細手順
+
+1. **Google Cloud ConsoleでVision API有効化**
+   - 同じプロジェクトで「APIとサービス」 → 「ライブラリ」
+   - 「Cloud Vision API」を検索して有効化
+
+2. **サービスアカウント作成**
+   - 「IAMと管理」 → 「サービス アカウント」
+   - 「サービス アカウントを作成」
+   - サービスアカウント名: `vision-api-service`
+   - 役割: `Cloud Vision API サービス エージェント`
+
+3. **JSON認証情報のダウンロード**
+   - 作成したサービスアカウントを選択
+   - 「キー」タブ → 「キーを追加」 → 「新しいキーを作成」
+   - JSON形式でダウンロード
+   - ファイル内容全体を環境変数に設定
+
+##### Resend設定の詳細手順
+
+1. **アカウント作成**
+   - [Resend](https://resend.com) にアクセス
+   - GitHub・Googleアカウントで登録
+   - 無料プラン選択（月100通まで無料）
+
+2. **APIキー生成**
+   - ダッシュボード → 「API Keys」
+   - 「Create API Key」をクリック
+   - 名前: `freee-receipt-notifications`
+   - 権限: `Send emails`
+   - 生成されたAPIキー（`re_`で始まる）をコピー
+
+3. **無料枠の説明**
+   - 月100通まで完全無料
+   - 追加料金なし（週次通知なら年間52通程度）
 
 #### 6. Edge Functions デプロイ（Supabase）
 
