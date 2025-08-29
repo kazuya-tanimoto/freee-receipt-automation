@@ -30,5 +30,5 @@ additional_redirect_urls = ["https://localhost:3000"]
 jwt_expiry = 3600
 enable_signup = true
 
-[edge_functions]
-enabled = true
+# Edge Functions are configured in the functions directory
+# and deployed separately using `supabase functions deploy`
