@@ -75,13 +75,47 @@ pg_cron   PDFメール   Vision API  取引照合   メール送信  月別整�
 -- データベーススキーマは supabase/migrations/ 配下に定義済み
 ```
 
-#### 3. Vercelデプロイ（Next.js）
+#### 3. RLS（Row Level Security）設定
+
+個人利用システムのため、シンプルなRLSポリシーを設定します。
+
+**Supabase SQL Editor での設定手順**:
+
+1. Supabase Dashboard → **SQL Editor** を開く
+2. 以下のSQL文を実行してRLSを有効化：
+
+```sql
+-- 各テーブルのRLSを有効化
+ALTER TABLE receipts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE freee_transactions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE processing_logs ENABLE ROW LEVEL SECURITY;
+
+-- 全アクセス許可ポリシー（個人利用のため）
+CREATE POLICY "Enable all operations for all users" 
+ON receipts FOR ALL 
+USING (true) 
+WITH CHECK (true);
+
+CREATE POLICY "Enable all operations for all users" 
+ON freee_transactions FOR ALL 
+USING (true) 
+WITH CHECK (true);
+
+CREATE POLICY "Enable all operations for all users" 
+ON processing_logs FOR ALL 
+USING (true) 
+WITH CHECK (true);
+```
+
+**Note**: 本システムは個人利用を前提としているため、`user_id`カラムによるユーザー分離は不要です。複数ユーザーでの利用を予定していないため、シンプルな全アクセス許可ポリシーを採用しています。
+
+#### 4. Vercelデプロイ（Next.js）
 
 1. [Vercel Dashboard](https://vercel.com/dashboard) でプロジェクト作成
 2. GitHubリポジトリを連携
 3. 自動ビルド・デプロイが実行される
 
-#### 4. 環境変数設定（Vercel）
+#### 5. 環境変数設定（Vercel）
 
 Vercel Dashboard の **Settings → Environment Variables** で以下を設定：
 
@@ -132,7 +166,7 @@ NOTIFICATION_EMAIL=your-email@example.com
 - **環境別設定**: 本番・プレビュー・開発で同じ値を設定
 - **セキュリティ**: 秘密情報のため GitHub 等には commit しない
 
-#### 5. API認証設定
+#### 6. API認証設定
 
 各APIの認証情報取得には以下の詳細手順に従ってください：
 
@@ -224,7 +258,7 @@ NOTIFICATION_EMAIL=your-email@example.com
    - 月100通まで完全無料
    - 追加料金なし（週次通知なら年間52通程度）
 
-#### 6. Edge Functions デプロイ（Supabase）
+#### 7. Edge Functions デプロイ（Supabase）
 
 ```bash
 # ローカルでSupabase CLI使用（一回限り）
@@ -244,7 +278,7 @@ SELECT cron.schedule('weekly-receipt-process', '0 9 * * 1',
 );
 ```
 
-#### 7. 本番動作確認
+#### 8. 本番動作確認
 
 1. `https://your-app.vercel.app/dashboard` にアクセス
 2. Gmail・freee認証を完了
