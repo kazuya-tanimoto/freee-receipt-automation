@@ -109,13 +109,93 @@ WITH CHECK (true);
 
 **Note**: 本システムは個人利用を前提としているため、`user_id`カラムによるユーザー分離は不要です。複数ユーザーでの利用を予定していないため、シンプルな全アクセス許可ポリシーを採用しています。
 
-#### 4. Vercelデプロイ（Next.js）
+#### 4. Vercelプロジェクト作成
 
 1. [Vercel Dashboard](https://vercel.com/dashboard) でプロジェクト作成
-2. GitHubリポジトリを連携
-3. 自動ビルド・デプロイが実行される
+2. プロジェクト名を設定（例: `freee-receipt-automation`）
+3. **注意**: この段階ではGitHubリポジトリとの連携は行わない
 
-#### 5. 環境変数設定（Vercel）
+#### 5. API認証情報取得
+
+各APIの認証情報取得には以下の詳細手順に従ってください：
+
+##### Gmail API認証の詳細手順
+
+1. **Google Cloud Consoleでプロジェクト作成**
+   - [Google Cloud Console](https://console.cloud.google.com/) にアクセス
+   - 新しいプロジェクトを作成（例: `freee-receipt-automation`）
+   - プロジェクトを選択
+
+2. **Gmail API有効化**
+   - ナビゲーション → 「APIとサービス」 → 「ライブラリ」
+   - 「Gmail API」を検索して選択
+   - 「有効にする」をクリック
+
+3. **OAuth認証情報作成**
+   - 「APIとサービス」 → 「認証情報」
+   - 「認証情報を作成」 → 「OAuth クライアント ID」
+   - アプリケーションの種類: 「ウェブ アプリケーション」
+   - 名前: `freee-receipt-app`
+   - **承認済みのリダイレクトURI**:
+     ```
+     https://your-app.vercel.app/api/auth/callback/gmail
+     http://localhost:3000/api/auth/callback/gmail (開発用)
+     ```
+   - 作成後、**クライアントID**と**クライアントシークレット**を取得
+
+##### freee API認証の詳細手順
+
+1. **freee Developers登録**
+   - [freee developers](https://developer.freee.co.jp/) にアクセス
+   - freeeアカウントでログイン
+   - 開発者登録を完了
+
+2. **アプリケーション作成**
+   - 「マイアプリケーション」 → 「新しいアプリケーションを作成」
+   - アプリケーション名: `freee-receipt-automation`
+   - 概要: `レシート自動処理システム`
+
+3. **コールバックURI設定**
+   - **リダイレクトURI**:
+     ```
+     https://your-app.vercel.app/api/auth/callback/freee
+     http://localhost:3000/api/auth/callback/freee (開発用)
+     ```
+   - 作成後、**アプリケーションID**と**シークレット**を取得
+
+##### Google Vision API設定の詳細手順
+
+1. **Google Cloud ConsoleでVision API有効化**
+   - 同じプロジェクトで「APIとサービス」 → 「ライブラリ」
+   - 「Cloud Vision API」を検索して有効化
+
+2. **サービスアカウント作成**
+   - 「IAMと管理」 → 「サービス アカウント」
+   - 「サービス アカウントを作成」
+   - サービスアカウント名: `vision-api-service`
+   - 役割: `Cloud Vision API サービス エージェント`
+
+3. **JSON認証情報のダウンロード**
+   - 作成したサービスアカウントを選択
+   - 「キー」タブ → 「キーを追加」 → 「新しいキーを作成」
+   - JSON形式でダウンロード
+   - ファイル内容全体を環境変数に設定
+
+##### Resend設定の詳細手順
+
+1. **アカウント作成**
+   - [Resend](https://resend.com) にアクセス
+   - GitHub・Googleアカウントで登録
+   - 無料プラン選択（月100通まで無料）
+
+2. **APIキー生成**
+   - ダッシュボード → 「API Keys」
+   - 「Create API Key」をクリック
+   - 名前: `freee-receipt-notifications`
+   - 権限: `Send emails`
+   - 生成されたAPIキー（`re_`で始まる）をコピー
+
+#### 6. 環境変数設定（Vercel）
 
 Vercel Dashboard の **Settings → Environment Variables** で以下を設定：
 
@@ -166,99 +246,24 @@ NOTIFICATION_EMAIL=your-email@example.com
 - **環境別設定**: 本番・プレビュー・開発で同じ値を設定
 - **セキュリティ**: 秘密情報のため GitHub 等には commit しない
 
-#### 6. API認証設定
+#### 7. Vercelデプロイ実行
 
-各APIの認証情報取得には以下の詳細手順に従ってください：
+環境変数設定完了後、GitHubリポジトリとの連携とビルドを実行：
 
-##### Gmail API認証の詳細手順
+1. Vercel Dashboard → プロジェクト設定
+2. **Git Repository** → 「Connect Git Repository」
+3. GitHubリポジトリを選択
+4. 「Deploy」をクリックして初回ビルド・デプロイを実行
+5. デプロイ完了後、割り当てられたURLを確認
 
-1. **Google Cloud Consoleでプロジェクト作成**
-   - [Google Cloud Console](https://console.cloud.google.com/) にアクセス
-   - 新しいプロジェクトを作成（例: `freee-receipt-automation`）
-   - プロジェクトを選択
+#### 8. OAuth認証の実行
 
-2. **Gmail API有効化**
-   - ナビゲーション → 「APIとサービス」 → 「ライブラリ」
-   - 「Gmail API」を検索して選択
-   - 「有効にする」をクリック
+デプロイ完了後、各APIの認証を実行：
 
-3. **OAuth認証情報作成**
-   - 「APIとサービス」 → 「認証情報」
-   - 「認証情報を作成」 → 「OAuth クライアント ID」
-   - アプリケーションの種類: 「ウェブ アプリケーション」
-   - 名前: `freee-receipt-app`
-   - **承認済みのリダイレクトURI**:
-     ```
-     https://your-app.vercel.app/api/auth/callback/gmail
-     http://localhost:3000/api/auth/callback/gmail (開発用)
-     ```
-   - 作成後、**クライアントID**と**クライアントシークレット**を取得
+1. **Gmail認証**: `https://your-app.vercel.app/auth/gmail`
+2. **freee認証**: `https://your-app.vercel.app/auth/freee`
 
-4. **OAuth認証の実行**
-   - デプロイ後: `https://your-app.vercel.app/auth/gmail`
-   - ローカル: `http://localhost:3000/auth/gmail`
-
-##### freee API認証の詳細手順
-
-1. **freee Developers登録**
-   - [freee developers](https://developer.freee.co.jp/) にアクセス
-   - freeeアカウントでログイン
-   - 開発者登録を完了
-
-2. **アプリケーション作成**
-   - 「マイアプリケーション」 → 「新しいアプリケーションを作成」
-   - アプリケーション名: `freee-receipt-automation`
-   - 概要: `レシート自動処理システム`
-
-3. **コールバックURI設定**
-   - **リダイレクトURI**:
-     ```
-     https://your-app.vercel.app/api/auth/callback/freee
-     http://localhost:3000/api/auth/callback/freee (開発用)
-     ```
-   - 作成後、**アプリケーションID**と**シークレット**を取得
-
-4. **OAuth認証の実行**
-   - デプロイ後: `https://your-app.vercel.app/auth/freee`
-   - ローカル: `http://localhost:3000/auth/freee`
-
-##### Google Vision API設定の詳細手順
-
-1. **Google Cloud ConsoleでVision API有効化**
-   - 同じプロジェクトで「APIとサービス」 → 「ライブラリ」
-   - 「Cloud Vision API」を検索して有効化
-
-2. **サービスアカウント作成**
-   - 「IAMと管理」 → 「サービス アカウント」
-   - 「サービス アカウントを作成」
-   - サービスアカウント名: `vision-api-service`
-   - 役割: `Cloud Vision API サービス エージェント`
-
-3. **JSON認証情報のダウンロード**
-   - 作成したサービスアカウントを選択
-   - 「キー」タブ → 「キーを追加」 → 「新しいキーを作成」
-   - JSON形式でダウンロード
-   - ファイル内容全体を環境変数に設定
-
-##### Resend設定の詳細手順
-
-1. **アカウント作成**
-   - [Resend](https://resend.com) にアクセス
-   - GitHub・Googleアカウントで登録
-   - 無料プラン選択（月100通まで無料）
-
-2. **APIキー生成**
-   - ダッシュボード → 「API Keys」
-   - 「Create API Key」をクリック
-   - 名前: `freee-receipt-notifications`
-   - 権限: `Send emails`
-   - 生成されたAPIキー（`re_`で始まる）をコピー
-
-3. **無料枠の説明**
-   - 月100通まで完全無料
-   - 追加料金なし（週次通知なら年間52通程度）
-
-#### 7. Edge Functions デプロイ（Supabase）
+#### 9. Edge Functions デプロイ（Supabase）
 
 ```bash
 # ローカルでSupabase CLI使用（一回限り）
@@ -278,7 +283,7 @@ SELECT cron.schedule('weekly-receipt-process', '0 9 * * 1',
 );
 ```
 
-#### 8. 本番動作確認
+#### 10. 本番動作確認
 
 1. `https://your-app.vercel.app/dashboard` にアクセス
 2. Gmail・freee認証を完了
