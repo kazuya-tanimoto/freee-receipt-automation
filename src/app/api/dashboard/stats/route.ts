@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import type { DashboardStats } from '../../../../types/dashboard'
+import { getReceiptStats } from '../../../../lib/supabase-helpers'
 
 /**
  * ダッシュボード統計情報を取得する
@@ -9,16 +9,9 @@ import type { DashboardStats } from '../../../../types/dashboard'
  */
 export async function GET() {
   try {
-    // TODO: 実際のデータベースから統計を取得する実装に置き換え
-    // Phase 1完了後に実データ連携を実装予定
-    const mockStats: DashboardStats = {
-      totalProcessed: 8,
-      totalPending: 3,
-      successRate: 72.7, // (8/11)*100
-      lastProcessed: new Date('2025-08-24T10:30:00Z'),
-    }
+    const stats = await getReceiptStats()
 
-    return NextResponse.json(mockStats)
+    return NextResponse.json(stats)
   } catch (error) {
     console.error('統計取得エラー:', error)
 
