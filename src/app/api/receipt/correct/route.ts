@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server'
+import { saveReceiptCorrection } from '@/lib/supabase-helpers'
 
 /**
  * レシート修正データ保存API
@@ -13,14 +14,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Receipt ID is required' }, { status: 400 })
     }
 
-    // TODO: 実際のデータベース保存処理
-    // - 修正データをSupabaseに保存
-    // - 元のレシート処理データと関連付け
-    // - 修正履歴の記録
+    await saveReceiptCorrection(body.receiptId, {
+      amount: body.amount,
+      partner: body.partner,
+      account: body.account,
+    })
 
     return NextResponse.json({
       success: true,
-      id: `correction_${Date.now()}`,
       message: 'Correction saved successfully',
     })
   } catch (error) {

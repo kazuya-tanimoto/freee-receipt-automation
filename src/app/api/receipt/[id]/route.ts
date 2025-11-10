@@ -1,5 +1,5 @@
-import type { ReceiptProcessingData } from '@/types/dashboard'
 import { type NextRequest, NextResponse } from 'next/server'
+import { getReceiptById } from '@/lib/supabase-helpers'
 
 /**
  * レシート詳細API
@@ -14,30 +14,13 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ error: 'レシートIDが指定されていません' }, { status: 400 })
     }
 
-    // TODO: 実際のデータベースまたはストレージからデータを取得
-    // 現在はモックデータを返す
-    const mockData: ReceiptProcessingData = {
-      id,
-      filename: `receipt_${id}.pdf`,
-      currentStatus: {
-        step: 'matching',
-        status: 'processing',
-        message: 'freee科目との照合中...',
-        progress: 75,
-      },
-      ocrResult: {
-        text: 'スターバックス コーヒー\n2024/01/15\n合計 ¥450',
-        confidence: 0.95,
-      },
-      matchResult: {
-        partner: 'スターバックス',
-        amount: 450,
-        account: '会議費',
-        confidence: 0.88,
-      },
+    const data = await getReceiptById(id)
+
+    if (!data) {
+      return NextResponse.json({ error: 'レシートが見つかりません' }, { status: 404 })
     }
 
-    return NextResponse.json(mockData)
+    return NextResponse.json(data)
   } catch (error) {
     console.error('Receipt API error:', error)
     return NextResponse.json({ error: 'レシート情報の取得に失敗しました' }, { status: 500 })

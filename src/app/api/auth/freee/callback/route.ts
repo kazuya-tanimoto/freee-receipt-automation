@@ -1,5 +1,6 @@
 import { getConfig } from '@/lib/config'
 import { FreeeAuthService } from '@/lib/freee-auth'
+import { saveAuthToken } from '@/lib/supabase-helpers'
 import { type NextRequest, NextResponse } from 'next/server'
 
 /**
@@ -24,7 +25,13 @@ export async function GET(request: NextRequest) {
     const authService = new FreeeAuthService(config.freee)
     const tokens = await authService.exchangeCodeForToken(code)
 
-    // TODO: Store tokens securely (implement in future PBI)
+    // トークンをSupabaseに保存
+    await saveAuthToken('freee', {
+      accessToken: tokens.access_token,
+      refreshToken: tokens.refresh_token,
+      expiresAt: new Date(Date.now() + tokens.expires_in * 1000),
+    })
+
     console.log('freee authentication successful:', {
       company_id: tokens.company_id,
       expires_in: tokens.expires_in,
