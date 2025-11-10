@@ -68,46 +68,37 @@ pg_cron   PDFメール   Vision API  取引照合   メール送信  月別整�
 
 1. [Supabase Dashboard](https://supabase.com/dashboard) でプロジェクト作成
 2. **Settings → API** からURL・APIキーを取得
-3. **SQL Editor** で以下の初期テーブルを作成：
 
-```sql
--- 必要なテーブルが自動作成される
--- データベーススキーマは supabase/migrations/ 配下に定義済み
+#### 3. データベースマイグレーション実行
+
+データベーステーブルとRLS設定を適用します。以下の2つの方法から選択してください。
+
+**方法A: Supabase CLI を使用（推奨）**
+
+```bash
+# Supabase CLI がインストールされていない場合
+npm install -g supabase
+
+# Supabaseプロジェクトにリンク
+supabase link --project-ref your-project-ref
+
+# マイグレーションを適用
+supabase db push
 ```
 
-#### 3. RLS（Row Level Security）設定
-
-個人利用システムのため、シンプルなRLSポリシーを設定します。
-
-**Supabase SQL Editor での設定手順**:
+**方法B: SQL Editor で直接実行**
 
 1. Supabase Dashboard → **SQL Editor** を開く
-2. 以下のSQL文を実行してRLSを有効化：
+2. `supabase/migrations/001_pg_cron_setup.sql` の内容をコピー＆実行
+3. `supabase/migrations/002_create_tables.sql` の内容をコピー＆実行
 
-```sql
--- 各テーブルのRLSを有効化
-ALTER TABLE receipts ENABLE ROW LEVEL SECURITY;
-ALTER TABLE freee_transactions ENABLE ROW LEVEL SECURITY;
-ALTER TABLE processing_logs ENABLE ROW LEVEL SECURITY;
+**作成されるテーブル**:
+- `processing_schedules` - 週次スケジュール管理
+- `receipts` - レシート処理データ（金額、ステータス、OCR結果等）
+- `processing_logs` - 処理ログ・エラー追跡
+- `auth_tokens` - OAuth認証トークン保存
 
--- 全アクセス許可ポリシー（個人利用のため）
-CREATE POLICY "Enable all operations for all users" 
-ON receipts FOR ALL 
-USING (true) 
-WITH CHECK (true);
-
-CREATE POLICY "Enable all operations for all users" 
-ON freee_transactions FOR ALL 
-USING (true) 
-WITH CHECK (true);
-
-CREATE POLICY "Enable all operations for all users" 
-ON processing_logs FOR ALL 
-USING (true) 
-WITH CHECK (true);
-```
-
-**Note**: 本システムは個人利用を前提としているため、`user_id`カラムによるユーザー分離は不要です。複数ユーザーでの利用を予定していないため、シンプルな全アクセス許可ポリシーを採用しています。
+**Note**: マイグレーションファイルにはテーブル作成とRLS（Row Level Security）設定の両方が含まれています。本システムは個人利用を前提としているため、全アクセス許可ポリシーを採用しています。
 
 #### 4. Vercelプロジェクト作成
 
@@ -270,18 +261,30 @@ NOTIFICATION_EMAIL=your-email@example.com
 npm install -g supabase
 supabase link --project-ref your-project-ref
 supabase functions deploy weekly-process
+```
 
-# pg_cron スケジュール設定
-# Supabase SQL Editor で実行：
-SELECT cron.schedule('weekly-receipt-process', '0 9 * * 1', 
-  $$SELECT net.http_post(
-    'https://xxx.supabase.co/functions/v1/weekly-process',
-    '{}',
-    'application/json',
-    '{"Authorization": "Bearer YOUR_SERVICE_ROLE_KEY"}'
-  )$$
+**pg_cron スケジュール設定の更新**
+
+マイグレーション実行により基本設定は完了していますが、実際のプロジェクトURLとサービスロールキーに更新する必要があります。
+
+Supabase SQL Editor で以下を実行：
+
+```sql
+-- 既存スケジュールを削除
+SELECT cron.unschedule('weekly-receipt-processing');
+
+-- 実際のURLとキーでスケジュールを再作成
+SELECT cron.schedule(
+    'weekly-receipt-processing',
+    '0 9 * * 1', -- 毎週月曜9時（JST）
+    $$SELECT net.http_post(
+        url := 'https://YOUR-PROJECT-REF.supabase.co/functions/v1/weekly-process',
+        headers := '{"Authorization": "Bearer YOUR-SERVICE-ROLE-KEY"}'::jsonb
+    )$$
 );
 ```
+
+**注意**: `YOUR-PROJECT-REF` と `YOUR-SERVICE-ROLE-KEY` は実際の値に置き換えてください。
 
 #### 10. 本番動作確認
 
