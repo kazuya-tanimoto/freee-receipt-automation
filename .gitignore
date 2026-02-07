@@ -32,4 +32,4 @@ coverage/
 
 # Temporary files
 *.tmp
-tsconfig.tsbuildinfo
+tsconfig.tsbuildinfosupabase/.temp/
