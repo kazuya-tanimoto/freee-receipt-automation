@@ -138,6 +138,7 @@ WITH CHECK (true);
    - 名前: `freee-receipt-app`
    - **承認済みのリダイレクトURI**:
      ```
+     https://freee-receipt-automation.vercel.app/api/auth/callback/gmail
      https://your-app.vercel.app/api/auth/callback/gmail
      http://localhost:3000/api/auth/callback/gmail (開発用)
      ```

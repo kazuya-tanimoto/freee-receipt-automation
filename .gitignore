@@ -33,3 +33,7 @@ coverage/
 # Temporary files
 *.tmp
 tsconfig.tsbuildinfo
+
+# Supabase auto-generated
+supabase/.temp/
+supabase/.branches/
